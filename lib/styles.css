@@ -1,0 +1,690 @@
+@layer rdg.Cell {.c9tygie0-1-0 {
+    /* max-content does not work with size containment
+     * dynamically switching between different containment styles incurs a heavy relayout penalty
+     * Chromium bug: at odd zoom levels or subpixel positioning, layout/paint containment can make cell borders disappear
+     *   https://bugs.chromium.org/p/chromium/issues/detail?id=1326946
+     */
+    contain: style;
+    position: relative; /* needed for absolute positioning to work */
+    padding-block: 0;
+    padding-inline: 6px;
+    border-inline-end: 1px solid var(--rdg-border-color);
+    border-block-end: 1px solid var(--rdg-border-color);
+    grid-row-start: var(--rdg-grid-row-start);
+    background-color: inherit;
+    text-align: center;
+
+    white-space: nowrap;
+    overflow: hidden;
+    overflow: clip;
+    text-overflow: ellipsis;
+    outline: none
+}
+
+    .c9tygie0-1-0[aria-selected="true"] {
+      outline: 1px solid var(--rdg-selection-color);
+      outline-offset: -1px;
+    }
+    .c9tygie0-1-0 > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+  }
+
+@layer rdg.Cell {
+
+.c2lsqdy0-1-0 {
+    position: sticky;
+    /* Should have a higher value than 0 to show up above unfrozen cells */
+    z-index: 1;
+}
+  }
+
+.c2lsqdy0-1-0 {
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+@layer rdg.Cell {
+
+.cu9dmmf0-1-0 {
+    box-shadow: calc(2px * var(--rdg-sign)) 0 5px -2px rgba(136, 136, 136, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%
+}
+  }
+
+@layer rdg.Cell {
+
+.c1c2yxo60-1-0 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%
+}
+  }
+
+@layer rdg.Cell {
+
+.r115cr3i0-1-0 {
+    border-block-start: 1px solid #9bbb59;
+    border-block-end: 1px solid #9bbb59
+}
+  }
+
+@layer rdg.Cell {
+
+.trhevl70-1-0 {
+    border-block-end: 1px solid #9bbb59
+}
+  }
+
+@layer rdg.Cell {
+
+.b1y6osgi0-1-0 {
+    border-block-start: 1px solid #9bbb59
+}
+  }
+
+
+@layer rdg {
+    @layer Defaults,
+      FocusSink,
+      CheckboxInput,
+      CheckboxIcon,
+      CheckboxLabel,
+      Cell,
+      HeaderCell,
+      SummaryCell,
+      EditCell,
+      Row,
+      HeaderRow,
+      SummaryRow,
+      GroupedRow,
+      Root;
+
+    @layer Defaults {
+      .r1fgqq0p0-1-0 *,
+      .r1fgqq0p0-1-0 *::before,
+      .r1fgqq0p0-1-0 *::after {
+        box-sizing: inherit;
+      }
+    }
+    .r1fgqq0p0-1-0 .rdg-row-even,
+    .r1fgqq0p0-1-0 .rdg-row-summary-row-even,
+    .r1fgqq0p0-1-0 .rdg-row-groupRow-even {
+      background-color: #e5edf8;
+    }
+    .r1fgqq0p0-1-0 .rdg-row-odd,
+    .r1fgqq0p0-1-0 .rdg-row-summary-row-odd,
+    .r1fgqq0p0-1-0 .rdg-row-groupRow-odd {
+      background-color: #f3f8fc;
+    }
+    .r1fgqq0p0-1-0 .rdg-row-selected {
+      background-color: #ebf1dd;
+    }
+
+    @layer Root {.r1fgqq0p0-1-0 {
+      --rdg-color: #000;   --rdg-border-color: #FFFFFF;   --rdg-summary-border-color: #aaa;   --rdg-background-color: hsl(0deg 0% 100%);   --rdg-header-background-color: #16365D;   --rdg-header-row-color: #FFFFFF;   --rdg-row-hover-background-color: #D7E3BC;   --rdg-row-selected-background-color: hsl(207deg 76% 92%);   --rdg-row-selected-hover-background-color: hsl(207deg 76% 88%);   --rdg-checkbox-color: hsl(207deg 100% 29%);   --rdg-checkbox-focus-color: hsl(207deg 100% 69%);   --rdg-checkbox-disabled-border-color: #ccc;   --rdg-checkbox-disabled-background-color: #ddd;
+      --rdg-selection-color: #66afe9;
+      --rdg-font-size: 11px;
+
+      display: grid;
+
+      color-scheme: var(--rdg-color-scheme, light dark);
+
+      /* https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context */
+      /* We set a stacking context so internal elements don't render on top of external elements. */
+      contain: strict;
+      content-visibility: auto;
+      block-size: 350px;
+      border: 1px solid var(--rdg-border-color);
+      box-sizing: border-box;
+      overflow: auto;
+      background-color: var(--rdg-background-color);
+      color: var(--rdg-color);
+      font-size: var(--rdg-font-size);
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif
+
+      /* needed on Firefox */
+}
+      .r1fgqq0p0-1-0::before {
+        content: "";
+        grid-column: 1/-1;
+        grid-row: 1/-1;
+      }
+
+      .r1fgqq0p0-1-0.rdg-dark {
+        --rdg-color-scheme: dark;
+        --rdg-color: #ddd;   --rdg-border-color: #FFFFFF;   --rdg-summary-border-color: #555;   --rdg-background-color: hsl(0deg 0% 13%);   --rdg-header-background-color: #16365D;   --rdg-row-hover-background-color: #D7E3BC;   --rdg-row-selected-background-color: hsl(207deg 76% 42%);   --rdg-row-selected-hover-background-color: hsl(207deg 76% 38%);   --rdg-checkbox-color: hsl(207deg 100% 79%);   --rdg-checkbox-focus-color: hsl(207deg 100% 89%);   --rdg-checkbox-disabled-border-color: #000;   --rdg-checkbox-disabled-background-color: #333;
+      }
+
+      .r1fgqq0p0-1-0.rdg-light {
+        --rdg-color-scheme: light;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .r1fgqq0p0-1-0:not(.rdg-light) {
+          --rdg-color: #ddd;   --rdg-border-color: #FFFFFF;   --rdg-summary-border-color: #555;   --rdg-background-color: hsl(0deg 0% 13%);   --rdg-header-background-color: #16365D;   --rdg-row-hover-background-color: #D7E3BC;   --rdg-row-selected-background-color: hsl(207deg 76% 42%);   --rdg-row-selected-hover-background-color: hsl(207deg 76% 38%);   --rdg-checkbox-color: hsl(207deg 100% 79%);   --rdg-checkbox-focus-color: hsl(207deg 100% 89%);   --rdg-checkbox-disabled-border-color: #000;   --rdg-checkbox-disabled-background-color: #333;
+        }
+      }
+    }
+  }
+
+@layer rdg.Root {
+
+.v1qpiszo0-1-0 {
+    user-select: none
+}
+
+    .v1qpiszo0-1-0 .rsqlkts0-1-0 {
+      cursor: move;
+    }
+  }
+
+@layer rdg.FocusSink {
+
+.f1tdeyrt0-1-0 {
+    grid-column: 1/-1;
+    pointer-events: none;
+    /* Should have a higher value than 2 to show up above header row */
+    z-index: 3
+}
+  }
+
+.f1s6cm8w0-1-0 .filter-cell {
+    line-height: 35px;
+    padding: 0;
+  }
+
+.f1s6cm8w0-1-0 .filter-cell > div {
+      padding-block: 0;
+      padding-inline: 8px;
+    }
+
+.f1s6cm8w0-1-0 .filter-cell > div:last-child {
+        border-block-start: 1px solid var(--rdg-border-color);
+      }
+
+
+@layer rdg.Row {.rsqlkts0-1-0 {
+    display: contents;
+    line-height: var(--rdg-row-height);
+    background-color: var(--rdg-background-color)
+}
+
+    .rsqlkts0-1-0:hover {
+      background-color: var(--rdg-row-hover-background-color) !important;
+    }
+
+    .rsqlkts0-1-0[aria-selected="true"] {
+      background-color: #ebf1dd;
+    }
+      .rsqlkts0-1-0[aria-selected="true"]:hover {
+        background-color: var(--rdg-row-selected-hover-background-color);
+      }
+  }
+
+@layer rdg.FocusSink {
+
+.r1b98bt0-1-0 {
+    outline: 2px solid var(--rdg-selection-color);
+    outline-offset: -2px
+}
+  }
+
+@layer rdg.FocusSink {
+    .r1t9qo150-1-0::before {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      position: sticky;
+      inset-inline-start: 0;
+      border-inline-start: 2px solid var(--rdg-selection-color);
+    }
+  }
+
+
+@layer rdg.CheckboxLabel {.c1kfjsid0-1-0 {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    inset: 0;
+    margin-inline-end: 1px /* align checkbox in row group cell */
+}
+  }
+
+@layer rdg.CheckboxInput {
+
+.ca4mo9e0-1-0 {
+    all: unset
+}
+  }
+
+@layer rdg.CheckboxIcon {
+
+.ctrhvdq0-1-0 {
+    content: "";
+    inline-size: 20px;
+    block-size: 20px;
+    border: 2px solid var(--rdg-border-color);
+    background-color: var(--rdg-background-color)
+}
+
+    .ca4mo9e0-1-0:checked + .ctrhvdq0-1-0 {
+      background-color: var(--rdg-checkbox-color);
+      outline: 4px solid var(--rdg-background-color);
+      outline-offset: -6px;
+    }
+
+    .ca4mo9e0-1-0:focus + .ctrhvdq0-1-0 {
+      border-color: var(--rdg-checkbox-focus-color);
+    }
+  }
+
+@layer rdg.CheckboxLabel {
+
+.c6bptqk0-1-0 {
+    cursor: default
+}
+
+    .c6bptqk0-1-0 .ctrhvdq0-1-0 {
+      border-color: var(--rdg-checkbox-disabled-border-color);
+      background-color: var(--rdg-checkbox-disabled-background-color);
+    }
+  }
+
+
+@layer rdg.GroupCellContent {.gquyxkv0-1-0 {
+    outline: none
+}
+  }
+
+@layer rdg.GroupCellCaret {
+
+.cwe1f4s0-1-0 {
+    margin-inline-start: 4px;
+    stroke: currentColor;
+    stroke-width: 1.5px;
+    fill: transparent;
+    vertical-align: middle
+}
+
+    .cwe1f4s0-1-0 > path {
+      transition: d 0.1s;
+    }
+  }
+
+
+.hayp98z0-1-0 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #16365d;
+  color: white;
+  font-weight: bold;
+}
+
+
+@layer rdg.MeasuringCell {.m22dhxs0-1-0 {
+    contain: strict;
+    grid-row: 1;
+    visibility: hidden
+}
+  }
+
+
+@layer rdg.TextEditor {.t1bswe1i0-1-0 {
+    appearance: none;
+    box-sizing: border-box;
+    inline-size: 100%;
+    block-size: 100%;
+    padding-block: 0;
+    padding-inline: 6px;
+    border: 2px solid #ccc;
+    vertical-align: top;
+    color: var(--rdg-color);
+    background-color: var(--rdg-background-color);
+    font-family: inherit;
+    font-size: var(--rdg-font-size)
+}
+
+    .t1bswe1i0-1-0:focus {
+      border-color: var(--rdg-selection-color);
+      outline: none;
+    }
+
+    .t1bswe1i0-1-0::placeholder {
+      color: #999;
+      opacity: 1;
+    }
+  }
+
+
+@layer rdg.SortableHeaderCell {.h2rl2fx0-1-0 {
+    cursor: pointer;
+    display: flex
+}
+
+    .h2rl2fx0-1-0:focus {
+      outline: none;
+    }
+  }
+
+@layer rdg.SortableHeaderCellName {
+
+.ha29pcs0-1-0 {
+    flex-grow: 1;
+    overflow: hidden;
+    overflow: clip;
+    text-overflow: ellipsis
+}
+  }
+
+.f7qgdq50-1-0 {
+margin-top: -35px;
+  display: grid;
+  grid-gap: 10px;
+  padding: 4px;
+  font-size: 14px;
+  inline-size: 100%;
+}
+
+
+@layer rdg.HeaderCell {.c5s4gs70-1-0 {
+    touch-action: none
+}
+
+    .c5s4gs70-1-0::after {
+      content: "";
+      cursor: col-resize;
+      position: absolute;
+      inset-block-start: 0;
+      inset-inline-end: 0;
+      inset-block-end: 0;
+      inline-size: 10px;
+    }
+  }
+
+
+@layer rdg.HeaderRow {.h1w9imsy0-1-0 {
+    display: contents;
+    line-height: var(--rdg-header-row-height);
+    background-color: var(--rdg-header-background-color);
+    font-weight: bold;
+    color: var(--rdg-header-row-color);
+    font-size: 11px;
+    text-align: center
+}
+
+    .h1w9imsy0-1-0 > .c9tygie0-1-0 {
+      /* Should have a higher value than 0 to show up above regular cells */
+      z-index: 1;
+      position: sticky;
+      inset-block-start: 0;
+    }
+
+    .h1w9imsy0-1-0 > .c2lsqdy0-1-0 {
+      z-index: 2;
+    }
+  }
+
+
+@layer rdg.Cell {.c1tk6yq10-1-0 {
+    background-color: #ccccff
+}
+  }
+
+@layer rdg.Cell {
+
+.c1ldrpav0-1-0 {
+    background-color: #ccccff
+}
+
+    .c1ldrpav0-1-0.c1tk6yq10-1-0 {
+      background-color: #9999ff;
+    }
+  }
+
+
+@layer rdg.GroupedRow {
+    .g1mvu2ep0-1-0:not([aria-selected="true"]) {
+      background-color: var(--rdg-header-background-color);
+    }
+
+    .g1mvu2ep0-1-0 > .c9tygie0-1-0:not(:last-child):not(.cu9dmmf0-1-0) {
+      border-inline-end: none;
+    }
+  }
+
+
+@layer rdg.SummaryCell {.sny5x120-1-0 {
+    inset-block-start: var(--rdg-summary-row-top);
+    inset-block-end: var(--rdg-summary-row-bottom)
+}
+  }
+
+
+@layer rdg.SummaryRow {.s1w3afir0-1-0 {
+    line-height: var(--rdg-sumary-row-height)
+}
+
+    .s1w3afir0-1-0 > .c9tygie0-1-0 {
+      position: sticky;
+    }
+  }
+
+@layer rdg.SummaryRow {
+    .t1dprx3i0-1-0 > .c9tygie0-1-0 {
+      z-index: 1;
+    }
+
+    .t1dprx3i0-1-0 > .c2lsqdy0-1-0 {
+      z-index: 2;
+    }
+  }
+
+@layer rdg.SummaryRow {
+    .t14kdlbe0-1-0 > .c9tygie0-1-0 {
+      border-block-end: 2px solid var(--rdg-summary-border-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+@layer rdg.SummaryRow {
+    .bqiq5670-1-0 > .c9tygie0-1-0 {
+      border-block-start: 2px solid var(--rdg-summary-border-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+
+@layer rdg.EditCell {.cgu7dq50-1-0 {
+    padding: 0
+}
+  }
+
+
+@layer rdg.DragHandle {.c1iurj8s0-1-0 {
+    cursor: move;
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+    inline-size: 8px;
+    block-size: 8px;
+    background-color: var(--rdg-selection-color)
+}
+
+    .c1iurj8s0-1-0:hover {
+      inline-size: 16px;
+      block-size: 16px;
+      border: 2px solid var(--rdg-selection-color);
+      background-color: var(--rdg-background-color);
+    }
+  }
+
+
+@layer rdg.SortIcon {.adro4ad0-1-0 {
+    fill: currentColor
+}
+
+    .adro4ad0-1-0 > path {
+      transition: d 0.1s;
+    }
+  }
+
+
+.t1x4antc0-1-0 {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-block-end: 8px;
+}
+
+
+/* @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap"); */
+@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css); /* @import url(https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css); */
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+  transition: 0.5s;
+  outline: none;
+}
+.pagination-data {
+  padding: 0;
+  margin: 0;
+  width: 75%;
+}
+.pagination-data li {
+  list-style: none;
+}
+.table-filter-info {
+  padding: 15px;
+}
+.rc-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 11px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: bold; /* background-color: #16365d; */ /* color: white; */
+}
+.rc-pagination-item,
+.rc-pagination-prev,
+.rc-pagination-jump-prev,
+.rc-pagination-jump-next {
+  margin-right: 4px;
+}
+.rc-pagination-total-text {
+  margin-right: 12px;
+  cursor: initial;
+}
+.rc-pagination-jump-next,
+.rc-pagination-jump-prev,
+.rc-pagination-next,
+.rc-pagination-prev {
+  display: inline-block;
+  min-width: 28px;
+  height: 28px;
+  color: rgba(0, 0, 0, 0.85);
+  font-family: Arial;
+  line-height: 28px;
+  text-align: center;
+  vertical-align: middle;
+  list-style: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.rc-pagination-jump-next button,
+.rc-pagination-jump-prev button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #666;
+}
+.rc-pagination-jump-next button:after,
+.rc-pagination-jump-prev button:after {
+  display: block;
+  content: "•••";
+}
+.rc-pagination-item,
+.rc-pagination-prev,
+.rc-pagination-next,
+.rc-pagination-total-text {
+  min-width: initial;
+  height: auto;
+  line-height: initial;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.rc-pagination-item a,
+.rc-pagination-item button,
+.rc-pagination-prev a,
+.rc-pagination-prev button,
+.rc-pagination-next a,
+.rc-pagination-next button,
+.rc-pagination-total-text a,
+.rc-pagination-total-text button {
+  height: auto;
+  min-width: 20px;
+  min-height: 20px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  color: #656f84 !important;
+  transition: 0.3s;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -o-transition: 0.3s;
+}
+.rc-pagination-item.rc-pagination-item-active a,
+.rc-pagination-item.rc-pagination-item-active a:hover,
+.rc-pagination-prev.rc-pagination-item-active a,
+.rc-pagination-prev.rc-pagination-item-active a:hover,
+.rc-pagination-next.rc-pagination-item-active a,
+.rc-pagination-next.rc-pagination-item-active a:hover,
+.rc-pagination-total-text.rc-pagination-item-active a,
+.rc-pagination-total-text.rc-pagination-item-active a:hover {
+  background-color: #5a8dee;
+  border-color: #5a8dee;
+  color: #ffffff !important;
+}
+.rc-pagination-item a:hover,
+.rc-pagination-item button:hover,
+.rc-pagination-prev a:hover,
+.rc-pagination-prev button:hover,
+.rc-pagination-next a:hover,
+.rc-pagination-next button:hover,
+.rc-pagination-total-text a:hover,
+.rc-pagination-total-text button:hover {
+  background-color: #eceff5;
+  border-color: #eceff5;
+}
+
+.t1sz1agu0-1-0 {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-block-end: 8px;
+  }
+
