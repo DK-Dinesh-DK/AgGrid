@@ -1,10 +1,11 @@
-import { useState, useRef } from 'react';
-import DataGrid from '../components/datagrid/DataGrid';
-
-const columns= [
-  { field: 'id', headerName: 'ID' },
-  { field: 'title', headerName: 'Title' },
-  { field: 'count', headerName: 'Count' }
+import { useState, useRef } from "react";
+import DataGrid from "../components/datagrid/DataGrid";
+import checkboxEdiotr from "../components/datagrid/editors/chekboxEditor";
+const columns = [
+  { field: "id", headerName: "ID" },
+  { field: "title", headerName: "Title" },
+  { field: "count", headerName: "Count" },
+  { field: "check", headerName: "Check", cellRenderer: checkboxEdiotr },
 ];
 
 export default function ScrollToRow({ direction }) {
@@ -15,7 +16,8 @@ export default function ScrollToRow({ direction }) {
       rows.push({
         id: i,
         title: `Title ${i}`,
-        count: i * 1000
+        count: i * 1000,
+        check: i % 2 === 0,
       });
     }
 
@@ -34,11 +36,19 @@ export default function ScrollToRow({ direction }) {
           value={value}
           onChange={(event) => setValue(event.target.valueAsNumber)}
         />
-        <button type="button" onClick={() => gridRef.current.scrollToRow(value)}>
+        <button
+          type="button"
+          onClick={() => gridRef.current.scrollToRow(value)}
+        >
           Scroll to row
         </button>
       </div>
-      <DataGrid ref={gridRef} columnData={columns} rowData={rows} direction={direction} />
+      <DataGrid
+        ref={gridRef}
+        columnData={columns}
+        rowData={rows}
+        direction={direction}
+      />
     </>
   );
 }

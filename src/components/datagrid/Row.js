@@ -73,7 +73,7 @@ function Row(
 
   const cells = [];
 
-  var selectedCellRowIndex;
+
   // console.log("vvvvv",rowArray)
 
   for (let index = 0; index < viewportColumns.length; index++) {
@@ -87,13 +87,7 @@ function Row(
       index += colSpan - 1;
     }
     const isCellSelected = selectedCellIdx === idx;
-    //console.log("isWEE",selectedCellIdx,idx)
-    if (isCellSelected) {
-      selectedCellRowIndex = rowIdx;
-    }
-    // if (isCellSelected && selectedCellEditor) {
-    //   cells.push(selectedCellEditor);
-    // } else {
+
     cells.push(
       <Cell
         key={`${column.key}`}
@@ -131,7 +125,8 @@ function Row(
   }
   // }
   var style = getRowStyle(gridRowStart, height);
-  if (rowIdx === selectedCellRowIndex) {
+ 
+  if (rowIdx === props.selectedPosition.rowIdx) {
     style = { ...style, ...selectedCellRowStyle };
   }
 

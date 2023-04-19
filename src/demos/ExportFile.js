@@ -3,6 +3,7 @@ import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import textEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
+// import { DataGrid } from "laidatagrid";
 
 const loadMoreRowsClassname = css`
   inline-size: 180px;

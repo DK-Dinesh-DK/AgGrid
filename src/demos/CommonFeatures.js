@@ -404,11 +404,11 @@ export default function CommonFeatures({ direction }) {
         onSelectedRowsChange={setSelectedRows}
         topSummaryRows={summaryRows}
         bottomSummaryRows={summaryRows}
-        rowSelection={"multiple"}
+        rowSelection={"single"}
         showSelectedRows={true}
         className="fill-grid"
         direction={direction}
-        // selection={true}
+        selection={true}
         pagination={true}
       />
     </>

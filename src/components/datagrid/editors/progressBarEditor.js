@@ -32,9 +32,9 @@ export default function progressBarEditor({ column, row, onRowChange }) {
   const value = row[column.key];
   return (
     <div className={`rdg-progressBar-container ${progressContainer}`}>
-      <div class={`rdg-progress-bar ${progressBar}`}>
+      <div className={`rdg-progress-bar ${progressBar}`}>
         <div
-          class={`rdg-progress ${progress}`}
+          className={`rdg-progress ${progress}`}
           // aria-valuenow={value}
           // aria-valuemin="0"
           // aria-valuemax="100"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { css } from "@linaria/core";
 // import {Input} from "lai_webui";
 
@@ -76,7 +76,7 @@ export default function headerRenderer({
                     alignItems: "center",
 
                     justifyContent: "center",
-                  }}>
+                  }} key={`index-${index}`}>
                   {RecursiveScan(
                     column.children,
                     info,
@@ -254,7 +254,8 @@ export default function headerRenderer({
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
-                      class="fil0"
+                    
+                      className="fil0"
                       d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
                     />
                   </g>
@@ -355,7 +356,7 @@ export default function headerRenderer({
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
-                      class="fil0"
+                      className="fil0"
                       d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
                     />
                   </g>
@@ -449,7 +450,7 @@ const RecursiveScan = (
             };
 
             return (
-              <div style={{ ...style }}>
+              <div style={{ ...style }} key={`index-${index}`}>
                 {RecursiveScan(
                   subData.children,
                   subInfo,
@@ -515,13 +516,6 @@ const RecursiveScan = (
       onColumnResize(subData, "max-content");
     }
 
-    function handleFocus(event) {
-      onFocus?.(event);
-      if (shouldFocusGrid) {
-        // Select the first header cell if there is no selected cell
-        selectCell(0);
-      }
-    }
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -637,7 +631,7 @@ const RecursiveScan = (
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
-                      class="fil0"
+                      className="fil0"
                       d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
                     />
                   </g>
@@ -751,7 +745,7 @@ const RecursiveScan = (
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
-                      class="fil0"
+                      className="fil0"
                       d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
                     />
                   </g>

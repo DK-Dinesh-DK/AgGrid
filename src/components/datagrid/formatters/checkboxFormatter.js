@@ -12,39 +12,51 @@ const checkboxLabel = css`
     inset: 0;
     margin-inline-end: 1px; /* align checkbox in row group cell */
   }
-`
+`;
 
-const checkboxLabelClassname = `rdg-checkbox-label ${checkboxLabel}`
+const checkboxLabelClassname = `rdg-checkbox-label ${checkboxLabel}`;
 
 const checkboxInput = css`
   @layer rdg.CheckboxInput {
     all: unset;
   }
-`
+`;
 
-const checkboxInputClassname = `rdg-checkbox-input ${checkboxInput}`
+export const checkboxInputClassname = `rdg-checkbox-input ${checkboxInput}`;
 
 const checkbox = css`
   @layer rdg.CheckboxIcon {
     content: "";
     inline-size: 20px;
     block-size: 20px;
-    border: 2px solid var(--rdg-border-color);
+    border: 0.9998000264167786px solid #95b3d7;
     background-color: var(--rdg-background-color);
+    height: 13px;
+    width: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    .${checkboxInput}:checked + & {
+    & > div {
+      height: 8px;
+      width: 8px;
+    }
+
+    .${checkboxInput}:checked + & > div {
       background-color: var(--rdg-checkbox-color);
-      outline: 4px solid var(--rdg-background-color);
-      outline-offset: -6px;
+
+      /* outline: 3px solid var(--rdg-background-color);
+      height: 8px;
+      width: 8px; */
     }
 
     .${checkboxInput}:focus + & {
       border-color: var(--rdg-checkbox-focus-color);
     }
   }
-`
+`;
 
-const checkboxClassname = `rdg-checkbox ${checkbox}`
+const checkboxClassname = `rdg-checkbox ${checkbox}`;
 
 const checkboxLabelDisabled = css`
   @layer rdg.CheckboxLabel {
@@ -55,9 +67,9 @@ const checkboxLabelDisabled = css`
       background-color: var(--rdg-checkbox-disabled-background-color);
     }
   }
-`
+`;
 
-const checkboxLabelDisabledClassname = `rdg-checkbox-label-disabled ${checkboxLabelDisabled}`
+const checkboxLabelDisabledClassname = `rdg-checkbox-label-disabled ${checkboxLabelDisabled}`;
 
 export function checkboxFormatter({ onChange, ...props }, ref) {
   function handleChange(e) {
@@ -67,7 +79,7 @@ export function checkboxFormatter({ onChange, ...props }, ref) {
   return (
     <label
       className={clsx(checkboxLabelClassname, {
-        [checkboxLabelDisabledClassname]: props.disabled
+        [checkboxLabelDisabledClassname]: props.disabled,
       })}
     >
       <input
@@ -77,7 +89,9 @@ export function checkboxFormatter({ onChange, ...props }, ref) {
         className={checkboxInputClassname}
         onChange={handleChange}
       />
-      <div className={checkboxClassname} />
+      <div className={checkboxClassname}>
+        <div></div>
+      </div>
     </label>
-  )
+  );
 }

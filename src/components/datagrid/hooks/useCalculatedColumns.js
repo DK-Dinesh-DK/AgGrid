@@ -152,7 +152,7 @@ export function useCalculatedColumns({
             : (props) => {
                 return (
                   <input
-                    className={textEditorCla/ssname}
+                    className={textEditorClassname}
                     value={props.row[props.column.key]}
                     onChange={(event) =>
                       props.onRowChange({

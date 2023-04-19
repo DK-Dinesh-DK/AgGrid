@@ -95,29 +95,7 @@ const root = css`
       font-size: var(--rdg-font-size);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-      .wrapper::-webkit-scrollbar {
-        display: block;
-        width: 5px;
-      }
-      .wrapper::-webkit-scrollbar-track {
-        background: transparent;
-      }
 
-      .wrapper::-webkit-scrollbar-thumb {
-        background-color: red;
-        border-right: none;
-        border-left: none;
-      }
-
-      .wrapper::-webkit-scrollbar-track-piece:end {
-        background: transparent;
-        margin-bottom: 10px;
-      }
-
-      .wrapper::-webkit-scrollbar-track-piece:start {
-        background: transparent;
-        margin-top: 10px;
-      }
       /* needed on Firefox */
       &::before {
         content: "";

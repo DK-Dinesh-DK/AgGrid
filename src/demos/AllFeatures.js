@@ -191,7 +191,7 @@ const columns = [
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 25000; i++) {
+  for (let i = 0; i < 250; i++) {
     rows.push({
       id: `id_${i}`,
       avatar: faker.image.avatar(),
