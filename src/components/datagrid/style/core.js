@@ -95,7 +95,6 @@ const root = css`
       font-size: var(--rdg-font-size);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 
-
       /* needed on Firefox */
       &::before {
         content: "";
@@ -153,6 +152,9 @@ export const filterContainerClassname = css`
 
     > div {
       padding-block: 0;
+      
+
+     
     }
   }
 `;

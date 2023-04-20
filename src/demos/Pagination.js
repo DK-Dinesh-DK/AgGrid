@@ -56,6 +56,7 @@ const columns = [
     field: "task",
     headerName: "Title",
     cellEditor: (props) => {
+   
       return textEditor(props);
     },
     sortable: true,
@@ -113,7 +114,6 @@ export default function Pagination({ direction }) {
       pagination={true}
       defaultPage={3}
       rowSelection={"single"}
-
       // paginationAutoPageSize={true}
       // paginationPageSize={39}
       // suppressPaginationPanel={true}

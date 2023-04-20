@@ -8,11 +8,7 @@ import textEditor from "../components/datagrid/editors/textEditor";
 import { SelectCellFormatter } from "../components/datagrid/formatters/SelectCellFormatter";
 import DataGrid from "../components/datagrid/DataGrid";
 
-import {
-  exportToCsv,
-  exportToXlsx,
-  exportToPdf,
-} from "../components/datagrid/exportUtils";
+import { exportToCsv, exportToXlsx, exportToPdf } from "../components/datagrid/exportUtils";
 // import textEditorClassname from "../components/datagrid/editors/textEditor";
 
 const toolbarClassname = css`
@@ -71,7 +67,7 @@ function getColumns(countries, direction) {
       width: 60,
       frozen: true,
       haveChildren: false,
-      topHeader: "id",
+      topHeader:"id",
       resizable: false,
       summaryFormatter() {
         return <strong>Total</strong>;
@@ -80,7 +76,7 @@ function getColumns(countries, direction) {
     {
       field: "title",
       headerName: "Task",
-      topHeader: "title",
+      topHeader:"title",
       width: 120,
       haveChildren: false,
       frozen: true,
@@ -93,7 +89,7 @@ function getColumns(countries, direction) {
       field: "client",
       headerName: "Client",
       haveChildren: false,
-      topHeader: "client",
+      topHeader:"client",
       width: "max-content",
       cellRenderer: textEditor,
     },
@@ -114,7 +110,7 @@ function getColumns(countries, direction) {
       width: 180,
       cellRenderer: (p) => (
         <select
-          //  className={textEditorClassname}
+        //  className={textEditorClassname}
           value={p.row.country}
           style={{ width: "100%" }}
           onChange={(e) =>
@@ -375,42 +371,44 @@ export default function CommonFeatures({ direction }) {
         <ExportButton
           onExport={() =>
             exportToCsv(sortedRows, columns, "CommonFeatures.csv")
-          }>
+          }
+        >
           Export to CSV
         </ExportButton>
         <ExportButton
           onExport={() =>
             exportToXlsx(sortedRows, columns, "CommonFeatures.xlsx")
-          }>
+          }
+        >
           Export to XSLX
         </ExportButton>
         <ExportButton
           onExport={() =>
             exportToPdf(sortedRows, columns, "CommonFeatures.pdf")
-          }>
+          }
+        >
           Export to PDF
         </ExportButton>
       </div>
       <DataGrid
-        rowKeyGetter={rowKeyGetter}
-        columnData={columns}
-        restriction={{
-          copy: true,
-          paste: true,
-        }}
-        rowData={sortedRows}
-        onRowsChange={setRows}
-        selectedRows={selectedRows}
-        onSelectedRowsChange={setSelectedRows}
-        topSummaryRows={summaryRows}
-        bottomSummaryRows={summaryRows}
-        rowSelection={"single"}
-        showSelectedRows={true}
-        className="fill-grid"
-        direction={direction}
-        selection={true}
-        pagination={true}
-      />
+      rowKeyGetter={rowKeyGetter}
+      columnData={columns}
+      restriction={{
+        copy: true,
+        paste: true,
+      }}
+      rowData={sortedRows}
+      onRowsChange={setRows}
+      selectedRows={selectedRows}
+      onSelectedRowsChange={setSelectedRows}
+      topSummaryRows={summaryRows}
+      bottomSummaryRows={summaryRows}
+      showSelectedRows={true}
+      className="fill-grid"
+      direction={direction}
+      selection={true}
+      pagination={true}
+    />
     </>
   );
 }

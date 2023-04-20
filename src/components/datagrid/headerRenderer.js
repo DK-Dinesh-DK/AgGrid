@@ -57,8 +57,6 @@ export default function headerRenderer({
   ChildColumnSetup,
 }) {
   const { onFocus } = useRovingCellRef(isCellSelected);
-  // console.log("cellHeight", cellHeight, headerRowHeight);
-  // console.log("3456", selectedCellIdx);
   if (column.haveChildren === true) {
     return (
       <div>
@@ -76,7 +74,8 @@ export default function headerRenderer({
                     alignItems: "center",
 
                     justifyContent: "center",
-                  }} key={`index-${index}`}>
+                  }}
+                >
                   {RecursiveScan(
                     column.children,
                     info,
@@ -186,7 +185,8 @@ export default function headerRenderer({
           }}
           onFocus={handleFocus}
           onClick={onClick}
-          onDoubleClick={column.resizable ? onDoubleClick : undefined}>
+          onDoubleClick={column.resizable ? onDoubleClick : undefined}
+        >
           <div style={{ ...style }}>
             <SortableHeaderCell
               onSort={onSort}
@@ -194,7 +194,8 @@ export default function headerRenderer({
               priority={priority}
               isCellSelected={isCellSelected}
               column={column}
-              borderBottom={"none"}>
+              borderBottom={"none"}
+            >
               {column.headerName}
             </SortableHeaderCell>
           </div>
@@ -202,7 +203,7 @@ export default function headerRenderer({
       );
     }
     if (column.filter && !column.sortable) {
-      let style11 = {
+      var style11 = {
         display: "flex",
         width: "100%",
         alignItems: "center",
@@ -223,13 +224,12 @@ export default function headerRenderer({
       const getInputValue = (event, filters) => {
         event.preventDefault();
         const value = event.target.value;
-        //console.log("Ivalie", value);
         setFilters({
           ...filters,
           [column.field]: value,
         });
       };
-
+      
       return (
         <div style={{ ...style11 }} key={column.idx} onClick={onClick}>
           <FilterRenderer
@@ -239,7 +239,8 @@ export default function headerRenderer({
             onClick={onClick}
             column={column}
             onDoubleClick={column.resizable ? onDoubleClick : undefined}
-            isCellSelected={isCellSelected}>
+            isCellSelected={isCellSelected}
+          >
             {({ filters, ...rest }) => (
               <div className={filterClassname}>
                 <svg
@@ -250,11 +251,11 @@ export default function headerRenderer({
                   // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
                   viewBox="0 0 507 511.644"
                   onClick={handleClick}
-                  fill="white">
+                  fill="white"
+                >
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
-                    
                       className="fil0"
                       d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
                     />
@@ -269,7 +270,8 @@ export default function headerRenderer({
                   anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "left",
-                  }}>
+                  }}
+                >
                   <Typography sx={{ p: 2 }}>
                     <select style={{ width: "100%" }} onChange={getFilterValue}>
                       <option>Contain</option>
@@ -278,7 +280,7 @@ export default function headerRenderer({
                       <option>Equals</option>
                       <option>Not Equals</option>
                     </select>
-
+                    
                     <div>
                       <input
                         {...rest}
@@ -287,9 +289,6 @@ export default function headerRenderer({
                         onChange={(e) => getInputValue(e, filters)}
                         onKeyDown={inputStopPropagation}
                       />
-                      {
-                        //console.log("babul", filters)
-                      }
                     </div>
                   </Typography>
                 </Popover>
@@ -333,12 +332,14 @@ export default function headerRenderer({
           onFocus={handleFocus}
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
-          style={{ ...styleSF }}>
+          style={{ ...styleSF }}
+        >
           <SortableHeaderCell
             onSort={onSort}
             sortDirection={sortDirection}
             priority={priority}
-            isCellSelected={isCellSelected}>
+            isCellSelected={isCellSelected}
+          >
             {column.headerName}
           </SortableHeaderCell>
           <FilterRenderer column={column} isCellSelected={isCellSelected}>
@@ -352,7 +353,8 @@ export default function headerRenderer({
                   // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
                   viewBox="0 0 507 511.644"
                   onClick={handleClick}
-                  fill="white">
+                  fill="white"
+                >
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
@@ -370,7 +372,8 @@ export default function headerRenderer({
                   anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "left",
-                  }}>
+                  }}
+                >
                   <Typography sx={{ p: 2 }}>
                     <select style={{ width: "100%" }} onChange={getFilterValue}>
                       <option>Contain</option>
@@ -427,7 +430,6 @@ const RecursiveScan = (
   setFilterType
 ) => {
   var cellHeight = cellHeight - headerRowHeight;
-  // console.log("crty", headerRowHeight);
   ChildColumnSetup(subData);
   const { onFocus } = useRovingCellRef(isCellSelected);
   if (subData.haveChildren === true) {
@@ -450,7 +452,7 @@ const RecursiveScan = (
             };
 
             return (
-              <div style={{ ...style }} key={`index-${index}`}>
+              <div style={{ ...style }}>
                 {RecursiveScan(
                   subData.children,
                   subInfo,
@@ -481,7 +483,6 @@ const RecursiveScan = (
     );
   } else {
     columnsList.includes(subData.name) ? null : columnsList.push(subData.name);
-    //console.log("H1", headerRowHeight + cellHeight);
     var style = {
       display: "flex",
       justifyContent: "center",
@@ -496,7 +497,6 @@ const RecursiveScan = (
           : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
     };
-    //console.log("subdata", subData);
     selectedCellHeaderStyle && selectedPosition.idx === subData.idx
       ? (style = { ...style, ...selectedCellHeaderStyle })
       : style;
@@ -516,6 +516,13 @@ const RecursiveScan = (
       onColumnResize(subData, "max-content");
     }
 
+    function handleFocus(event) {
+      onFocus?.(event);
+      if (shouldFocusGrid) {
+        // Select the first header cell if there is no selected cell
+        selectCell(0);
+      }
+    }
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -534,7 +541,7 @@ const RecursiveScan = (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <>
           <div
-            key={`${subData.idx}`}
+            key={subData.idx}
             role="columnheader"
             aria-colindex={`${column.index + 1}.${
               columnsList.indexOf(subData.name) + 1
@@ -567,7 +574,8 @@ const RecursiveScan = (
             subCellIdx={subData.idx}
             sortDirection={sortDirection}
             priority={priority}
-            isCellSelected={isCellSelected}>
+            isCellSelected={isCellSelected}
+          >
             {subData.headerName}
           </SortableHeaderCell>
         </div>
@@ -615,7 +623,8 @@ const RecursiveScan = (
           key={subData.idx}
           onClick={onClickFilter}
           onDoubleClick={subData.resizable ? onDoubleClick : undefined}
-          style={{ ...style1 }}>
+          style={{ ...style1 }}
+        >
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) => (
               <div className={filterClassname}>
@@ -627,7 +636,8 @@ const RecursiveScan = (
                   // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
                   viewBox="0 0 507 511.644"
                   onClick={handleClick}
-                  fill="white">
+                  fill="white"
+                >
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
@@ -645,7 +655,8 @@ const RecursiveScan = (
                   anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "left",
-                  }}>
+                  }}
+                >
                   <Typography sx={{ p: 2 }}>
                     <select style={{ width: "100%" }} onChange={getFilterValue}>
                       <option>Contain</option>
@@ -727,7 +738,8 @@ const RecursiveScan = (
             subCellIdx={subData.idx}
             sortDirection={sortDirection}
             priority={priority}
-            isCellSelected={isCellSelected}>
+            isCellSelected={isCellSelected}
+          >
             {subData.headerName}
           </SortableHeaderCell>
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
@@ -741,7 +753,8 @@ const RecursiveScan = (
                   // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
                   viewBox="0 0 507 511.644"
                   onClick={handleClick}
-                  fill="white">
+                  fill="white"
+                >
                   <g id="Layer_x0020_1">
                     <metadata id="CorelCorpID_0Corel-Layer" />
                     <path
@@ -759,7 +772,8 @@ const RecursiveScan = (
                   anchorOrigin={{
                     vertical: "bottom",
                     horizontal: "left",
-                  }}>
+                  }}
+                >
                   <Typography sx={{ p: 2 }}>
                     <select style={{ width: "100%" }} onChange={getFilterValue}>
                       <option>Contain</option>

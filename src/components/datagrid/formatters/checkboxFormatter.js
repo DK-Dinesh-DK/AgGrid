@@ -38,8 +38,8 @@ const checkbox = css`
     justify-content: center;
 
     & > div {
-      height: 8px;
-      width: 8px;
+      height: 7px;
+      width: 7px;
     }
 
     .${checkboxInput}:checked + & > div {

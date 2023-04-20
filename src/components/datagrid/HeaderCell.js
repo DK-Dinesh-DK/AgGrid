@@ -49,9 +49,8 @@ export default function HeaderCell({
   handleReorderColumn,
   ChildColumnSetup,
 }) {
-  //console.log("cell", headerRowHeight);
   const isRtl = direction === "rtl";
-  const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const {  tabIndex, onFocus } = useRovingCellRef(isCellSelected);
   const [sortableColumnKey, setSortableColumnKey] = useState();
   const sortIndex = sortColumns?.findIndex(
     (sort) => sort.columnKey === sortableColumnKey
@@ -61,13 +60,13 @@ export default function HeaderCell({
     sortIndex !== undefined && sortIndex > -1
       ? sortColumns[sortIndex]
       : undefined;
-
+      
   const sortDirection = sortColumn?.direction;
   const priority =
     sortColumn !== undefined && sortColumns.length > 1
       ? sortIndex + 1
       : undefined;
-
+     
   const ariaSort =
     sortDirection && !priority
       ? sortDirection === "ASC"
@@ -130,9 +129,9 @@ export default function HeaderCell({
     currentTarget.addEventListener("lostpointercapture", onLostPointerCapture);
   }
 
-  function onSort(ctrlClick, name, idx) {
+  function onSort(ctrlClick, name,idx) {
     var matches = [];
-
+    
     const recursiveSort = (cdata) => {
       if (cdata.haveChildren === true) {
         cdata.children.map((e, index) => {
@@ -248,7 +247,7 @@ export default function HeaderCell({
       canDrop: monitor.canDrop(),
     }),
   });
-  //console.log("isCellSelected",selectedCellIdx)
+  // console.log("isCellSelected",selectedCellIdx)
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -268,7 +267,8 @@ export default function HeaderCell({
       // onFocus={handleFocus}
       // onClick={onClick}
       // onDoubleClick={column.resizable ? onDoubleClick : undefined}
-      onPointerDown={column.resizable ? onPointerDown : undefined}>
+      onPointerDown={column.resizable ? onPointerDown : undefined}
+    >
       <div style={{ display: "flex", height: "100%", alignItems: "center" }}>
         {headerRenderer({
           column,
@@ -277,8 +277,7 @@ export default function HeaderCell({
           cellHeight,
           sortDirection,
           selectCell,
-          priority,
-          selectedCellIdx,
+          priority,selectedCellIdx,
           onSort,
           allRowsSelected,
           onAllRowsSelectionChange,

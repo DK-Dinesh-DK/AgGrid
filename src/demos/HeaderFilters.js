@@ -26,18 +26,18 @@ export default function HeaderFilters({ direction }) {
     return [
       {
         field: "id",
-        haveChildren: false,
+        haveChildren:false,
         topHeader: "id",
         headerName: "ID",
         width: 50,
       },
       {
         field: "task",
-        haveChildren: false,
+        haveChildren:false,
         topHeader: "task",
         headerName: "Title",
         cellRenderer: (props) => {
-          // console.log("props", props);
+          console.log("props", props);
           return textEditor(props);
         },
         sortable: true,
@@ -45,21 +45,21 @@ export default function HeaderFilters({ direction }) {
       },
       {
         field: "priority",
-        haveChildren: false,
+        haveChildren:false,
         topHeader: "priority",
         headerName: "Priority",
         filter: true,
       },
       {
         field: "issueType",
-        haveChildren: false,
+        haveChildren:false,
         topHeader: "issueType",
         headerName: "Issue Type",
         sortable: true,
       },
       {
         field: "complete",
-        haveChildren: false,
+        haveChildren:false,
         topHeader: "complete",
         headerName: "% Complete",
       },
@@ -69,7 +69,8 @@ export default function HeaderFilters({ direction }) {
   function rowKeyGetter(row) {
     return row.id;
   }
-  const updateData = useCallback(() => {}, []);
+  const updateData = useCallback(() => {
+  }, []);
   const myTrans = {
     add: [
       { id: 52, task: "Add rows", issueType: "Improvement" },
@@ -105,40 +106,46 @@ export default function HeaderFilters({ direction }) {
         onClick={() => {
           console.log(dataGridRef.current.api.getFilterModel());
         }}
-        style={{ color: "black", backgroundColor: "lightskyblue" }}>
+        style={{ color: "black", backgroundColor: "lightskyblue" }}
+      >
         getFilterModel
       </button>
       <button
         onClick={() => {
           dataGridRef.current.api.setFilterModel({ task: "1" });
         }}
-        style={{ color: "black", backgroundColor: "lightsalmon" }}>
+        style={{ color: "black", backgroundColor: "lightsalmon" }}
+      >
         setFilterModel
       </button>
       <button
         onClick={() => {
           console.log(dataGridRef.current.api.deselectAllFiltered());
         }}
-        style={{ color: "black", backgroundColor: "lightslategrey" }}>
+        style={{ color: "black", backgroundColor: "lightslategrey" }}
+      >
         Deselect All Filtered Rows
       </button>
       <button
         onClick={() => {
           console.log(dataGridRef.current.api.selectAll());
         }}
-        style={{ color: "black", backgroundColor: "lightblue" }}>
+        style={{ color: "black", backgroundColor: "lightblue" }}
+      >
         Select All Rows
       </button>
       <button
         onClick={() => {
           console.log(dataGridRef.current.api.deselectAll());
         }}
-        style={{ color: "white", backgroundColor: "lightseagreen" }}>
+        style={{ color: "white", backgroundColor: "lightseagreen" }}
+      >
         Deselect All Rows
       </button>
       <button
         onClick={updateData}
-        style={{ color: "black", backgroundColor: "lightskyblue" }}>
+        style={{ color: "black", backgroundColor: "lightskyblue" }}
+      >
         Update Data
       </button>
       <button
@@ -150,7 +157,8 @@ export default function HeaderFilters({ direction }) {
           // var rowNode = dataGridRef.current.api.getRowNodes(2);
           // rowNode.setDataValue("task", "dineshkumar@gmail.com");
         }}
-        style={{ color: "white", backgroundColor: "red" }}>
+        style={{ color: "white", backgroundColor: "red" }}
+      >
         ADD
       </button>
       <button
@@ -160,8 +168,10 @@ export default function HeaderFilters({ direction }) {
               console.log("Node", node);
             })
           );
+      
         }}
-        style={{ color: "black", backgroundColor: "lightsteelblue" }}>
+        style={{ color: "black", backgroundColor: "lightsteelblue" }}
+      >
         For Each Leaf Node After Filter
       </button>
       <button
@@ -173,7 +183,8 @@ export default function HeaderFilters({ direction }) {
             })
           );
         }}
-        style={{ color: "black", backgroundColor: "lightyellow" }}>
+        style={{ color: "black", backgroundColor: "lightyellow" }}
+      >
         For Each Leaf Node After Filter and Sort
       </button>
       <DataGrid

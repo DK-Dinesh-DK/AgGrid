@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import textEditor from "../components/datagrid/editors/textEditor";
-// import DataGrid from "../components/datagrid/DataGrid";
-import {AgGrid} from "lai_webui"
+import DataGrid from "../components/datagrid/DataGrid";
 
 const loadMoreRowsClassname = css`
   inline-size: 180px;
@@ -40,7 +39,7 @@ const columns = [
     field: "firstName",
     headerName: "First Name",
     filter: true,
-    cellEditor: (props) => {
+    cellRenderer: (props) => {
       return textEditor(props);
     },
   },
@@ -113,6 +112,7 @@ export default function InfiniteScrolling({ direction }) {
   const dataGridRef = useRef(null);
   const [selectedRows, setSelectedRows] = useState([]);
 
+
   return (
     <>
       <button
@@ -123,7 +123,7 @@ export default function InfiniteScrolling({ direction }) {
         getFocusedCell
       </button>
 
-      <AgGrid
+      <DataGrid
         columnData={columns}
         rowData={rows}
         rowKeyGetter={rowKeyGetter}
@@ -132,7 +132,6 @@ export default function InfiniteScrolling({ direction }) {
         }}
         rowHeight={25}
         className="fill-grid"
-        rowSelection={"multiple"}
         ref={dataGridRef}
         direction={direction}
         selection={true}

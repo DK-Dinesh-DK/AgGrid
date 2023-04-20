@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React,{ memo } from "react";
 import clsx from "clsx";
 import { css } from "@linaria/core";
 
@@ -35,10 +35,8 @@ const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
   columns,
-  rows,
-  arrayDepth,
-  headerheight,
-  cellHeight,
+  rows,arrayDepth,
+  headerheight,cellHeight,
   headerData,
   allRowsSelected,
   headerRowHeight,
@@ -58,14 +56,12 @@ function HeaderRow({
   handleReorderColumn,
   ...props
 }) {
-  // console.log("columnq",selectedCellIdx)
   const cells = [];
   function ChildColumnSetup(data) {
     props.ChildColumnSetup(data);
   }
   for (let index = 0; index < columns.length; index++) {
     const column = columns[index];
-
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "HEADER",
     });
@@ -103,6 +99,7 @@ function HeaderRow({
       />
     );
   }
+
 
   return (
     <DndProvider backend={HTML5Backend}>

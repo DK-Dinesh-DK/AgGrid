@@ -51,7 +51,6 @@ function Row(
   },
   ref
 ) {
-  //console.log("selectedCellEditor",selectedCellEditor)
   const handleRowChange = useLatestFunc((column, newRow) => {
     onRowChange(column, rowIdx, newRow);
   });
@@ -74,8 +73,6 @@ function Row(
   const cells = [];
 
 
-  // console.log("vvvvv",rowArray)
-
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = { ...viewportColumns[index], rowIndex: rowIdx };
     const { idx } = column;
@@ -87,45 +84,44 @@ function Row(
       index += colSpan - 1;
     }
     const isCellSelected = selectedCellIdx === idx;
-
-    cells.push(
-      <Cell
-        key={`${column.key}`}
-        selectedCellIdx={selectedCellIdx}
-        selectedCellEditor={selectedCellEditor}
-        column={column}
-        colSpan={colSpan}
-        api={api}
-        viewportColumns={viewportColumns}
-        rowArray={rowArray}
-        row={row}
-        handleReorderRow={handleReorderRow}
-        isRowSelected={isRowSelected}
-        allrow={rows}
-        rowIndex={rowIdx}
-        totalColumns={totalColumns}
-        node={node}
-        isCopied={copiedCellIdx === idx}
-        isDraggedOver={draggedOverCellIdx === idx}
-        isCellSelected={isCellSelected}
-        dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
-        onRowClick={onRowClick}
-        onRowDoubleClick={onRowDoubleClick}
-        onRowChange={handleRowChange}
-        selectCell={selectCell}
-        subColumn={subColumn}
-        onCellClick={onCellClick}
-        onCellDoubleClick={onCellDoubleClick}
-        onCellContextMenu={onCellContextMenu}
-        columnApi={columnApi}
-        valueChangedCellStyle={valueChangedCellStyle}
-        previousData={previousData}
-      />
-    );
-  }
+   
+      cells.push(
+        <Cell
+          key={`${column.key}`}
+          column={column}
+          colSpan={colSpan}
+          selectedCellIdx={selectedCellIdx}
+          selectedCellEditor={selectedCellEditor}
+          api={api}
+          viewportColumns={viewportColumns}
+          rowArray={rowArray}
+          row={row}
+          handleReorderRow={handleReorderRow}
+          isRowSelected={isRowSelected}
+          allrow={rows}
+          rowIndex={rowIdx}
+          totalColumns={totalColumns}
+          node={node}
+          isCopied={copiedCellIdx === idx}
+          isDraggedOver={draggedOverCellIdx === idx}
+          isCellSelected={isCellSelected}
+          dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
+          onRowClick={onRowClick}
+          onRowDoubleClick={onRowDoubleClick}
+          onRowChange={handleRowChange}
+          subColumn={subColumn}
+          selectCell={selectCell}
+          onCellClick={onCellClick}
+          onCellDoubleClick={onCellDoubleClick}
+          onCellContextMenu={onCellContextMenu}
+          columnApi={columnApi}
+          valueChangedCellStyle={valueChangedCellStyle}
+          previousData={previousData}
+        />
+      );
+    }
   // }
-  var style = getRowStyle(gridRowStart, height);
- 
+  let style = getRowStyle(gridRowStart, height);
   if (rowIdx === props.selectedPosition.rowIdx) {
     style = { ...style, ...selectedCellRowStyle };
   }
@@ -140,7 +136,8 @@ function Row(
           className={className}
           onMouseEnter={handleDragEnter}
           style={style}
-          {...props}>
+          {...props}
+        >
           {cells}
         </div>
       </RowSelectionProvider>

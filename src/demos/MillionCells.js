@@ -43,8 +43,6 @@ export default function MillionCells({ direction }) {
       direction={direction}
       headerRowHeight={24}
       classheaderName="fill-grid"
-      selection={true}
-      rowKeyGetter={(row)=>row.id}
     />
   );
 }

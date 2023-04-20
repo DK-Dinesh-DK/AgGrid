@@ -10,10 +10,7 @@ import dropDownEditor from "../components/datagrid/editors/dropDownEditors";
 import ImageFormatter from "./ImageFormatter";
 import { useFocusRef } from "../components/datagrid/hooks";
 import { css } from "@linaria/core";
-import {
-  SelectColumn,
-  SerialNumberColumn,
-} from "../components/datagrid/Columns";
+import { SerialNumberColumn } from "../components/datagrid/Columns";
 import FilterContext from "../components/datagrid/filterContext";
 
 function EmptyRowsRenderer() {
@@ -46,7 +43,7 @@ function rowKeyGetter(row) {
 }
 
 const columns = [
-  SelectColumn,
+  // SerialNumberColumn,
   {
     field: "id",
     headerName: "ID",
@@ -67,7 +64,7 @@ const columns = [
     // topHeader: "rdrd",
     width: 60,
     cellEditor: textEditor,
-
+    
     // filter: true,
 
     // cellRenderer: textEditor,
@@ -88,8 +85,7 @@ const columns = [
     field: "cvcv",
     headerName: "FGHT",
     // haveChildren: false,
-    frozen: true,
-    filter: true,
+    frozen: true,filter: true,
     // topHeader: "cvcv",
     cellEditor: textEditor,
     width: 80,
@@ -99,8 +95,7 @@ const columns = [
     headerName: "FGHT",
     // haveChildren: false,
     // topHeader: "erer",
-    sortable: true,
-    filter: true,
+    sortable: true,filter:true,
     width: 80,
     frozen: true,
   },
@@ -191,7 +186,7 @@ const columns = [
                             //   {
                             //     field: "eeee11",
                             //     headerName: "EEEE11",
-                            // haveChildren: false,
+                                // haveChildren: false,
                             //     width: 100,
                             //     // topHeader: "count",
                             //     // sortable: true,
@@ -200,10 +195,10 @@ const columns = [
                             //   {
                             //     field: "pppp211",
                             //     headerName: "PPPP211",
-                            // haveChildren: false,
+                                // haveChildren: false,
                             //     width: 100,
                             //     // topHeader: "count",
-                            filter: true,
+                                filter:true,
                             //   },
                             // ],
                           },
@@ -213,7 +208,7 @@ const columns = [
                             // haveChildren: false,
                             width: 100,
                             // topHeader: "count",
-                            sortable: true,
+                            sortable:true,
                             filter: true,
                             cellEditor: textEditor,
                           },
@@ -230,7 +225,7 @@ const columns = [
       {
         field: "oooo",
         headerName: "OOOO",
-
+        
         width: 100,
         // haveChildren: false,
         topHeader: "count",
@@ -256,7 +251,7 @@ function createRows() {
   for (let i = 0; i < 25000; i++) {
     rows.push({
       id: `${i}`,
-
+      
       erer: faker.internet.email(),
       title: faker.name.prefix(),
       ffff: faker.name.firstName(),
@@ -277,14 +272,8 @@ function createRows() {
 
 export default function MultilineHeader({ direction }) {
   const [rows, setRows] = useState(createRows);
-  const [selectedRows, setSelectedRows] = useState([]);
-  const selectedCellHeaderStyle = {
-    backgroundColor: "red",
-    fontSize: "12px",
-  };
-  const selectedCellRowStyle = {
-    backgroundColor: "yellow",
-  };
+  const [selectedRows, setSelectedRows] = useState(() => new Set());
+
   return (
     // <FilterContext.Provider value={filters}>
     <DataGrid
@@ -293,13 +282,12 @@ export default function MultilineHeader({ direction }) {
       onRowsChange={setRows}
       renderers={{ noRowsFallback: <EmptyRowsRenderer /> }}
       selectedRows={selectedRows}
-      onSelectedRowsChange={setSelectedRows}
+      // onSelectedRowsChange={onSelectedRowsChange}
       // frameworkComponents={frameworkComponents}
-      selectedCellHeaderStyle={selectedCellHeaderStyle}
+      // selectedCellHeaderStyle={selectedCellHeaderStyle}
       selectedCellRowStyle={selectedCellRowStyle}
       headerRowHeight={24}
       rowKeyGetter={rowKeyGetter}
-      rowSelection={"single"}
       classheaderName="fill-grid"
       className="fill-grid"
       // direction={direction}

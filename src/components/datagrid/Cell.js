@@ -85,7 +85,15 @@ function Cell({
 
   function handleClick(e) {
     // selectCellWrapper(column.editorOptions?.editOnClick);
-    console.log("dfvf", typeof onCellClick);
+    onRowClick?.({
+      api: api,
+      data: row,
+      columnApi: columnApi,
+      node: node,
+      rowIndex: rowIndex,
+      type: "rowClicked",
+      event: e,
+    });
     onCellClick?.({
       api: api,
       colDef: {
@@ -100,15 +108,6 @@ function Cell({
       rowIndex: rowIndex,
       value: row[column.field] ?? undefined,
       type: "cellClicked",
-      event: e,
-    });
-    onRowClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      type: "rowClicked",
       event: e,
     });
   }
@@ -273,6 +272,7 @@ function Cell({
           ...styles,
           ...alignment,
         };
+        return styles;
       } else if (
         column.alignment.type?.toLowerCase() === "number" ||
         (typeof row[column.key] === "number" &&

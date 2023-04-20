@@ -57,7 +57,7 @@ const columns = [
     formatter(props) {
       return <>{props.row.title}</>;
     },
-    option: [
+    options: [
       { label: "task1", value: "task1" },
       { label: "task2", value: "task2" },
     ],
@@ -191,7 +191,7 @@ const columns = [
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 250; i++) {
+  for (let i = 0; i < 25000; i++) {
     rows.push({
       id: `id_${i}`,
       avatar: faker.image.avatar(),

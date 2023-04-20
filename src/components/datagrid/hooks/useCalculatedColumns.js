@@ -46,7 +46,7 @@ export function useCalculatedColumns({
         const customComponentName =
           indexOfComponent > -1 ? components[indexOfComponent] : null;
 
-        var recursiveChild = (subChild, rawColumn) => {
+        let recursiveChild = (subChild, rawColumn) => {
           return (
             subChild.haveChildren === true &&
             subChild?.children.map((subChild2, index1) => {

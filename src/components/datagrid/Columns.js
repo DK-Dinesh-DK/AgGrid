@@ -74,7 +74,7 @@ export const SelectColumn = {
   },
 };
 export const SerialNumberColumn = {
-  key: `${SERIAL_NUMBER_COLUMN_KEY}`,
+  key: SERIAL_NUMBER_COLUMN_KEY,
   name: "Sr. No.",
   width: 45,
   resizable: false,

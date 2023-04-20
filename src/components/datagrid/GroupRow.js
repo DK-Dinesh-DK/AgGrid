@@ -54,6 +54,7 @@ function GroupedRow({
   return (
     <RowSelectionProvider value={isRowSelected}>
       <div
+        key={`${rowIdx}`}
         role="row"
         aria-level={level}
         aria-expanded={isExpanded}

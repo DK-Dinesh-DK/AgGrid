@@ -11,6 +11,7 @@ const columns = [
   {
     field: "task",
     headerName: "Title",topHeader:"task",haveChildren:false,
+    editable:true,
   },
   {
     field: "priority",

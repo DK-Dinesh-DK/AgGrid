@@ -48,14 +48,16 @@ export default function headerRenderer({
             style={{
               borderBlockEnd: "1px solid var(--rdg-border-color)",
               height: "24px",
-            }}>
+            }}
+          >
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 height: "inherit",
                 justifyContent: "center",
-              }}>
+              }}
+            >
               {column.name}XXX
             </div>
           </div>
@@ -66,7 +68,8 @@ export default function headerRenderer({
 
               // gridTemplateColumns:"1fr 1fr 1fr",
               boxSizing: "border-box",
-            }}>
+            }}
+          >
             {column.children.map((info, index) => {
               var ddd;
 
@@ -83,7 +86,8 @@ export default function headerRenderer({
                     alignItems: "center",
                     justifyContent: "center",
                     borderInlineEnd: ddd,
-                  }}>
+                  }}
+                >
                   {RecursiveScan(
                     column.children,
                     info,
@@ -136,7 +140,8 @@ export default function headerRenderer({
               justifyContent: "center",
               alignItems: "center",
               height: "inherit",
-            }}>
+            }}
+          >
             {column.name} s
           </div>
         </div>
@@ -151,18 +156,17 @@ export default function headerRenderer({
       onSort={onSort}
       sortDirection={sortDirection}
       priority={priority}
-      isCellSelected={isCellSelected}>
+      isCellSelected={isCellSelected}
+    >
       {column.name}
     </SortableHeaderCell>
   );
 }
 var columnsList = [];
-//console.log("columnsList", columnsList);
 const RecursiveScan = (
   masterData,
   subData,
   cellHeight,
-  index,
   column,
   selectCell,
   style,
@@ -170,7 +174,6 @@ const RecursiveScan = (
   ChildColumnSetup
 ) => {
   var cellHeight = cellHeight - 24;
-  // console.log("subData", subData, ChildColumnSetup);
 
   ChildColumnSetup(subData);
 
@@ -182,14 +185,16 @@ const RecursiveScan = (
             style={{
               borderBlockEnd: "1px solid var(--rdg-border-color)",
               height: "24px",
-            }}>
+            }}
+          >
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
                 height: "inherit",
                 justifyContent: "center",
-              }}>
+              }}
+            >
               {subData.name}ss
             </div>
           </div>
@@ -198,7 +203,8 @@ const RecursiveScan = (
           style={{
             display: "flex",
             boxSizing: "border-box",
-          }}>
+          }}
+        >
           {subData.children.map((subInfo, index) => {
             var ddd;
             if (index === subData.children.length - 1) {
@@ -214,7 +220,8 @@ const RecursiveScan = (
                   alignItems: "center",
                   justifyContent: "center",
                   borderInlineEnd: ddd,
-                }}>
+                }}
+              >
                 {RecursiveScan(
                   subData.children,
                   subInfo,
@@ -278,7 +285,8 @@ const RecursiveScan = (
         onFocus={handleFocus}
         onClick={onClick}
         // onDoubleClick={column.resizable ? onDoubleClick : undefined}
-        onPointerDown={column.resizable ? onPointerDown : undefined}>
+        onPointerDown={column.resizable ? onPointerDown : undefined}
+      >
         <div
           onFocus={handleFocus}
           onClick={onClick}
@@ -289,7 +297,8 @@ const RecursiveScan = (
             alignItems: "center",
             height: "inherit",
             width: "100%",
-          }}>
+          }}
+        >
           {subData.name}ssss
         </div>
       </div>
@@ -325,7 +334,8 @@ function SortableHeaderCell({
       tabIndex={tabIndex}
       className={headerSortCellClassname}
       onClick={handleClick}
-      onKeyDown={handleKeyDown}>
+      onKeyDown={handleKeyDown}
+    >
       <span className={headerSortNameClassname}>{children}</span>
       <span>{sortStatus({ sortDirection, priority })}</span>
     </span>

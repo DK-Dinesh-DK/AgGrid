@@ -1,6 +1,5 @@
 import { useState } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
-import textEditor from "../components/datagrid/editors/textEditor";
 
 function createRows() {
   const rows = [];
@@ -24,18 +23,23 @@ const columns = [
   {
     field: "id",
     headerName: "ID",
+    topHeader: "id",
+    haveChildren: false,
     width: 80,
   },
   {
     field: "task",
     headerName: "Title",
     resizable: true,
+    topHeader: "task",
+    haveChildren: false,
     sortable: true,
-    cellRenderer:textEditor
   },
   {
     field: "priority",
     headerName: "Priority",
+    topHeader: "priority",
+    haveChildren: false,
     resizable: true,
     sortable: true,
   },
@@ -43,11 +47,15 @@ const columns = [
     field: "issueType",
     headerName: "Issue Type",
     resizable: true,
+    topHeader: "issueType",
+    haveChildren: false,
     sortable: true,
   },
   {
     field: "complete",
     headerName: "% Complete",
+    topHeader: "complete",
+    haveChildren: false,
     resizable: true,
     sortable: true,
   },
@@ -65,10 +73,8 @@ export default function ColumnsReordering({ direction }) {
       defaultColumnOptions={{ width: "1fr" }}
       headerRowHeight={24}
       classheaderName="fill-grid"
-      rowKeyGetter={rowKeyGetter}
+      rowSelection={"single"}
+      rowKeyGetter={(row) => row.id}
     />
   );
-}
-function rowKeyGetter(row) {
-  return row.id;
 }

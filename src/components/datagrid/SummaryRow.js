@@ -97,6 +97,7 @@ function SummaryRow({
 
   return (
     <div
+    key={`${rowIdx}`}
       role="row"
       aria-rowindex={ariaRowIndex}
       className={clsx(

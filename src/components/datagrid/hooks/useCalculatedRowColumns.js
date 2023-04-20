@@ -1,11 +1,9 @@
-import React from "react";
-import { useMemo } from "react";
-
+import React,{useMemo} from "react";
 import { valueFormatter, toggleGroupFormatter } from "../formatters";
-import { SELECT_COLUMN_KEY } from "../Columns";
-import { clampColumnWidth, max, min } from "../utils";
+// import { SELECT_COLUMN_KEY } from "../Columns";
+// import { clampColumnWidth, max, min } from "../utils";
 import { textEditorClassname } from "../editors/textEditor";
-import { checkboxFormatter } from "../formatters";
+// import { checkboxFormatter } from "../formatters";
 const DEFAULT_COLUMN_WIDTH = "auto";
 const DEFAULT_COLUMN_MIN_WIDTH = 40;
 
@@ -24,7 +22,7 @@ export function useCalculatedRowColumns({
   const defaultResizable = defaultColumnOptions?.resizable ?? false;
   const defaultFilter = defaultColumnOptions?.dilter ?? false;
 
-  const { columns5, colSpanColumns, lastFrozenColumnIndex, groupBy } =
+  const { columns5, colSpanColumns } =
     useMemo(() => {
       // Filter rawGroupBy and ignore keys that do not match the columns prop
       const groupBy = [];
@@ -95,8 +93,6 @@ export function useCalculatedRowColumns({
         return column;
       });
 
-
-    
       return {
         columns5,
         colSpanColumns,
