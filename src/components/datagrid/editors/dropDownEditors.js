@@ -76,7 +76,7 @@ export default function dropDownEditor({ row, onRowChange, column }) {
         className={dropDownEditorClassname}
       >
         {options?.map((data, index) => {
-          return <option key={index}>{data.label}</option>;
+          return <option key={data.label}>{data.label}</option>;
         })}
       </select>
     </>

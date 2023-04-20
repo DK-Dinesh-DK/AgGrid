@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { css } from "@linaria/core";
 
 import { useFocusRef } from "./hooks";
@@ -79,6 +79,7 @@ export default function headerRenderer({
                 ddd = "1px solid var(--rdg-border-color)";
               }
               return (
+                <Fragment key={"child"}>
                 <div
                   style={{
                     margin: "",
@@ -87,6 +88,7 @@ export default function headerRenderer({
                     justifyContent: "center",
                     borderInlineEnd: ddd,
                   }}
+                  
                 >
                   {RecursiveScan(
                     column.children,
@@ -100,6 +102,7 @@ export default function headerRenderer({
                     ChildColumnSetup
                   )}
                 </div>
+                </Fragment>
               );
             })}
           </div>
@@ -213,6 +216,7 @@ const RecursiveScan = (
               ddd = "1px solid var(--rdg-border-color)";
             }
             return (
+              <Fragment key={"subData.child"}>
               <div
                 style={{
                   width: "100%",
@@ -234,6 +238,7 @@ const RecursiveScan = (
                   ChildColumnSetup
                 )}
               </div>
+              </Fragment>
             );
           })}
         </div>

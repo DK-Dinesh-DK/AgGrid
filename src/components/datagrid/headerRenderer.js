@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { css } from "@linaria/core";
 // import {Input} from "lai_webui";
 
@@ -37,7 +37,7 @@ const headerWrapperWithcellData = css`
   display: flex;
   box-sizing: border-box;
 `;
-export default function headerRenderer({
+export default function HeaderRenderer({
   column,
   rows,
   sortDirection,
@@ -75,6 +75,7 @@ export default function headerRenderer({
 
                     justifyContent: "center",
                   }}
+                  key={"multi-header"}
                 >
                   {RecursiveScan(
                     column.children,
@@ -229,7 +230,7 @@ export default function headerRenderer({
           [column.field]: value,
         });
       };
-      
+
       return (
         <div style={{ ...style11 }} key={column.idx} onClick={onClick}>
           <FilterRenderer
@@ -280,7 +281,7 @@ export default function headerRenderer({
                       <option>Equals</option>
                       <option>Not Equals</option>
                     </select>
-                    
+
                     <div>
                       <input
                         {...rest}
@@ -452,30 +453,32 @@ const RecursiveScan = (
             };
 
             return (
-              <div style={{ ...style }}>
-                {RecursiveScan(
-                  subData.children,
-                  subInfo,
-                  cellHeight,
-                  index,
-                  headerRowHeight,
-                  selectedPosition,
-                  selectedCellHeaderStyle,
-                  column,
-                  selectCell,
-                  shouldFocusGrid,
-                  isCellSelected,
-                  onSort,
-                  sortDirection,
-                  priority,
-                  setFilters,
-                  arrayDepth,
-                  ChildColumnSetup,
-                  selectedCellIdx,
-                  filterIcon,
-                  setFilterType
-                )}
-              </div>
+              <Fragment key={"SubData"}>
+                <div style={{ ...style }}>
+                  {RecursiveScan(
+                    subData.children,
+                    subInfo,
+                    cellHeight,
+                    index,
+                    headerRowHeight,
+                    selectedPosition,
+                    selectedCellHeaderStyle,
+                    column,
+                    selectCell,
+                    shouldFocusGrid,
+                    isCellSelected,
+                    onSort,
+                    sortDirection,
+                    priority,
+                    setFilters,
+                    arrayDepth,
+                    ChildColumnSetup,
+                    selectedCellIdx,
+                    filterIcon,
+                    setFilterType
+                  )}
+                </div>
+              </Fragment>
             );
           })}
         </div>

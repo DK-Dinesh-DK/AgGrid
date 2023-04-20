@@ -3,7 +3,7 @@ import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import textEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
-
+import {AgGrid} from "lai_webui"
 const loadMoreRowsClassname = css`
   inline-size: 180px;
   padding-block: 8px;
@@ -117,13 +117,13 @@ export default function InfiniteScrolling({ direction }) {
     <>
       <button
         onClick={() => {
-          console.log("dataGridRef", dataGridRef.current);
+          console.log("dataGridRef", dataGridRef.current.api.getRowNode(2));
         }}
       >
         getFocusedCell
       </button>
 
-      <DataGrid
+      <AgGrid
         columnData={columns}
         rowData={rows}
         rowKeyGetter={rowKeyGetter}

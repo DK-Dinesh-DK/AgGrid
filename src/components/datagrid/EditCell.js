@@ -1,5 +1,4 @@
-
-import React,{ useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import { css } from "@linaria/core";
 import { useDrag, useDrop } from "react-dnd";
 import { useLatestFunc } from "./hooks/useLatestFunc";
@@ -27,7 +26,7 @@ const cellEditing = css`
   }
 `;
 
-export default function EditCell({
+function EditCell({
   column,
   colSpan,
   row,
@@ -115,7 +114,6 @@ export default function EditCell({
     }),
   });
   function onRowReorder(fromIndex, toIndex) {
-    
     const newRows = [...allrow];
     newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
     handleReorderRow(newRows);
@@ -180,7 +178,6 @@ export default function EditCell({
                   valueFormatted: column.valueFormatter,
                   onRowChange,
                   isCellSelected: true,
-                 
                 })}
               {column.editable &&
                 column.formatter({
@@ -229,7 +226,6 @@ export default function EditCell({
                 valueFormatted: column.valueFormatter,
                 onRowChange,
                 isCellSelected: true,
-               
               })}
             {column.editable &&
               column.formatter({
@@ -249,3 +245,4 @@ export default function EditCell({
     </div>
   );
 }
+export default memo(EditCell);

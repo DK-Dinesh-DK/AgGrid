@@ -1,4 +1,4 @@
-import React,{memo} from "react";
+import React,{Fragment, memo} from "react";
 import clsx from "clsx";
 import { css } from "@linaria/core";
 
@@ -70,6 +70,7 @@ function GroupedRow({
         style={getRowStyle(gridRowStart, height)}
         {...props}>
         {viewportColumns.map((column) => (
+          <Fragment key={"group-row"}>
           <GroupCell
             key={`${column.key}`}
             id={id}
@@ -82,6 +83,7 @@ function GroupedRow({
             groupColumnIndex={idx}
             toggleGroup={toggleGroup}
           />
+          </Fragment>
         ))}
       </div>
     </RowSelectionProvider>

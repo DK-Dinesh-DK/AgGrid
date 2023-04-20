@@ -33,12 +33,12 @@ export default function radioButtonEditor({ row, column, onRowChange }) {
     <div className={`rdg-radio-container${radioButtonContainer}`}>
       {options.map((option, index) => {
         return (
-          <div key={index}>
+          <div key={option.label}>
             <input
               type={"radio"}
               value={option.value}
               className={`rdg-radiobutton ${radioButton}`}
-              key={index}
+              key={option.label}
               name={`options${column.rowIndex}`}
               checked={row[column.key] === option?.value}
               onChange={(event) => {

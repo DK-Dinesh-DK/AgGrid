@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useMemo,
   Fragment,
+  memo,
 } from "react";
 
 import useUpdateEffect from "@restart/hooks/useUpdateEffect";
@@ -229,7 +230,7 @@ function DataGrid(props, ref) {
   /**
    * states
    */
-  const [afterFilter, setAfterFilter] = useState([]);
+  
   const [defaultColumnDef, setDefaultColumnDef] =
     useState(defaultColumnOptions);
   const [rawGroupBy, setRawGroupBy] = useState(raawGroupBy);
@@ -481,7 +482,7 @@ function DataGrid(props, ref) {
     return item1;
   });
 
-  const {
+  var {
     columns,
     colSpanColumns,
     colOverscanStartIdx,
@@ -502,8 +503,6 @@ function DataGrid(props, ref) {
     enableVirtualization,
     frameworkComponents,
   });
-
-
 
   var rowData = flatten([], columns);
   var value1 = false;
@@ -1794,7 +1793,6 @@ function DataGrid(props, ref) {
 
     selectCell(nextSelectedCellPosition);
   }
-
   function getDraggedOverCellIdx(currentRowIdx) {
     if (draggedOverRowIdx === undefined) return;
     const { rowIdx } = selectedPosition;
@@ -1926,7 +1924,88 @@ function DataGrid(props, ref) {
   var node;
 
   var endRowIdxForRender;
-  const [RowNodes, setRowNodes] = useState();
+  const getViewportRowsSample = (rowArray) => {
+    let rowElementsSample = [];
+    let listOfRows = rowArray;
+    let node;
+
+    const { rowIdx: selectedRowIdx } = selectedPosition;
+
+    const startRowIdx = 0;
+    const endRowIdx = listOfRows.length - 1;
+    for (
+      let viewportRowIdx = startRowIdx;
+      viewportRowIdx <= endRowIdx;
+      viewportRowIdx++
+    ) {
+
+      const rowIdx =  viewportRowIdx;
+      const row = listOfRows[rowIdx];
+      function setDataValue(key, newValue) {
+        let data = row;
+        data[key] = newValue;
+        let list = [...rawRows];
+        list[rowIdx] = data;
+        setRawRows(list);
+      }
+      function setData(newValue) {
+        let list = [...rawRows];
+        list[rowIdx] = newValue;
+        setRawRows(list);
+      }
+
+      node = {
+        rowIndex: rowIdx,
+        rowTop: rowIdx * rowHeight,
+        childIndex: rowIdx + 1,
+        data: row,
+        rowHeight: rowHeight,
+        lastChild: raawRows.length === rowIdx + 1,
+        firstChild: rowIdx === 0,
+        id: row?.id ?? String(rowIdx),
+        selected: selectedRowIdx === rowIdx,
+        setDataValue,
+        setData,
+        parent: {
+          allLeafChildren: RowNodes,
+          childrenAfterFilter: afterFilter,
+          childrenAfterSort: afterFilter,
+        },
+
+        expanded: rows[rowIdx]?.isExpanded,
+
+        isSelected: () => selectedRowIdx === rowIdx,
+        setSelected: () => {
+          selectRow({
+            row,
+            checked: !selectedRows.includes(rowKeyGetter(row)),
+            isShiftClick: false,
+          });
+        },
+        isExpandable: () => {
+          return rows[rowIdx]?.isExpanded;
+        },
+        setExpanded: (value) => {
+          var expandIds = new Set(expandedGroupIds);
+          let rowKey = rowKeyGetter(rows[rowIdx]);
+          if (value) {
+            expandIds.add(rowKey);
+          } else {
+            expandIds.delete(rowKey);
+          }
+          onExpandedGroupIdsChange(expandIds);
+        },
+
+        updateData: setData,
+        // isSelected: () => isRowSelected,
+      };
+      rowElementsSample.push(node);
+    }
+
+    return rowElementsSample;
+  };
+  const [afterFilter, setAfterFilter] = useState(getViewportRowsSample(rows));
+  const [RowNodes, setRowNodes] = useState(getViewportRowsSample(raawRows));
   function forEachNode(newFunction) {
     RowNodes.forEach((data) => {
       newFunction(data);
@@ -2280,102 +2359,7 @@ function DataGrid(props, ref) {
     });
     return filterPresent;
   }
-  let getViewportRowsSample = useLatestFunc((rowArray) => {
-    let rowElementsSample = [];
-    let listOfRows = rowArray;
-    let node;
-    // let startRowIndex = 0;
 
-    const { rowIdx: selectedRowIdx } = selectedPosition;
-
-    const startRowIdx = 0;
-    const endRowIdx = listOfRows.length - 1;
-    for (
-      let viewportRowIdx = startRowIdx;
-      viewportRowIdx <= endRowIdx;
-      viewportRowIdx++
-    ) {
-      const isRowOutsideViewport =
-        viewportRowIdx === rowOverscanStartIdx - 1 ||
-        viewportRowIdx === rowOverscanEndIdx + 1;
-      const rowIdx = isRowOutsideViewport ? selectedRowIdx : viewportRowIdx;
-
-      //   let rowColumns = viewportColumns;
-      // const selectedColumn = columns[selectedIdx];
-      // selectedIdx can be -1 if grouping is enabled
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-
-      const row = listOfRows[rowIdx];
-      // const gridRowStart = headerRowsCount + topSummaryRowsCount + rowIdx + 1;
-
-      // startRowIndex++;
-      // let key;
-      // let isRowSelected = false;
-
-      // key = hasGroups ? startRowIndex : rowIdx;
-
-      function setDataValue(key, newValue) {
-        let data = row;
-        data[key] = newValue;
-        let list = [...rawRows];
-        list[rowIdx] = data;
-        setRawRows(list);
-      }
-      function setData(newValue) {
-        let list = [...rawRows];
-        list[rowIdx] = newValue;
-        setRawRows(list);
-      }
-      node = {
-        rowIndex: rowIdx,
-        rowTop: rowIdx * rowHeight,
-        childIndex: rowIdx + 1,
-        data: row,
-        rowHeight: rowHeight,
-        lastChild: raawRows.length === rowIdx + 1,
-        firstChild: rowIdx === 0,
-        id: row?.id ?? String(rowIdx),
-        selected: selectedRowIdx === rowIdx,
-        setDataValue,
-        setData,
-        parent: {
-          allLeafChildren: RowNodes,
-          childrenAfterFilter: afterFilter,
-          childrenAfterSort: afterFilter,
-        },
-
-        expanded: rows[rowIdx]?.isExpanded,
-
-        isSelected: () => selectedRowIdx === rowIdx,
-        setSelected: () => {
-          selectRow({
-            row,
-            checked: !selectedRows.includes(rowKeyGetter(row)),
-            isShiftClick: false,
-          });
-        },
-        isExpandable: () => {
-          return rows[rowIdx]?.isExpanded;
-        },
-        setExpanded: (value) => {
-          var expandIds = new Set(expandedGroupIds);
-          let rowKey = rowKeyGetter(rows[rowIdx]);
-          if (value) {
-            expandIds.add(rowKey);
-          } else {
-            expandIds.delete(rowKey);
-          }
-          onExpandedGroupIdsChange(expandIds);
-        },
-
-        updateData: setData,
-        // isSelected: () => isRowSelected,
-      };
-      rowElementsSample.push(node);
-    }
-
-    return rowElementsSample;
-  });
   function setSuppressRowDrag(value) {
     if (value) {
       let sampleColumn = raawColumns.map((obj) => {
@@ -2405,6 +2389,7 @@ function DataGrid(props, ref) {
     var result = false;
     sampleKeys.forEach((value) => {
       if (value === "undefined" || value === "enabled") {
+        return true;
       } else {
         if (filters[value] !== "") {
           result = true;
@@ -2517,6 +2502,7 @@ function DataGrid(props, ref) {
     }
     scrollToColumn(index);
   }
+  
   var apiObject = {
     getColumnDefs: () => rawColumns,
     setColumnDefs: (columns) => setRawColumns(columns),
@@ -2616,11 +2602,11 @@ function DataGrid(props, ref) {
 
   useUpdateEffect(() => {
     setAfterFilter(getViewportRowsSample(rows));
-  }, [rows, getViewportRowsSample]);
+  }, [rows]);
 
   useUpdateEffect(() => {
     setRowNodes(getViewportRowsSample(raawRows));
-  }, [expandedGroupIds, expandAll, raawRows, getViewportRowsSample]);
+  }, [expandedGroupIds, expandAll, raawRows]);
 
   /////
   var renderedRowNodes = [];
@@ -2900,7 +2886,7 @@ function DataGrid(props, ref) {
     jumpprev[0]?.setAttribute("title", "");
   }
   return (
-    <>
+    <Fragment key={"DataGrid-"}>
       {props.export && (
         <div className={toolbarClassname}>
           {props.export.csvFileName && (
@@ -3033,10 +3019,10 @@ function DataGrid(props, ref) {
                     selectedPosition.rowIdx === summaryRowIdx;
                   const top = headerRowHeight + summaryRowHeight * rowIdx;
                   return (
-                    <Fragment key={`${rowIdx}`}>
+                    <Fragment key={"top-summary"}>
                       <SummaryRow
                         aria-rowindex={gridRowStart}
-                        key={`${rowIdx}`}
+                        key={`top-summarry-${summaryRowIdx}`}
                         // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
                         rowIdx={rowIdx}
                         gridRowStart={gridRowStart}
@@ -3058,7 +3044,7 @@ function DataGrid(props, ref) {
                 })}
 
                 <RowSelectionChangeProvider value={selectRowLatest}>
-                  {getViewportRows(rowArray)}
+                  {getViewportRows()}
                 </RowSelectionChangeProvider>
 
                 {bottomSummaryRows?.map((row, rowIdx) => {
@@ -3083,7 +3069,7 @@ function DataGrid(props, ref) {
                       : undefined;
 
                   return (
-                    <Fragment key={`${rowIdx}`}>
+                    <Fragment key={"bottom-summary"}>
                       <SummaryRow
                         aria-rowindex={
                           headerRowsCount +
@@ -3093,7 +3079,7 @@ function DataGrid(props, ref) {
                           1
                         }
                         // rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-                        key={`${rowIdx}`}
+                        key={`bottom-summary-${summaryRowIdx}`}
                         rowIdx={rowIdx}
                         gridRowStart={gridRowStart}
                         row={row}
@@ -3127,7 +3113,10 @@ function DataGrid(props, ref) {
                 item.subMenu?.length > 0 ? (
                   <SubMenu title={item.name} key={item.name}>
                     {item.subMenu.map((subItem) => (
-                      <MenuItem key={`${subItem.name}`} onClick={subItem.action}>
+                      <MenuItem
+                        key={`${subItem.name}`}
+                        onClick={subItem.action}
+                      >
                         {subItem.name}
                       </MenuItem>
                     ))}
@@ -3181,7 +3170,7 @@ function DataGrid(props, ref) {
           )}
         </div>
       )}
-    </>
+    </Fragment>
   );
 }
 
@@ -3189,4 +3178,4 @@ function isSamePosition(p1, p2) {
   return p1.idx === p2.idx && p1.rowIdx === p2.rowIdx;
 }
 
-export default forwardRef(DataGrid);
+export default memo(forwardRef(DataGrid));
