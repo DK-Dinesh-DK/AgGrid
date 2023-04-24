@@ -2,7 +2,7 @@ import { useMemo, useState, useRef } from "react";
 import { css } from "@linaria/core";
 
 import { SelectColumn } from "../components/datagrid/Columns";
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 
@@ -61,7 +61,7 @@ const columns = [
     headerName: "Title",
     cellEditor: (props) => {
    
-      return textEditor(props);
+      return TextEditor(props);
     },
     sortable: true,
   },

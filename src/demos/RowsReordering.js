@@ -3,7 +3,7 @@ import {  useState } from "react";
 // import { HTML5Backend } from "react-dnd-html5-backend";
 // import { SelectColumn } from "../components/datagrid/Columns";
 // import { DraggableRowRenderer } from './components/RowRenderers';
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
 // import { DraggableRowRenderer } from "./DraggableRowRenderer";
 // import { Checkbox } from "lai_webui";
@@ -50,7 +50,7 @@ const columns = [
   {
     field: "task",
     headerName: "Title",
-    editor: textEditor,
+    editor: TextEditor,
   },
   {
     field: "priority",

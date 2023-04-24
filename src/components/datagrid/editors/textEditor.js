@@ -33,7 +33,7 @@ const textEditorInternalClassname = css`
 
 export const textEditorClassname = `rdg-text-editor ${textEditorInternalClassname}`;
 
-export default function textEditor({
+export default function TextEditor({
   row,
   column,
   onRowChange,

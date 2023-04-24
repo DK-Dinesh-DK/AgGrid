@@ -56,12 +56,15 @@ function HeaderRow({
   handleReorderColumn,
   ...props
 }) {
+ 
   const cells = [];
   function ChildColumnSetup(data) {
     props.ChildColumnSetup(data);
   }
   for (let index = 0; index < columns.length; index++) {
+    
     const column = columns[index];
+    
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "HEADER",
     });

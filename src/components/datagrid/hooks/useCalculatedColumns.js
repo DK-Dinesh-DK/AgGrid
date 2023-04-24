@@ -75,10 +75,9 @@ export function useCalculatedColumns({
         const column = {
           ...rawColumn,
            colId: rawColumn.field,
-          key: rawColumn.field,
+          key: rawColumn.field??rawColumn.key,
           userProvidedColDef: rawColumn,
           parent: null,
-        
           idx: 0,
           index: pos,
           frozen,
@@ -132,7 +131,6 @@ export function useCalculatedColumns({
                         subChild.valueFormatter ??
                         defaultFormatter,
                       children: recursiveChild(subChild, rawColumn),
-                      // idx: index2,
                       key: subChild.field,
                     };
                     return rawChild1;

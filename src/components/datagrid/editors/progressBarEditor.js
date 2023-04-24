@@ -28,18 +28,15 @@ const progressContainer = css`
   }
 `;
 
-export default function progressBarEditor({ column, row, onRowChange }) {
+export default function ProgressBarEditor({ column, row, onRowChange }) {
   const value = row[column.key];
   return (
     <div className={`rdg-progressBar-container ${progressContainer}`}>
       <div className={`rdg-progress-bar ${progressBar}`}>
         <div
           className={`rdg-progress ${progress}`}
-          // aria-valuenow={value}
-          // aria-valuemin="0"
-          // aria-valuemax="100"
           style={{ width: `${value}%` }}
-        ></div>
+        />
       </div>
       {Math.round(value)}%
     </div>

@@ -2,7 +2,7 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { faker } from "@faker-js/faker";
 // import { SelectColumn } from "../components/datagrid/Columns";
 
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 
@@ -52,7 +52,7 @@ const columns = [
     // topHeader: "id",
     sortable: true,
     frozen: true,
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     // filter: true,
     // cellRenderer: textEditor,
   },
@@ -63,7 +63,7 @@ const columns = [
     frozen: true,
     // topHeader: "rdrd",
     width: 60,
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     
     // filter: true,
 
@@ -76,7 +76,7 @@ const columns = [
     headerName: "Title",
     // sortable: true,
     // haveChildren: false,
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     frozen: true,
     // topHeader: "title",
     width: 300,
@@ -87,7 +87,7 @@ const columns = [
     // haveChildren: false,
     frozen: true,filter: true,
     // topHeader: "cvcv",
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     width: 80,
   },
   {
@@ -118,7 +118,7 @@ const columns = [
             headerName: "XXXX",
             // haveChildren: false,
             // topHeader: "count",
-            cellEditor: textEditor,
+            cellEditor: TextEditor,
             width: 100,
             // filter: true,
             // sortable: true,
@@ -136,7 +136,7 @@ const columns = [
                 // haveChildren: false,
                 width: 100,
                 // topHeader: "count",
-                cellEditor: textEditor,
+                cellEditor: TextEditor,
                 // filter:true
               },
               {
@@ -210,7 +210,7 @@ const columns = [
                             // topHeader: "count",
                             sortable:true,
                             filter: true,
-                            cellEditor: textEditor,
+                            cellEditor: TextEditor,
                           },
                         ],
                       },

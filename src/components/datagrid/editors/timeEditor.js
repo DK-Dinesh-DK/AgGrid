@@ -1,7 +1,7 @@
 import { css } from "@linaria/core";
 import moment from "moment";
 
-export default function timeEditor({ row, column, onRowChange }) {
+export default function TimeEditor({ row, column, onRowChange }) {
   const value = row[column.key]
     ? row[column.key]
     : moment(new Date()).format("hh:mm");

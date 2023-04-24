@@ -1,11 +1,9 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import { css } from "@linaria/core";
-// import {Input} from "lai_webui";
-
 import { useRovingCellRef } from "./hooks";
 import FilterRenderer from "./FilterRenderer";
 import SortableHeaderCell from "./SortableHeaderCell";
-import FilterIcon from "./records_filter.svg";
+import {RecordsFilter as FilterIcon} from "../../assets/Icon";
 import { Popover, Typography } from "@mui/material";
 
 var filterIcon = <FilterIcon />;
@@ -37,7 +35,7 @@ const headerWrapperWithcellData = css`
   display: flex;
   box-sizing: border-box;
 `;
-export default function HeaderRenderer({
+export default function headerRenderer({
   column,
   rows,
   sortDirection,
@@ -57,11 +55,12 @@ export default function HeaderRenderer({
   ChildColumnSetup,
 }) {
   const { onFocus } = useRovingCellRef(isCellSelected);
+
   if (column.haveChildren === true) {
     return (
       <div>
         <div className={headerWrapperWithChild}>
-          <div className={headerWrapperWithChildData}>{column.headerName}</div>
+          <div className={headerWrapperWithChildData}>{column.headerName??column.field}</div>
         </div>
 
         <div className={headerWrapperWithcellData}>
@@ -75,7 +74,6 @@ export default function HeaderRenderer({
 
                     justifyContent: "center",
                   }}
-                  key={"multi-header"}
                 >
                   {RecursiveScan(
                     column.children,
@@ -170,7 +168,7 @@ export default function HeaderRenderer({
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           // onPointerDown={column.resizable ? onPointerDown : undefined}
         >
-          <div style={{ ...style }}>{column.headerName}</div>
+          <div style={{ ...style }}>{column.headerName??column.field}</div>
         </div>
       );
     }
@@ -197,7 +195,7 @@ export default function HeaderRenderer({
               column={column}
               borderBottom={"none"}
             >
-              {column.headerName}
+              {column.headerName??column.field}
             </SortableHeaderCell>
           </div>
         </div>
@@ -225,12 +223,13 @@ export default function HeaderRenderer({
       const getInputValue = (event, filters) => {
         event.preventDefault();
         const value = event.target.value;
+        
         setFilters({
           ...filters,
           [column.field]: value,
         });
       };
-
+      
       return (
         <div style={{ ...style11 }} key={column.idx} onClick={onClick}>
           <FilterRenderer
@@ -281,7 +280,7 @@ export default function HeaderRenderer({
                       <option>Equals</option>
                       <option>Not Equals</option>
                     </select>
-
+                    
                     <div>
                       <input
                         {...rest}
@@ -290,6 +289,7 @@ export default function HeaderRenderer({
                         onChange={(e) => getInputValue(e, filters)}
                         onKeyDown={inputStopPropagation}
                       />
+                      
                     </div>
                   </Typography>
                 </Popover>
@@ -341,7 +341,7 @@ export default function HeaderRenderer({
             priority={priority}
             isCellSelected={isCellSelected}
           >
-            {column.headerName}
+            {column.headerName??column.field}
           </SortableHeaderCell>
           <FilterRenderer column={column} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) => (
@@ -431,6 +431,7 @@ const RecursiveScan = (
   setFilterType
 ) => {
   var cellHeight = cellHeight - headerRowHeight;
+
   ChildColumnSetup(subData);
   const { onFocus } = useRovingCellRef(isCellSelected);
   if (subData.haveChildren === true) {
@@ -439,7 +440,7 @@ const RecursiveScan = (
         {
           <div className={headerWrapperWithChild}>
             <div className={headerWrapperWithChildData}>
-              {subData.headerName}
+              {subData.headerName??subData.field}
             </div>
           </div>
         }
@@ -453,32 +454,30 @@ const RecursiveScan = (
             };
 
             return (
-              <Fragment key={"SubData"}>
-                <div style={{ ...style }}>
-                  {RecursiveScan(
-                    subData.children,
-                    subInfo,
-                    cellHeight,
-                    index,
-                    headerRowHeight,
-                    selectedPosition,
-                    selectedCellHeaderStyle,
-                    column,
-                    selectCell,
-                    shouldFocusGrid,
-                    isCellSelected,
-                    onSort,
-                    sortDirection,
-                    priority,
-                    setFilters,
-                    arrayDepth,
-                    ChildColumnSetup,
-                    selectedCellIdx,
-                    filterIcon,
-                    setFilterType
-                  )}
-                </div>
-              </Fragment>
+              <div style={{ ...style }}>
+                {RecursiveScan(
+                  subData.children,
+                  subInfo,
+                  cellHeight,
+                  index,
+                  headerRowHeight,
+                  selectedPosition,
+                  selectedCellHeaderStyle,
+                  column,
+                  selectCell,
+                  shouldFocusGrid,
+                  isCellSelected,
+                  onSort,
+                  sortDirection,
+                  priority,
+                  setFilters,
+                  arrayDepth,
+                  ChildColumnSetup,
+                  selectedCellIdx,
+                  filterIcon,
+                  setFilterType
+                )}
+              </div>
             );
           })}
         </div>
@@ -486,6 +485,7 @@ const RecursiveScan = (
     );
   } else {
     columnsList.includes(subData.name) ? null : columnsList.push(subData.name);
+  
     var style = {
       display: "flex",
       justifyContent: "center",
@@ -500,6 +500,7 @@ const RecursiveScan = (
           : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
     };
+   
     selectedCellHeaderStyle && selectedPosition.idx === subData.idx
       ? (style = { ...style, ...selectedCellHeaderStyle })
       : style;
@@ -556,7 +557,7 @@ const RecursiveScan = (
             onDoubleClick={column.resizable ? onDoubleClick : undefined}
             // onPointerDown={column.resizable ? onPointerDown : undefined}
           >
-            {subData.headerName}
+            {subData.headerName??subData.field}
           </div>
         </>
       );
@@ -579,7 +580,7 @@ const RecursiveScan = (
             priority={priority}
             isCellSelected={isCellSelected}
           >
-            {subData.headerName}
+            {subData.headerName??subData.field}
           </SortableHeaderCell>
         </div>
       );
@@ -743,7 +744,7 @@ const RecursiveScan = (
             priority={priority}
             isCellSelected={isCellSelected}
           >
-            {subData.headerName}
+            {subData.headerName??subData.field}
           </SortableHeaderCell>
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) => (

@@ -4,7 +4,7 @@ import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
 // import { SelectColumn } from "../components/datagrid/Columns";
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import { SelectCellFormatter } from "../components/datagrid/formatters/SelectCellFormatter";
 import DataGrid from "../components/datagrid/DataGrid";
 
@@ -80,7 +80,7 @@ function getColumns(countries, direction) {
       width: 120,
       haveChildren: false,
       frozen: true,
-      cellEditor: textEditor,
+      cellEditor: TextEditor,
       summaryFormatter({ row }) {
         return <>{row.totalCount} records</>;
       },
@@ -91,7 +91,7 @@ function getColumns(countries, direction) {
       haveChildren: false,
       topHeader:"client",
       width: "max-content",
-      cellRenderer: textEditor,
+      cellRenderer: TextEditor,
     },
     {
       field: "area",

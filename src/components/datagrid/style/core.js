@@ -20,7 +20,7 @@ const lightTheme = `
 `;
 
 const darkTheme = `
-  --rdg-color: #ddd;
+  --rdg-color: #000;
   --rdg-border-color: #FFFFFF;
   --rdg-summary-border-color: #555;
   --rdg-background-color: hsl(0deg 0% 13%);
@@ -28,7 +28,6 @@ const darkTheme = `
   --rdg-row-hover-background-color: #D7E3BC;
   --rdg-row-selected-background-color: hsl(207deg 76% 42%);
   --rdg-row-selected-hover-background-color: hsl(207deg 76% 38%);
-
   --rdg-checkbox-color: hsl(207deg 100% 79%);
   --rdg-checkbox-focus-color: hsl(207deg 100% 89%);
   --rdg-checkbox-disabled-border-color: #000;

@@ -30,8 +30,6 @@ import Pagination from "./demos/Pagination";
 import ExportFile from "./demos/ExportFile"
 import Demos from "./demos/demo";
 import AlignmentDataTypes from "./demos/AlignmentDataTypes";
-import MultilineHeader from "./demos/MultilineHeader";
-
 css`
   @at-root {
     :root,
@@ -159,7 +157,6 @@ function App() {
 
           <Route path="alingment" element={<AlignmentDataTypes direction={direction} />} />
 
-          <Route path="multilineheader" element={<MultilineHeader direction={direction} />} />
           <Route path="*" element="Nothing to see here" />
         </Routes>
       </main>

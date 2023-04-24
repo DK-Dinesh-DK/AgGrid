@@ -1,6 +1,6 @@
 import { css } from "@linaria/core";
 
-export default function radioButtonEditor({ row, column, onRowChange }) {
+export default function RadioButtonEditor({ row, column, onRowChange }) {
   const options = column.options ? column.options : column.buttons;
 
   const radioButtonContainer = css`
@@ -33,12 +33,12 @@ export default function radioButtonEditor({ row, column, onRowChange }) {
     <div className={`rdg-radio-container${radioButtonContainer}`}>
       {options.map((option, index) => {
         return (
-          <div key={option.label}>
+          <div key={index}>
             <input
               type={"radio"}
               value={option.value}
               className={`rdg-radiobutton ${radioButton}`}
-              key={option.label}
+              key={index}
               name={`options${column.rowIndex}`}
               checked={row[column.key] === option?.value}
               onChange={(event) => {

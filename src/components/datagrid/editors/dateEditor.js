@@ -12,7 +12,7 @@ const datePickerInternalClassname = css`
 `;
 
 export const datePickerClassname = `rdg-date-picker-editor ${datePickerInternalClassname}`;
-export default function dateEditor({ row, column, onRowChange }) {
+export default function DateEditor({ row, column, onRowChange }) {
   return (
     <>
       <input

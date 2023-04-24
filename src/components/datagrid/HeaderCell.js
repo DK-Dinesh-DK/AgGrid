@@ -247,7 +247,7 @@ export default function HeaderCell({
       canDrop: monitor.canDrop(),
     }),
   });
-  // console.log("isCellSelected",selectedCellIdx)
+
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div

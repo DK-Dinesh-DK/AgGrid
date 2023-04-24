@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState, useRef } from "react";
 import { css } from "@linaria/core";
 
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
@@ -63,6 +63,14 @@ function Cell({
   previousData,
   ...props
 }) {
+  const gridCell = useRef(null);
+  const cellRendererParams =
+    typeof column?.cellRendererParams === "function"
+      ? column?.cellRendererParams()
+      : column?.cellRendererParams;
+  const [value, setValue] = useState(
+    cellRendererParams?.value ?? row[column.key]
+  );
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
   const { cellClass } = column;
@@ -84,7 +92,6 @@ function Cell({
   );
 
   function handleClick(e) {
-    // selectCellWrapper(column.editorOptions?.editOnClick);
     onRowClick?.({
       api: api,
       data: row,
@@ -358,38 +365,21 @@ function Cell({
       canDrop: monitor.canDrop(),
     }),
   });
-  let renderObject = {
-    column,
-    colDef: column,
-    row,
-    data: row,
-    columnApi,
-    allrow,
-    api,
-    node,
-    rowIndex,
-    // value: row[column.key],
-    isCellSelected,
-    onRowChange: handleRowChange,
-  };
+
   return (
     <div
       role="gridcell"
-      // aria-colindex is 1-based
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
       aria-colspan={colSpan}
       aria-rowspan={rowSpan}
       aria-readonly={!isCellEditable(column, row) || undefined}
-      ref={ref}
+      ref={gridCell}
       tabIndex={tabIndex}
       className={className}
       style={style}
       onClick={handleClick}
-      // onDoubleClick={handleDoubleClick}
-      // onContextMenu={handleContextMenu}
       onFocus={onFocus}
-      // title={`${row[column.key]}`}
       {...props}
     >
       {!column.rowGroup && (
@@ -413,20 +403,35 @@ function Cell({
                 rowArray,
                 colData,
                 data: row,
-
                 allrow,
                 className,
                 api,
                 node,
                 viewportColumns,
                 rowIndex,
-                value: row[column.key],
                 isCellSelected,
                 onRowChange: handleRowChange,
                 onRowClick,
                 selectCell,
                 onRowDoubleClick,
                 subColumn,
+                value: value,
+                valueFormatted: cellRendererParams?.valueFormatted,
+                fullWidth: cellRendererParams?.fullWidth,
+                eGridCell: gridCell.current,
+                refreshCell: () => {
+                  const content = document.getElementById(
+                    `${rowIndex}${row[column.key]}`
+                  ).innerHTML;
+                  document.getElementById(
+                    `${rowIndex}${row[column.key]}`
+                  ).innerHTML = content;
+                },
+                getValue: () => value,
+                setValue: (newValue) => {
+                  setValue(newValue);
+                },
+                ...cellRendererParams,
               })}
             </div>
           )}
@@ -438,7 +443,6 @@ function Cell({
               colData,
               viewportColumns,
               data: row,
-
               rowArray,
               allrow,
               selectedCellIdx,
@@ -446,13 +450,29 @@ function Cell({
               api,
               node,
               rowIndex,
-              value: row[column.key],
               isCellSelected,
               selectCell,
               onRowChange: handleRowChange,
               onRowClick,
               onRowDoubleClick,
               subColumn,
+              value: value,
+              valueFormatted: cellRendererParams?.valueFormatted,
+              fullWidth: cellRendererParams?.fullWidth,
+              eGridCell: gridCell.current,
+              refreshCell: () => {
+                const content = document.getElementById(
+                  `${rowIndex}${row[column.key]}`
+                ).innerHTML;
+                document.getElementById(
+                  `${rowIndex}${row[column.key]}`
+                ).innerHTML = content;
+              },
+              getValue: () => value,
+              setValue: (newValue) => {
+                setValue(newValue);
+              },
+              ...cellRendererParams,
             })}
           {dragHandle}
         </>

@@ -18,7 +18,7 @@ const buttonInternalClassname = css`
 `;
 
 export const buttonClassname = `rdg-button-editor ${buttonInternalClassname}`;
-export default function buttonEditor({ row, column, ...props }) {
+export default function ButtonEditor({ row, column, ...props }) {
   let text;
   if (column.inputProps?.text !== undefined || column.inputProps?.text !== "") {
     text = column.inputProps?.text;

@@ -1,4 +1,5 @@
-import React, { memo, useEffect, useRef } from "react";
+
+import React,{ useEffect, useRef } from "react";
 import { css } from "@linaria/core";
 import { useDrag, useDrop } from "react-dnd";
 import { useLatestFunc } from "./hooks/useLatestFunc";
@@ -26,7 +27,7 @@ const cellEditing = css`
   }
 `;
 
-function EditCell({
+export default function EditCell({
   column,
   colSpan,
   row,
@@ -38,7 +39,7 @@ function EditCell({
   closeEditor,
   handleReorderRow,
 }) {
-  // console.log("editcell",column)
+  console.log("editcell",column)
   const frameRequestRef = useRef();
   const commitOnOutsideClick =
     column.editorOptions?.commitOnOutsideClick !== false;
@@ -114,6 +115,7 @@ function EditCell({
     }),
   });
   function onRowReorder(fromIndex, toIndex) {
+    
     const newRows = [...allrow];
     newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
     handleReorderRow(newRows);
@@ -128,7 +130,7 @@ function EditCell({
       canDrop: monitor.canDrop(),
     }),
   });
-  // console.log("columnse",column)
+  console.log("columnse",column)
   return (
     <div
       role="gridcell"
@@ -178,6 +180,7 @@ function EditCell({
                   valueFormatted: column.valueFormatter,
                   onRowChange,
                   isCellSelected: true,
+                 
                 })}
               {column.editable &&
                 column.formatter({
@@ -226,6 +229,7 @@ function EditCell({
                 valueFormatted: column.valueFormatter,
                 onRowChange,
                 isCellSelected: true,
+               
               })}
             {column.editable &&
               column.formatter({
@@ -245,4 +249,3 @@ function EditCell({
     </div>
   );
 }
-export default memo(EditCell);

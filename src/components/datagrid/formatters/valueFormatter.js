@@ -1,5 +1,3 @@
-
-
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
     let sampleColumn;
@@ -8,6 +6,7 @@ export function valueFormatter(props) {
         sampleColumn = data;
       }
     });
+
     props.selectCell(props.row, sampleColumn, openEditor);
   }
 
@@ -46,13 +45,12 @@ export function valueFormatter(props) {
       </>
     );
   } else {
-    var isCellSelected 
-    if(props.selectedCellIdx === props.column.idx){
-      isCellSelected=true
-    }else{
-      isCellSelected=false
+    var isCellSelected;
+    if (props.selectedCellIdx === props.column.idx) {
+      isCellSelected = true;
+    } else {
+      isCellSelected = false;
     }
-   
 
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -64,7 +62,8 @@ export function valueFormatter(props) {
           textOverflow: "ellipsis",
           overflow: "hidden",
           height: "inherit",
-          paddingInline:isCellSelected && props.selectedCellEditor ? "0px" : "6px",
+          paddingInline:
+            isCellSelected && props.selectedCellEditor ? "0px" : "6px",
         }}
         // className={props.className}
         onClick={handleClick}
@@ -104,12 +103,6 @@ const childData = (subData, props) => {
 
   const rowCol = props.rowArray;
 
-  //   const daataa = React.useMemo(() => {items.map(info => {
-  //     return info.field;
-  //   })
-  //  }, [items]);
-
- 
   return rowSubData.map((info1, index) => {
     const func = (a, b) => {
       if (a.field === b) {
@@ -125,11 +118,11 @@ const childData = (subData, props) => {
           sampleColumn = obj;
         }
       });
+
       props.selectCell(props.row, sampleColumn, openEditor);
     }
 
     function handleClick() {
-      
       selectCellWrapper(info1.editorOptions?.editOnClick);
       props.onRowClick?.(props.row, info1);
     }
@@ -137,24 +130,20 @@ const childData = (subData, props) => {
     function handleContextMenu() {
       selectCellWrapper();
     }
-   
+
     function handleDoubleClick() {
       selectCellWrapper(true);
       props.onRowDoubleClick?.(props.row, info1);
-      
     }
 
-
-    var isCellSelected 
-    if(props.selectedCellIdx === info1.idx){
-      isCellSelected=true
-    }else{
-      isCellSelected=false
+    var isCellSelected;
+    if (props.selectedCellIdx === info1.idx) {
+      isCellSelected = true;
+    } else {
+      isCellSelected = false;
     }
 
-
-    // }
-
+   
 
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -164,14 +153,24 @@ const childData = (subData, props) => {
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
         style={{
-          borderInlineEnd: isCellSelected && props.selectedCellEditor ? "none" : "1px solid var(--rdg-border-color)",
+          borderInlineEnd:
+            isCellSelected && props.selectedCellEditor
+              ? "none"
+              : "1px solid var(--rdg-border-color)",
           textAlign: "center",
           textOverflow: "ellipsis",
           overflow: "hidden",
           height: "inherit",
-          outline:props.selectedCellIdx === info1.idx && isCellSelected ? "1px solid var(--rdg-selection-color)" : "none",
-          outlineOffset: props.selectedCellIdx === info1.idx && isCellSelected ? "-1px" : "0px" ,
-          paddingInline:isCellSelected && props.selectedCellEditor ? "0px" : "6px",
+          outline:
+            props.selectedCellIdx === info1.idx && isCellSelected
+              ? "1px solid var(--rdg-selection-color)"
+              : "none",
+          outlineOffset:
+            props.selectedCellIdx === info1.idx && isCellSelected
+              ? "-1px"
+              : "0px",
+          paddingInline:
+            isCellSelected && props.selectedCellEditor ? "0px" : "6px",
           width: `${rowCol.map((info2) => {
             return func(info2, info1.field);
           })}px`.replace(/,/g, ""),

@@ -1,29 +1,29 @@
-import textEditor from "./textEditor";
-import checkboxEditor from "./chekboxEditor";
-import dateEditor from "./dateEditor";
-import dateTimeEditor from "./dateTimeEditor";
-import dropDownEditor from "./dropDownEditors";
-import linkEditor from "./linkEditor";
-import progressBarEditor from "./progressBarEditor";
-import radioButtonEditor from "./radioButtonEditor";
-import sliderEditor from "./sliderEditor";
-import buttonEditor from "./buttonEditor";
-import timeEditor from "./timeEditor";
-import imageViewer from "./imageViewer";
-import colorPicker from "./colorPicker";
+import TextEditor from "./textEditor";
+import CheckBoxEditor from "./CheckBoxEditor";
+import DateEditor from "./DateEditor";
+import DateTimeEditor from "./DateTimeEditor";
+import DropDownEditor from "./DropDownEditor";
+import LinkEditor from "./LinkEditor";
+import ProgressBarEditor from "./ProgressBarEditor";
+import RadioButtonEditor from "./RadioButtonEditor";
+import SliderEditor from "./SliderEditor";
+import ButtonEditor from "./ButtonEditor";
+import TimeEditor from "./TimeEditor";
+import ImageViewer from "./ImageViewer";
+import ColorPicker from "./ColorPicker";
 
 export {
-  progressBarEditor,
-  textEditor,
-  checkboxEditor,
-  dateEditor,
-  dateTimeEditor,
-  dropDownEditor,
-  linkEditor,
-  radioButtonEditor,
-  sliderEditor,
-  buttonEditor,
-  timeEditor,
-  imageViewer,
-  colorPicker,
+  ProgressBarEditor,
+  TextEditor,
+  CheckBoxEditor,
+  DateEditor,
+  DateTimeEditor,
+  DropDownEditor,
+  LinkEditor,
+  RadioButtonEditor,
+  SliderEditor,
+  ButtonEditor,
+  TimeEditor,
+  ImageViewer,
+  ColorPicker,
 };

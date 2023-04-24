@@ -1,7 +1,7 @@
 
 import { render } from "@testing-library/react";
 import DataGrid from "../components/datagrid/DataGrid";
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import React from "react"
 function createRows() {
   const rows = [];
@@ -30,7 +30,7 @@ const columns = [
   {
     field: "task",
     headerName: "Title",
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     sortable: true,
     filter: true,
   },
@@ -46,7 +46,6 @@ const columns = [
     sortable: true,
     isTopHeader: false,
     filter: true,
-    //frozen: true,
     children: [
       {
         field: "low",
@@ -68,8 +67,6 @@ const columns = [
   {
     field: "complete",
     headerName: "% Complete",
-    //filter: true,
-    //   sortable: true,
     isTopHeader: true,
     children: [
       {

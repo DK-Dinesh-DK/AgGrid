@@ -12,6 +12,7 @@ export function useCalculatedRowColumns({
   defaultColumnOptions,
   rawGroupBy,
   frameworkComponents,
+  colSpanColumns
 }) {
   const defaultWidth = defaultColumnOptions?.width ?? DEFAULT_COLUMN_WIDTH;
   const defaultMinWidth =
@@ -22,7 +23,7 @@ export function useCalculatedRowColumns({
   const defaultResizable = defaultColumnOptions?.resizable ?? false;
   const defaultFilter = defaultColumnOptions?.dilter ?? false;
 
-  const { columns5, colSpanColumns } =
+  const { columns5 } =
     useMemo(() => {
       // Filter rawGroupBy and ignore keys that do not match the columns prop
       const groupBy = [];

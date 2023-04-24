@@ -1,6 +1,6 @@
 import { SelectCellFormatter } from "../formatters";
 
-export default function checkboxEditor({
+export default function CheckBoxEditor({
   row,
   column,
   onRowChange,

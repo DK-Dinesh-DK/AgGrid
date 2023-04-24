@@ -3,11 +3,10 @@ import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
 // import { SelectColumn } from "../components/datagrid/Columns";
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 
-import dropDownEditor from "../components/datagrid/editors/dropDownEditors";
 import moment from "moment";
 function rowKeyGetter(row) {
   return row.id;
@@ -28,7 +27,7 @@ const columns = [
   {
     headerName: "Money",
     field: "money",
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     alignment: true,
     width: 100,
     validation: {

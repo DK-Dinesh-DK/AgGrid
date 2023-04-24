@@ -13,7 +13,7 @@ const linkEditorInternalClassname = css`
 `;
 
 export const linkEditorClassname = `rdg-link-editor ${linkEditorInternalClassname}`;
-export default function linkEditor({ row, column }) {
+export default function LinkEditor({ row, column }) {
   return (
     <>
       <a href={row[column.key]} className={linkEditorClassname} target="blank">

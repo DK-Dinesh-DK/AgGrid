@@ -57,7 +57,7 @@ const dropDownEditorInternalClassname = css`
 `;
 
 export const dropDownEditorClassname = `rdg-dropdown-editor ${dropDownEditorInternalClassname}`;
-export default function dropDownEditor({ row, onRowChange, column }) {
+export default function DropDownEditor({ row, onRowChange, column }) {
   const options = column.options;
   const inputRef = useRef(null);
   return (
@@ -67,7 +67,7 @@ export default function dropDownEditor({ row, onRowChange, column }) {
         ref={inputRef}
         key={column.rowIndex}
         onBlurCapture={() => {
-          console.log("Captureddd");
+          
         }}
         onChange={(event) => {
           onRowChange({ ...row, [column.key]: event.target.value }, true);
@@ -76,7 +76,7 @@ export default function dropDownEditor({ row, onRowChange, column }) {
         className={dropDownEditorClassname}
       >
         {options?.map((data, index) => {
-          return <option key={data.label}>{data.label}</option>;
+          return <option key={index}>{data.label}</option>;
         })}
       </select>
     </>

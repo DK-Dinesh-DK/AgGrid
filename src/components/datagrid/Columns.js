@@ -44,7 +44,6 @@ function SelectGroupFormatter(props) {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SelectColumn = {
   key: SELECT_COLUMN_KEY,
   name: "",
@@ -55,7 +54,7 @@ export const SelectColumn = {
   sortable: false,
   frozen: true,
   filter: false,
-  haveChildren: false,
+  haveChildren:false,
   headerRenderer(props) {
     return (
       <SelectCellFormatter
@@ -80,8 +79,7 @@ export const SerialNumberColumn = {
   resizable: false,
   sortable: false,
   frozen: true,
-  filter: false,
-  haveChildren: false,
+  filter: false,haveChildren:false,
   headerRenderer: () => {
     return <div>{SerialNumberColumn.name}</div>;
   },

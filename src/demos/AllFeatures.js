@@ -3,12 +3,12 @@ import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
 // import { SelectColumn } from "../components/datagrid/Columns";
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 // import DataGrid from "../../lib/bundle"
 
-import dropDownEditor from "../components/datagrid/editors/dropDownEditors";
+import DropDownEditor from "../components/datagrid/editors/DropDownEditor";
 import ImageFormatter from "./ImageFormatter";
 
 const highlightClassname = css`
@@ -34,7 +34,7 @@ const columns = [
     
     width: 80,
     resizable: true,
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     // sortable:true,
     frozen: true,
   },
@@ -61,7 +61,7 @@ const columns = [
       { label: "task1", value: "task1" },
       { label: "task2", value: "task2" },
     ],
-    cellRenderer: dropDownEditor,
+    cellRenderer: DropDownEditor,
     editorOptions: {
       editOnClick: true,
     },
@@ -71,13 +71,13 @@ const columns = [
     filter: true,
     headerName: "First Name",
     
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     width: 200,
     resizable: true,
     
     // cellRenderer: (props) => {
 
-    //   return textEditor(props);
+    //   return TextEditor(props);
     // },
     // cellRenderer: (props) => {
     
@@ -104,7 +104,7 @@ const columns = [
   {
     headerName: "Money",
     field: "money",
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     filter:true,
     sortable:true,
     // frozen: true,
@@ -117,10 +117,10 @@ const columns = [
     headerName: "Last Name",
     
     width: 200,
-    cellEditor: textEditor,
+    cellEditor: TextEditor,
     resizable: true,
     
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "email",
@@ -128,7 +128,7 @@ const columns = [
     
     width: "max-content",
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "street",
@@ -136,7 +136,7 @@ const columns = [
     
     width: 200,
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "zipCode",
@@ -144,7 +144,7 @@ const columns = [
     
     width: 200,
     resizable: true,
-    cellRenderer: textEditor,
+    cellRenderer: TextEditor,
   },
   {
     field: "date",
@@ -152,7 +152,7 @@ const columns = [
     
     width: 200,
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "bs",
@@ -160,7 +160,7 @@ const columns = [
     
     width: 200,
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "catchPhrase",
@@ -168,7 +168,7 @@ const columns = [
     
     width: "max-content",
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "companyName",
@@ -176,7 +176,7 @@ const columns = [
     
     width: 200,
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "sentence",
@@ -184,7 +184,7 @@ const columns = [
     
     width: "max-content",
     resizable: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
 ];
 

@@ -11,7 +11,7 @@ const colorInput = css`
 
 export const colorInputClassname = `rdg-color-input ${colorInput}`;
 
-export default function colorPicker({ row, column, onRowChange }) {
+export default function ColorPicker({ row, column, onRowChange }) {
   let ref = useRef(null);
 
   const handleClick = () => {

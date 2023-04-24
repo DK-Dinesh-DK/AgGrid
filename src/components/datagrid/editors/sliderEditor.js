@@ -15,7 +15,7 @@ const sliderEditorInternalClassname = css`
 `;
 
 export const sliderEditorClassname = `rdg-slider-editor ${sliderEditorInternalClassname}`;
-export default function sliderEditor({ row, column, onRowChange }) {
+export default function SliderEditor({ row, column, onRowChange }) {
   const value = row[column.key];
   return (
     <div className={sliderContainer}>

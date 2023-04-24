@@ -26,7 +26,6 @@ import ScrollToRow from "./demos/ScrollToRow";
 import TreeView from "./demos/TreeView";
 import VariableRowHeight from "./demos/VariableRowHeight";
 import Animation from "./demos/Animation";
-import MultilineHeader from "./demos/MultilineHeader";
 
 function Root() {
   const [direction, setDirection] = useState("ltr");
@@ -173,11 +172,6 @@ function Root() {
             path="variable-row-height"
             element={<VariableRowHeight direction={direction} />}
           />
-           <Route
-            path="multilineheader"
-            element={<MultilineHeader direction={direction} />}
-          />
-
 
           <Route
             path="animation"

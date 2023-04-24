@@ -2,7 +2,7 @@ import { useMemo, useState, useRef, useCallback } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
-import textEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 // import { Parser, SUPPORTED_FORMULAS } from 'hot-formula-parser';
 
 const rootClassname = css`
@@ -38,7 +38,7 @@ export default function HeaderFilters({ direction }) {
         headerName: "Title",
         cellRenderer: (props) => {
           console.log("props", props);
-          return textEditor(props);
+          return TextEditor(props);
         },
         sortable: true,
         filter: true,
