@@ -1,18 +1,16 @@
-import { useMemo } from 'react';
-import { css } from '@linaria/core';
-import clsx from 'clsx';
+import { useMemo } from "react";
+import { css } from "@linaria/core";
+import clsx from "clsx";
 
-import DataGrid from '../components/datagrid/DataGrid';
+import DataGrid from "../components/datagrid/DataGrid";
 
-
-const rows= [...Array(11).keys()];
 
 const colSpanClassname = css`
-.rdg-cell[aria-colspan] {
-  background-color: #ffb300;
-  color: black;
-  text-align: center;
-}
+  .rdg-cell[aria-colspan] {
+    background-color: #ffb300;
+    color: black;
+    text-align: center;
+  }
 `;
 
 const rowSpanClassname = css`
@@ -25,63 +23,44 @@ const rowSpanClassname = css`
 `;
 
 
-function cellFormatter(props) {
-  return (
-    <>
-      {props.column.key}&times;{props.row}
-    </>
-  );
-}
-
 export default function ColumnSpanning({ direction }) {
-  const columns = useMemo(() => {
-    const columns = [];
 
-    for (let i = 0; i < 11; i++) {
-      const key = String(i);
-      columns.push({
-        field : key,
-        headerName: key,
-        topHeader:key,
-        haveChildren:false,
-        // frozen: i < 5,
-        resizable: true,
-        cellRenderer: cellFormatter,
-        colSpan(args) {
-          if (args.type === 'ROW') {
-            if (key === '2' && args.row === 2) return 8;
-            // if (key === '4' && args.row === 4) return 6; // Will not work as colspan includes both frozen and regular columns
-            // if (key === '0' && args.row === 5) return 5;
-            // if (key === '27' && args.row === 8) return 3;
-            // if (key === '6' && args.row < 8) return 2;
-          }
-          if (args.type === 'HEADER' && key === '8') {
-            return 3;
-          }
-          return undefined;
-        },
-        rowSpan(args) {
-          if (args.type === 'ROW') {
-            if (key === '0' && args.row === 2) return 8;
-            if (key === '1' && args.row === 4) return 6;
-          }
-          return undefined;
+  const col = [
+    { header: "One", field: "one" },
+    { header: "Two", field: "two" },
+    {
+      header: "Three",
+      field: "three",
+      colSpan: (props) => {
+        console.log("Propss", props);
+        if (props.type === "ROW" && props.rowIndex === 3) {
+          return 2;
         }
-      });
-    }
+        if (props.type === "HEADER") {
+          return 3;
+        }
+      },
+    },
+    { header: "Four", field: "four" },
+    { header: "Five", field: "five" },
+  ];
 
-    return columns;
-  }, []);
-
+  const row = [
+    { one: "one1", two: "two1", three: "three1", four: "four1", five: "five1" },
+    { one: "one2", two: "two2", three: "three2", four: "four2", five: "five2" },
+    { one: "one3", two: "two3", three: "three3", four: "four3", five: "five3" },
+    { one: "one4", two: "two4", three: "three4", four: "four4", five: "five4" },
+    { one: "one5", two: "two5", three: "three5", four: "four5", five: "five5" },
+  ];
   return (
     <DataGrid
-      columnData={columns}
-      rowData={rows}
+      columnData={col}
+      rowData={row}
       rowHeight={22}
-      className={clsx('fill-grid', colSpanClassname, rowSpanClassname)}
+      className={clsx("fill-grid", colSpanClassname, rowSpanClassname)}
       direction={direction}
       headerRowHeight={24}
-        classheaderName="fill-grid"
+      classheaderName="fill-grid"
     />
   );
 }

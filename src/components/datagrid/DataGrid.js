@@ -155,18 +155,25 @@ function DataGrid(props) {
   const [selectedRows1, onSelectedRowsChange1] = useState();
   selectedRows = selectedRows ? selectedRows : [];
   const selection = rest.selection && SelectColumn;
-  raawColumns = rest.selection ? [selection, ...raawColumns] : raawColumns;
+
+  if (rest.selection && rest.serialNumber) {
+    console.log("yess");
+    raawColumns = [selection, SerialNumberColumn, ...raawColumns];
+  }
   const rowKeyGetter = props.rowKeyGetter
     ? props.rowKeyGetter
     : (row) => row.id;
   const contextMenuItems =
     getContextMenuItems !== undefined ? getContextMenuItems() : [];
+  const [contextData, setContextData] = useState();
   function contextMenuRowRenderer(key, props) {
     return (
       <ContextMenuTrigger
-        key={`${key}`}
+        key={key}
         id="grid-context-menu"
-        collect={() => ({ rowIdx: props.rowIdx })}
+        collect={() => {
+          setContextData(props);
+        }}
       >
         <RowComponent {...props} />
       </ContextMenuTrigger>
@@ -252,9 +259,7 @@ function DataGrid(props) {
   const [draggedOverRowIdx, setOverRowIdx] = useState(undefined);
   const [sortColumns, setSortColumns] = useState([]);
   const [rawRows, setRawRows] = useState(raawRows);
-  const [rawColumns, setRawColumns] = useState(
-    serialNumber ? [SerialNumberColumn, ...raawColumns] : columns3
-  );
+  const [rawColumns, setRawColumns] = useState(columns3);
   const [pagination, setPagination] = useState(tablePagination);
   const [suppressPagination, setSuppressPagination] = useState(
     suppressPaginationPanel ?? false
@@ -1412,10 +1417,11 @@ function DataGrid(props) {
       // event.nativeEvent.code cannot be used either as it would break copy/paste for the DVORAK layout
       const cKey = 67;
       const vKey = 86;
-      // if (keyCode === cKey) {
-      //   handleCopy();
-      //   return;
-      // }
+
+      if (keyCode === cKey) {
+        handleCopy();
+        return;
+      }
       if (keyCode === vKey) {
         handlePaste();
         return;
@@ -1530,17 +1536,23 @@ function DataGrid(props) {
   }
 
   function handlePaste() {
+    const { idx, rowIdx } = selectedPosition;
+    const targetColumn = columns[idx];
+    const targetRow = rawRows[getRawRowIdx(rowIdx)];
+
+    onPaste?.({
+      sourceRow: copiedCell.row,
+      sourceColumnKey: copiedCell.columnKey,
+      targetRow,
+      targetColumnKey: targetColumn.key,
+    });
     if (
-      !(onPaste && onRowsChange) ||
+      !(!onPaste && onRowsChange) ||
       copiedCell === null ||
       !isCellEditable(selectedPosition)
     ) {
       return;
     }
-
-    const { idx, rowIdx } = selectedPosition;
-    const targetColumn = columns[idx];
-    const targetRow = rawRows[getRawRowIdx(rowIdx)];
 
     const updatedTargetRow = onPaste({
       sourceRow: copiedCell.row,
@@ -2886,6 +2898,7 @@ function DataGrid(props) {
       target?.removeEventListener("paste", () => {})
     );
   }, [props.restriction?.paste, props.restriction?.copy]);
+
   const toolbarClassname = css`
     display: flex;
     justify-content: flex-end;
@@ -3115,19 +3128,68 @@ function DataGrid(props) {
             <ContextMenu id="grid-context-menu" rtl={direction === "rtl"}>
               {contextMenuItems.map((item) =>
                 item.subMenu?.length > 0 ? (
-                  <SubMenu key={`${item.name}`} title={item.name}>
+                  <SubMenu title={item.name} key={item.name}>
                     {item.subMenu.map((subItem) => (
                       <MenuItem
-                        key={`${subItem.name}`}
-                        onClick={subItem.action}
+                        onClick={(e) =>
+                          subItem.action({
+                            e,
+                            contextData,
+                            rowIndex: selectedPosition.rowIdx,
+                            columnIndex: selectedPosition.idx,
+                          })
+                        }
+                        key={subItem.name}
+                        disabled={subItem.disabled}
+                        divider={subItem.divider}
+                        className={`context-menu-Item ${subItem.cssClasses?.join(
+                          " "
+                        )}`}
                       >
-                        {subItem.name}
+                        <span
+                          className="context-menu-icon"
+                          title={subItem.tooltip}
+                        >
+                          {subItem.icon && (
+                            <subItem.icon
+                              style={{ marginRight: "5px", height: "10px" }}
+                            />
+                          )}
+                        </span>
+                        <span
+                          className="context-menu-name"
+                          title={subItem.tooltip}
+                        >
+                          {subItem.name}
+                        </span>
                       </MenuItem>
                     ))}
                   </SubMenu>
                 ) : (
-                  <MenuItem onClick={item.action} key={`${item.name}`}>
-                    {item.name}
+                  <MenuItem
+                    onClick={(e) =>
+                      item.action({
+                        e,
+                        contextData,
+                        rowIndex: selectedPosition.rowIdx,
+                        columnIndex: selectedPosition.idx,
+                      })
+                    }
+                    disabled={item.disabled}
+                    key={item.name}
+                    divider={item.divider}
+                    className={`context-menu-Item ${item.cssClasses?.join(
+                      " "
+                    )}`}
+                  >
+                    <span className="context-menu-icon" title={item.tooltip}>
+                      {item.icon && (
+                        <item.icon style={{ marginRight: "5px" }} />
+                      )}
+                    </span>
+                    <span className="context-menu-name" title={item.tooltip}>
+                      {item.name}
+                    </span>
                   </MenuItem>
                 )
               )}

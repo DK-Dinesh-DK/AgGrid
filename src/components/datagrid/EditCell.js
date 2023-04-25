@@ -39,7 +39,6 @@ export default function EditCell({
   closeEditor,
   handleReorderRow,
 }) {
-  console.log("editcell",column)
   const frameRequestRef = useRef();
   const commitOnOutsideClick =
     column.editorOptions?.commitOnOutsideClick !== false;
@@ -130,7 +129,7 @@ export default function EditCell({
       canDrop: monitor.canDrop(),
     }),
   });
-  console.log("columnse",column)
+
   return (
     <div
       role="gridcell"

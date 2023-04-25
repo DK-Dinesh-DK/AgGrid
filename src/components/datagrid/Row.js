@@ -72,54 +72,54 @@ function Row(
 
   const cells = [];
 
-
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = { ...viewportColumns[index], rowIndex: rowIdx };
     const { idx } = column;
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "ROW",
       row,
+      rowIndex: rowIdx,
     });
     if (colSpan !== undefined) {
       index += colSpan - 1;
     }
     const isCellSelected = selectedCellIdx === idx;
-   
-      cells.push(
-        <Cell
-          key={`${column.key}`}
-          column={column}
-          colSpan={colSpan}
-          selectedCellIdx={selectedCellIdx}
-          selectedCellEditor={selectedCellEditor}
-          api={api}
-          viewportColumns={viewportColumns}
-          rowArray={rowArray}
-          row={row}
-          handleReorderRow={handleReorderRow}
-          isRowSelected={isRowSelected}
-          allrow={rows}
-          rowIndex={rowIdx}
-          totalColumns={totalColumns}
-          node={node}
-          isCopied={copiedCellIdx === idx}
-          isDraggedOver={draggedOverCellIdx === idx}
-          isCellSelected={isCellSelected}
-          dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
-          onRowClick={onRowClick}
-          onRowDoubleClick={onRowDoubleClick}
-          onRowChange={handleRowChange}
-          subColumn={subColumn}
-          selectCell={selectCell}
-          onCellClick={onCellClick}
-          onCellDoubleClick={onCellDoubleClick}
-          onCellContextMenu={onCellContextMenu}
-          columnApi={columnApi}
-          valueChangedCellStyle={valueChangedCellStyle}
-          previousData={previousData}
-        />
-      );
-    }
+
+    cells.push(
+      <Cell
+        key={`${column.key}`}
+        column={column}
+        colSpan={colSpan}
+        selectedCellIdx={selectedCellIdx}
+        selectedCellEditor={selectedCellEditor}
+        api={api}
+        viewportColumns={viewportColumns}
+        rowArray={rowArray}
+        row={row}
+        handleReorderRow={handleReorderRow}
+        isRowSelected={isRowSelected}
+        allrow={rows}
+        rowIndex={rowIdx}
+        totalColumns={totalColumns}
+        node={node}
+        isCopied={copiedCellIdx === idx}
+        isDraggedOver={draggedOverCellIdx === idx}
+        isCellSelected={isCellSelected}
+        dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
+        onRowClick={onRowClick}
+        onRowDoubleClick={onRowDoubleClick}
+        onRowChange={handleRowChange}
+        subColumn={subColumn}
+        selectCell={selectCell}
+        onCellClick={onCellClick}
+        onCellDoubleClick={onCellDoubleClick}
+        onCellContextMenu={onCellContextMenu}
+        columnApi={columnApi}
+        valueChangedCellStyle={valueChangedCellStyle}
+        previousData={previousData}
+      />
+    );
+  }
   // }
   let style = getRowStyle(gridRowStart, height);
   if (rowIdx === props.selectedPosition.rowIdx) {
