@@ -4,6 +4,8 @@ import React, {
   useImperativeHandle,
   useCallback,
   useMemo,
+  forwardRef,
+  memo,
 } from "react";
 
 import useUpdateEffect from "./hooks/useUpdateEffect";
@@ -159,6 +161,10 @@ function DataGrid(props) {
   if (rest.selection && rest.serialNumber) {
     console.log("yess");
     raawColumns = [selection, SerialNumberColumn, ...raawColumns];
+  } else if (rest.selection && !rest.serialNumber) {
+    raawColumns = [selection, ...raawColumns];
+  } else if (!rest.selection && rest.serialNumber) {
+    raawColumns = [SerialNumberColumn, ...raawColumns];
   }
   const rowKeyGetter = props.rowKeyGetter
     ? props.rowKeyGetter
@@ -2286,6 +2292,29 @@ function DataGrid(props) {
     let name = fileName ?? "ExportToPdf";
     exportToPdf(rawRows, rawColumns, name);
   }
+  
+  const exportData=[] ;
+  if (typeof selectedRows1 === "object") {
+    const selectedIndex = [...selectedRows1];
+    raawRows.map((obj, idx) => {
+      if (selectedIndex.includes(idx)) exportData.push(obj);
+    });
+  }
+  function exportSelectedDataAsCsv(fileName) {
+    let name = fileName ?? "ExportToCSV";
+    exportToCsv(exportData, rawColumns, name);
+  }
+
+  function exportSelectedDataAsExcel(fileName) {
+    let name = fileName ?? "ExportToXlsx";
+    exportToXlsx(exportData, rawColumns, name);
+  }
+
+  function exportSelectedDataAsPdf(fileName) {
+    let name = fileName ?? "ExportToPdf";
+    exportToPdf(exportData, rawColumns, name);
+  }
+
   function isAnyFilterPresent() {
     let filterPresent = false;
     viewportColumns.forEach((obj) => {
@@ -2589,6 +2618,9 @@ function DataGrid(props) {
     exportDataAsCsv: exportDataAsCsv,
     exportDataAsExcel: exportDataAsExcel,
     exportDataAsPdf: exportDataAsPdf,
+    exportSelectedDataAsCsv: exportSelectedDataAsCsv,
+    exportSelectedDataAsExcel: exportSelectedDataAsExcel,
+    exportSelectedDataAsPdf: exportSelectedDataAsPdf,
     setDefaultColDef: (value) =>
       setDefaultColumnDef({ ...defaultColumnDef, ...value }),
     isAnyFilterPresent: isAnyFilterPresent,
@@ -3246,4 +3278,4 @@ function isSamePosition(p1, p2) {
   return p1.idx === p2.idx && p1.rowIdx === p2.rowIdx;
 }
 
-export default DataGrid;
+export default memo(forwardRef(DataGrid));

@@ -2,6 +2,7 @@ import React from "react";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable"
 export function CSVContent(fileData, columns) {
   const field = columns?.map((ele) => ele.field);
   const header = columns?.map((ele) => ele.headerName);
@@ -39,7 +40,8 @@ export async function exportToPdf(fileData, columns, fileName) {
     }
   });
   let doc = new jsPDF("p", "pt", "letter");
-  await doc.autoTable({
+  
+  await autoTable(doc,{
     margin: { top: 10 },
     styles: {
       cellWidth: "wrap",
@@ -63,7 +65,7 @@ export async function exportToPdf(fileData, columns, fileName) {
     theme: "striped",
     columns: field,
   });
-  doc.save(fileName);
+ doc.save(fileName);
 }
 export function exportToXlsx(fileData, columns, fileName) {
   const fileType =
