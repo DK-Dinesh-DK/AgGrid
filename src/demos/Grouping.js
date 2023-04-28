@@ -119,7 +119,7 @@ function rowKeyGetter(row) {
 
 function createRows() {
   const rows = [];
-  for (let i = 1; i < 1000; i++) {
+  for (let i = 1; i < 100; i++) {
     rows.push({
       id: i,
       year: 2015 + faker.datatype.number(3),

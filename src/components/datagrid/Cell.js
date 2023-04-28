@@ -390,6 +390,7 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
+              style={{display:"flex"}}
             >
               <span style={{ marginRight: "10px", cursor: "grab" }}>
                 &#9674;

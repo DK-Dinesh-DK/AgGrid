@@ -17,6 +17,7 @@ export function useCalculatedColumns({
   rawGroupBy,
   enableVirtualization,
   frameworkComponents,
+  treeData
 }) {
   const defaultWidth = defaultColumnOptions?.width ?? DEFAULT_COLUMN_WIDTH;
   const defaultMinWidth =
@@ -161,6 +162,12 @@ export function useCalculatedColumns({
                   />
                 );
               };
+        }
+        function TreeFormatter({row, column}){
+          return row[column.key]
+        }
+        if(treeData){
+          column.treeFormatter??= TreeFormatter
         }
         if (frozen) {
           lastFrozenColumnIndex++;

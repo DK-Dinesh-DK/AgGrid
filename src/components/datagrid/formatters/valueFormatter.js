@@ -1,6 +1,6 @@
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
-    let sampleColumn;
+    let sampleColumn=props.column;
     props.subColumn.map((data) => {
       if (props.column.field === data.field) {
         sampleColumn = data;
@@ -112,7 +112,7 @@ const childData = (subData, props) => {
       }
     };
     function selectCellWrapper(openEditor) {
-      let sampleColumn;
+      let sampleColumn=props.column;
       props.subColumn?.map((obj) => {
         if (obj.field === info1.field) {
           sampleColumn = obj;

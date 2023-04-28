@@ -4,8 +4,8 @@ import { useFocusRef } from '../components/datagrid/hooks';
 
 const cellExpandClassname = css`
   /* needed on chrome */
-  float: right;
-  float: inline-end;
+
+  float: inline-start;
   display: table;
   block-size: 100%;
 

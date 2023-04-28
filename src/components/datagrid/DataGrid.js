@@ -6,6 +6,7 @@ import React, {
   useMemo,
   forwardRef,
   memo,
+  useEffect,
 } from "react";
 
 import useUpdateEffect from "./hooks/useUpdateEffect";
@@ -41,6 +42,7 @@ import {
 import HeaderRow from "./HeaderRow";
 import RowComponent, { defaultRowRenderer } from "./Row";
 import GroupRowRenderer from "./GroupRow";
+import TreeRowRenderer from "./TreeRow";
 import SummaryRow from "./SummaryRow";
 import EditCell from "./EditCell";
 import DragHandle from "./DragHandle";
@@ -159,7 +161,6 @@ function DataGrid(props) {
   const selection = rest.selection && SelectColumn;
 
   if (rest.selection && rest.serialNumber) {
-    console.log("yess");
     raawColumns = [selection, SerialNumberColumn, ...raawColumns];
   } else if (rest.selection && !rest.serialNumber) {
     raawColumns = [selection, ...raawColumns];
@@ -510,6 +511,7 @@ function DataGrid(props) {
     rawGroupBy: rowGrouper ? rawGroupBy : undefined,
     enableVirtualization,
     frameworkComponents,
+    treeData: rest.treeData,
   });
 
   var rowData = flatten([], columns);
@@ -1272,6 +1274,7 @@ function DataGrid(props) {
     selectCell({ rowIdx, idx: column.idx });
   });
   const toggleGroupLatest = useLatestFunc(toggleGroup);
+  const toggleTreeLatest = useLatestFunc(toggleTree);
 
   /**
    * effects
@@ -1391,7 +1394,9 @@ function DataGrid(props) {
     if (onSelectedRowsChange) onSelectedRowsChange(newSelectedRows1);
     onSelectedRowsChange1(newSelectedRows);
   }
-
+  const [expandedTreeIds, setExpandedTreeIds] = useState(
+    props.expandedTreeIds ?? []
+  );
   function toggleGroup(expandedGroupId) {
     if (!onExpandedGroupIdsChange) return;
     const newExpandedGroupIds = new Set(expandedGroupIds);
@@ -1402,7 +1407,46 @@ function DataGrid(props) {
     }
     onExpandedGroupIdsChange(newExpandedGroupIds);
   }
+  useEffect(() => {
+    if (expandedTreeIds.length > 0) {
+      var sampleRawRows = raawRows;
+      expandedTreeIds.map((id) => {
+        sampleRawRows.map((data, index) => {
+          const rowKey = rowKeyGetter(data);
+          if (id === rowKey) {
+            let sampleRow = data.children?.map((obj) => obj);
+            if (index !== 0) {
+              sampleRawRows = [
+                ...sampleRawRows.slice(0, index + 1),
+                ...sampleRow,
+                ...sampleRawRows.slice(index + 1),
+              ];
+            } else {
+              sampleRawRows = [
+                sampleRawRows[index],
+                ...sampleRow,
+                ...sampleRawRows.slice(index + 1),
+              ];
+            }
+          }
+        });
+      });
 
+      setRawRows(sampleRawRows);
+    } else {
+      setRawRows(raawRows);
+    }
+  }, [expandedTreeIds]);
+
+  function toggleTree(newExpandedTreeId) {
+    if (!expandedTreeIds.includes(newExpandedTreeId)) {
+      setExpandedTreeIds([...expandedTreeIds, newExpandedTreeId]);
+    } else {
+      setExpandedTreeIds(
+        expandedTreeIds.filter((value) => value !== newExpandedTreeId)
+      );
+    }
+  }
   function handleKeyDown(event) {
     if (!(event.target instanceof Element)) return;
     const isCellEvent = event.target.closest(".rdg-cell") !== null;
@@ -2292,8 +2336,8 @@ function DataGrid(props) {
     let name = fileName ?? "ExportToPdf";
     exportToPdf(rawRows, rawColumns, name);
   }
-  
-  const exportData=[] ;
+
+  const exportData = [];
   if (typeof selectedRows1 === "object") {
     const selectedIndex = [...selectedRows1];
     raawRows.map((obj, idx) => {
@@ -2745,9 +2789,50 @@ function DataGrid(props) {
             selectedCellIdx={
               selectedRowIdx === rowIdx ? selectedIdx : undefined
             }
+            // isRowSelected={isGroupRowSelected}
+            // selectGroup={selectGroupLatest}
+            toggleGroup={toggleGroupLatest}
+          />
+        );
+        continue;
+      }
+      if (row.children && rest.treeData) {
+        ({ startRowIndex } = row);
+        const isGroupRowSelected =
+          isSelectable &&
+          row.childRows.every((cr) => selectedRows1?.has(rowKeyGetter(cr)));
+
+        rowElements.push(
+          <TreeRowRenderer
+            // aria-level is 1-based
+            aria-level={row.level + 1}
+            aria-setsize={row.setSize}
+            // aria-posinset is 1-based
+            aria-posinset={row.posInSet + 1}
+            // aria-rowindex is 1 based
+            aria-rowindex={
+              headerRowsCount + topSummaryRowsCount + startRowIndex + 1
+            }
+            aria-selected={isSelectable ? isGroupRowSelected : undefined}
+            key={`${row.id}`}
+            id={row.id}
+            groupKey={row.groupKey}
+            viewportColumns={regroupArray(merged)}
+            childRows={row.childRows}
+            rowIdx={rowIdx}
+            row={row}
+            rowArray={columns5}
+            gridRowStart={gridRowStart}
+            height={getRowHeight(rowIdx)}
+            level={row.level}
+            isExpanded={expandedTreeIds.includes(rowKeyGetter(row))}
+            selectedCellIdx={
+              selectedRowIdx === rowIdx ? selectedIdx : undefined
+            }
+            sourceData={raawRows}
             isRowSelected={isGroupRowSelected}
             selectGroup={selectGroupLatest}
-            toggleGroup={toggleGroupLatest}
+            toggleTree={toggleTreeLatest}
           />
         );
         continue;
