@@ -26,7 +26,7 @@ const columns = [
     headerName: "ID",
     width: 80,
     // cellRenderer: (props) => {
-    //   return textEditor(props);
+    //   return TextEditor(props);
     // },
   },
   {

@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-
+import textEditorClassname from "../editors/textEditor"
 export function useCalculatedColumnswithIdx({ rowData1 }) {
   const { columns4 } = useMemo(() => {
     var columns4 = rowData1.map((rawColumn, pos) => {
@@ -7,6 +7,25 @@ export function useCalculatedColumnswithIdx({ rowData1 }) {
         ...rawColumn,
       };
       column.idx = pos;
+      if (rawColumn.editable) {
+        column.cellEditor = column.cellEditor
+          ? column.cellEditor
+          : (props) => {
+            let value = props.row[props.column.key];
+              return (
+                <input
+                  className={textEditorClassname}
+                  value={value}
+                  onChange={(event) =>
+                    props.onRowChange({
+                      ...props.row,
+                      [props.column.key]: event.target.value,
+                    })
+                  }
+                />
+              );
+            };
+      }
       return column;
     });
 

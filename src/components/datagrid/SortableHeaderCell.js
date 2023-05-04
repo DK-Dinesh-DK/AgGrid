@@ -4,7 +4,7 @@ import { css } from "@linaria/core";
 const headerSortCell = css`
   @layer rdg.SortableHeaderCell {
     cursor: pointer;
-    padding-left:8px;
+    padding:2px;
 
     &:focus {
       outline: none;

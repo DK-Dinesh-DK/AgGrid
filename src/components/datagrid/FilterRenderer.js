@@ -6,7 +6,7 @@ export default function FilterRenderer({ isCellSelected, column, children,onFocu
     const filters = useContext(FilterContext);
     const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-    var style = {paddingLeft:"8px"};
+    var style = {padding:"2px"};
     selectedCellHeaderStyle && selectedPosition.idx === column.idx
       ? (style = { ...style, ...selectedCellHeaderStyle })
       : style;

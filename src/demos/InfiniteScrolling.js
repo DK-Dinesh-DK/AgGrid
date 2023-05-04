@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
-// import { AgGrid } from "lai_webui";
+
 const loadMoreRowsClassname = css`
   inline-size: 180px;
   padding-block: 8px;
@@ -110,13 +110,14 @@ export default function InfiniteScrolling({ direction }) {
     setIsLoading(false);
   }
   const dataGridRef = useRef(null);
-  const [selectedRows, setSelectedRows] = useState([]);
+  // const [selectedRows, setSelectedRows] = useState([]);
+
 
   return (
     <>
       <button
         onClick={() => {
-          console.log("dataGridRef", dataGridRef.current.api.getRowNode(2));
+          console.log("dataGridRef", dataGridRef.current);
         }}
       >
         getFocusedCell
@@ -131,7 +132,7 @@ export default function InfiniteScrolling({ direction }) {
         }}
         rowHeight={25}
         className="fill-grid"
-        innerRef={dataGridRef}
+        ref={dataGridRef}
         direction={direction}
         selection={true}
         valueChangedCellStyle={{ backgroundColor: "Blue", color: "White" }}

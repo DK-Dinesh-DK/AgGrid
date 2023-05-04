@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDrag, useDrop } from "react-dnd"
-import clsx from "clsx"
+import {clsx} from "clsx"
 import { css } from "@linaria/core"
 
 import { Row } from "../../../../src"

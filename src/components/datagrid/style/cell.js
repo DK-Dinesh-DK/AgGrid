@@ -17,9 +17,7 @@ export const cell = css`
     grid-row-start: var(--rdg-grid-row-start);
     background-color: inherit;
     text-align: center;
-    display: flex;
-    justify-content: center;
-
+    
     white-space: nowrap;
     overflow: hidden;
     overflow: clip;

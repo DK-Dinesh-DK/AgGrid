@@ -1,5 +1,4 @@
-import { useState, useReducer, useCallback } from "react";
-import { css } from "@linaria/core";
+import {  useCallback } from "react";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
 
@@ -27,6 +26,7 @@ function rowKeyGetter(row) {
   return row.id;
 }
 
+
 export default function ContextMenuDemo({ direction }) {
   const getContextMenuItems = useCallback(() => {
     let result = [
@@ -37,6 +37,13 @@ export default function ContextMenuDemo({ direction }) {
           window.alert("Alerting about ");
         },
         cssClasses: ["redFont", "bold"],
+      },
+      {
+        name:"Print",
+        action: (e) => {
+          console.log('e', e)
+          e.handlePrint()
+        },
       },
       {
         // custom item

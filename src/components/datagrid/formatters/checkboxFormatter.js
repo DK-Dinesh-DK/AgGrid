@@ -1,11 +1,11 @@
 import React from 'react';
-import clsx from "clsx"
+import {clsx} from "clsx"
 import { css } from "@linaria/core"
 
 const checkboxLabel = css`
   @layer rdg.CheckboxLabel {
     cursor: pointer;
-    display: flex;
+    display: flex !important;
     align-items: center;
     justify-content: center;
     position: absolute;

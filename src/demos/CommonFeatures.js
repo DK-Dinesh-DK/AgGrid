@@ -2,14 +2,10 @@ import React, { useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-
-// import { SelectColumn } from "../components/datagrid/Columns";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import { SelectCellFormatter } from "../components/datagrid/formatters/SelectCellFormatter";
 import DataGrid from "../components/datagrid/DataGrid";
-
 import { exportToCsv, exportToXlsx, exportToPdf } from "../components/datagrid/exportUtils";
-// import textEditorClassname from "../components/datagrid/editors/textEditor";
 
 const toolbarClassname = css`
   display: flex;
@@ -50,15 +46,7 @@ function TimestampFormatter({ timestamp }) {
 function CurrencyFormatter({ value }) {
   return <>{currencyFormatter.format(value)}</>;
 }
-// const selectCellClassname = css`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
 
-//   > input {
-//     margin: 0;
-//   }
-// `;
 function getColumns(countries, direction) {
   return [
     {
@@ -100,7 +88,7 @@ function getColumns(countries, direction) {
       haveChildren: false,
       width: 120,
 
-      // cellRenderer: textEditor,
+      // cellRenderer: TextEditor,
     },
     {
       field: "country",
@@ -131,7 +119,7 @@ function getColumns(countries, direction) {
       headerName: "Contact",
       haveChildren: false,
       width: 160,
-      // cellRenderer: textEditor,
+      // cellRenderer: TextEditor,
     },
     {
       field: "assignee",
@@ -139,7 +127,7 @@ function getColumns(countries, direction) {
       headerName: "Assignee",
       width: 150,
       haveChildren: false,
-      // cellRenderer: textEditor,
+      // cellRenderer: TextEditor,
     },
     {
       field: "progress",
@@ -237,7 +225,7 @@ function getColumns(countries, direction) {
       topHeader: "version",
       headerName: "Version",
       haveChildren: false,
-      // cellRenderer: textEditor,
+      
     },
     {
       field: "available",
@@ -399,8 +387,8 @@ export default function CommonFeatures({ direction }) {
       }}
       rowData={sortedRows}
       onRowsChange={setRows}
-      selectedRows={selectedRows}
-      onSelectedRowsChange={setSelectedRows}
+      // selectedRows={selectedRows}
+      // onSelectedRowsChange={setSelectedRows}
       topSummaryRows={summaryRows}
       bottomSummaryRows={summaryRows}
       showSelectedRows={true}

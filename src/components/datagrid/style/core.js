@@ -61,12 +61,12 @@ const root = css`
     .rdg-row-even,
     .rdg-row-summary-row-even,
     .rdg-row-groupRow-even {
-      background-color: #e5edf8;
+      background-color: #E5EDF8;
     }
     .rdg-row-odd,
     .rdg-row-summary-row-odd,
     .rdg-row-groupRow-odd {
-      background-color: #f3f8fc;
+      background-color: #F3F8FC;
     }
     .rdg-row-selected {
       background-color: #ebf1dd;
@@ -93,6 +93,7 @@ const root = css`
       color: var(--rdg-color);
       font-size: var(--rdg-font-size);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      height:100%;
 
       /* needed on Firefox */
       &::before {

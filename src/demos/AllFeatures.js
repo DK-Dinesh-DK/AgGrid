@@ -9,7 +9,7 @@ import DataGrid from "../components/datagrid/DataGrid";
 // import DataGrid from "../../lib/bundle"
 
 import DropDownEditor from "../components/datagrid/editors/DropDownEditor";
-import ImageFormatter from "./ImageFormatter";
+// import ImageFormatter from "./ImageFormatter";
 
 const highlightClassname = css`
   .rdg-cell {
@@ -38,15 +38,15 @@ const columns = [
     // sortable:true,
     frozen: true,
   },
-  {
-    field: "avatar",
-    headerName: "Avatar",
+  // {
+  //   field: "avatar",
+  //   headerName: "Avatar",
     
-    width: 40,
-    resizable: true,frozen: true,
-    headerRenderer: () => <ImageFormatter value={faker.image.cats()} />,
-    valueFormatter: ({ row }) => <ImageFormatter value={row.avatar} />,
-  },
+  //   width: 40,
+  //   resizable: true,frozen: true,
+  //   headerRenderer: () => <ImageFormatter value={faker.image.cats()} />,
+  //   valueFormatter: ({ row }) => <ImageFormatter value={row.avatar} />,
+  // },
   {
     field: "title",
     headerName: "Title",

@@ -1,7 +1,5 @@
 import DataGrid from '../components/datagrid/DataGrid';
 
-
-
 const rows= [...Array(100).keys()];
 
 function cellFormatter(props) {

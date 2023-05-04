@@ -1,5 +1,4 @@
-import React,{useMemo} from "react";
-
+import React, { useMemo } from "react";
 
 import { valueFormatter, toggleGroupFormatter } from "../formatters";
 import { SELECT_COLUMN_KEY } from "../Columns";
@@ -17,7 +16,7 @@ export function useCalculatedColumns({
   rawGroupBy,
   enableVirtualization,
   frameworkComponents,
-  treeData
+  treeData,
 }) {
   const defaultWidth = defaultColumnOptions?.width ?? DEFAULT_COLUMN_WIDTH;
   const defaultMinWidth =
@@ -55,14 +54,14 @@ export function useCalculatedColumns({
                 ...subChild2,
                 parent: subChild.field,
                 formatter: subChild2.cellRenderer
-                ? subChild2.cellRenderer
-                : subChild2.valueFormatter ?? defaultFormatter,
-              filter: subChild2.filter ?? defaultFilter,
-              cellRenderer:
-                frameworkComponents?.[customComponentName] ??
-                subChild2.cellRenderer ??
-                subChild2.valueFormatter ??
-                defaultFormatter,
+                  ? subChild2.cellRenderer
+                  : subChild2.valueFormatter ?? defaultFormatter,
+                filter: subChild2.filter ?? defaultFilter,
+                cellRenderer:
+                  frameworkComponents?.[customComponentName] ??
+                  subChild2.cellRenderer ??
+                  subChild2.valueFormatter ??
+                  defaultFormatter,
 
                 children: recursiveChild(subChild2, rawColumn),
                 // idx: index1,
@@ -75,8 +74,8 @@ export function useCalculatedColumns({
 
         const column = {
           ...rawColumn,
-           colId: rawColumn.field,
-          key: rawColumn.field??rawColumn.key,
+          colId: rawColumn.field,
+          key: rawColumn.field ?? rawColumn.key,
           userProvidedColDef: rawColumn,
           parent: null,
           idx: 0,
@@ -102,9 +101,17 @@ export function useCalculatedColumns({
           children:
             rawColumn.haveChildren === true &&
             rawColumn?.children.map((child, index1) => {
+              const cellRendererValue = child.cellRenderer;
+              const components = frameworkComponents
+                ? Object.keys(frameworkComponents)
+                : null;
+              const indexOfComponent = components?.indexOf(cellRendererValue);
+              const customComponentName =
+                indexOfComponent > -1 ? components[indexOfComponent] : null;
               const rawChild = {
                 ...child,
                 parent: rawColumn.field,
+                key: child.field,
                 formatter: child.cellRenderer
                   ? child.cellRenderer
                   : child.valueFormatter ?? defaultFormatter,
@@ -145,29 +152,13 @@ export function useCalculatedColumns({
         if (rowGroup) {
           column.groupFormatter ??= toggleGroupFormatter;
         }
-        if (rawColumn.editable) {
-          column.cellEditor = column.cellEditor
-            ? column.cellEditor
-            : (props) => {
-                return (
-                  <input
-                    className={textEditorClassname}
-                    value={props.row[props.column.key]}
-                    onChange={(event) =>
-                      props.onRowChange({
-                        ...props.row,
-                        [props.column.key]: event.target.value,
-                      })
-                    }
-                  />
-                );
-              };
+
+        function TreeFormatter({ row, column }) {
+          return row[column.key];
         }
-        function TreeFormatter({row, column}){
-          return row[column.key]
-        }
-        if(treeData){
-          column.treeFormatter??= TreeFormatter
+
+        if (treeData) {
+          column.treeFormatter ??= TreeFormatter;
         }
         if (frozen) {
           lastFrozenColumnIndex++;

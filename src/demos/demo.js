@@ -36,12 +36,13 @@ function Demos(){
         },
       ];
 
-let rowDataa = [{id:1 , task:"task1", }]
+let rowDataa = [{id:1 , task:"task1", },{id:1 , task:"task1", },{id:1 , task:"task1", }]
 return(
     <div>
         <DataGrid
         rowData={rowDataa}
         columnData={columns}
+        style={{height:"210px", width:"100%"}}
         />
     </div>
 )

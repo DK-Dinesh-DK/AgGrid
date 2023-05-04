@@ -129,7 +129,6 @@ export default function EditCell({
       canDrop: monitor.canDrop(),
     }),
   });
-
   return (
     <div
       role="gridcell"

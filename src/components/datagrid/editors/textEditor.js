@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@linaria/core";
 
-
 const textEditorInternalClassname = css`
   @layer rdg.TextEditor {
     appearance: none;
@@ -9,7 +8,7 @@ const textEditorInternalClassname = css`
     inline-size: 100%;
     block-size: 100%;
     height: 20px;
-    margin:2px 0 ;
+    margin: 2px 0;
     padding-block: 0;
     padding-inline: 6px;
     border: none;
@@ -45,19 +44,18 @@ export default function TextEditor({
     type.toLowerCase() === "masked" || type.toLowerCase() === "mask"
       ? "password"
       : type;
- 
+  let value = row[column.key];
   return (
     <input
       spellCheck="true"
       className={textEditorClassname}
       type={type}
       disabled={column.editable ? column.editable : false}
-      value={row[column.key]}
+      value={value}
       {...column.inputProps}
       onChange={(event) =>
         onRowChange({ ...row, [column.key]: event.target.value })
       }
-
     />
   );
 }

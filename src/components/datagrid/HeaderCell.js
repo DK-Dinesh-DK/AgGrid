@@ -48,6 +48,7 @@ export default function HeaderCell({
   setFilterType,
   handleReorderColumn,
   ChildColumnSetup,
+  gridWidth,
 }) {
   const isRtl = direction === "rtl";
   const {  tabIndex, onFocus } = useRovingCellRef(isCellSelected);
@@ -73,7 +74,7 @@ export default function HeaderCell({
         ? "ascending"
         : "descending"
       : undefined;
-  var style = getCellStyle(column, colSpan);
+  const style = getCellStyle(column, colSpan);
   // selectedCellHeaderStyle && selectedPosition.idx === column.idx
   //   ? (style = { ...style, ...selectedCellHeaderStyle })
   //   : style;
@@ -130,8 +131,7 @@ export default function HeaderCell({
   }
 
   function onSort(ctrlClick, name,idx) {
-    var matches = [];
-    
+    let matches = [];
     const recursiveSort = (cdata) => {
       if (cdata.haveChildren === true) {
         cdata.children.map((e, index) => {
@@ -247,7 +247,6 @@ export default function HeaderCell({
       canDrop: monitor.canDrop(),
     }),
   });
-
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -269,7 +268,7 @@ export default function HeaderCell({
       // onDoubleClick={column.resizable ? onDoubleClick : undefined}
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
-      <div style={{ display: "flex", height: "100%", alignItems: "center" }}>
+      <div style={{ display: "flex", height: "100%", alignItems: "center", justifyContent:"center" }}>
         {headerRenderer({
           column,
           rows,
@@ -291,7 +290,7 @@ export default function HeaderCell({
           selectedPosition,
           headerRowHeight,
           selectedCellHeaderStyle,
-
+          gridWidth,
           //need to be chnaged
 
           shouldFocusGrid,
@@ -299,7 +298,7 @@ export default function HeaderCell({
           handleFocus,
           onClick,
           onDoubleClick,
-          onpointerdown,
+          onPointerDown,
         })}
       </div>
     </div>

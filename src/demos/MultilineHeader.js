@@ -1,17 +1,12 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import {  useState } from "react";
 import { faker } from "@faker-js/faker";
-// import { SelectColumn } from "../components/datagrid/Columns";
+
 
 import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 
-import dropDownEditor from "../components/datagrid/editors/dropDownEditors";
-import ImageFormatter from "./ImageFormatter";
-import { useFocusRef } from "../components/datagrid/hooks";
-import { css } from "@linaria/core";
-import { SerialNumberColumn } from "../components/datagrid/Columns";
-import FilterContext from "../components/datagrid/filterContext";
+
 
 function EmptyRowsRenderer() {
   return (
@@ -36,7 +31,7 @@ const frameworkComponents = {
   CheckBox: (props) => <button style={{ width: "100%" }}>Save</button>,
 };
 
-// const FilterContext = createContext(undefined);
+
 
 function rowKeyGetter(row) {
   return row.id;
@@ -54,7 +49,7 @@ const columns = [
     frozen: true,
     cellEditor: TextEditor,
     // filter: true,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
   },
   {
     field: "rdrd",
@@ -67,8 +62,8 @@ const columns = [
     
     // filter: true,
 
-    // cellRenderer: textEditor,
-    // cellRenderer: textEditor,
+    // cellRenderer: TextEditor,
+    // cellRenderer: TextEditor,
   },
 
   {
@@ -93,9 +88,8 @@ const columns = [
   {
     field: "erer",
     headerName: "FGHT",
-    // haveChildren: false,
-    // topHeader: "erer",
-    sortable: true,filter:true,
+    sortable: true,
+    filter:true,
     width: 80,
     frozen: true,
   },
@@ -136,7 +130,8 @@ const columns = [
                 // haveChildren: false,
                 width: 100,
                 // topHeader: "count",
-                cellEditor: TextEditor,
+                // cellEditor: TextEditor,
+                editable:true,
                 // filter:true
               },
               {
@@ -239,7 +234,8 @@ const columns = [
         // haveChildren: false,
         // topHeader: "count",
         sortable: true,
-        // filter: true,
+
+        filter: true,
       },
     ],
   },
@@ -248,7 +244,7 @@ const columns = [
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 25000; i++) {
+  for (let i = 0; i < 5000; i++) {
     rows.push({
       id: `${i}`,
       
@@ -280,16 +276,12 @@ export default function MultilineHeader({ direction }) {
       columnData={columns}
       rowData={rows}
       onRowsChange={setRows}
+      rowSelection={"multiple"}
       renderers={{ noRowsFallback: <EmptyRowsRenderer /> }}
-      selectedRows={selectedRows}
-      // onSelectedRowsChange={onSelectedRowsChange}
-      // frameworkComponents={frameworkComponents}
-      // selectedCellHeaderStyle={selectedCellHeaderStyle}
-      selectedCellRowStyle={selectedCellRowStyle}
-      headerRowHeight={24}
       rowKeyGetter={rowKeyGetter}
       classheaderName="fill-grid"
       className="fill-grid"
+      rowFreezLastIndex={3}
       // direction={direction}
     />
     // </FilterContext.Provider>

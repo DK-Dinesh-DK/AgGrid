@@ -19,13 +19,14 @@ import HeaderFilters from "./demos/HeaderFilters";
 import InfiniteScrolling from "./demos/InfiniteScrolling";
 import MasterDetail from "./demos/MasterDetail";
 import MillionCells from "./demos/MillionCells";
-import NoRows from "./demos/NoRows";
+// import NoRows from "./demos/NoRows";
 import ResizableGrid from "./demos/Resizable";
 import RowsReordering from "./demos/RowsReordering";
 import ScrollToRow from "./demos/ScrollToRow";
 import TreeView from "./demos/TreeView";
 import VariableRowHeight from "./demos/VariableRowHeight";
 import Animation from "./demos/Animation";
+import MultilineHeader from "./demos/MultilineHeader";
 
 function Root() {
   const [direction, setDirection] = useState("ltr");
@@ -119,24 +120,19 @@ function Root() {
             path="context-menu"
             element={<ContextMenuDemo direction={direction} />}
           />
-
           <Route
             path="customizable-components"
             element={<CustomizableComponents direction={direction} />}
           />
-
           <Route path="grouping" element={<Grouping direction={direction} />} />
-
           <Route
             path="header-filters"
             element={<HeaderFilters direction={direction} />}
           />
-
           <Route
             path="infinite-scrolling"
             element={<InfiniteScrolling direction={direction} />}
           />
-
           <Route
             path="master-detail"
             element={<MasterDetail direction={direction} />}
@@ -147,7 +143,7 @@ function Root() {
             element={<MillionCells direction={direction} />}
           />
 
-          <Route path="no-rows" element={<NoRows direction={direction} />} />
+          {/* <Route path="no-rows" element={<NoRows direction={direction} />} /> */}
           <Route
             path="resizable-grid"
             element={<ResizableGrid direction={direction} />}
@@ -172,6 +168,11 @@ function Root() {
             path="variable-row-height"
             element={<VariableRowHeight direction={direction} />}
           />
+           <Route
+            path="multilineheader"
+            element={<MultilineHeader direction={direction} />}
+          />
+
 
           <Route
             path="animation"

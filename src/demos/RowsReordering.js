@@ -1,12 +1,8 @@
 import {  useState } from "react";
-// import { DndProvider } from "react-dnd";
-// import { HTML5Backend } from "react-dnd-html5-backend";
-// import { SelectColumn } from "../components/datagrid/Columns";
-// import { DraggableRowRenderer } from './components/RowRenderers';
+
 import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
-// import { DraggableRowRenderer } from "./DraggableRowRenderer";
-// import { Checkbox } from "lai_webui";
+
 const frameworkComponents = {
   abc: () => {
     return <input type={"checkbox"} />;

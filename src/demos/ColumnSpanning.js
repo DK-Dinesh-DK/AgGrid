@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import React from "react";
 import { css } from "@linaria/core";
 import clsx from "clsx";
 
@@ -33,15 +33,15 @@ export default function ColumnSpanning({ direction }) {
       field: "three",
       colSpan: (props) => {
         console.log("Propss", props);
-        if (props.type === "ROW" && props.rowIndex === 3) {
-          return 2;
+        if (props.type === "ROW" && props.rowIndex === 1) {
+          return 3;
         }
-        if (props.type === "HEADER") {
+        if (props.type === "HEADER" ) {
           return 3;
         }
       },
     },
-    { header: "Four", field: "four" },
+    { header: "Four", field: "four",width:100 },
     { header: "Five", field: "five" },
   ];
 
@@ -52,6 +52,9 @@ export default function ColumnSpanning({ direction }) {
     { one: "one4", two: "two4", three: "three4", four: "four4", five: "five4" },
     { one: "one5", two: "two5", three: "three5", four: "four5", five: "five5" },
   ];
+  const onRowDoubleClicked =(e)=>{
+    console.log('e', e)
+  }
   return (
     <DataGrid
       columnData={col}
@@ -61,6 +64,7 @@ export default function ColumnSpanning({ direction }) {
       direction={direction}
       headerRowHeight={24}
       classheaderName="fill-grid"
+      onRowDoubleClicked={onRowDoubleClicked}
     />
   );
 }

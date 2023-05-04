@@ -3,25 +3,21 @@ import { css } from "@linaria/core";
 import { useRovingCellRef } from "./hooks";
 import FilterRenderer from "./FilterRenderer";
 import SortableHeaderCell from "./SortableHeaderCell";
-import {RecordsFilter as FilterIcon} from "../../assets/Icon";
-import { Popover, Typography } from "@mui/material";
+import { RecordsFilter as FilterIcon } from "../../assets/Icon";
+import { FilterRendererWithSvg } from "./FilterRendererWithSvg";
 
-var filterIcon = <FilterIcon />;
+const filterIcon = <FilterIcon />;
 
 const filterClassname = css`
   display: flex;
   grid-gap: 10px;
   grid-template-columns: auto auto;
-  padding: 4px;
+  padding: 2px;
   font-size: 18px;
   inline-size: 100%;
   cursor: pointer;
 `;
 
-const headerWrapperWithChild = css`
-  border-block-end: 1px solid var(--rdg-border-color);
-  height: ${24}px;
-`;
 
 const headerWrapperWithChildData = css`
   display: flex;
@@ -53,14 +49,21 @@ export default function headerRenderer({
   selectedCellIdx,
   arrayDepth,
   ChildColumnSetup,
+  gridWidth,
 }) {
   const { onFocus } = useRovingCellRef(isCellSelected);
-
   if (column.haveChildren === true) {
     return (
       <div>
-        <div className={headerWrapperWithChild}>
-          <div className={headerWrapperWithChildData}>{column.headerName??column.field}</div>
+        <div
+          style={{
+            borderBlockEnd: "1px solid var(--rdg-border-color)",
+            height: `${headerRowHeight}px`,
+          }}
+        >
+          <div className={headerWrapperWithChildData}>
+            {column.headerName ?? column.field}
+          </div>
         </div>
 
         <div className={headerWrapperWithcellData}>
@@ -71,7 +74,6 @@ export default function headerRenderer({
                   style={{
                     display: "flex",
                     alignItems: "center",
-
                     justifyContent: "center",
                   }}
                 >
@@ -95,7 +97,8 @@ export default function headerRenderer({
                     ChildColumnSetup,
                     selectedCellIdx,
                     filterIcon,
-                    setFilterType
+                    setFilterType,
+                    gridWidth
                   )}
                 </div>
               );
@@ -110,7 +113,7 @@ export default function headerRenderer({
       justifyContent: "center",
       alignItems: "center",
       height: "inherit",
-      width: column.width,
+      width: column.width ?? "100%",
     };
     selectedCellHeaderStyle && selectedPosition.idx === column.idx
       ? (style = { ...style, ...selectedCellHeaderStyle })
@@ -168,7 +171,7 @@ export default function headerRenderer({
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           // onPointerDown={column.resizable ? onPointerDown : undefined}
         >
-          <div style={{ ...style }}>{column.headerName??column.field}</div>
+          <div style={{ ...style }}>{column.headerName ?? column.field}</div>
         </div>
       );
     }
@@ -195,7 +198,7 @@ export default function headerRenderer({
               column={column}
               borderBottom={"none"}
             >
-              {column.headerName??column.field}
+              {column.headerName ?? column.field}
             </SortableHeaderCell>
           </div>
         </div>
@@ -206,7 +209,7 @@ export default function headerRenderer({
         display: "flex",
         width: "100%",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
         height: "100%",
       };
       selectedCellHeaderStyle && selectedPosition.idx === column.idx
@@ -223,13 +226,12 @@ export default function headerRenderer({
       const getInputValue = (event, filters) => {
         event.preventDefault();
         const value = event.target.value;
-        
         setFilters({
           ...filters,
           [column.field]: value,
         });
       };
-      
+
       return (
         <div style={{ ...style11 }} key={column.idx} onClick={onClick}>
           <FilterRenderer
@@ -241,62 +243,17 @@ export default function headerRenderer({
             onDoubleClick={column.resizable ? onDoubleClick : undefined}
             isCellSelected={isCellSelected}
           >
-            {({ filters, ...rest }) => (
-              <div className={filterClassname}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10px"
-                  height="10px"
-                  version="1.1"
-                  // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
-                  viewBox="0 0 507 511.644"
-                  onClick={handleClick}
-                  fill="white"
-                >
-                  <g id="Layer_x0020_1">
-                    <metadata id="CorelCorpID_0Corel-Layer" />
-                    <path
-                      className="fil0"
-                      d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
-                    />
-                  </g>
-                </svg>
-
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                >
-                  <Typography sx={{ p: 2 }}>
-                    <select style={{ width: "100%" }} onChange={getFilterValue}>
-                      <option>Contain</option>
-                      <option>Starts With...</option>
-                      <option>Ends With...</option>
-                      <option>Equals</option>
-                      <option>Not Equals</option>
-                    </select>
-                    
-                    <div>
-                      <input
-                        {...rest}
-                        value={filters?.[column.field]}
-                        placeholder="Search..."
-                        onChange={(e) => getInputValue(e, filters)}
-                        onKeyDown={inputStopPropagation}
-                      />
-                      
-                    </div>
-                  </Typography>
-                </Popover>
-
-                {/* {open && <FiltersDropdown options={options} setFilters={setFilters} filters={filters} column={column} />} */}
-              </div>
-            )}
+            {({ filters, ...rest }) =>
+              FilterRendererWithSvg(
+                column,
+                
+                filterClassname,
+                filters,
+                setFilters,
+                setFilterType,
+                gridWidth
+              )
+            }
           </FilterRenderer>
         </div>
       );
@@ -306,7 +263,7 @@ export default function headerRenderer({
         display: "flex",
         width: "100%",
         alignItems: "center",
-        justifyContent: "space-between",
+        justifyContent: "center",
         height: "100%",
       };
       selectedCellHeaderStyle && selectedPosition.idx === column.idx
@@ -341,63 +298,20 @@ export default function headerRenderer({
             priority={priority}
             isCellSelected={isCellSelected}
           >
-            {column.headerName??column.field}
+            {column.headerName ?? column.field}
           </SortableHeaderCell>
           <FilterRenderer column={column} isCellSelected={isCellSelected}>
-            {({ filters, ...rest }) => (
-              <div className={filterClassname}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10px"
-                  height="10px"
-                  version="1.1"
-                  // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
-                  viewBox="0 0 507 511.644"
-                  onClick={handleClick}
-                  fill="white"
-                >
-                  <g id="Layer_x0020_1">
-                    <metadata id="CorelCorpID_0Corel-Layer" />
-                    <path
-                      className="fil0"
-                      d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
-                    />
-                  </g>
-                </svg>
-
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                >
-                  <Typography sx={{ p: 2 }}>
-                    <select style={{ width: "100%" }} onChange={getFilterValue}>
-                      <option>Contain</option>
-                      <option>Starts With...</option>
-                      <option>Ends With...</option>
-                      <option>Equals</option>
-                      <option>Not Equals</option>
-                    </select>
-                    <div>
-                      <input
-                        {...rest}
-                        value={filters?.[column.field]}
-                        placeholder="Search..."
-                        onChange={(e) => getInputValue(e, filters)}
-                        onKeyDown={inputStopPropagation}
-                      />
-                    </div>
-                  </Typography>
-                </Popover>
-
-                {/* {open && <FiltersDropdown options={options} setFilters={setFilters} filters={filters} column={column} />} */}
-              </div>
-            )}
+            {({ filters, ...rest }) =>
+              FilterRendererWithSvg(
+                column,
+                
+                filterClassname,
+                filters,
+                setFilters,
+                setFilterType,
+                gridWidth
+              )
+            }
           </FilterRenderer>
         </div>
       );
@@ -428,19 +342,25 @@ const RecursiveScan = (
   ChildColumnSetup,
   selectedCellIdx,
   filterIcon,
-  setFilterType
+  setFilterType,
+  gridWidth,
+  direction
 ) => {
   var cellHeight = cellHeight - headerRowHeight;
-
   ChildColumnSetup(subData);
   const { onFocus } = useRovingCellRef(isCellSelected);
   if (subData.haveChildren === true) {
     return (
       <div style={{ textAlign: "center" }}>
         {
-          <div className={headerWrapperWithChild}>
+          <div
+            style={{
+              borderBlockEnd: "1px solid var(--rdg-border-color)",
+              height: `${headerRowHeight}px`,
+            }}
+          >
             <div className={headerWrapperWithChildData}>
-              {subData.headerName??subData.field}
+              {subData.headerName ?? subData.field}
             </div>
           </div>
         }
@@ -475,7 +395,8 @@ const RecursiveScan = (
                   ChildColumnSetup,
                   selectedCellIdx,
                   filterIcon,
-                  setFilterType
+                  setFilterType,
+                  gridWidth
                 )}
               </div>
             );
@@ -485,7 +406,6 @@ const RecursiveScan = (
     );
   } else {
     columnsList.includes(subData.name) ? null : columnsList.push(subData.name);
-  
     var style = {
       display: "flex",
       justifyContent: "center",
@@ -500,7 +420,6 @@ const RecursiveScan = (
           : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
     };
-   
     selectedCellHeaderStyle && selectedPosition.idx === subData.idx
       ? (style = { ...style, ...selectedCellHeaderStyle })
       : style;
@@ -508,6 +427,9 @@ const RecursiveScan = (
     function onClick() {
       selectCell(subData.idx);
     }
+
+    const isRtl = direction === "rtl";
+
     function onDoubleClick(event) {
       const { right, left } = event.currentTarget.getBoundingClientRect();
       const offset = isRtl ? event.clientX - left : right - event.clientX;
@@ -557,7 +479,7 @@ const RecursiveScan = (
             onDoubleClick={column.resizable ? onDoubleClick : undefined}
             // onPointerDown={column.resizable ? onPointerDown : undefined}
           >
-            {subData.headerName??subData.field}
+            {subData.headerName ?? subData.field}
           </div>
         </>
       );
@@ -580,14 +502,14 @@ const RecursiveScan = (
             priority={priority}
             isCellSelected={isCellSelected}
           >
-            {subData.headerName??subData.field}
+            {subData.headerName ?? subData.field}
           </SortableHeaderCell>
         </div>
       );
     if (subData.filter && !subData.sortable) {
       var style1 = {
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "center",
         borderRight: "1px solid var(--rdg-border-color)",
         width: subData.width,
         alignItems: "center",
@@ -630,60 +552,16 @@ const RecursiveScan = (
           style={{ ...style1 }}
         >
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
-            {({ filters, ...rest }) => (
-              <div className={filterClassname}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10px"
-                  height="10px"
-                  version="1.1"
-                  // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
-                  viewBox="0 0 507 511.644"
-                  onClick={handleClick}
-                  fill="white"
-                >
-                  <g id="Layer_x0020_1">
-                    <metadata id="CorelCorpID_0Corel-Layer" />
-                    <path
-                      className="fil0"
-                      d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
-                    />
-                  </g>
-                </svg>
-
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                >
-                  <Typography sx={{ p: 2 }}>
-                    <select style={{ width: "100%" }} onChange={getFilterValue}>
-                      <option>Contain</option>
-                      <option>Starts With...</option>
-                      <option>Ends With...</option>
-                      <option>Equals</option>
-                      <option>Not Equals</option>
-                    </select>
-                    <div>
-                      <input
-                        {...rest}
-                        value={filters?.[subData.field]}
-                        placeholder="Search..."
-                        onChange={(e) => getInputValue(e, filters)}
-                        onKeyDown={inputStopPropagation}
-                      />
-                    </div>
-                  </Typography>
-                </Popover>
-
-                {/* {open && <FiltersDropdown options={options} setFilters={setFilters} filters={filters} column={column} />} */}
-              </div>
-            )}
+            {({ filters, ...rest }) =>
+              FilterRendererWithSvg(
+                subData,
+                filterClassname,
+                filters,
+                setFilters,
+                setFilterType,
+                gridWidth
+              )
+            }
           </FilterRenderer>
         </div>
       );
@@ -691,7 +569,7 @@ const RecursiveScan = (
     if (subData.filter && subData.sortable) {
       var style1 = {
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "center",
         borderRight: "1px solid var(--rdg-border-color)",
         width: subData.width,
         alignItems: "center",
@@ -744,63 +622,20 @@ const RecursiveScan = (
             priority={priority}
             isCellSelected={isCellSelected}
           >
-            {subData.headerName??subData.field}
+            {subData.headerName ?? subData.field}
           </SortableHeaderCell>
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
-            {({ filters, ...rest }) => (
-              <div className={filterClassname}>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="10px"
-                  height="10px"
-                  version="1.1"
-                  // style="shapeRendering:geometricPrecision; textRendering:geometricPrecision; imageRendering:optimizeQuality; fillRule:evenodd; clipRule:evenodd"
-                  viewBox="0 0 507 511.644"
-                  onClick={handleClick}
-                  fill="white"
-                >
-                  <g id="Layer_x0020_1">
-                    <metadata id="CorelCorpID_0Corel-Layer" />
-                    <path
-                      className="fil0"
-                      d="M192.557 241.772c5.368,5.842 8.316,13.476 8.316,21.371l0 232.663c0,14.002 16.897,21.109 26.898,11.265l64.905 -74.378c8.684,-10.422 13.475,-15.581 13.475,-25.901l0 -143.597c0,-7.897 3.001,-15.529 8.318,-21.373l186.236 -202.081c13.947,-15.159 3.21,-39.741 -17.424,-39.741l-459.536 0c-14.188,0 -23.722,11.594 -23.745,23.784 -0.01,5.541 1.945,11.204 6.321,15.957l186.236 202.031 0 0z"
-                    />
-                  </g>
-                </svg>
-
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: "bottom",
-                    horizontal: "left",
-                  }}
-                >
-                  <Typography sx={{ p: 2 }}>
-                    <select style={{ width: "100%" }} onChange={getFilterValue}>
-                      <option>Contain</option>
-                      <option>Starts With...</option>
-                      <option>Ends With...</option>
-                      <option>Equals</option>
-                      <option>Not Equals</option>
-                    </select>
-                    <div>
-                      <input
-                        {...rest}
-                        value={filters?.[subData.field]}
-                        placeholder="Search..."
-                        onChange={(e) => getInputValue(e, filters)}
-                        onKeyDown={inputStopPropagation}
-                      />
-                    </div>
-                  </Typography>
-                </Popover>
-
-                {/* {open && <FiltersDropdown options={options} setFilters={setFilters} filters={filters} column={column} />} */}
-              </div>
-            )}
+            {({ filters, ...rest }) =>
+              FilterRendererWithSvg(
+                subData,
+               
+                filterClassname,
+                filters,
+                setFilters,
+                setFilterType,
+                gridWidth
+              )
+            }
           </FilterRenderer>
         </div>
       );

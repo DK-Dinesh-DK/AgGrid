@@ -1,5 +1,5 @@
 import React from 'react';
-import { textEditorClassname } from "../../editors/textEditor";
+// import { textEditorClassname } from "../../editors/textEditor";
 
 const titles = ["Dr.", "Mr.", "Mrs.", "Miss", "Ms."]
 

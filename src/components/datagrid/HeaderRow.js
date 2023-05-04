@@ -1,5 +1,5 @@
 import React,{ memo } from "react";
-import clsx from "clsx";
+import {clsx} from "clsx";
 import { css } from "@linaria/core";
 
 import HeaderCell from "./HeaderCell";
@@ -54,9 +54,9 @@ function HeaderRow({
   setFilters,
   setFilterType,
   handleReorderColumn,
+  gridWidth,
   ...props
 }) {
- 
   const cells = [];
   function ChildColumnSetup(data) {
     props.ChildColumnSetup(data);
@@ -99,6 +99,7 @@ function HeaderRow({
         setFilters={setFilters}
         setFilterType={setFilterType}
         ChildColumnSetup={ChildColumnSetup}
+        gridWidth={gridWidth}
       />
     );
   }

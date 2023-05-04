@@ -1,6 +1,6 @@
 import React,{memo} from "react";
 
-import clsx from "clsx";
+import {clsx} from "clsx";
 import { css } from "@linaria/core";
 
 import { cell, cellFrozen, rowClassname, rowSelectedClassname } from "./style";

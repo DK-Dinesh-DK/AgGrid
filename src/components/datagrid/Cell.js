@@ -30,6 +30,26 @@ const cellDraggedOver = css`
 
 const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver}`;
 
+const rowCellFreezeClassname = css`
+  @layer rdg.rowCell {
+    position: sticky;
+    z-index: 2;
+    background: dark blue;
+    inset-block-start: var(--rdg-summary-row-top);
+    inset-block-end: var(--rdg-summary-row-bottom);
+  }
+`;
+const freezeCol = css`
+  @layer rdg.rowFridge {
+    z-index: 3;
+  }
+`;
+const freezedLastRowClassName = css`
+  @layer rdg.freezedLastRowShadow {
+    box-shadow: 0 calc(2px * var(--rdg-sign)) 5px -2px rgba(136, 136, 136, 0.5);
+  }
+`;
+
 function Cell({
   column,
   rowArray,
@@ -61,6 +81,9 @@ function Cell({
   columnApi,
   valueChangedCellStyle,
   previousData,
+  rowFreezLastIndex,
+  headerheight,
+  summaryRowHeight,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -71,7 +94,7 @@ function Cell({
   const [value, setValue] = useState(
     cellRendererParams?.value ?? row[column.key]
   );
-  const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const {  tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
   const { cellClass } = column;
   const topRow = rowIndex === 0 && isRowSelected ? true : false;
@@ -87,11 +110,15 @@ function Cell({
       [rowIsSelectedClassName]: middleRow,
       [topRowIsSelectedClassName]: topRow,
       [bottomRowIsSelectedClassName]: bottomRow,
+      [rowCellFreezeClassname]: rowIndex <= rowFreezLastIndex,
+      [freezeCol]: column.frozen === true && rowIndex <= rowFreezLastIndex,
+      [freezedLastRowClassName]: rowIndex === rowFreezLastIndex,
     },
     typeof cellClass === "function" ? cellClass(row) : cellClass
   );
 
   function handleClick(e) {
+    // selectCellWrapper(column.editorOptions?.editOnClick);
     onRowClick?.({
       api: api,
       data: row,
@@ -140,7 +167,7 @@ function Cell({
   }
 
   function handleDoubleClick(e) {
-    selectCellWrapper(true);
+    // selectCellWrapper(true);
     onRowDoubleClick?.({
       api: api,
       data: row,
@@ -174,7 +201,12 @@ function Cell({
 
   // -----------
 
-  let style = getCellStyle(column, colSpan);
+  let style = {
+    ...getCellStyle(column, colSpan, row),
+    "--rdg-summary-row-top": `${
+      headerheight + summaryRowHeight + rowIndex * 24
+    }px`,
+  };
   style =
     column.haveChildren === true
       ? { ...style, ...{ borderInlineEnd: "none" } }
@@ -378,7 +410,8 @@ function Cell({
       tabIndex={tabIndex}
       className={className}
       style={style}
-      onClick={handleClick}
+      // onClick={handleClick}
+      // onDoubleClick={handleDoubleClick}
       onFocus={onFocus}
       {...props}
     >
@@ -390,7 +423,6 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{display:"flex"}}
             >
               <span style={{ marginRight: "10px", cursor: "grab" }}>
                 &#9674;
@@ -412,7 +444,7 @@ function Cell({
                 rowIndex,
                 isCellSelected,
                 onRowChange: handleRowChange,
-                onRowClick,
+                onRowClick: onRowClick, columnApi, onCellClick, onCellDoubleClick,
                 selectCell,
                 onRowDoubleClick,
                 subColumn,
@@ -454,7 +486,7 @@ function Cell({
               isCellSelected,
               selectCell,
               onRowChange: handleRowChange,
-              onRowClick,
+              onRowClick: onRowClick, columnApi, onCellClick, onCellDoubleClick,
               onRowDoubleClick,
               subColumn,
               value: value,

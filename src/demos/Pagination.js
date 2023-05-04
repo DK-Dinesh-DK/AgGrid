@@ -113,7 +113,6 @@ export default function Pagination({ direction }) {
       direction={direction}
       pagination={true}
       defaultPage={3}
-      rowSelection={"single"}
       // paginationAutoPageSize={true}
       // paginationPageSize={39}
       // suppressPaginationPanel={true}

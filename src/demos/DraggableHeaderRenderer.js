@@ -1,10 +1,6 @@
 import { useDrag, useDrop } from 'react-dnd';
 import HeaderRenderer from '../components/datagrid/HeaderRenderer';
 
-
-
-
-
 export default function DraggableHeaderRenderer({
   onColumnsReorder,
   column,

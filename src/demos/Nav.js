@@ -105,9 +105,9 @@ export default function Nav({ direction, onDirectionChange }) {
       <NavLink to="/million-cells" end className={getActiveClassname}>
         12. A Million Cells
       </NavLink>
-      <NavLink to="/no-rows" end className={getActiveClassname}>
+      {/* <NavLink to="/no-rows" end className={getActiveClassname}>
         13 Serial Number
-      </NavLink>
+      </NavLink> */}
       <NavLink to="/resizable-grid" end className={getActiveClassname}>
         14 Resizable Grid
       </NavLink>

@@ -44,8 +44,9 @@ function SelectGroupFormatter(props) {
   );
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SelectColumn = {
-  key: SELECT_COLUMN_KEY,
+  field: SELECT_COLUMN_KEY,
   name: "",
   width: 35,
   minWidth: 35,
@@ -73,7 +74,7 @@ export const SelectColumn = {
   },
 };
 export const SerialNumberColumn = {
-  key: SERIAL_NUMBER_COLUMN_KEY,
+  field: SERIAL_NUMBER_COLUMN_KEY,
   name: "Sr. No.",
   width: 45,
   resizable: false,
@@ -81,7 +82,7 @@ export const SerialNumberColumn = {
   frozen: true,
   filter: false,haveChildren:false,
   headerRenderer: () => {
-    return <div>{SerialNumberColumn.name}</div>;
+    return SerialNumberColumn.name
   },
   cellClass: headerCellClassName,
   cellRenderer: (props) => {

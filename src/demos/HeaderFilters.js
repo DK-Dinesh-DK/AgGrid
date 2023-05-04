@@ -1,6 +1,5 @@
 import { useMemo, useState, useRef, useCallback } from "react";
 import { css } from "@linaria/core";
-import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
 import TextEditor from "../components/datagrid/editors/textEditor";
 // import { Parser, SUPPORTED_FORMULAS } from 'hot-formula-parser';

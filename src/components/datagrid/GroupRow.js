@@ -1,5 +1,5 @@
 import React,{memo} from "react";
-import clsx from "clsx";
+import {clsx} from "clsx";
 import { css } from "@linaria/core";
 
 import {
@@ -19,7 +19,7 @@ const groupRow = css`
       background-color: var(--rdg-header-background-color);
     }
 
-    > .${String(cell)}:not(:last-child):not(.${String(cellFrozenLast)}) {
+    > .${cell}:not(:last-child):not(.${cellFrozenLast}) {
       border-inline-end: none;
     }
   }
@@ -68,7 +68,8 @@ function GroupedRow({
         )}
         onClick={handleSelectGroup}
         style={getRowStyle(gridRowStart, height)}
-        {...props}>
+        {...props}
+        >
         {viewportColumns.map((column) => (
           <GroupCell
             key={`${column.key}`}

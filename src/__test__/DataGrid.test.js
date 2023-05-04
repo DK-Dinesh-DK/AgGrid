@@ -46,6 +46,7 @@ const columns = [
     sortable: true,
     isTopHeader: false,
     filter: true,
+    //frozen: true,
     children: [
       {
         field: "low",
@@ -67,6 +68,8 @@ const columns = [
   {
     field: "complete",
     headerName: "% Complete",
+    //filter: true,
+    //   sortable: true,
     isTopHeader: true,
     children: [
       {

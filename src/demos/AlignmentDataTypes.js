@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { css } from "@linaria/core";
+// import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
 // import { SelectColumn } from "../components/datagrid/Columns";
@@ -7,6 +7,7 @@ import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 
+// import DropDownEditor from "../components/datagrid/editors/DropDownEditors";
 import moment from "moment";
 function rowKeyGetter(row) {
   return row.id;
@@ -17,12 +18,13 @@ const columns = [
     field: "id",
     headerName: "ID",
     width: 80,
-    alignment: true,
+    alignment: {type:"number"},
   },
   {
     field: "firstName",
     headerName: "First Name",
     width: 100,
+    alignment:true,
   },
   {
     headerName: "Money",
@@ -61,7 +63,7 @@ const columns = [
   {
     field: "datetime",
     headerName: "DateTime",
-    alignment: true,
+    alignment: {type:"datetime"},
   },
 ];
 
