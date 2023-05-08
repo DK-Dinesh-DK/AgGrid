@@ -54,6 +54,12 @@ function TreeRow({
   onCellClick,
   onCellContextMenu,
   onCellDoubleClick,
+  rowClass,
+  handleRowChange,
+  selectCell,
+  selectedCellEditor,
+  node,
+  allrow,
   ...props
 }) {
   // Select is always the first column
@@ -99,6 +105,7 @@ function TreeRow({
         aria-expanded={isExpanded}
         className={clsx(
           rowClassname,
+          rowClass,
           groupRowClassname,
           `rdg-row-groupRow-${rowIdx % 2 === 0 ? "even" : "odd"}`,
           {
@@ -123,21 +130,22 @@ function TreeRow({
             level={detectedLevel}
             selection={selection}
             serialNumber={serialNumber}
-            allrow={props.allrow}
+            allrow={allrow}
             rowIndex={rowIdx}
             viewportColumns={viewportColumns}
-            node={props.node}
+            node={node}
             onRowClick={onRowClick}
-            onRowChange={props.handleRowChange}
-            onCellClick={props.onCellClick}
-            onCellDoubleClick={props.onCellDoubleClickLatest}
-            onCellContextMenu={props.onCellContextMenuLatest}
+            onRowChange={handleRowChange}
+            onCellClick={onCellClick}
+            onCellDoubleClick={onCellDoubleClick}
+            onCellContextMenu={onCellContextMenu}
             onRowDoubleClick={onRowDoubleClick}
             columnApi={columnApi}
             selectTree={selectTree}
             isRowSelected={isRowSelected}
             // isCopied={props.copiedCellIdx === idx}
-            selectCell={props.selectCell}
+            selectCell={selectCell}
+            selectedCellEditor={selectedCellEditor}
             valueChangedCellStyle={valueChangedCellStyle}
             treeData={treeData}
           />

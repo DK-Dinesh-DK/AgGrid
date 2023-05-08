@@ -244,6 +244,7 @@ function DataGrid(props, ref) {
    * states
    */
   const [afterFilter, setAfterFilter] = useState([]);
+  const [afterSort, setAfterSort] = useState([]);
   const [defaultColumnDef, setDefaultColumnDef] =
     useState(defaultColumnOptions);
   const [rawGroupBy, setRawGroupBy] = useState(raawGroupBy);
@@ -452,10 +453,11 @@ function DataGrid(props, ref) {
   const latestDraggedOverRowIdx = useRef(draggedOverRowIdx);
   const lastSelectedRowIdx = useRef(-1);
   const rowRef = useRef(null);
-  const componentRef = useRef();
+  // const componentRef = useRef();
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    content: () => gridRef.current,
   });
+
   /**
    * computed values
    */
@@ -1612,9 +1614,9 @@ function DataGrid(props, ref) {
   useUpdateEffect(() => {
     setSample([...raawRows]);
   }, [raawRows]);
-  useUpdateEffect(() => {
-    setSample([...raawRows]);
-  }, []);
+  // useUpdateEffect(() => {
+  //   setSample([...raawRows]);
+  // }, []);
 
   function updateRow(column, rowIdx, row, oldRow) {
     if (rest.treeData) {
@@ -1635,9 +1637,9 @@ function DataGrid(props, ref) {
       }
       rawRows.map((obj) => {
         if (JSON.stringify(obj) === JSON.stringify(oldRow)) {
-          let sampleChanged = findCahngedKey(oldRow, row);
-          let sampleRow = obj;
-          sampleRow[sampleChanged] = row[sampleChanged];
+          // let sampleChanged = findCahngedKey(oldRow, row);
+          // let sampleRow = obj;
+          // sampleRow[sampleChanged] = row[sampleChanged];
           sample.push(row);
         } else if (obj.children) {
           sample.push(obj);
@@ -1650,9 +1652,9 @@ function DataGrid(props, ref) {
       onRowsChange(sample, column);
     } else {
       let sampleData = raawRows;
-      let sampleChanged = changedList;
-      sampleChanged[rowIdx] = findCahngedKey(row, sample[rowIdx]);
-      setChangedList(sampleChanged);
+      // let sampleChanged = changedList;
+      // sampleChanged[rowIdx] = findCahngedKey(row, sample[rowIdx]);
+      // setChangedList(sampleChanged);
       sampleData[rowIdx] = row;
       setRawRows([...sampleData]);
       if (typeof onRowsChange !== "function") return;
@@ -2483,7 +2485,7 @@ function DataGrid(props, ref) {
         parent: {
           allLeafChildren: RowNodes,
           childrenAfterFilter: afterFilter,
-          childrenAfterSort: afterFilter,
+          childrenAfterSort: afterSort,
         },
 
         expanded: rows[rowIdx]?.isExpanded,
@@ -2705,7 +2707,7 @@ function DataGrid(props, ref) {
       rootNode: {
         allLeafChildren: RowNodes,
         childrenAfterFilter: afterFilter,
-        childrenAfterSort: afterFilter,
+        childrenAfterSort: afterSort,
       },
       columnModel: { columnDefs: rawColumns, displayedColumns: columns },
       nodeManager: { allNodesMap: RowNodes },
@@ -2757,12 +2759,15 @@ function DataGrid(props, ref) {
   }
 
   useEffect(() => {
-    setAfterFilter(getViewportRowsSample(rows));
-  }, [rows]);
+    setAfterFilter(getViewportRowsSample(sortedRows));
+  }, [filters]);
+  useEffect(() => {
+    setAfterSort(getViewportRowsSample(sortedRows));
+  }, [sortColumns,sortedRows]);
 
   useEffect(() => {
     setRowNodes(getViewportRowsSample(raawRows));
-  }, [expandedGroupIds, expandAll, raawRows]);
+  }, [expandedGroupIds, expandAll, raawRows,afterFilter,afterSort]);
 
   /////
   var renderedRowNodes = [];
@@ -2791,21 +2796,6 @@ function DataGrid(props, ref) {
         viewportRowIdx === rowOverscanStartIdx - 1 ||
         viewportRowIdx === rowOverscanEndIdx + 1;
       const rowIdx = isRowOutsideViewport ? selectedRowIdx : viewportRowIdx;
-
-      let rowColumns = viewportColumns;
-      const selectedColumn = columns4[selectedIdx];
-      // selectedIdx can be -1 if grouping is enabled
-      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-      if (selectedColumn !== undefined) {
-        if (isRowOutsideViewport) {
-          // if the row is outside the viewport then only render the selected cell
-          rowColumns = [selectedColumn];
-        } else {
-          // if the row is within the viewport and cell is not, add the selected column to viewport columns
-          rowColumns = regroupArray(merged);
-        }
-      }
-
       const row = rows[rowIdx];
 
       const gridRowStart = headerRowsCount + topSummaryRowsCount + rowIdx + 1;
@@ -2834,7 +2824,6 @@ function DataGrid(props, ref) {
             childRows={row.childRows}
             rowIdx={rowIdx}
             row={row}
-            rowArray={columns5}
             gridRowStart={gridRowStart}
             height={getRowHeight(rowIdx)}
             level={row.level}
@@ -2898,7 +2887,6 @@ function DataGrid(props, ref) {
             ref={key}
             valueChangedCellStyle={valueChangedCellStyle}
             // previousData={changedList}
-            totalColumns={columns.length}
             headerheight={headerheight} //need to be added
             // selectedCellRowStyle={selectedCellRowStyle}
             rowClass={rowClass}
@@ -2959,7 +2947,7 @@ function DataGrid(props, ref) {
         parent: {
           allLeafChildren: RowNodes,
           childrenAfterFilter: afterFilter,
-          childrenAfterSort: afterFilter,
+          childrenAfterSort: afterSort,
         },
         updateData: setData,
         expanded: rows[rowIdx]?.isExpanded,
@@ -3060,17 +3048,7 @@ function DataGrid(props, ref) {
 
   const isGroupRowFocused =
     selectedPosition.idx === -1 && selectedPosition.rowIdx !== -2;
-  useUpdateEffect(() => {
-    if (paginationAutoPageSize) {
-      if (raawRows.length <= 500) {
-        setSize(20);
-      } else if (1000 >= raawRows.length && raawRows.length > 500) {
-        setSize(30);
-      } else {
-        setSize(40);
-      }
-    }
-  }, [raawRows, paginationAutoPageSize]);
+
   useUpdateEffect(() => {
     if (paginationAutoPageSize) {
       if (raawRows.length <= 500) {
@@ -3405,7 +3383,7 @@ function DataGrid(props, ref) {
       </div>
       {(pagination || showSelectedRows) && (
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          {showSelectedRows ? (
+          {showSelectedRows && (
             <div
               className="footer-bottom"
               style={{
@@ -3425,7 +3403,7 @@ function DataGrid(props, ref) {
                 selectedRows1?.size === undefined ? 0 : selectedRows1?.size
               } out of ${raawRows.length} selected`}
             </div>
-          ) : undefined}
+          )}
           {pagination && !suppressPagination && (
             <Pagination
               className="pagination-data"

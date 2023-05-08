@@ -25,7 +25,7 @@ function TreeCell({
   selectedCellIdx,
   selectedCellEditor,
   apiObject,
- 
+  onRowChange,
   node,
   rowIndex,
   isRowSelected,
@@ -77,7 +77,7 @@ function TreeCell({
     });
   }
   function handleRowChange(newRow) {
-    props.onRowChange(column, rowIndex, newRow, row);
+    onRowChange(column, rowIndex, newRow, row);
   }
 
   const { cellClass } = column;
