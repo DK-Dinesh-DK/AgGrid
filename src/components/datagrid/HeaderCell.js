@@ -6,6 +6,8 @@ import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { filterColumnClassName } from "./style";
 import { useDrag, useDrop } from "react-dnd";
+import alignmentUtilsHeader from "./alignMentUtils";
+
 const cellResizable = css`
   @layer rdg.HeaderCell {
     touch-action: none;
@@ -51,7 +53,7 @@ export default function HeaderCell({
   gridWidth,
 }) {
   const isRtl = direction === "rtl";
-  const {  tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
   const [sortableColumnKey, setSortableColumnKey] = useState();
   const sortIndex = sortColumns?.findIndex(
     (sort) => sort.columnKey === sortableColumnKey
@@ -61,20 +63,20 @@ export default function HeaderCell({
     sortIndex !== undefined && sortIndex > -1
       ? sortColumns[sortIndex]
       : undefined;
-      
+
   const sortDirection = sortColumn?.direction;
   const priority =
     sortColumn !== undefined && sortColumns.length > 1
       ? sortIndex + 1
       : undefined;
-     
+
   const ariaSort =
     sortDirection && !priority
       ? sortDirection === "ASC"
         ? "ascending"
         : "descending"
       : undefined;
-  const style = getCellStyle(column, colSpan);
+  let style = getCellStyle(column, colSpan);
   // selectedCellHeaderStyle && selectedPosition.idx === column.idx
   //   ? (style = { ...style, ...selectedCellHeaderStyle })
   //   : style;
@@ -130,7 +132,7 @@ export default function HeaderCell({
     currentTarget.addEventListener("lostpointercapture", onLostPointerCapture);
   }
 
-  function onSort(ctrlClick, name,idx) {
+  function onSort(ctrlClick, name, idx) {
     let matches = [];
     const recursiveSort = (cdata) => {
       if (cdata.haveChildren === true) {
@@ -247,6 +249,25 @@ export default function HeaderCell({
       canDrop: monitor.canDrop(),
     }),
   });
+
+
+
+  let headerStyle = {
+    display: "flex",
+    height: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+  if (column.alignment) {
+    headerStyle = column.alignment.align
+      ? { ...headerStyle, justifyContent: column.alignment.align }
+      : alignmentUtilsHeader(column, rows[0], headerStyle);
+  }
+  if (column.alignment) {
+    style = column.alignment.align
+      ? { ...style, justifyContent: column.alignment.align }
+      : alignmentUtilsHeader(column, rows[0], style);
+  }
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -268,7 +289,7 @@ export default function HeaderCell({
       // onDoubleClick={column.resizable ? onDoubleClick : undefined}
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
-      <div style={{ display: "flex", height: "100%", alignItems: "center", justifyContent:"center" }}>
+      <div style={headerStyle}>
         {headerRenderer({
           column,
           rows,
@@ -276,7 +297,8 @@ export default function HeaderCell({
           cellHeight,
           sortDirection,
           selectCell,
-          priority,selectedCellIdx,
+          priority,
+          selectedCellIdx,
           onSort,
           allRowsSelected,
           onAllRowsSelectionChange,

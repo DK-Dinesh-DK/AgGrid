@@ -41,7 +41,6 @@ export function FilterRendererWithSvg(
   const left = buttonRect && buttonRect.left + window.pageXOffset;
   const tooltipWidth = 200;
 
-  console.log("viewportWidth", tooltipRef, tooltipWidth);
   const tooltipLeft =
     left + tooltipWidth > gridWidth ? left - tooltipWidth : left;
 

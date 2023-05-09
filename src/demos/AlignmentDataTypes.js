@@ -19,6 +19,7 @@ const columns = [
     headerName: "ID",
     width: 80,
     alignment: {type:"number"},
+    filter:true,
   },
   {
     field: "firstName",
@@ -41,6 +42,7 @@ const columns = [
     field: "lastName",
     headerName: "Last Name",
     width: 100,
+    alignment:{align:"end"},
   },
   {
     field: "email",
@@ -52,6 +54,7 @@ const columns = [
     headerName: "Date",
     alignment: { type: "DATe" },
     // width:200,
+
     resizable: true,
   },
   {

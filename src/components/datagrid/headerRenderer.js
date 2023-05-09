@@ -5,6 +5,7 @@ import FilterRenderer from "./FilterRenderer";
 import SortableHeaderCell from "./SortableHeaderCell";
 import { RecordsFilter as FilterIcon } from "../../assets/Icon";
 import { FilterRendererWithSvg } from "./FilterRendererWithSvg";
+import alignmentUtilsHeader from "./alignMentUtils";
 
 const filterIcon = <FilterIcon />;
 
@@ -17,7 +18,6 @@ const filterClassname = css`
   inline-size: 100%;
   cursor: pointer;
 `;
-
 
 const headerWrapperWithChildData = css`
   display: flex;
@@ -69,14 +69,18 @@ export default function headerRenderer({
         <div className={headerWrapperWithcellData}>
           {column.children !== undefined &&
             column.children.map((info, index) => {
+              let style_fg = {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              };
+              if (column.alignment) {
+                style_fg = column.alignment.align
+                  ? { ...style_fg, justifyContent: column.alignment.align }
+                  : alignmentUtilsHeader(column, rows[0], style_fg);
+              }
               return (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
+                <div style={style_fg} key={index}>
                   {RecursiveScan(
                     column.children,
                     info,
@@ -98,7 +102,8 @@ export default function headerRenderer({
                     selectedCellIdx,
                     filterIcon,
                     setFilterType,
-                    gridWidth
+                    gridWidth,
+                    rows
                   )}
                 </div>
               );
@@ -114,10 +119,17 @@ export default function headerRenderer({
       alignItems: "center",
       height: "inherit",
       width: column.width ?? "100%",
+      paddingLeft: "5px",
+      paddingRight: "5px",
     };
-    selectedCellHeaderStyle && selectedPosition.idx === column.idx
-      ? (style = { ...style, ...selectedCellHeaderStyle })
-      : style;
+    if (column.alignment) {
+      style = column.alignment.align
+        ? { ...style, justifyContent: column.alignment.align }
+        : alignmentUtilsHeader(column, rows[0], style);
+    }
+    if (selectedCellHeaderStyle && selectedPosition.idx === column.idx)
+      style = { ...style, ...selectedCellHeaderStyle };
+
     function onClick() {
       selectCell(column.idx);
     }
@@ -143,29 +155,24 @@ export default function headerRenderer({
 
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
+    let style_1 = {
+      height: `${cellHeight}px`,
+      display: "flex",
+      justifyContent: "center",
+      width: "100%",
     };
-
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-    const id = open ? "simple-popover" : undefined;
-
+    if (column.alignment) {
+      style_1 = column.alignment.align
+        ? { ...style_1, justifyContent: column.alignment.align }
+        : alignmentUtilsHeader(column, rows[0], style_1);
+    }
     if (!column.sortable && !column.filter) {
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 
         <div
           key={column.idx}
-          style={{
-            height: `${cellHeight}px`,
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
+          style={style_1}
           onFocus={handleFocus}
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
@@ -179,12 +186,7 @@ export default function headerRenderer({
       return (
         <div
           key={column.idx}
-          style={{
-            height: `${cellHeight}px`,
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
-          }}
+          style={style_1}
           onFocus={handleFocus}
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
@@ -212,25 +214,9 @@ export default function headerRenderer({
         justifyContent: "center",
         height: "100%",
       };
-      selectedCellHeaderStyle && selectedPosition.idx === column.idx
-        ? (style11 = { ...style11, ...selectedCellHeaderStyle })
-        : style11;
-
-      const [iValue, setIvalue] = useState("");
-
-      const getFilterValue = (event) => {
-        const value = event.target.value;
-        setFilterType(value);
-      };
-
-      const getInputValue = (event, filters) => {
-        event.preventDefault();
-        const value = event.target.value;
-        setFilters({
-          ...filters,
-          [column.field]: value,
-        });
-      };
+      if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
+        style11 = { ...style11, ...selectedCellHeaderStyle };
+      }
 
       return (
         <div style={{ ...style11 }} key={column.idx} onClick={onClick}>
@@ -246,7 +232,7 @@ export default function headerRenderer({
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
                 column,
-                
+
                 filterClassname,
                 filters,
                 setFilters,
@@ -266,24 +252,14 @@ export default function headerRenderer({
         justifyContent: "center",
         height: "100%",
       };
-      selectedCellHeaderStyle && selectedPosition.idx === column.idx
-        ? (styleSF = { ...styleSF, ...selectedCellHeaderStyle })
-        : styleSF;
-
-      const getFilterValue = (event) => {
-        const value = event.target.value;
-        setFilterType(value);
-      };
-
-      const getInputValue = (event, filters) => {
-        const value = event.target.value;
-
-        setFilters({
-          ...filters,
-          [column.field]: value,
-        });
-      };
-
+      if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
+        styleSF = { ...styleSF, ...selectedCellHeaderStyle };
+      }
+      if (column.alignment) {
+        styleSF = column.alignment.align
+          ? { ...styleSF, justifyContent: column.alignment.align }
+          : alignmentUtilsHeader(column, rows[0], styleSF);
+      }
       return (
         <div
           key={column.idx}
@@ -292,19 +268,21 @@ export default function headerRenderer({
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           style={{ ...styleSF }}
         >
-          <SortableHeaderCell
-            onSort={onSort}
-            sortDirection={sortDirection}
-            priority={priority}
-            isCellSelected={isCellSelected}
-          >
-            {column.headerName ?? column.field}
-          </SortableHeaderCell>
+          <div style={{ width: "90%" }}>
+            <SortableHeaderCell
+              onSort={onSort}
+              sortDirection={sortDirection}
+              priority={priority}
+              isCellSelected={isCellSelected}
+            >
+              {column.headerName ?? column.field}
+            </SortableHeaderCell>
+          </div>
           <FilterRenderer column={column} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
                 column,
-                
+
                 filterClassname,
                 filters,
                 setFilters,
@@ -319,6 +297,7 @@ export default function headerRenderer({
   }
 }
 // useMemo(() => expensiveCalculation(count), [count]);
+
 
 var columnsList = [];
 
@@ -344,11 +323,13 @@ const RecursiveScan = (
   filterIcon,
   setFilterType,
   gridWidth,
-  direction
+  direction,
+  rows
 ) => {
   var cellHeight = cellHeight - headerRowHeight;
   ChildColumnSetup(subData);
   const { onFocus } = useRovingCellRef(isCellSelected);
+  let rowData = direction;
   if (subData.haveChildren === true) {
     return (
       <div style={{ textAlign: "center" }}>
@@ -374,7 +355,7 @@ const RecursiveScan = (
             };
 
             return (
-              <div style={{ ...style }}>
+              <div style={{ ...style }} key={index}>
                 {RecursiveScan(
                   subData.children,
                   subInfo,
@@ -396,7 +377,9 @@ const RecursiveScan = (
                   selectedCellIdx,
                   filterIcon,
                   setFilterType,
-                  gridWidth
+                  gridWidth,
+                  direction,
+                  rowData
                 )}
               </div>
             );
@@ -405,7 +388,7 @@ const RecursiveScan = (
       </div>
     );
   } else {
-    columnsList.includes(subData.name) ? null : columnsList.push(subData.name);
+    if (!columnsList.includes(subData.name)) columnsList.push(subData.name);
     var style = {
       display: "flex",
       justifyContent: "center",
@@ -419,11 +402,18 @@ const RecursiveScan = (
           ? "1px solid var(--rdg-selection-color)"
           : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
+      paddingLeft: "5px",
+      paddingRight: "5px",
     };
-    selectedCellHeaderStyle && selectedPosition.idx === subData.idx
-      ? (style = { ...style, ...selectedCellHeaderStyle })
-      : style;
+    if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx) {
+      style = { ...style, ...selectedCellHeaderStyle };
+    }
 
+    if (subData.alignment) {
+      style = subData.alignment.align
+        ? { ...style, justifyContent: subData.alignment.align }
+        : alignmentUtilsHeader(subData, rowData[0], style);
+    }
     function onClick() {
       selectCell(subData.idx);
     }
@@ -442,27 +432,9 @@ const RecursiveScan = (
       onColumnResize(subData, "max-content");
     }
 
-    function handleFocus(event) {
-      onFocus?.(event);
-      if (shouldFocusGrid) {
-        // Select the first header cell if there is no selected cell
-        selectCell(0);
-      }
-    }
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
-
-    const open = Boolean(anchorEl);
-    const id = open ? "simple-popover" : undefined;
-
-    if (!subData.sortable && !subData.filter)
+    if (!subData.sortable && !subData.filter) {
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <>
@@ -483,6 +455,7 @@ const RecursiveScan = (
           </div>
         </>
       );
+    }
     if (subData.sortable && !subData.filter)
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -522,28 +495,18 @@ const RecursiveScan = (
         outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
       };
 
-      selectedCellHeaderStyle && selectedPosition.idx === subData.idx
-        ? (style1 = { ...style1, ...selectedCellHeaderStyle })
-        : style1;
+      if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx) {
+        style1 = { ...style1, ...selectedCellHeaderStyle };
+      }
 
       function onClickFilter() {
         selectCell(subData.idx);
       }
-
-      const getFilterValue = (event) => {
-        const value = event.target.value;
-        setFilterType(value);
-      };
-
-      const getInputValue = (event, filters) => {
-        const value = event.target.value;
-
-        setFilters({
-          ...filters,
-          [subData.field]: value,
-        });
-      };
-
+      if (subData.alignment) {
+        style1 = subData.alignment.align
+          ? { ...style1, justifyContent: subData.alignment.align }
+          : alignmentUtilsHeader(subData, rowData[0], style1);
+      }
       return (
         <div
           key={subData.idx}
@@ -551,7 +514,11 @@ const RecursiveScan = (
           onDoubleClick={subData.resizable ? onDoubleClick : undefined}
           style={{ ...style1 }}
         >
-          <FilterRenderer column={subData} isCellSelected={isCellSelected}>
+          <FilterRenderer
+            column={subData}
+            isCellSelected={isCellSelected}
+            rowData={rowData}
+          >
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
                 subData,
@@ -582,27 +549,20 @@ const RecursiveScan = (
         outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
       };
 
-      selectedCellHeaderStyle && selectedPosition.idx === subData.idx
-        ? (style1 = { ...style1, ...selectedCellHeaderStyle })
-        : style1;
+      if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx)
+        style1 = { ...style1, ...selectedCellHeaderStyle };
+
+      if (column.alignment) {
+        style = column.alignment.align
+          ? { ...style, justifyContent: column.alignment.align }
+          : alignmentUtilsHeader(column, rowData[0], style);
+      }
 
       function onClickFilter() {
         selectCell(subData.idx);
       }
 
-      const getFilterValue = (event) => {
-        const value = event.target.value;
-        setFilterType(value);
-      };
 
-      const getInputValue = (event, filters) => {
-        const value = event.target.value;
-
-        setFilters({
-          ...filters,
-          [subData.field]: value,
-        });
-      };
 
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -614,21 +574,34 @@ const RecursiveScan = (
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           // onPointerDown={column.resizable ? onPointerDown : undefined}
         >
-          <SortableHeaderCell
-            onSort={onSort}
-            selectedPositionIdx={selectedPosition.idx}
-            subCellIdx={subData.idx}
-            sortDirection={sortDirection}
-            priority={priority}
-            isCellSelected={isCellSelected}
+          <div
+            style={{
+              width: "90%",
+              ...style,
+              outline: "none",
+              borderInlineEnd: "none",
+            }}
           >
-            {subData.headerName ?? subData.field}
-          </SortableHeaderCell>
-          <FilterRenderer column={subData} isCellSelected={isCellSelected}>
+            <SortableHeaderCell
+              onSort={onSort}
+              selectedPositionIdx={selectedPosition.idx}
+              subCellIdx={subData.idx}
+              sortDirection={sortDirection}
+              priority={priority}
+              isCellSelected={isCellSelected}
+            >
+              {subData.headerName ?? subData.field}
+            </SortableHeaderCell>
+          </div>
+          <FilterRenderer
+            column={subData}
+            isCellSelected={isCellSelected}
+            rowData={rowData}
+          >
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
                 subData,
-               
+
                 filterClassname,
                 filters,
                 setFilters,

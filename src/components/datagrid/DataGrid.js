@@ -1597,7 +1597,7 @@ function DataGrid(props, ref) {
     return hasGroups ? rawRows.indexOf(rows[rowIdx]) : rowIdx;
   }
 
-  function findCahngedKey(newObj, oldObj) {
+  function findChangedKey(newObj, oldObj) {
     if (Object.keys(oldObj)?.length === 0 && Object.keys(newObj)?.length > 0)
       return newObj;
     let diff = {};
@@ -1610,51 +1610,48 @@ function DataGrid(props, ref) {
     return [];
   }
   const [changedList, setChangedList] = useState([]);
-  const [sample, setSample] = useState([]);
+  const [previousData, setPreviousData] = useState([]);
   useUpdateEffect(() => {
-    setSample([...raawRows]);
+    setPreviousData([...raawRows]);
   }, [raawRows]);
-  // useUpdateEffect(() => {
-  //   setSample([...raawRows]);
-  // }, []);
+  useEffect(() => {
+    setPreviousData([...raawRows]);
+  }, []);
 
   function updateRow(column, rowIdx, row, oldRow) {
     if (rest.treeData) {
-      // console.log(column, rowIdx, row, oldRow);
-      let sample = [];
-
-      function recursiveUpdate(obj) {
-        let arr = obj.children.map((childObj) => {
-          if (JSON.stringify(childObj) === JSON.stringify(oldRow)) {
-            return row;
-          } else if (childObj.children) {
-            return { ...childObj, children: recursiveUpdate(childObj) };
+      let sample = [...rawRows];
+      function replaceObject(arr, oldObj, newObj) {
+        return arr.map((obj) => {
+          if (obj === oldObj) {
+            return newObj;
+          } else if (obj.children) {
+            return {
+              ...obj,
+              children: replaceObject(obj.children, oldObj, newObj),
+            };
           } else {
             return obj;
           }
         });
-        return arr;
       }
-      rawRows.map((obj) => {
-        if (JSON.stringify(obj) === JSON.stringify(oldRow)) {
-          // let sampleChanged = findCahngedKey(oldRow, row);
-          // let sampleRow = obj;
-          // sampleRow[sampleChanged] = row[sampleChanged];
-          sample.push(row);
-        } else if (obj.children) {
-          sample.push(obj);
-        } else {
-          sample.push(obj);
-        }
-      });
 
-      setRawRows([...sample]);
-      onRowsChange(sample, column);
+      const res = replaceObject(sample, oldRow, row);
+      setRawRows(res);
+      if (onRowsChange === "function") {
+        console.log("dfgdg");
+        onRowsChange(sample, {
+          indexes: [rawIdx],
+          column,
+        });
+      }
     } else {
       let sampleData = raawRows;
-      // let sampleChanged = changedList;
-      // sampleChanged[rowIdx] = findCahngedKey(row, sample[rowIdx]);
-      // setChangedList(sampleChanged);
+      if (valueChangedCellStyle) {
+        let sampleChanged = changedList;
+        sampleChanged[rowIdx] = findChangedKey(row, previousData[rowIdx]);
+        setChangedList(sampleChanged);
+      }
       sampleData[rowIdx] = row;
       setRawRows([...sampleData]);
       if (typeof onRowsChange !== "function") return;
@@ -2663,6 +2660,7 @@ function DataGrid(props, ref) {
     scrollToColumn(index);
   }
   var apiObject = {
+    getFirstRenderedData: () => previousData,
     getColumnDefs: () => rawColumns,
     setColumnDefs: (columns) => setRawColumns(columns),
     setRowData: setRowData,
@@ -2763,11 +2761,11 @@ function DataGrid(props, ref) {
   }, [filters]);
   useEffect(() => {
     setAfterSort(getViewportRowsSample(sortedRows));
-  }, [sortColumns,sortedRows]);
+  }, [sortColumns, sortedRows]);
 
   useEffect(() => {
     setRowNodes(getViewportRowsSample(raawRows));
-  }, [expandedGroupIds, expandAll, raawRows,afterFilter,afterSort]);
+  }, [expandedGroupIds, expandAll, raawRows, afterFilter, afterSort]);
 
   /////
   var renderedRowNodes = [];

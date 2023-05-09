@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import moment from "moment";
+import {alignmentUtilsCell} from "../alignMentUtils";
 
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
@@ -104,7 +104,7 @@ export function valueFormatter(props) {
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align
         ? { ...cellStyle, textAlign: props.column.alignment.align }
-        : alignmentUtils(props.column, props.row, cellStyle);
+        : alignmentUtilsCell(props.column, props.row, cellStyle);
     }
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -123,136 +123,7 @@ export function valueFormatter(props) {
     );
   }
 }
-function alignmentUtils(column, row, childStyle) {
-  let styles = childStyle;
-  let symbol = ["£", "$", "₹", "€", "¥", "₣", "¢"];
-  if (
-    column.alignment.type?.toLowerCase() === "date" ||
-    moment(row[column.field], "YYYY-MM-DD", true).isValid() ||
-    moment(row[column.field], "YYYY/MM/DD", true).isValid() ||
-    moment(row[column.field], "YYYY-DD-MM", true).isValid() ||
-    moment(row[column.field], "YYYY/DD/MM", true).isValid() ||
-    moment(row[column.field], "MM-DD-YYYY", true).isValid() ||
-    moment(row[column.field], "MM/DD/YYYY", true).isValid() ||
-    moment(row[column.field], "MM-YYYY-DD", true).isValid() ||
-    moment(row[column.field], "MM/YYYY/DD", true).isValid() ||
-    moment(row[column.field], "DD-MM-YYYY", true).isValid() ||
-    moment(row[column.field], "DD/MM/YYYY", true).isValid() ||
-    moment(row[column.field], "DD-YYYY-MM", true).isValid() ||
-    moment(row[column.field], "DD/YYYY/MM", true).isValid() ||
-    moment(row[column.field], "DD-MMM-YYYY", true).isValid() ||
-    moment(row[column.field], "DD/MMM/YYYY", true).isValid() ||
-    moment(row[column.field], "DD-YYYY-MMM", true).isValid() ||
-    moment(row[column.field], "DD/YYYY/MMM", true).isValid() ||
-    moment(row[column.field], "MMM-DD-YYYY", true).isValid() ||
-    moment(row[column.field], "MMM/DD/YYYY", true).isValid() ||
-    moment(row[column.field], "MMM-YYYY-DD", true).isValid() ||
-    moment(row[column.field], "MMM/YYYY/DD", true).isValid() ||
-    moment(row[column.field], "YYYY-MMM-DD", true).isValid() ||
-    moment(row[column.field], "YYYY/MMM/DD", true).isValid() ||
-    moment(row[column.field], "YYYY-DD-MMM", true).isValid() ||
-    moment(row[column.field], "YYYY/DD/MMM", true).isValid() ||
-    JSON.stringify(row[column.field]).split("/").length === 3 ||
-    JSON.stringify(row[column.field]).split("-").length === 3
-  ) {
-    const alignmentStyle = column.alignment.align
-      ? { textAlign: column.alignment.align }
-      : {
-          textAlign: "end",
-          paddingRight: "6px",
-          paddingLeft: "6px",
-        };
-    styles = {
-      ...styles,
-      ...alignmentStyle,
-    };
-    return styles;
-  } else if (
-    column.alignment.type?.toLowerCase() === "time" ||
-    moment(row[column.field], "hh:mm", true).isValid() ||
-    moment(row[column.field], "hh:mm:ss", true).isValid() ||
-    moment(row[column.field], "hh:mm:ss a", true).isValid() ||
-    moment(row[column.field], "hh:mm a", true).isValid() ||
-    JSON.stringify(row[column.field]).split(":").length > 1
-  ) {
-    const alignment = column.alignment.align
-      ? { textAlign: column.alignment.align }
-      : { textAlign: "end", paddingRight: "6px", paddingLeft: "6px" };
-    styles = {
-      ...styles,
-      ...alignment,
-    };
-    return styles;
-  } else if (
-    column.alignment.type?.toLowerCase() === "datetime" ||
-    (JSON.stringify(row[column.field]).split(":").length > 1 &&
-      (JSON.stringify(row[column.field]).split("/").length === 3 ||
-        JSON.stringify(row[column.field]).split("-").length === 3))
-  ) {
-    const alignment = column.alignment.align
-      ? {
-          textAlign: column.alignment.align,
-          paddingRight: "6px",
-          paddingLeft: "6px",
-        }
-      : { textAlign: "end", paddingRight: "6px", paddingLeft: "6px" };
-    styles = {
-      ...styles,
-      ...alignment,
-    };
-    return styles;
-  } else if (
-    column.alignment.type?.toLowerCase() === "number" ||
-    (typeof row[column.field] === "number" &&
-      column.alignment.type !== "currency")
-  ) {
-    const alignment = column.alignment.align
-      ? { textAlign: column.alignment.align }
-      : { textAlign: "end" };
-    styles = {
-      ...styles,
-      ...alignment,
-    };
-    return styles;
-  } else if (
-    column.alignment.type?.toLowerCase() === "currency" ||
-    symbol.includes(JSON.stringify(row[column.field])[1]) ||
-    symbol.includes(
-      JSON.stringify(row[column.field])[row[column.field].length]
-    )
-  ) {
-    const alignment = column.alignment.align
-      ? { textAlign: column.alignment.align }
-      : { textAlign: "end" };
 
-    styles = {
-      ...styles,
-
-      ...alignment,
-    };
-
-    return styles;
-  } else if (
-    column.alignment.type?.toLowerCase() === "string" ||
-    column.alignment.type?.toLowerCase() === "text" ||
-    typeof row[column.field] === "string"
-  ) {
-    const alignment = column.alignment.align
-      ? { textAlign: column.alignment.align }
-      : { textAlign: "start" };
-    styles = {
-      ...styles,
-      ...alignment,
-    };
-    return styles;
-  } else {
-    const alignment = column.alignment.align
-      ? { textAlign: column.alignment.align }
-      : { textAlign: "center" };
-    styles = { ...styles, ...alignment };
-    return styles;
-  }
-}
 const childData = (subData, props) => {
   function flatten(into, node) {
     if (node == null) return into;
@@ -420,7 +291,7 @@ const childData = (subData, props) => {
     if (info1.alignment) {
       childStyle = info1.alignment.align
         ? { ...childStyle, textAlign: info1.alignment.align }
-        : alignmentUtils(info1, props.row, childStyle);
+        : alignmentUtilsCell(info1, props.row, childStyle);
     }
 
     return (
