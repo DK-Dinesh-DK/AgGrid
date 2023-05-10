@@ -1473,36 +1473,55 @@ function DataGrid(props, ref) {
     }
     onExpandedGroupIdsChange(newExpandedGroupIds);
   }
-
-  useEffect(() => {
+  function TreeViewHandle() {
     if (expandedTreeIds.length > 0) {
       let sampleRawRows = raawRows;
-      expandedTreeIds.map((id) => {
-        sampleRawRows.map((data, index) => {
-          const rowKey = rowKeyGetter(data);
-          if (id === rowKey) {
-            let sampleRow = data.children?.map((obj) => obj);
-            if (index !== 0) {
-              sampleRawRows = [
-                ...sampleRawRows.slice(0, index + 1),
-                ...sampleRow,
-                ...sampleRawRows.slice(index + 1),
-              ];
-            } else {
-              sampleRawRows = [
-                sampleRawRows[index],
-                ...sampleRow,
-                ...sampleRawRows.slice(index + 1),
-              ];
+      function gatherRows() {
+        expandedTreeIds.map((id) => {
+          sampleRawRows.map((data, index) => {
+            const rowKey = rowKeyGetter(data);
+            if (id === rowKey) {
+              if (
+                JSON.stringify(data.children[0]) !==
+                JSON.stringify(sampleRawRows[index + 1])
+              ) {
+                let sampleRow = data.children?.map((obj) => obj);
+                if (index !== 0) {
+                  sampleRawRows = [
+                    ...sampleRawRows.slice(0, index + 1),
+                    ...sampleRow,
+                    ...sampleRawRows.slice(index + 1),
+                  ];
+                } else {
+                  sampleRawRows = [
+                    sampleRawRows[index],
+                    ...sampleRow,
+                    ...sampleRawRows.slice(index + 1),
+                  ];
+                }
+              }
             }
-          }
+          });
         });
+      }
+      gatherRows();
+      sampleRawRows.map((row, index) => {
+        if (expandedTreeIds.includes(rowKeyGetter(row))) {
+          if (
+            JSON.stringify(row.children[0]) !==
+            JSON.stringify(sampleRawRows[index + 1])
+          ) {
+            gatherRows();
+          }
+        }
       });
-
-      setRawRows(sampleRawRows);
+      setRawRows([...sampleRawRows]);
     } else {
-      setRawRows(raawRows);
+      setRawRows([...raawRows]);
     }
+  }
+  useEffect(() => {
+    TreeViewHandle();
   }, [expandedTreeIds]);
 
   function toggleTree(newExpandedTreeId) {
@@ -1638,13 +1657,7 @@ function DataGrid(props, ref) {
 
       const res = replaceObject(sample, oldRow, row);
       setRawRows(res);
-      if (onRowsChange === "function") {
-        console.log("dfgdg");
-        onRowsChange(sample, {
-          indexes: [rawIdx],
-          column,
-        });
-      }
+      if (typeof onRowsChange === "function") onRowsChange(sample);
     } else {
       let sampleData = raawRows;
       if (valueChangedCellStyle) {
