@@ -73,6 +73,7 @@ import "./pagination.css";
 import { useCalculatedColumnswithIdx } from "./hooks/useCalculatedColumnswithIdx";
 import { useCalculatedRowColumns } from "./hooks/useCalculatedRowColumns";
 import { useCalculatedColumnsWithTopHeader } from "./hooks/useCalculatedColumnsWithTopHeader";
+import MasterRowRenderer from "./MasterRow";
 
 const initialPosition = {
   idx: -1,
@@ -147,6 +148,7 @@ function DataGrid(props, ref) {
     onGridReady,
     valueChangedCellStyle,
     rowFreezLastIndex,
+    onExpandedMasterIdsChange,
     ...rest
   } = props;
 
@@ -281,7 +283,12 @@ function DataGrid(props, ref) {
   const [expandedTreeIds, setExpandedTreeIds] = useState(
     props.expandedTreeIds ?? []
   );
-
+  const [expandedMasterRowIds, setExpandedMasterIds] = useState(
+    props.expandedMasterRowIds ?? []
+  );
+  useUpdateEffect(() => {
+    setExpandedMasterIds(props.expandedMasterRowIds);
+  }, [props.expandedMasterRowIds]);
   const PaginationChange = (page, pageSize) => {
     setCurrent(page);
     setSize(pageSize);
@@ -653,6 +660,7 @@ function DataGrid(props, ref) {
     paginationPageSize: size,
     current,
     pagination,
+    expandedMasterRowIds,
   });
 
   const { viewportColumns, flexWidthViewportColumns } = useViewportColumns({
@@ -1344,6 +1352,8 @@ function DataGrid(props, ref) {
 
   const toggleTreeLatest = useLatestFunc(toggleTree);
 
+  const toggleMasterLatest = useLatestFunc(toggleMaster);
+
   /**
    * effects
    */
@@ -1524,12 +1534,43 @@ function DataGrid(props, ref) {
     TreeViewHandle();
   }, [expandedTreeIds]);
 
+  useEffect(() => {
+    if (rest.masterData) {
+      if (expandedMasterRowIds.length > 0) {
+        let sampleRows = [];
+        raawRows.map((row) => {
+          if (expandedMasterRowIds.includes(row.id)) {
+            sampleRows.push({ ...row, gridRowType: "Master" });
+            sampleRows.push({
+              gridRowType: "Detail",
+              parentId: rowKeyGetter(row),
+            });
+          } else {
+            sampleRows.push({ ...row, gridRowType: "Master" });
+          }
+        });
+        setRawRows([...sampleRows]);
+      } else {
+        setRawRows([...raawRows]);
+      }
+    }
+  }, [expandedMasterRowIds]);
+
   function toggleTree(newExpandedTreeId) {
     if (!expandedTreeIds.includes(newExpandedTreeId)) {
       setExpandedTreeIds([...expandedTreeIds, newExpandedTreeId]);
     } else {
       setExpandedTreeIds(
         expandedTreeIds.filter((value) => value !== newExpandedTreeId)
+      );
+    }
+  }
+  function toggleMaster(newExpandedMasterId) {
+    if (!expandedMasterRowIds.includes(newExpandedMasterId)) {
+      setExpandedMasterIds([...expandedMasterRowIds, newExpandedMasterId]);
+    } else {
+      setExpandedMasterIds(
+        expandedMasterRowIds.filter((value) => value !== newExpandedMasterId)
       );
     }
   }
@@ -2025,6 +2066,7 @@ function DataGrid(props, ref) {
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "ROW",
       row,
+      expandedMasterRowIds,
     });
 
     const closeEditor = () => {
@@ -2897,30 +2939,73 @@ function DataGrid(props, ref) {
             columnApi={columnApiObject}
             ref={key}
             valueChangedCellStyle={valueChangedCellStyle}
-            // previousData={changedList}
             headerheight={headerheight} //need to be added
-            // selectedCellRowStyle={selectedCellRowStyle}
             rowClass={rowClass}
-            // copiedCellIdx={
-            //   copiedCell !== null && copiedCell.row === row
-            //     ? columns.findIndex((c) => c.key === copiedCell.columnKey)
-            //     : undefined
-            // }
-            // draggedOverCellIdx={getDraggedOverCellIdx(rowIdx)}
-            // setDraggedOverRowIdx={isDragging ? setDraggedOverRowIdx : undefined}
-            // lastFrozenColumnIndex={lastFrozenColumnIndex}
             onRowChange={handleFormatterRowChangeLatest}
             selectCell={selectViewportCellLatest}
-            // selectedCellDragHandle={getDragHandle(rowIdx)}
             selectedCellEditor={getCellEditor(rowIdx)}
-            // handleReorderRow={handleReorderRow}
-            // selectedPosition={selectedPosition}
             treeData={props.treeData}
           />
         );
         continue;
       }
+      if (rest.masterData) {
+        const isMasterRowSelected = selectedRows1?.has(rowKeyGetter(row));
 
+        function masterRowRenderer(ref, props) {
+          return <MasterRowRenderer ref={ref} {...props} />;
+        }
+        rowElements.push(
+          masterRowRenderer(rowRef, {
+            // aria-rowindex is 1 based
+            "aria-rowindex":
+              headerRowsCount + topSummaryRowsCount + startRowIndex + 1,
+
+            "aria-selected": isSelectable ? isMasterRowSelected : undefined,
+            key: `${row.id}`,
+            id: rowKeyGetter(row),
+            viewportColumns: regroupArray(merged),
+            childRows: row.childRows,
+            rowIdx: rowIdx,
+            row: row,
+            rowArray: columns5,
+            allrow: rows,
+            gridRowStart: gridRowStart,
+            height: getRowHeight(rowIdx),
+            level: row.level,
+            isExpanded: expandedMasterRowIds.includes(rowKeyGetter(row)),
+            selectedCellIdx:
+              selectedRowIdx === rowIdx ? selectedIdx : undefined,
+
+            apiObject: apiObject,
+            node: node,
+            selection: rest.selection,
+            serialNumber: serialNumber,
+            sourceData: raawRows,
+            isRowSelected: isMasterRowSelected ?? false,
+            selectTree: selectGroupLatest,
+            handleRowChange: handleFormatterRowChangeLatest,
+            toggleMaster: toggleMasterLatest,
+            onRowClick: onRowClick,
+            onCellClick: onCellClickLatest,
+            onCellDoubleClick: onCellDoubleClickLatest,
+            onCellContextMenu: onCellContextMenuLatest,
+            onRowDoubleClick: onRowDoubleClick,
+            columnApi: columnApiObject,
+            ref: key,
+            valueChangedCellStyle: valueChangedCellStyle,
+            headerheight: headerheight, //need to be adde,
+            rowClass: rowClass,
+            onRowChange: handleFormatterRowChangeLatest,
+            selectCell: selectViewportCellLatest,
+            selectedCellEditor: getCellEditor(rowIdx),
+            lastFrozenColumnIndex,
+            expandedMasterRowIds,
+          })
+        );
+
+        continue;
+      }
       startRowIndex++;
       let key;
       let isRowSelected = false;

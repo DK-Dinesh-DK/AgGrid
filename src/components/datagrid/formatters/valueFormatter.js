@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import {alignmentUtilsCell} from "../alignMentUtils";
+import { alignmentUtilsCell } from "../alignMentUtils";
 
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
@@ -325,6 +325,8 @@ const childData = (subData, props) => {
               setValue: (newValue) => setCellValue(newValue),
               fullWidth: info1.cellRendererParams?.fullWidth,
               valueFormatted: info1.cellRendererParams?.valueFormatted,
+              expandedMasterIds: props.expandedMasterIds,
+              onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
               ...info1?.cellRendererParams,
             })}
       </div>

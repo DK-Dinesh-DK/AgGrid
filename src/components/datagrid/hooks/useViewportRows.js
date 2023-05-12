@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { floor, max, min } from "../utils";
 
@@ -20,6 +19,7 @@ export function useViewportRows({
   current,
   pagination,
   expandAll,
+  expandedMasterIds,
 }) {
   const [groupedRows, rowsCount] = useMemo(() => {
     if (groupBy.length === 0 || rowGrouper == null)
@@ -72,7 +72,8 @@ export function useViewportRows({
         // TODO: should users have control over the generated key?
         const id =
           parentId !== undefined ? `${parentId}__${groupKey}` : groupKey;
-        const isExpanded = expandAll!= null ? expandAll : expandedGroupIds?.has(id) ?? false;
+        const isExpanded =
+          expandAll != null ? expandAll : expandedGroupIds?.has(id) ?? false;
         const { childRows, childGroups, startRowIndex } = rows[groupKey];
 
         const groupRow = {
@@ -126,10 +127,10 @@ export function useViewportRows({
     // Calcule the height of all the rows upfront. This can cause performance issues
     // and we can consider using a similar approach as react-window
     // https://github.com/bvaughn/react-window/blob/b0a470cc264e9100afcaa1b78ed59d88f7914ad4/src/VariableSizeList.js#L68
-    const rowPositions = rows.map((row) => {
+    const rowPositions = rows.map((row, index) => {
       const currentRowHeight = isGroupRow(row)
         ? rowHeight({ type: "GROUP", row })
-        : rowHeight({ type: "ROW", row });
+        : rowHeight({ type: "ROW", row, expandedMasterIds, index });
       const position = { top: totalRowHeight, height: currentRowHeight };
       gridTemplateRows += `${currentRowHeight}px `;
       totalRowHeight += currentRowHeight;

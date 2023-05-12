@@ -85,6 +85,8 @@ function Cell({
   rowFreezLastIndex,
   headerheight,
   summaryRowHeight,
+  expandedMasterIds,
+  onExpandedMasterIdsChange,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -271,6 +273,8 @@ function Cell({
                   setValue(newValue);
                 },
                 ...cellRendererParams,
+                expandedMasterIds,
+                onExpandedMasterIdsChange,
               })}
             </div>
           )}
@@ -315,6 +319,8 @@ function Cell({
                 setValue(newValue);
               },
               ...cellRendererParams,
+              expandedMasterIds,
+              onExpandedMasterIdsChange,
             })}
           {dragHandle}
         </>

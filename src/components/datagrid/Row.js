@@ -51,6 +51,8 @@ function Row(
     rowFreezLastIndex,
     summaryRowHeight,
     headerheight,
+    expandedMasterIds,
+    onExpandedMasterIdsChange,
     ...props
   },
   ref
@@ -83,7 +85,8 @@ function Row(
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "ROW",
       row,
-      rowIndex:rowIdx
+      rowIndex:rowIdx,
+      expandedMasterIds
     });
     if (colSpan !== undefined) {
       index += colSpan - 1;
@@ -125,6 +128,8 @@ function Row(
           summaryRowHeight={summaryRowHeight}
           rowFreezLastIndex={rowFreezLastIndex}
           headerheight={headerheight}
+          expandedMasterIds={expandedMasterIds}
+          onExpandedMasterIdsChange={onExpandedMasterIdsChange}
         />
       );
     }
