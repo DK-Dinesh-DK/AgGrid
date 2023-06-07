@@ -94,7 +94,7 @@ export default function InfiniteScrolling({ direction }) {
       },
     },
     {
-      field: "title",
+      // field: "title",
       headerName: "Title",
       editable: true,
       filter: true,

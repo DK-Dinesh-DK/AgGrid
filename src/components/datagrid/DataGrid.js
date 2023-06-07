@@ -461,10 +461,22 @@ function DataGrid(props, ref) {
   const lastSelectedRowIdx = useRef(-1);
   const rowRef = useRef(null);
   // const componentRef = useRef();
-  const handlePrint = useReactToPrint({
-    content: () => gridRef.current,
-  });
+  // const handlePrint = useReactToPrint({
+  //   content: () => gridRef.current,
+  // });
+  const handlePrint = () => {
+    // let printContents = document.getElementById("DataGrid");
 
+    // let originalContents = document.body.innerHTML;
+
+    // document.body.innerHTML = printContents;
+
+    window.print();
+
+    window.close();
+
+    // document.body.innerHTML = originalContents;
+  };
   /**
    * computed values
    */
@@ -597,7 +609,10 @@ function DataGrid(props, ref) {
   for (const element of rowData) {
     merged.push({
       ...element,
-      ...columns4.find((itmInner) => itmInner.field === element.field),
+      ...columns4.find((itmInner) => {
+        if (element.field) return itmInner.field === element.field;
+        return itmInner.headerName === element.headerName;
+      }),
     });
   }
 
@@ -694,7 +709,11 @@ function DataGrid(props, ref) {
   function getColumns() {
     let columnObjects = [];
     columns.forEach((column) => {
-      const index = raawColumns.findIndex((c) => c.field === column.field);
+      const index = raawColumns.findIndex((c) => {
+        if (column.field) return c.field === column.field;
+        return c.headerName === column.headerName;
+      });
+
       const userColDef = raawColumns[index];
       const indexOfRowGroup = rawGroupBy?.findIndex(
         (key) => key === column.key
