@@ -1383,8 +1383,11 @@ function DataGrid(props, ref) {
 
       for (const column of flexWidthViewportColumns) {
         const measuringCell = grid.querySelector(
-          `[data-measuring-cell-key="${column.key}"]`
+          `[data-measuring-cell-key="${
+            column.key ?? `grid_no_key${column.idx}`
+          }"]`
         );
+
         // Set the actual width of the column after it is rendered
         const { width } = measuringCell.getBoundingClientRect();
         newColumnWidths.set(column.key, width);
@@ -1671,13 +1674,18 @@ function DataGrid(props, ref) {
   }
   const [changedList, setChangedList] = useState([]);
   const [previousData, setPreviousData] = useState([]);
+
   useUpdateEffect(() => {
     setPreviousData([...raawRows]);
   }, [raawRows]);
+
+  useUpdateEffect(() => {
+    setRawColumns([...raawColumns]);
+  }, [props.columnData]);
+
   useEffect(() => {
     setPreviousData([...raawRows]);
   }, []);
-
   function updateRow(column, rowIdx, row, oldRow) {
     if (rest.treeData) {
       let sample = [...rawRows];

@@ -60,6 +60,7 @@ export const dropDownEditorClassname = `rdg-dropdown-editor ${dropDownEditorInte
 export default function DropDownEditor({ row, onRowChange, column }) {
   const options = column.options;
   const inputRef = useRef(null);
+  
   return (
     <>
       <select

@@ -198,6 +198,53 @@ function Cell({
     }),
   });
 
+  if (column.cellStyle) {
+    let styleMethod = column.cellStyle({
+      column,
+      colDef: column,
+      selectedCellIdx,
+      selectedCellEditor,
+      row,
+      rowArray,
+      colData,
+      data: row,
+      allrow,
+      className,
+      api,
+      node,
+      viewportColumns,
+      rowIndex,
+      isCellSelected,
+      onRowChange: handleRowChange,
+      onRowClick: onRowClick,
+      columnApi,
+      onCellClick,
+      onCellDoubleClick,
+      selectCell,
+      onRowDoubleClick,
+      subColumn,
+      value: value,
+      valueFormatted: cellRendererParams?.valueFormatted,
+      fullWidth: cellRendererParams?.fullWidth,
+      eGridCell: gridCell.current,
+      refreshCell: () => {
+        const content = document.getElementById(
+          `${rowIndex}${row[column.key]}`
+        ).innerHTML;
+        document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+          content;
+      },
+      getValue: () => value,
+      setValue: (newValue) => {
+        setValue(newValue);
+      },
+      ...cellRendererParams,
+      expandedMasterIds,
+      onExpandedMasterIdsChange,
+    });
+    style = { ...style, ...styleMethod };
+  }
+
   return (
     <div
       role="gridcell"

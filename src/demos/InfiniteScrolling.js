@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import TextEditor from "../components/datagrid/editors/textEditor";
@@ -20,49 +20,15 @@ function rowKeyGetter(row) {
   return row.id;
 }
 
-const columns = [
-  {
-    field: "id",
-    headerName: "ID",
-    width: 80,
-    cellRenderer: (props) => {
-      return TextEditor(props);
-    },
-  },
-  {
-    field: "title",
-    headerName: "Title",
-    editable: true,
-    filter: true,
-  },
-  {
-    field: "firstName",
-    headerName: "First Name",
-    filter: true,
-    cellRenderer: (props) => {
-      return TextEditor(props);
-    },
-  },
-  {
-    field: "lastName",
-    headerName: "Last Name",
-    valueGetter: ({ row, column }) => `Last Name: ${row[column.key]}`,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
-  },
-];
-
 function createFakeRowObjectData(index) {
   return {
-    id: `id_${index}`,
+    id: `${index}`,
     title: faker.name.prefix(),
     firstName: faker.name.firstName(),
     lastName: faker.name.firstName(),
     email: faker.internet.email(),
     phone: faker.phone.number(),
+    new: index,
   };
 }
 
@@ -110,14 +76,73 @@ export default function InfiniteScrolling({ direction }) {
     setIsLoading(false);
   }
   const dataGridRef = useRef(null);
-  // const [selectedRows, setSelectedRows] = useState([]);
+  const [optionList, setOptioList] = useState([]);
 
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 80,
+      valueFormatter: (props) => {
+        let style;
+        if (props.row.id.includes(5)) style = { backgroundColor: "blue" };
+        else if (props.row.id.includes(9))
+          style = { backgroundColor: "yellow" };
+        else if (props.row.id.includes(4)) style = { backgroundColor: "grey" };
+        else style = { backgroundColor: "green" };
+        return <div style={style}>{props.row.id}</div>;
+      },
+    },
+    {
+      field: "title",
+      headerName: "Title",
+      editable: true,
+      filter: true,
+    },
+    {
+      field: "firstName",
+      headerName: "First Name",
+      filter: true,
+      cellRenderer: (props) => {
+        return TextEditor(props);
+      },
+    },
+    {
+      field: "lastName",
+      headerName: "Last Name",
+      valueGetter: ({ row, column }) => `Last Name: ${row[column.key]}`,
+    },
+    {
+      // field: "email",
+      headerName: "Email",
+      valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
+    },
+    {
+      headerName: "Option",
+      // field: "opt",
+      cellStyle: (props) => {
+        return { backgroundColor: "red" };
+      },
+      cellRenderer: () => {
+        return (
+          <select>
+            {optionList?.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
+        );
+      },
+    },
+  ];
 
   return (
     <>
       <button
         onClick={() => {
-          console.log("dataGridRef", dataGridRef.current);
+          console.log("Calling");
+          setOptioList(["a", "b", "c", "d"]);
         }}
       >
         getFocusedCell
