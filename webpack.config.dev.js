@@ -27,8 +27,6 @@ module.exports = {
       template: path.resolve(__dirname, "public", "index.html"),
     }),
 
- 
-
     new CleanWebpackPlugin(),
     new NodePolyfillPlugin(),
   ],
@@ -40,17 +38,17 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader',
+          "style-loader",
+          "css-loader",
           {
-            loader: 'postcss-loader',
+            loader: "postcss-loader",
             options: {
               postcssOptions: {
-                plugins: ['postcss-nested']
-              }
-            }
-          }
-        ]
+                plugins: ["postcss-nested"],
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(xml|config)$/,
@@ -86,16 +84,16 @@ module.exports = {
         exclude: /[\\/]node_modules[\\/]/,
         use: [
           {
-            loader: 'babel-loader',
+            loader: "babel-loader",
             options: {
-              presets: [['@babel/preset-env']]
-            }
+              presets: [["@babel/preset-env"]],
+            },
           },
           {
-            loader: '@linaria/webpack-loader',
-            options: { preprocessor: 'none' }
-          }
-        ]
+            loader: "@linaria/webpack-loader",
+            options: { preprocessor: "none" },
+          },
+        ],
       },
     ],
   },

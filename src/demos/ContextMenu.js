@@ -1,6 +1,8 @@
-import {  useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
+import PrintComponent from "./PrintComponent";
+import { Button } from "react-bootstrap";
 
 function createRows() {
   const rows = [];
@@ -17,15 +19,14 @@ function createRows() {
 }
 
 const columns = [
-  { field: "id", headerName: "ID" },
-  { field: "product", headerName: "Product" },
-  { field: "price", headerName: "Price" },
+  { field: "id", headerName: "ID", width: 100 },
+  { field: "product", headerName: "Product", width: "max-content" },
+  { field: "price", headerName: "Price", width: 100 },
 ];
 
 function rowKeyGetter(row) {
   return row.id;
 }
-
 
 export default function ContextMenuDemo({ direction }) {
   const getContextMenuItems = useCallback(() => {
@@ -39,10 +40,11 @@ export default function ContextMenuDemo({ direction }) {
         cssClasses: ["redFont", "bold"],
       },
       {
-        name:"Print",
+        name: "Print",
         action: (e) => {
-          console.log('e', e)
-          e.handlePrint()
+          console.log("e", e);
+          // e.handlePrint();
+          setPrintTable(true);
         },
       },
       {
@@ -158,14 +160,37 @@ export default function ContextMenuDemo({ direction }) {
     return result;
   }, []);
 
+  const rowData = createRows();
+  const [printTable, setPrintTable] = useState(false);
+
   return (
-    <DataGrid
-      rowKeyGetter={rowKeyGetter}
-      columnData={columns}
-      rowData={createRows()}
-      className="fill-grid"
-      direction={direction}
-      getContextMenuItems={getContextMenuItems}
-    />
+    <>
+      <DataGrid
+        rowKeyGetter={rowKeyGetter}
+        columnData={columns}
+        rowData={rowData}
+        className="fill-grid"
+        direction={direction}
+        getContextMenuItems={getContextMenuItems}
+      />
+
+      {printTable && (
+        <PrintComponent
+          rowData={rowData.slice(0, 50)}
+          columns={columns}
+          onClose={() => setPrintTable(false)}
+          formName={"Product Details"}
+          personName={"David"}
+          userDetail={
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div>Time: </div> <div>User Name:</div>
+            </div>
+          }
+          logo={
+            "https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
+          }
+        />
+      )}
+    </>
   );
 }

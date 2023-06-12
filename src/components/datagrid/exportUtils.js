@@ -65,7 +65,9 @@ export async function exportToPdf(fileData, columns, fileName) {
     theme: "striped",
     columns: field,
   });
-  doc.save(fileName);
+  return doc;
+  // doc.autoPrint()
+  // doc.save(fileName);
 }
 export function exportToXlsx(fileData, columns, fileName) {
   const fileType =

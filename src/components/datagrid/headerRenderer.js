@@ -298,7 +298,6 @@ export default function headerRenderer({
 }
 // useMemo(() => expensiveCalculation(count), [count]);
 
-
 var columnsList = [];
 
 const RecursiveScan = (
@@ -561,8 +560,6 @@ const RecursiveScan = (
       function onClickFilter() {
         selectCell(subData.idx);
       }
-
-
 
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
