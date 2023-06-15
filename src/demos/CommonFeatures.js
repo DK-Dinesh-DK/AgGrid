@@ -68,6 +68,8 @@ function getColumns(countries, direction) {
       width: 120,
       haveChildren: false,
       frozen: true,
+      sortable:true,
+      filter:true,
       cellEditor: TextEditor,
       summaryFormatter({ row }) {
         return <>{row.totalCount} records</>;
@@ -386,7 +388,7 @@ export default function CommonFeatures({ direction }) {
         paste: true,
       }}
       rowData={sortedRows}
-      onRowsChange={setRows}
+   //  onRowsChange={setRows}
       // selectedRows={selectedRows}
       // onSelectedRowsChange={setSelectedRows}
       topSummaryRows={summaryRows}
@@ -395,6 +397,9 @@ export default function CommonFeatures({ direction }) {
       className="fill-grid"
       direction={direction}
       selection={true}
+      onRowClicked={(props)=>{
+        console.log("Data",props)
+      }}
       pagination={true}
     />
     </>

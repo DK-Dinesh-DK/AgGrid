@@ -1,5 +1,5 @@
-import React from "react";
-import { css } from "@linaria/core";
+import React from 'react';
+import { css } from "@linaria/core"
 
 const measuringCellClassname = css`
   @layer rdg.MeasuringCell {
@@ -7,21 +7,19 @@ const measuringCellClassname = css`
     grid-row: 1;
     visibility: hidden;
   }
-`;
+`
 
 export function renderMeasuringCells(viewportColumns) {
   return (
     <>
-      {viewportColumns.map(({ key, idx, minWidth, maxWidth, ...column }) => {
-        return (
-          <div
-            key={key}
-            className={measuringCellClassname}
-            style={{ gridColumnStart: idx + 1, minWidth, maxWidth }}
-            data-measuring-cell-key={key ?? `grid_no_key${idx}`}
-          />
-        );
-      })}
+      {viewportColumns.map(({ key, idx, minWidth, maxWidth }) => (
+        <div
+          key={key}
+          className={measuringCellClassname}
+          style={{ gridColumnStart: idx + 1, minWidth, maxWidth }}
+          data-measuring-cell-key={key??`grid_no_key${idx}`}
+        />
+      ))}
     </>
-  );
+  )
 }

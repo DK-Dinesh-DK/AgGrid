@@ -1,15 +1,36 @@
 const config = {
-  testEnvironment: "jest-environment-jsdom",
-  collectCoverageFrom: ["src/*.js"],
+  collectCoverageFrom: [
+    "src/components/datagrid/**/**/*.js",
+    "!**/node_modules/**",
+    "!**/src/asset/**",
+  ],
+
+  coverageReporters: ["text", "cobertura", "html"],
+
+  reporters: ["default", "jest-junit"],
+
+  testResultsProcessor: "jest-sonar-reporter",
+
+  restoreMocks: true,
+
+  setupFiles: ["./config/setup.js"],
+
+  setupFilesAfterEnv: ["@testing-library/jest-dom"],
+
+  testEnvironment: "jsdom",
+
+  testMatch: ["<rootDir>/src/__test__/*.test.js"],
+
   transformIgnorePatterns: [
     "node_modules/(?!react-dnd|dnd-core|@react-dnd|react-dnd-html5-backend)",
   ],
-  testMatch: ["<rootDir>/src/__test__/*.test.js"],
   moduleNameMapper: {
-    "\\.(css|less|scss)$": "identity-obj-proxy",
+    "\\.(css|less)$": "identity-obj-proxy",
   },
+
   transform: {
     "^.+\\.jsx?$": "babel-jest",
+
     "^.+\\.svg$": "jest-transformer-svg",
   },
 };

@@ -136,7 +136,6 @@ export function useViewportRows({
       totalRowHeight += currentRowHeight;
       return position;
     });
-
     const validateRowIdx = (rowIdx) => {
       return max(0, min(rows.length - 1, rowIdx));
     };

@@ -269,11 +269,9 @@ export default function HeaderCell({
       : alignmentUtilsHeader(column, rows[0], style);
   }
   return (
-    // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
-      role="columnheader"
+     role="parentcolumn"
       aria-colindex={column.idx + 1}
-      aria-selected={isCellSelected}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
       ref={(ele) => {

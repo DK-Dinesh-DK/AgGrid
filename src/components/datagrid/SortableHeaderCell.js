@@ -1,3 +1,4 @@
+import React from 'react';
 import { useDefaultComponents } from "./DataGridDefaultComponentsProvider";
 import { useFocusRef } from "./hooks";
 import { css } from "@linaria/core";
@@ -58,6 +59,7 @@ export default function SortableHeaderCell({
 
   return (
     <span
+    data-testid="sortableHeaderName"
       ref={ref}
       tabIndex={tabIndex}
       className={headerSortCellClassname}

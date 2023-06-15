@@ -27,6 +27,7 @@ export function sortIcon({ sortDirection }) {
 
   return (
     <svg
+    data-testid="sortIcon"
       viewBox="0 0 12 8"
       width="12"
       height="8"

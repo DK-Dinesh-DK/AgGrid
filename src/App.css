@@ -36,11 +36,3 @@
     transform: rotate(360deg);
   }
 }
-.header-row > td {
-  background-color: #16365d;
-  color: white;
-}
-.row > td {
-  background-color: blue;
-  color: white;
-}

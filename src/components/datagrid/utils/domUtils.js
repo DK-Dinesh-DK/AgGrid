@@ -1,7 +1,11 @@
 export function stopPropagation(event) {
-  event.stopPropagation()
+  event.stopPropagation();
 }
 
 export function scrollIntoView(element) {
-  element?.scrollIntoView({ inline: "nearest", block: "nearest" })
+  if (element && typeof element.scrollIntoView === "function") {
+    element.scrollIntoView({ inline: "nearest", block: "nearest" });
+  }
 }
+
+

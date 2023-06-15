@@ -38,14 +38,14 @@ export function ExportButton({ onExport, children }) {
       <button
         disabled={exporting}
         onClick={async () => {
-          setExporting(true)
-          await onExport()
-          setExporting(false)
+          setExporting(true);
+          await onExport();
+          setExporting(false);
         }}
       >
         {exporting ? "Exporting" : children}
       </button>
-    )
+    );
   }
   
 export default ExportData;

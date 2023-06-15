@@ -47,6 +47,7 @@ export default function TextEditor({
   let value = row[column.key];
   return (
     <input
+    role="gridcellTextbox"
       spellCheck="true"
       className={textEditorClassname}
       type={type}

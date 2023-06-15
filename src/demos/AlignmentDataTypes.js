@@ -18,14 +18,13 @@ const columns = [
     field: "id",
     headerName: "ID",
     width: 80,
-    alignment: {type:"number"},
-    filter:true,
+    alignment: { type: "number" },
   },
   {
     field: "firstName",
     headerName: "First Name",
     width: 100,
-    alignment:true,
+    alignment: true,
   },
   {
     headerName: "Money",
@@ -42,7 +41,7 @@ const columns = [
     field: "lastName",
     headerName: "Last Name",
     width: 100,
-    alignment:{align:"end"},
+    alignment: { type: "string" },
   },
   {
     field: "email",
@@ -54,7 +53,6 @@ const columns = [
     headerName: "Date",
     alignment: { type: "DATe" },
     // width:200,
-
     resizable: true,
   },
   {
@@ -66,7 +64,7 @@ const columns = [
   {
     field: "datetime",
     headerName: "DateTime",
-    alignment: {type:"datetime"},
+    alignment: { type: "datetime" },
   },
 ];
 

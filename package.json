@@ -46,6 +46,7 @@
     "@types/jest": "^29.0.0",
     "@types/lodash": "^4.14.184",
     "axios": "^1.2.2",
+    "babel-jest": "^29.5.0",
     "babel-plugin-optimize-clsx": "^2.6.2",
     "bootstrap": "^5.3.0",
     "brotli": "^1.3.3",
@@ -103,7 +104,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --jest.config.js",
-    "coverage": "react-scripts test --watchAll=false --coverage",
+    "jest": "jest test --ci --testResultsProcessor=jest-junit --coverage --coverageReporters=cobertura --coverageReporters=lcov --watch",
     "eject": "react-scripts eject",
     "prodbuild": "webpack --config webpack.config.prod.js",
     "dev": "webpack --config webpack.config.dev.js",
@@ -140,6 +141,7 @@
     "canvas": "^2.11.0",
     "core-js": "^3.30.2",
     "identity-obj-proxy": "^3.0.0",
+    "jest-junit": "^16.0.0",
     "webpack-cli": "^5.0.1"
   }
 }

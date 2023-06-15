@@ -93,7 +93,7 @@ const root = css`
       color: var(--rdg-color);
       font-size: var(--rdg-font-size);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      height:100%;
+      height:max-content;
 
       /* needed on Firefox */
       &::before {

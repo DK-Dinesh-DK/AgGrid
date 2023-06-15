@@ -78,61 +78,61 @@ function Row(
 
   const cells = [];
 
-
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = { ...viewportColumns[index], rowIndex: rowIdx };
     const { idx } = column;
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "ROW",
       row,
-      rowIndex:rowIdx,
-      expandedMasterIds
+      rowIndex: rowIdx,
+      expandedMasterIds,
     });
     if (colSpan !== undefined) {
       index += colSpan - 1;
     }
     const isCellSelected = selectedCellIdx === idx;
-   
-      cells.push(
-        <Cell
-          key={`${column.key}`}
-          column={column}
-          colSpan={colSpan}
-          selectedCellIdx={selectedCellIdx}
-          selectedCellEditor={selectedCellEditor}
-          api={api}
-          viewportColumns={viewportColumns}
-          rowArray={rowArray}
-          row={row}
-          handleReorderRow={handleReorderRow}
-          isRowSelected={isRowSelected}
-          allrow={rows}
-          rowIndex={rowIdx}
-          totalColumns={totalColumns}
-          node={node}
-          isCopied={copiedCellIdx === idx}
-          isDraggedOver={draggedOverCellIdx === idx}
-          isCellSelected={isCellSelected}
-          dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
-          onRowClick={onRowClick}
-          onRowDoubleClick={onRowDoubleClick}
-          onRowChange={handleRowChange}
-          subColumn={subColumn}
-          selectCell={selectCell}
-          onCellClick={onCellClick}
-          onCellDoubleClick={onCellDoubleClick}
-          onCellContextMenu={onCellContextMenu}
-          columnApi={columnApi}
-          valueChangedCellStyle={valueChangedCellStyle}
-          previousData={previousData}
-          summaryRowHeight={summaryRowHeight}
-          rowFreezLastIndex={rowFreezLastIndex}
-          headerheight={headerheight}
-          expandedMasterIds={expandedMasterIds}
-          onExpandedMasterIdsChange={onExpandedMasterIdsChange}
-        />
-      );
-    }
+
+    cells.push(
+      <Cell
+        key={`${column.key}`}
+        column={column}
+        colSpan={colSpan}
+        selectedCellIdx={selectedCellIdx}
+        selectedCellEditor={selectedCellEditor}
+        api={api}
+        viewportColumns={viewportColumns}
+        rowArray={rowArray}
+        row={row}
+        handleReorderRow={handleReorderRow}
+        isRowSelected={isRowSelected}
+        allrow={rows}
+        rowIndex={rowIdx}
+        totalColumns={totalColumns}
+        node={node}
+        isCopied={copiedCellIdx === idx}
+        isDraggedOver={draggedOverCellIdx === idx}
+        isCellSelected={isCellSelected}
+        dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
+        onRowClick={onRowClick}
+        onRowDoubleClick={onRowDoubleClick}
+        onRowChange={handleRowChange}
+        subColumn={subColumn}
+        selectCell={selectCell}
+        onCellClick={onCellClick}
+        onCellDoubleClick={onCellDoubleClick}
+        onCellContextMenu={onCellContextMenu}
+        columnApi={columnApi}
+        valueChangedCellStyle={valueChangedCellStyle}
+        previousData={previousData}
+        summaryRowHeight={summaryRowHeight}
+        rowFreezLastIndex={rowFreezLastIndex}
+        headerheight={headerheight}
+        expandedMasterIds={expandedMasterIds}
+        onExpandedMasterIdsChange={onExpandedMasterIdsChange}
+      />
+    );
+  }
+
   // }
   let style = getRowStyle(gridRowStart, height);
   if (rowIdx === selectedPosition.rowIdx) {
@@ -140,21 +140,23 @@ function Row(
   }
 
   return (
+
     <DndProvider backend={HTML5Backend}>
-      <RowSelectionProvider value={isRowSelected}>
+      <RowSelectionProvider value={isRowSelected}> 
         <div
+          key={`${rowIdx}`}
           role="row"
           ref={ref}
           id={row?.id ?? rowIdx}
           className={className}
           onMouseEnter={handleDragEnter}
           style={style}
-          {...props}
-        >
+          {...props}>
           {cells}
-        </div>
+        </div> 
+       
       </RowSelectionProvider>
-    </DndProvider>
+    </DndProvider> 
   );
 }
 

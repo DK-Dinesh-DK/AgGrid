@@ -1,2 +1,4 @@
-// import RecordsFilter from "./RecordsFilter.svg";
-// export { RecordsFilter };
+import RecordsFilter from "./RecordsFilter.svg";
+export {
+    RecordsFilter
+};

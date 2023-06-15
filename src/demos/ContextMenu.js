@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
-import PrintComponent from "./PrintComponent";
+import PrintComponent from "../components/datagrid/PrintComponent";
 import { Button } from "react-bootstrap";
 
 function createRows() {
@@ -19,9 +19,9 @@ function createRows() {
 }
 
 const columns = [
-  { field: "id", headerName: "ID", width: 100 },
-  { field: "product", headerName: "Product", width: "max-content" },
-  { field: "price", headerName: "Price", width: 100 },
+  { field: "id", headerName: "ID" },
+  { field: "product", headerName: "Product" },
+  { field: "price", headerName: "Price" },
 ];
 
 function rowKeyGetter(row) {
@@ -171,19 +171,21 @@ export default function ContextMenuDemo({ direction }) {
         rowData={rowData}
         className="fill-grid"
         direction={direction}
+        onCellClicked={(props) => console.log("Props", props)}
         getContextMenuItems={getContextMenuItems}
       />
 
       {printTable && (
         <PrintComponent
-          rowData={rowData.slice(0, 50)}
-          columns={columns}
+          rowData={rowData.slice(0, 100)}
+          columnData={columns}
           onClose={() => setPrintTable(false)}
           formName={"Product Details"}
           personName={"David"}
+          rowsPerPage={32}
           userDetail={
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <div>Time: </div> <div>User Name:</div>
+            <div>
+              <div>Time: User Name:</div>
             </div>
           }
           logo={

@@ -1,3 +1,4 @@
+import React from 'react'
 export function getColSpan(column, lastFrozenColumnIndex, args) {
   const colSpan =
     typeof column.colSpan === "function" ? column.colSpan(args) : 1

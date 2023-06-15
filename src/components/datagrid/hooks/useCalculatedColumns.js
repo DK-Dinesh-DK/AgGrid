@@ -48,7 +48,7 @@ export function useCalculatedColumns({
 
         let recursiveChild = (subChild, rawColumn) => {
           return (
-            subChild.haveChildren === true &&
+            subChild?.haveChildren === true && Array.isArray(subChild?.children) &&
             subChild?.children.map((subChild2, index1) => {
               const rawChild2 = {
                 ...subChild2,
@@ -99,7 +99,7 @@ export function useCalculatedColumns({
             defaultFormatter,
           // topHeader: rawColumn.field,
           children:
-            rawColumn.haveChildren === true &&
+          rawColumn?.haveChildren === true && Array.isArray(rawColumn?.children) &&
             rawColumn?.children.map((child, index1) => {
               const cellRendererValue = child.cellRenderer;
               const components = frameworkComponents
@@ -123,7 +123,7 @@ export function useCalculatedColumns({
                   defaultFormatter,
 
                 children:
-                  child.haveChildren === true &&
+                child?.haveChildren === true && Array.isArray(child?.children) &&
                   child?.children.map((subChild, index2) => {
                     const rawChild1 = {
                       ...subChild,
@@ -153,6 +153,13 @@ export function useCalculatedColumns({
           column.groupFormatter ??= toggleGroupFormatter;
         }
 
+        function TreeFormatter({ row, column }) {
+          return row[column.key];
+        }
+
+        if (treeData) {
+          column.treeFormatter ??= TreeFormatter;
+        }
         function TreeFormatter({ row, column }) {
           return row[column.key];
         }

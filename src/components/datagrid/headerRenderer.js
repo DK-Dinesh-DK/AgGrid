@@ -3,7 +3,7 @@ import { css } from "@linaria/core";
 import { useRovingCellRef } from "./hooks";
 import FilterRenderer from "./FilterRenderer";
 import SortableHeaderCell from "./SortableHeaderCell";
-import { RecordsFilter as FilterIcon } from "../../assets/Icon";
+import { RecordsFilter as FilterIcon } from "./../../assets/Icon";
 import { FilterRendererWithSvg } from "./FilterRendererWithSvg";
 import alignmentUtilsHeader from "./alignMentUtils";
 
@@ -38,7 +38,6 @@ export default function headerRenderer({
   priority,
   selectCell,
   onSort,
-  isCellSelected,
   shouldFocusGrid,
   setFilters,
   setFilterType,
@@ -51,7 +50,6 @@ export default function headerRenderer({
   ChildColumnSetup,
   gridWidth,
 }) {
-  const { onFocus } = useRovingCellRef(isCellSelected);
   if (column.haveChildren === true) {
     return (
       <div>
@@ -67,8 +65,7 @@ export default function headerRenderer({
         </div>
 
         <div className={headerWrapperWithcellData}>
-          {column.children !== undefined &&
-            column.children.map((info, index) => {
+          {column.children?.map((info, index) => {
               let style_fg = {
                 display: "flex",
                 alignItems: "center",
@@ -80,7 +77,7 @@ export default function headerRenderer({
                   : alignmentUtilsHeader(column, rows[0], style_fg);
               }
               return (
-                <div style={style_fg} key={index}>
+                <div style={style_fg} key={info}>
                   {RecursiveScan(
                     column.children,
                     info,
@@ -92,7 +89,6 @@ export default function headerRenderer({
                     column,
                     selectCell,
                     shouldFocusGrid,
-                    isCellSelected,
                     onSort,
                     sortDirection,
                     priority,
@@ -112,6 +108,14 @@ export default function headerRenderer({
       </div>
     );
   } else {
+    let isCellSelected;
+    if (selectedCellIdx === column.idx) {
+      isCellSelected = true;
+    } else {
+      isCellSelected = false;
+    }
+    const { onFocus } = useRovingCellRef(isCellSelected);
+
     ChildColumnSetup(column);
     var style = {
       display: "flex",
@@ -170,9 +174,12 @@ export default function headerRenderer({
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 
-        <div
+        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+<div
           key={column.idx}
           style={style_1}
+          aria-selected={isCellSelected}
+          role="columnheader"
           onFocus={handleFocus}
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
@@ -184,9 +191,12 @@ export default function headerRenderer({
     }
     if (column.sortable && !column.filter) {
       return (
-        <div
+        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+<div
           key={column.idx}
           style={style_1}
+          aria-selected={isCellSelected}
+          role="columnheader"
           onFocus={handleFocus}
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
@@ -219,7 +229,14 @@ export default function headerRenderer({
       }
 
       return (
-        <div style={{ ...style11 }} key={column.idx} onClick={onClick}>
+        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+<div
+          style={{ ...style11 }}
+          key={column.idx}
+          onClick={onClick}
+          aria-selected={isCellSelected}
+          role="columnheader"
+        >
           <FilterRenderer
             selectedCellHeaderStyle={selectedCellHeaderStyle}
             selectedPosition={selectedCellHeaderStyle}
@@ -261,9 +278,12 @@ export default function headerRenderer({
           : alignmentUtilsHeader(column, rows[0], styleSF);
       }
       return (
-        <div
+        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+<div
           key={column.idx}
           onFocus={handleFocus}
+          aria-selected={isCellSelected}
+          role="columnheader"
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           style={{ ...styleSF }}
@@ -282,7 +302,6 @@ export default function headerRenderer({
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
                 column,
-
                 filterClassname,
                 filters,
                 setFilters,
@@ -311,7 +330,6 @@ const RecursiveScan = (
   column,
   selectCell,
   shouldFocusGrid,
-  isCellSelected,
   onSort,
   sortDirection,
   priority,
@@ -327,6 +345,12 @@ const RecursiveScan = (
 ) => {
   var cellHeight = cellHeight - headerRowHeight;
   ChildColumnSetup(subData);
+  let isCellSelected;
+  if (selectedCellIdx === subData.idx) {
+    isCellSelected = true;
+  } else {
+    isCellSelected = false;
+  }
   const { onFocus } = useRovingCellRef(isCellSelected);
   let rowData = direction;
   if (subData.haveChildren === true) {
@@ -366,7 +390,6 @@ const RecursiveScan = (
                   column,
                   selectCell,
                   shouldFocusGrid,
-                  isCellSelected,
                   onSort,
                   sortDirection,
                   priority,
@@ -437,13 +460,14 @@ const RecursiveScan = (
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <>
-          <div
+          {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+<div
             key={subData.idx}
             role="columnheader"
             aria-colindex={`${column.index + 1}.${
               columnsList.indexOf(subData.name) + 1
             }`}
-            aria-selected={selectedCellIdx === subData.idx}
+            aria-selected={isCellSelected}
             style={{ ...style }}
             // onFocus={handleFocus}
             onClick={onClick}
@@ -462,6 +486,8 @@ const RecursiveScan = (
           key={subData.idx}
           style={{ ...style }}
           // onFocus={handleFocus}
+          aria-selected={isCellSelected}
+          role="columnheader"
           onClick={onClick}
           onDoubleClick={subData.resizable ? onDoubleClick : undefined}
           // onPointerDown={column.resizable ? onPointerDown : undefined}
@@ -507,9 +533,12 @@ const RecursiveScan = (
           : alignmentUtilsHeader(subData, rowData[0], style1);
       }
       return (
-        <div
+        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+<div
           key={subData.idx}
           onClick={onClickFilter}
+          aria-selected={isCellSelected}
+          role="columnheader"
           onDoubleClick={subData.resizable ? onDoubleClick : undefined}
           style={{ ...style1 }}
         >
@@ -567,6 +596,8 @@ const RecursiveScan = (
           key={subData.idx}
           style={{ ...style1 }}
           // onFocus={handleFocus}
+          aria-selected={isCellSelected}
+          role="columnheader"
           onClick={onClickFilter}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           // onPointerDown={column.resizable ? onPointerDown : undefined}
@@ -598,7 +629,6 @@ const RecursiveScan = (
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
                 subData,
-
                 filterClassname,
                 filters,
                 setFilters,

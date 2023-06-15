@@ -36,9 +36,10 @@ function Demos(){
         },
       ];
 
-let rowDataa = [{id:1 , task:"task1", },{id:1 , task:"task1", },{id:1 , task:"task1", }]
+let rowDataa = [{id:1 , task:"task1", },{id:2 , task:"task1", },{id:3, task:"task1", }]
 return(
     <div>
+      {/* <button onClick={prints}>Delete</button> */}
         <DataGrid
         rowData={rowDataa}
         columnData={columns}

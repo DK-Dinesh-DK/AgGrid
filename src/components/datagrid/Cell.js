@@ -11,6 +11,7 @@ import {
   rowIsSelectedClassName,
   topRowIsSelectedClassName,
 } from "./style";
+import useUpdateEffect from "./hooks/useUpdateEffect";
 const cellCopied = css`
   @layer rdg.Cell {
     background-color: #ccccff;
@@ -97,6 +98,10 @@ function Cell({
   const [value, setValue] = useState(
     cellRendererParams?.value ?? row[column.key]
   );
+  useUpdateEffect(() => {
+    setValue(cellRendererParams?.value ?? row[column.key])
+  }, [cellRendererParams?.value, row[column.key]])
+
   const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
   const { cellClass } = column;
@@ -128,9 +133,8 @@ function Cell({
 
   let style = {
     ...getCellStyle(column, colSpan, row),
-    "--rdg-summary-row-top": `${
-      headerheight + summaryRowHeight + rowIndex * 24
-    }px`,
+    "--rdg-summary-row-top": `${headerheight + summaryRowHeight + rowIndex * 24
+      }px`,
   };
   style =
     column.haveChildren === true
@@ -197,69 +201,116 @@ function Cell({
       canDrop: monitor.canDrop(),
     }),
   });
+  function handleDoubleClick(e) {
+    e.stopPropagation()
+    onRowDoubleClick?.({
+      api: api,
+      data: row,
+      columnApi: columnApi,
+      node: node,
+      rowIndex: rowIndex,
+      type: "rowDoubleClicked",
+      event: e,
+    });
+    onCellDoubleClick?.({
+      api: api,
+      data: row,
+      columnApi: columnApi,
+      node: node,
+      rowIndex: rowIndex,
+      value: row[column.key],
+      type: "cellDoubleClicked",
+      event: e,
+    });
+  }
+  function handleClick(e) {
+    e.stopPropagation()
+    onRowClick?.({
+      api: api,
+      data: row,
+      columnApi: columnApi,
+      node: node,
+      rowIndex: rowIndex,
+      type: "rowClicked",
+      event: e,
+    });
+    onCellClick?.({
+      api: api,
+      data: row,
+      columnApi: columnApi,
+      node: node,
+      rowIndex: rowIndex,
+      value: row[column.key],
+      type: "cellClicked",
+      event: e,
+    });
+  }
+  let params = {
+    column,
+    colDef: column,
+    selectedCellIdx,
+    selectedCellEditor,
+    row,
+    rowArray,
+    colData,
+    data: row,
+    allrow,
+    className,
+    api,
+    node,
+    viewportColumns,
+    rowIndex,
+    isCellSelected,
+    onRowChange: handleRowChange,
+    onRowClick: onRowClick,
+    columnApi,
+    onCellClick,
+    onCellDoubleClick,
+    selectCell,
+    onRowDoubleClick,
+    subColumn,
+    value: value,
+    valueFormatted: cellRendererParams?.valueFormatted,
+    fullWidth: cellRendererParams?.fullWidth,
+    eGridCell: gridCell.current,
+    refreshCell: () => {
+      const content = document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML;
+      document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML = content;
+    },
+    getValue: () => value,
+    setValue: (newValue) => {
+      setValue(newValue);
+      row[column.key] = newValue
+    },
+    ...cellRendererParams,
+    expandedMasterIds,
+    onExpandedMasterIdsChange,
+  }
 
   if (column.cellStyle) {
-    let styleMethod = column.cellStyle({
-      column,
-      colDef: column,
-      selectedCellIdx,
-      selectedCellEditor,
-      row,
-      rowArray,
-      colData,
-      data: row,
-      allrow,
-      className,
-      api,
-      node,
-      viewportColumns,
-      rowIndex,
-      isCellSelected,
-      onRowChange: handleRowChange,
-      onRowClick: onRowClick,
-      columnApi,
-      onCellClick,
-      onCellDoubleClick,
-      selectCell,
-      onRowDoubleClick,
-      subColumn,
-      value: value,
-      valueFormatted: cellRendererParams?.valueFormatted,
-      fullWidth: cellRendererParams?.fullWidth,
-      eGridCell: gridCell.current,
-      refreshCell: () => {
-        const content = document.getElementById(
-          `${rowIndex}${row[column.key]}`
-        ).innerHTML;
-        document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-          content;
-      },
-      getValue: () => value,
-      setValue: (newValue) => {
-        setValue(newValue);
-      },
-      ...cellRendererParams,
-      expandedMasterIds,
-      onExpandedMasterIdsChange,
-    });
-    style = { ...style, ...styleMethod };
+    let dynamicStyles = column.cellStyle(params);
+    style = { ...style, ...dynamicStyles }
   }
 
   return (
     <div
-      role="gridcell"
+      data-testid="rowCell"
       aria-colindex={column.idx + 1}
-      aria-selected={isCellSelected}
       aria-colspan={colSpan}
       aria-rowspan={rowSpan}
+      onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       aria-readonly={!isCellEditable(column, row) || undefined}
       ref={gridCell}
       tabIndex={tabIndex}
       className={className}
       style={style}
       onFocus={onFocus}
-      {...props}
-    >
+      {...props}>
       {!column.rowGroup && (
         <>
           {column.rowDrag && (
@@ -268,107 +319,20 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{ display: "flex" }}
-            >
+              style={{ display: "flex" }}>
               <span
                 style={{
                   cursor: "grab",
                   marginLeft: "10px",
                   marginRight: "5px",
-                }}
-              >
+                }}>
                 &#9674;
               </span>
-              {column.cellRenderer({
-                column,
-                colDef: column,
-                selectedCellIdx,
-                selectedCellEditor,
-                row,
-                rowArray,
-                colData,
-                data: row,
-                allrow,
-                className,
-                api,
-                node,
-                viewportColumns,
-                rowIndex,
-                isCellSelected,
-                onRowChange: handleRowChange,
-                onRowClick: onRowClick,
-                columnApi,
-                onCellClick,
-                onCellDoubleClick,
-                selectCell,
-                onRowDoubleClick,
-                subColumn,
-                value: value,
-                valueFormatted: cellRendererParams?.valueFormatted,
-                fullWidth: cellRendererParams?.fullWidth,
-                eGridCell: gridCell.current,
-                refreshCell: () => {
-                  const content = document.getElementById(
-                    `${rowIndex}${row[column.key]}`
-                  ).innerHTML;
-                  document.getElementById(
-                    `${rowIndex}${row[column.key]}`
-                  ).innerHTML = content;
-                },
-                getValue: () => value,
-                setValue: (newValue) => {
-                  setValue(newValue);
-                },
-                ...cellRendererParams,
-                expandedMasterIds,
-                onExpandedMasterIdsChange,
-              })}
+              {column.cellRenderer(params)}
             </div>
           )}
           {!column.rowDrag &&
-            column.cellRenderer({
-              column,
-              colDef: column,
-              row,
-              colData,
-              viewportColumns,
-              data: row,
-              rowArray,
-              allrow,
-              selectedCellIdx,
-              selectedCellEditor,
-              api,
-              node,
-              rowIndex,
-              isCellSelected,
-              selectCell,
-              onRowChange: handleRowChange,
-              onRowClick: onRowClick,
-              columnApi,
-              onCellClick,
-              onCellDoubleClick,
-              onRowDoubleClick,
-              subColumn,
-              value: value,
-              valueFormatted: cellRendererParams?.valueFormatted,
-              fullWidth: cellRendererParams?.fullWidth,
-              eGridCell: gridCell.current,
-              refreshCell: () => {
-                const content = document.getElementById(
-                  `${rowIndex}${row[column.key]}`
-                ).innerHTML;
-                document.getElementById(
-                  `${rowIndex}${row[column.key]}`
-                ).innerHTML = content;
-              },
-              getValue: () => value,
-              setValue: (newValue) => {
-                setValue(newValue);
-              },
-              ...cellRendererParams,
-              expandedMasterIds,
-              onExpandedMasterIdsChange,
-            })}
+            column.cellRenderer(params)}
           {dragHandle}
         </>
       )}

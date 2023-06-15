@@ -27,11 +27,11 @@ const headerRow = css`
 
     & > .${cellFrozen} {
       z-index: 2;
-    }
+    } 
   }
 `;
 
-const headerRowClassname = `rdg-header-row ${headerRow}`;
+const headerRowClassname = `rdg-header-row ${headerRow}`; 
 
 function HeaderRow({
   columns,
@@ -108,7 +108,7 @@ function HeaderRow({
   return (
     <DndProvider backend={HTML5Backend}>
       <div
-        role="row"
+       role="header-row"
         // aria-rowindex is 1 based
         aria-rowindex={1}
         className={clsx(headerRowClassname, {

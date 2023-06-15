@@ -35,7 +35,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
       const alignmentStyle = column.alignment.align
         ? { justifyContent: column.alignment.align }
         : {
-            justifyContent: "end",
+            justifyContent: "center",
           };
       styles = {
         ...styles,
@@ -53,7 +53,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     ) {
       const alignment = column.alignment.align
         ? { justifyContent: column.alignment.align }
-        : { justifyContent: "end" };
+        : { justifyContent: "center" };
       styles = {
         ...styles,
         ...alignment,
@@ -70,7 +70,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
         ? {
             justifyContent: column.alignment.align,
           }
-        : { justifyContent: "end" };
+        : { justifyContent: "center" };
       styles = {
         ...styles,
         ...alignment,
@@ -99,7 +99,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     ) {
       var alignment = column.alignment.align
         ? { justifyContent: column.alignment.align }
-        : { justifyContent: "end" };
+        : { justifyContent: "center" };
       styles = {
         ...styles,
         ...alignment,
@@ -163,7 +163,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
       const alignmentStyle = column.alignment.align
         ? { textAlign: column.alignment.align }
         : {
-            textAlign: "end",
+            textAlign: "center",
             paddingRight: "6px",
             paddingLeft: "6px",
           };
@@ -182,7 +182,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     ) {
       const alignment = column.alignment.align
         ? { textAlign: column.alignment.align }
-        : { textAlign: "end", paddingRight: "6px", paddingLeft: "6px" };
+        : { textAlign: "center", paddingRight: "6px", paddingLeft: "6px" };
       styles = {
         ...styles,
         ...alignment,
@@ -200,7 +200,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
             paddingRight: "6px",
             paddingLeft: "6px",
           }
-        : { textAlign: "end", paddingRight: "6px", paddingLeft: "6px" };
+        : { textAlign: "center", paddingRight: "6px", paddingLeft: "6px" };
       styles = {
         ...styles,
         ...alignment,
@@ -228,7 +228,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     ) {
       var alignment = column.alignment.align
         ? { textAlign: column.alignment.align }
-        : { textAlign: "end" };
+        : { textAlign: "center" };
   
       styles = {
         ...styles,

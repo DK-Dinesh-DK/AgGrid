@@ -62,6 +62,7 @@ export default function ColumnSpanning({ direction }) {
       rowHeight={22}
       className={clsx("fill-grid", colSpanClassname, rowSpanClassname)}
       direction={direction}
+      serialNumber={true}
       headerRowHeight={24}
       classheaderName="fill-grid"
       onRowDoubleClicked={onRowDoubleClicked}

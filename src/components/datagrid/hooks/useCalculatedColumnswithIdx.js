@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import textEditorClassname from "../editors/textEditor"
+import React, { useMemo } from "react";
+import textEditorClassname from "../editors/textEditor";
 export function useCalculatedColumnswithIdx({ rowData1 }) {
   const { columns4 } = useMemo(() => {
     var columns4 = rowData1.map((rawColumn, pos) => {

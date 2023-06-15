@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { alignmentUtilsCell } from "../alignMentUtils";
+import {alignmentUtilsCell} from "../alignMentUtils";
 
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
@@ -10,6 +10,7 @@ export function valueFormatter(props) {
 
   function handleClick(e) {
     selectCellWrapper(props.column.editorOptions?.editOnClick);
+    e.stopPropagation()
     props.onRowClick?.({
       api: props.api,
       data: props.row,
@@ -39,6 +40,7 @@ export function valueFormatter(props) {
 
   function handleDoubleClick(e) {
     selectCellWrapper(true);
+    e.stopPropagation()
     props.onRowDoubleClick?.({
       api: props.api,
       data: props.row,
@@ -80,8 +82,7 @@ export function valueFormatter(props) {
             height: "100%",
             justifyContent: "center",
             alignItems: "center",
-          }}
-        >
+          }}>
           {childData(props.column.children, props)}
         </div>
       </>
@@ -110,12 +111,13 @@ export function valueFormatter(props) {
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
         key={props.column.field}
+        role="gridcell"
+        aria-selected={isCellSelected}
         style={cellStyle}
         // className={props.className}
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
-        onContextMenu={handleContextMenu}
-      >
+        onContextMenu={handleContextMenu}>
         {isCellSelected && props.selectedCellEditor
           ? props.selectedCellEditor
           : props.row[props.column.field]}
@@ -323,10 +325,10 @@ const childData = (subData, props) => {
               selectedCellIdx: props.selectedCellIdx,
               getValue: () => cellValue,
               setValue: (newValue) => setCellValue(newValue),
-              fullWidth: info1.cellRendererParams?.fullWidth,
-              valueFormatted: info1.cellRendererParams?.valueFormatted,
               expandedMasterIds: props.expandedMasterIds,
               onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
+              fullWidth: info1.cellRendererParams?.fullWidth,
+              valueFormatted: info1.cellRendererParams?.valueFormatted,
               ...info1?.cellRendererParams,
             })}
       </div>

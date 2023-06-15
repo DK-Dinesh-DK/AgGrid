@@ -370,7 +370,8 @@ function TreeCell({
       )}
       {column.idx === 2 && selection && serialNumber && (
         <>
-          <span
+          {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+<span
             className="tree-expand-icon"
             style={{
               color: "black",
