@@ -173,6 +173,9 @@ describe("Datagrid Unit test for Table Pagination", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+    const nxtbtn = screen.getByTestId("pagination-prev");
+    expect(nxtbtn).toBeInTheDocument();
+    fireEvent.click(nxtbtn);
     const setpagebtn = screen.getByTestId("setPagination");
     expect(setpagebtn).toBeInTheDocument();
     fireEvent.click(setpagebtn);

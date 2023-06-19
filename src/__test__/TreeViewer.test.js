@@ -1,7 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
-import React from "react";
+import React, { useRef } from "react";
 import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
@@ -46,7 +47,7 @@ function LaiDataGrid(props) {
                     {
                       id: `${id}-1-1-0`,
                       parentId: id,
-                      name: `supplier ${i}`,
+                      name: `supplier-${i}`,
                       format: "728x90",
                       position: "run of site",
                       price: price / 2,
@@ -58,7 +59,7 @@ function LaiDataGrid(props) {
             {
               id: `${id}-2`,
               parentId: id,
-              name: `supplier ${i}`,
+              name: `supplier-${i}`,
               format: "328x70",
               position: "run of site",
               price: price * 0.25,
@@ -68,7 +69,7 @@ function LaiDataGrid(props) {
       } else {
         row = {
           id,
-          name: `supplier ${i}`,
+          name: `supplier-${i}`,
           format: `package ${i}`,
           position: "Run of site",
           price,
@@ -91,11 +92,12 @@ function LaiDataGrid(props) {
       headerName: "Name",
       width: 100,
       filter: true,
+      cellRenderer: TextEditor,
     },
     {
       field: "format",
       headerName: "format",
-      cellRenderer: TextEditor,
+      cellEditor: TextEditor,
     },
     {
       field: "position",
@@ -108,8 +110,10 @@ function LaiDataGrid(props) {
       sortable: true,
     },
   ];
+  const gridRef = useRef(null);
   return (
     <>
+      {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
         testId={"laidatagrid"}
@@ -117,6 +121,8 @@ function LaiDataGrid(props) {
         headerRowHeight={24}
         className="fill-grid"
         treeData={true}
+        ref={gridRef}
+        valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
         {...props}
       />
     </>
@@ -124,18 +130,34 @@ function LaiDataGrid(props) {
 }
 
 describe("Datagrid Unit test for Tree view", () => {
-  test("Tree view", () => {
+  test("Tree view", async () => {
     render(<LaiDataGrid />);
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    // const btn =screen.getBy
+    const expandbtn = screen.getByTestId("tree-expand-icon0");
+    expect(expandbtn).toBeInTheDocument();
+    fireEvent.click(expandbtn);
+    const gridcell = screen.getByRole("gridcell", { name: "package 1" });
+    expect(gridcell).toBeInTheDocument();
+    // fireEvent.doubleClick(gridcell);
+    // let input = screen.getByRole("gridcellTextbox");
+    // expect(input).toBeInTheDocument();
+    // expect(input).toHaveClass("rdg-text-editor");
+    // fireEvent.change(input, { target: { value: "Sarthak" } });
+    // expect(input).toHaveValue("Sarthak");
+    // fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    // expect(input).not.toBeInTheDocument();
+    // expect(gridcell).not.toBeInTheDocument();
   });
   test("print window check only serial", () => {
     render(<LaiDataGrid serialNumber={true} />);
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+    const expandbtn = screen.getByTestId("tree-expand-icon0");
+    expect(expandbtn).toBeInTheDocument();
+    fireEvent.click(expandbtn);
     // const btn =screen.getBy
   });
   test("print window check only serial", () => {
@@ -143,6 +165,9 @@ describe("Datagrid Unit test for Tree view", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+    const expandbtn = screen.getByTestId("tree-expand-icon0");
+    expect(expandbtn).toBeInTheDocument();
+    fireEvent.click(expandbtn);
     // const btn =screen.getBy
   });
   test("print window check only serial", () => {
@@ -150,6 +175,9 @@ describe("Datagrid Unit test for Tree view", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+    const expandbtn = screen.getByTestId("tree-expand-icon0");
+    expect(expandbtn).toBeInTheDocument();
+    fireEvent.click(expandbtn);
     // const btn =screen.getBy
   });
 });

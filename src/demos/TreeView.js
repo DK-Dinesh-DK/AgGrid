@@ -92,8 +92,7 @@ export default function TreeView({ direction }) {
     {
       field: "format",
       headerName: "format",
-      cellRenderer: TextEditor,
-    
+      cellEditor: TextEditor,
     },
     {
       field: "position",
@@ -117,6 +116,7 @@ export default function TreeView({ direction }) {
         treeData={true}
         selection={true}
         serialNumber={true}
+        valueChangedCellStyle={{ backgroundColor: "blue", color: "white" }}
       />
     </>
   );

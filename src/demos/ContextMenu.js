@@ -177,12 +177,15 @@ export default function ContextMenuDemo({ direction }) {
 
       {printTable && (
         <PrintComponent
-          rowData={rowData.slice(0, 100)}
+          rowData={rowData.slice(0, 10)}
           columnData={columns}
           onClose={() => setPrintTable(false)}
           formName={"Product Details"}
+          reportName={"Product Details Report"}
+          headerName={"Header Name"}
+          subHeaderName={"Sub Header Name"}
           personName={"David"}
-          rowsPerPage={32}
+          rowsPerPage={34}
           userDetail={
             <div>
               <div>Time: User Name:</div>

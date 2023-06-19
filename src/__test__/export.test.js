@@ -2,7 +2,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React from "react";
-import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
   function createRows() {
@@ -41,12 +40,10 @@ function LaiDataGrid(props) {
     {
       field: "format",
       headerName: "format",
-      cellRenderer: TextEditor,
     },
     {
       field: "position",
       headerName: "position",
-      // treeFormatter: TextEditor,
     },
     {
       field: "price",
@@ -78,7 +75,13 @@ describe("Datagrid Unit test for Export", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    // const csvbtn = screen.getByTestId("Export To CSV");
-    // expect(csvbtn).toBeInTheDocument();
+    const csvbtn = screen.getByTestId("Export to CSV");
+    expect(csvbtn).toBeInTheDocument();
+
+    const excelbtn = screen.getByTestId("Export to XSLX");
+    expect(excelbtn).toBeInTheDocument();
+    const pdfbtn = screen.getByTestId("Export to PDF");
+    expect(pdfbtn).toBeInTheDocument();
+    // fireEvent.click(csvbtn);
   });
 });

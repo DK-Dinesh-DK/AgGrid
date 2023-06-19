@@ -5,7 +5,12 @@ import { faker } from "@faker-js/faker";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import { SelectCellFormatter } from "../components/datagrid/formatters/SelectCellFormatter";
 import DataGrid from "../components/datagrid/DataGrid";
-import { exportToCsv, exportToXlsx, exportToPdf } from "../components/datagrid/exportUtils";
+import {
+  exportToCsv,
+  exportToXlsx,
+  exportToPdf,
+} from "../components/datagrid/exportUtils";
+import { ButtonEditor } from "../components/datagrid/editors";
 
 const toolbarClassname = css`
   display: flex;
@@ -55,7 +60,7 @@ function getColumns(countries, direction) {
       width: 60,
       frozen: true,
       haveChildren: false,
-      topHeader:"id",
+      topHeader: "id",
       resizable: false,
       summaryFormatter() {
         return <strong>Total</strong>;
@@ -64,12 +69,12 @@ function getColumns(countries, direction) {
     {
       field: "title",
       headerName: "Task",
-      topHeader:"title",
+      topHeader: "title",
       width: 120,
       haveChildren: false,
       frozen: true,
-      sortable:true,
-      filter:true,
+      sortable: true,
+      filter: true,
       cellEditor: TextEditor,
       summaryFormatter({ row }) {
         return <>{row.totalCount} records</>;
@@ -79,7 +84,7 @@ function getColumns(countries, direction) {
       field: "client",
       headerName: "Client",
       haveChildren: false,
-      topHeader:"client",
+      topHeader: "client",
       width: "max-content",
       cellRenderer: TextEditor,
     },
@@ -100,12 +105,13 @@ function getColumns(countries, direction) {
       width: 180,
       cellRenderer: (p) => (
         <select
-        //  className={textEditorClassname}
+          //  className={textEditorClassname}
           value={p.row.country}
           style={{ width: "100%" }}
           onChange={(e) =>
             p.onRowChange({ ...p.row, country: e.target.value }, true)
-          }>
+          }
+        >
           {countries.map((country) => (
             <option key={country}>{country}</option>
           ))}
@@ -155,7 +161,8 @@ function getColumns(countries, direction) {
               if (event.key === "Escape") {
                 onClose();
               }
-            }}>
+            }}
+          >
             <dialog open>
               <input
                 type="range"
@@ -227,8 +234,8 @@ function getColumns(countries, direction) {
       topHeader: "version",
       headerName: "Version",
       haveChildren: false,
-      
     },
+    { field: "save", headerName: "Save", cellRenderer: ButtonEditor },
     {
       field: "available",
       topHeader: "available",
@@ -381,27 +388,27 @@ export default function CommonFeatures({ direction }) {
         </ExportButton>
       </div>
       <DataGrid
-      rowKeyGetter={rowKeyGetter}
-      columnData={columns}
-      restriction={{
-        copy: true,
-        paste: true,
-      }}
-      rowData={sortedRows}
-   //  onRowsChange={setRows}
-      // selectedRows={selectedRows}
-      // onSelectedRowsChange={setSelectedRows}
-      topSummaryRows={summaryRows}
-      bottomSummaryRows={summaryRows}
-      showSelectedRows={true}
-      className="fill-grid"
-      direction={direction}
-      selection={true}
-      onRowClicked={(props)=>{
-        console.log("Data",props)
-      }}
-      pagination={true}
-    />
+        rowKeyGetter={rowKeyGetter}
+        columnData={columns}
+        restriction={{
+          copy: true,
+          paste: true,
+        }}
+        rowData={sortedRows}
+        //  onRowsChange={setRows}
+        // selectedRows={selectedRows}
+        // onSelectedRowsChange={setSelectedRows}
+        topSummaryRows={summaryRows}
+        bottomSummaryRows={summaryRows}
+        showSelectedRows={true}
+        className="fill-grid"
+        direction={direction}
+        selection={true}
+        onRowClicked={(props) => {
+          console.log("Data", props);
+        }}
+        pagination={true}
+      />
     </>
   );
 }
@@ -415,7 +422,8 @@ function ExportButton({ onExport, children }) {
         setExporting(true);
         await onExport();
         setExporting(false);
-      }}>
+      }}
+    >
       {exporting ? "Exporting" : children}
     </button>
   );

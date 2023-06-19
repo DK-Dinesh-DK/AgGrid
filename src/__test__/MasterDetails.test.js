@@ -1,9 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { css } from "@linaria/core";
-import { faker } from "@faker-js/faker";
+import { fireEvent, render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 
-export default function MasterDetail({ direction }) {
+import React, { useMemo, useState } from "react";
+import { css } from "@linaria/core";
+import { faker } from "@faker-js/faker";
+
+function LaiDataGrid({ direction }) {
   function rowKeyGetter(row) {
     return row.id;
   }
@@ -53,14 +56,14 @@ export default function MasterDetail({ direction }) {
             ? 3
             : 1;
         },
-        cellClass(row) {
-          return row.gridRowType === "DETAIL"
-            ? css`
-                padding: 24px;
-                background-color: black;
-              `
-            : undefined;
-        },
+        // cellClass(row) {
+        //   return row.gridRowType === "DETAIL"
+        //     ? css`
+        //         padding: 24px;
+        //         background-color: black;
+        //       `
+        //     : undefined;
+        // },
         detailsGrid: (props) => {
           return (
             <DataGrid
@@ -79,10 +82,12 @@ export default function MasterDetail({ direction }) {
   const rows = createDepartments();
 
   const [expandedIds, setExpandedIds] = useState([]);
-  console.log("expandedIds", expandedIds);
+
   return (
     <>
-      <button>Insert</button>
+      <button data-testid={"setExpandIds"} onClick={() => setExpandedIds([3])}>
+        setExpandIds
+      </button>
       <DataGrid
         rowKeyGetter={rowKeyGetter}
         columnData={columns}
@@ -96,11 +101,25 @@ export default function MasterDetail({ direction }) {
             : 40;
         }}
         expandedMasterRowIds={expandedIds}
-        onExpandedMasterIdsChange={(pro) => {
-          console.log("fvfvf", pro);
-        }}
-        direction={direction}
+        onExpandedMasterIdsChange={(ids) => setExpandedIds([...ids])}
+        testId={"laidatagrid"}
       />
     </>
   );
 }
+
+describe("Datagrid Unit test for Master Details", () => {
+  test("Master Details", () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const expandicon = screen.getByTestId("tree-expand-icon-1");
+    expect(expandicon).toBeInTheDocument();
+    fireEvent.click(expandicon);
+    const setbtn = screen.getByTestId("setExpandIds");
+    expect(setbtn).toBeInTheDocument();
+    fireEvent.click(setbtn);
+    // const btn =screen.getBy
+  });
+});

@@ -47,56 +47,71 @@ const PrintComponent = ({
   return (
     <>
       <Modal show={true}>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            cursor: "pointer",
-          }}
-        >
-          <div>
+        <div className="control-container">
+          <div className="control-row-first">
+            <div>{formName.toUpperCase()} </div>
+            <div className="close-icon" onClick={onClose}>
+              X
+            </div>
+          </div>
+          <div className="control-row-second">
             <PrintIcon
-              style={{ height: "20px", width: "20px" }}
+              data-testid={"print-svg"}
+              style={{
+                height: "20px",
+                width: "20px",
+                color: "white",
+                backgroundColor: "white",
+                cursor: "pointer",
+              }}
               onClick={() => {
                 handlePrint();
                 // onClose();
               }}
             />
           </div>
-          <div>
-            <div className="close-icon" onClick={onClose}>
-              X
-            </div>
-          </div>
         </div>
         <div ref={printRef} className="content-container">
           {rows?.map((newRows, index) => (
             <div
               style={{
-                width: "100%",
-                height: index !== 0 ? "1100px" : "1090px",
-                marginTop: index !== 0 ? "20px" : "-5PX",
+                width: "98%",
+                height: "1110px",
+                margin: index === 0 ? "0 0 10px 5px " : "10px 0 10px 5px",
                 display: "flex",
                 flexDirection: "column",
+                backgroundColor: "#B8CCE4",
               }}
             >
-              <div className="header">
-                <div className="title-card">{formName} </div>
+              <div className={index !== 0 ? "header not-fist-page" : "header"}>
+                <div className="log-container">
+                  <img
+                    src={logo}
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                    }}
+                  />
+                </div>
+                <div className="title-card">
+                  <div className="header-name">{props.headerName}</div>
+                  <div className="sub-header-name">{props.subHeaderName}</div>
+                </div>
                 <div className="details-card">
-                  <div className="log-container">
-                    <img
-                      src={logo}
-                      style={{
-                        height: "100px",
-                        width: "100px",
-                      }}
-                    />
-                  </div>
-
                   <div className="person-container">{personName} </div>
+                  <div className="date-container">
+                    {props.date
+                      ? props.date
+                      : moment(new Date()).format("DD-MM-YYYY")}
+                  </div>
+                  <div className="time-container">
+                    {props.time
+                      ? props.time
+                      : moment(new Date()).format("HH:MM")}
+                  </div>
                 </div>
               </div>
-              <div className="body" styl>
+              <div className="body">
                 <DataGrid
                   columnData={columnData}
                   rowData={newRows}

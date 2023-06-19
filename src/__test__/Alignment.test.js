@@ -41,11 +41,19 @@ function LaiDataGrid(props) {
       field: "email",
       headerName: "Email",
       width: "max-content",
+      alignment: { type: "string", align: "start" },
     },
     {
       field: "date",
       headerName: "Date",
       alignment: { type: "DATe" },
+      // width:200,
+      resizable: true,
+    },
+    {
+      field: "date",
+      headerName: "DateWithAlign",
+      alignment: { type: "DATe", align: "start" },
       // width:200,
       resizable: true,
     },
@@ -60,6 +68,26 @@ function LaiDataGrid(props) {
       headerName: "DateTime",
       alignment: { type: "datetime" },
     },
+    {
+      field: "newDatetime",
+      headerName: "NewDateTime",
+      alignment: true,
+    },
+    {
+      field: "num",
+      headerName: "Number",
+      alignment: true,
+    },
+    {
+      field: "num",
+      headerName: "NumberWithAlign",
+      alignment: { type: "number", align: "start" },
+    },
+    // {
+    //   field: dateWithalign,
+    //   headerName: "DateWithAlign",
+    //   alignment: { type: "date", align: "center" },
+    // },
   ];
 
   function createRows() {
@@ -78,6 +106,11 @@ function LaiDataGrid(props) {
         money: "₹101",
         time: new Date().toLocaleTimeString("en-IN"),
         datetime: moment(new Date()).format("MM-DD-YYYY h:mm:ss a"),
+        newDatetime: moment(new Date()).format("MM/DD/YYYY h:mm:ss a"),
+        num: i,
+        // dateWithalign: moment(faker.date.past().toLocaleDateString()).format(
+        //   "MMMM-DD-YYYY"
+        // ),
       });
     }
 

@@ -15,6 +15,7 @@ import {
   RadioButtonEditor,
   DateTimeEditor,
   SliderEditor,
+  LinkEditor,
 } from "../components/datagrid/editors";
 import { faker } from "@faker-js/faker";
 
@@ -35,6 +36,7 @@ function LaiDataGrid(props) {
         money: `₹${100 + i}`,
         valid: i % 2 === true,
         favcolor: faker.color.rgb(),
+        deletebtn: "Delete",
       });
     }
 
@@ -47,7 +49,7 @@ function LaiDataGrid(props) {
       headerName: "ID",
       width: 80,
       resizable: true,
-      cellEditor: TextEditor,
+      editable: true,
     },
     {
       field: "title",
@@ -122,6 +124,7 @@ function LaiDataGrid(props) {
       field: "date",
       headerName: "Date",
       width: 200,
+      editable: false,
       cellRenderer: DateEditor,
     },
 
@@ -154,6 +157,24 @@ function LaiDataGrid(props) {
       field: "save",
       headerName: "Save",
       cellRenderer: ButtonEditor,
+      onClick: (params) => {
+        console.log(params);
+      },
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      inputProps: { text: "ItemDelete" },
+      editable: true,
+    },
+    {
+      headerName: "Delete",
+      cellRenderer: ButtonEditor,
+    },
+    {
+      field: "link",
+      headerName: "Link",
+      cellRenderer: LinkEditor,
     },
   ];
   return (
@@ -176,6 +197,10 @@ describe("Datagrid Unit test for All editors", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+
+    const btn = screen.getByTestId("datagridbutton2");
+    expect(btn).toBeInTheDocument();
+    fireEvent.click(btn);
     // const btn =screen.getBy
   });
 });

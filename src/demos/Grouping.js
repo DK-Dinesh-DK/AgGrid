@@ -209,7 +209,7 @@ export default function Grouping({ direction }) {
         headerRowHeight={24}
         onSelectedRowsChange={setSelectedRows}
         groupBy={selectedOptions}
-        rowGrouper={rowGrouper}
+        // rowGrouper={rowGrouper}
         expandedGroupIds={expandedGroupIds}
         onExpandedGroupIdsChange={setExpandedGroupIds}
         defaultColumnOptions={{ resizable: true }}
