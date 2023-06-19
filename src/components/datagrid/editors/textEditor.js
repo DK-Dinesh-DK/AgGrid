@@ -57,6 +57,7 @@ export default function TextEditor({
       onChange={(event) =>
         onRowChange({ ...row, [column.key]: event.target.value })
       }
+
     />
   );
 }

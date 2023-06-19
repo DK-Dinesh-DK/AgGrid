@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import Nav from "./demos/Nav";
 import CellNavigation from "./demos/CellNavigation";
-// import NoRows from "./demos/NoRows";
+import NoRows from "./demos/NoRows";
 import ColumnsReordering from "./demos/ColumnsReordering";
 import ColumnSpanning from "./demos/ColumnSpanning";
 import ContextMenuDemo from "./demos/ContextMenu";
@@ -30,8 +30,6 @@ import Pagination from "./demos/Pagination";
 import ExportFile from "./demos/ExportFile"
 import Demos from "./demos/demo";
 import AlignmentDataTypes from "./demos/AlignmentDataTypes";
-import MultilineHeader from "./demos/MultilineHeader";
-
 css`
   @at-root {
     :root,
@@ -122,7 +120,7 @@ function App() {
             path="million-cells"
             element={<MillionCells direction={direction} />}
           />
-          {/* <Route path="no-rows" element={<NoRows direction={direction} />} /> */}
+          <Route path="no-rows" element={<NoRows direction={direction} />} />
           <Route
             path="resizable-grid"
             element={<ResizableGrid direction={direction} />}
@@ -159,7 +157,6 @@ function App() {
 
           <Route path="alingment" element={<AlignmentDataTypes direction={direction} />} />
 
-          <Route path="multilineheader" element={<MultilineHeader direction={direction} />} />
           <Route path="*" element="Nothing to see here" />
         </Routes>
       </main>

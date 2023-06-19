@@ -27,11 +27,11 @@ const headerRow = css`
 
     & > .${cellFrozen} {
       z-index: 2;
-    } 
+    }
   }
 `;
 
-const headerRowClassname = `rdg-header-row ${headerRow}`; 
+const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
   columns,

@@ -32,7 +32,6 @@ export default function ButtonEditor({ row, column, ...props }) {
     <>
       <button
         className={buttonClassname}
-        data-testid={`datagridbutton${props.rowIndex}`}
         disabled={column.editable ? column.editable : false}
         onClick={() => column.onClick({ row, column, ...props })}
         {...column.inputProps}

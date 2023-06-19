@@ -152,7 +152,7 @@ export default function HeaderCell({
       matches.push(column.headerName === name && column);
     }
 
-    var value1 = false;
+    let value1 = false;
 
     matches = matches.filter(function (item) {
       return item !== value1;

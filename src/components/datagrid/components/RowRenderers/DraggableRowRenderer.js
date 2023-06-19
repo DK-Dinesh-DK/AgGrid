@@ -1,19 +1,17 @@
-import { useDrag, useDrop } from 'react-dnd';
-import clsx from 'clsx';
-import { css } from '@linaria/core';
+import React from 'react';
+import { useDrag, useDrop } from "react-dnd"
+import {clsx} from "clsx"
+import { css } from "@linaria/core"
 
-import RowComponent from '../components/datagrid/Row';
-
+import { Row } from "../../../../src"
 
 const rowDraggingClassname = css`
   opacity: 0.5;
-`;
+`
 
 const rowOverClassname = css`
   background-color: #ececec;
-`;
-
-
+`
 
 export function DraggableRowRenderer({
   rowIdx,
@@ -23,41 +21,41 @@ export function DraggableRowRenderer({
   ...props
 }) {
   const [{ isDragging }, drag] = useDrag({
-    type: 'ROW_DRAG',
+    type: "ROW_DRAG",
     item: { index: rowIdx },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isDragging: monitor.isDragging()
     })
-  });
+  })
 
   const [{ isOver }, drop] = useDrop({
-    accept: 'ROW_DRAG',
+    accept: "ROW_DRAG",
     drop({ index }) {
-      onRowReorder(index, rowIdx);
+      onRowReorder(index, rowIdx)
     },
-    collect: (monitor) => ({
+    collect: monitor => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop()
     })
-  });
+  })
 
   className = clsx(className, {
     [rowDraggingClassname]: isDragging,
     [rowOverClassname]: isOver
-  });
+  })
 
   return (
-    <RowComponent
-      ref={(ref) => {
+    <Row
+      ref={ref => {
         if (ref) {
-          drag(ref.firstElementChild);
+          drag(ref.firstElementChild)
         }
-        drop(ref);
+        drop(ref)
       }}
       rowIdx={rowIdx}
       isRowSelected={isRowSelected}
       className={className}
       {...props}
     />
-  );
+  )
 }

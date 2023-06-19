@@ -5,24 +5,16 @@ import DataGrid from "../components/datagrid/DataGrid";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import React, { useState } from "react";
 
+
+
 const columns = [
   {
     field: "name",
     headerName: "Name",
     haveChildren: true,
     children: [
-      {
-        field: "firstname",
-        headerName: "First Name",
-        sortable: true,
-        cellEditor: TextEditor,
-      },
-      {
-        field: "lastname",
-        headerName: "Last Name",
-        sortable: true,
-        cellEditor: TextEditor,
-      },
+      { field: "firstname", headerName: "First Name",sortable:true, cellEditor: TextEditor },
+      { field: "lastname", headerName: "Last Name", sortable:true, cellEditor: TextEditor },
     ],
   },
   {
@@ -30,44 +22,23 @@ const columns = [
     headerName: "Number",
     haveChildren: true,
     children: [
+      { field: "homenumber", headerName: "Home Number",sortable:true, cellEditor: TextEditor },
       {
-        field: "homenumber",
-        headerName: "Home Number",
-        sortable: true,
-        cellEditor: TextEditor,
-      },
-      {
-        field: "personalnumber",
-        sortable: true,
+        field: "personalnumber",sortable:true,
         headerName: "Personal Number",
         cellEditor: TextEditor,
       },
     ],
   },
-  {
-    field: "address",
-    headerName: "Address",
-    sortable: true,
-    cellEditor: TextEditor,
-  },
-  {
-    field: "school",
-    headerName: "School",
-    sortable: true,
-    cellEditor: TextEditor,
-  },
-  {
-    field: "class",
-    headerName: "Class",
-    sortable: true,
-    cellEditor: TextEditor,
-  },
+  { field: "address", headerName: "Address", sortable:true,cellEditor: TextEditor },
+  { field: "school", headerName: "School",sortable:true, cellEditor: TextEditor },
+  { field: "class", headerName: "Class",sortable:true, cellEditor: TextEditor },
 ];
 const initialRows = [
   {
-    id: 1,
+    id:1,
     // firstname: "John",
-
+    
     lastname: "Doe",
     homenumber: "9987654336",
     personalnumber: "4545454534",
@@ -75,8 +46,7 @@ const initialRows = [
     school: "DAV",
     class: "10th",
   },
-  {
-    id: 2,
+  {id:2,
     // firstname: "Suvendu",
     lastname: "Sahoo",
     homenumber: "8976543234",
@@ -85,8 +55,7 @@ const initialRows = [
     school: "DPS",
     class: "7th",
   },
-  {
-    id: 3,
+  {id:3,
     // firstname: "Namit",
     lastname: "Singh",
     homenumber: "6765458907",
@@ -95,8 +64,7 @@ const initialRows = [
     school: "DPS",
     class: "8th",
   },
-  {
-    id: 4,
+  {id:4,
     // firstname: "Pravalika",
     lastname: "Reddy",
     homenumber: "9098654567",
@@ -107,6 +75,7 @@ const initialRows = [
   },
 ];
 
+
 function LaiDataGrid() {
   const [rows, setRows] = useState(initialRows);
 
@@ -115,6 +84,7 @@ function LaiDataGrid() {
       columnData={columns}
       testId={"datagridMultilineHeader"}
       rowData={rows}
+      
       enableVirtualization={false}
       className="fill-grid"
       // onRowsChange={setRows}
@@ -145,16 +115,22 @@ describe("Datagrid Unit test", () => {
     expect(HeaderRowCheckbox.checked).toBe(false);
 
     //Apply Click event to make headercheckbox checked
-    // fireEvent.click(HeaderRowCheckbox);
+    fireEvent.click(HeaderRowCheckbox);
 
-    // //Now headercheckbox should be checked.
-    // expect(HeaderRowCheckbox).toBeChecked();
+    //Now headercheckbox should be checked.
+    expect(HeaderRowCheckbox).toBeChecked();
+    
+    expect(HeaderRowCheckbox.checked).toBe(true);
 
-    // expect(HeaderRowCheckbox.checked).toBe(true);
-
-    // //Now all row should be checked
-    // rowCheckbox.forEach((rowCheckbox) => {
-    //   expect(rowCheckbox).toBeChecked();
-    // });
+    //Now all row should be checked
+    rowCheckbox.forEach((rowCheckbox) => {
+      expect(rowCheckbox).toBeChecked();
+    });
   });
+
+
+
+
+
+
 });

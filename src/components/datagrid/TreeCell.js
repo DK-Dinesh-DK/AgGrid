@@ -31,7 +31,6 @@ function TreeCell({
   isRowSelected,
   selectCell,
   valueChangedCellStyle,
-  previousData,
   ...props
 }) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
@@ -139,7 +138,7 @@ function TreeCell({
           viewportColumns,
           data: row,
           // rowArray,
-
+        
           value,
           allrow,
           selectedCellIdx,
@@ -184,7 +183,7 @@ function TreeCell({
           data: row,
           value,
           // rowArray,
-
+       
           allrow,
           selectedCellIdx,
           selectedCellEditor,
@@ -216,7 +215,6 @@ function TreeCell({
         <>
           <span
             className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
             style={{
               color: "black",
               fontSize: "12px",
@@ -272,7 +270,7 @@ function TreeCell({
           value,
           rowIndex,
           treeData: props.treeData,
-
+       
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
@@ -297,7 +295,6 @@ function TreeCell({
         <>
           <span
             className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
             style={{
               color: "black",
               fontSize: "12px",
@@ -337,7 +334,6 @@ function TreeCell({
           {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
           <span
             className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
             style={{
               color: "black",
               fontSize: "12px",
@@ -375,9 +371,8 @@ function TreeCell({
       {column.idx === 2 && selection && serialNumber && (
         <>
           {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-          <span
+<span
             className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
             style={{
               color: "black",
               fontSize: "12px",
@@ -426,7 +421,7 @@ function TreeCell({
           viewportColumns,
           data: row,
           // rowArray,
-
+      
           value,
           allrow,
           selectedCellIdx,
@@ -477,7 +472,7 @@ function TreeCell({
           value,
           rowIndex,
           treeData: props.treeData,
-
+        
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,

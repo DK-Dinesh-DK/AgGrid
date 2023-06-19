@@ -144,14 +144,14 @@ function Row(
     <DndProvider backend={HTML5Backend}>
       <RowSelectionProvider value={isRowSelected}> 
         <div
-          key={`${rowIdx}`}
           role="row"
           ref={ref}
           id={row?.id ?? rowIdx}
           className={className}
           onMouseEnter={handleDragEnter}
           style={style}
-          {...props}>
+          {...props}
+        >
           {cells}
         </div> 
        

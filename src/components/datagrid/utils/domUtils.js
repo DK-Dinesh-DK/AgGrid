@@ -1,5 +1,5 @@
 export function stopPropagation(event) {
-  event.stopPropagation();
+  event.stopPropagation()
 }
 
 export function scrollIntoView(element) {
@@ -7,5 +7,3 @@ export function scrollIntoView(element) {
     element.scrollIntoView({ inline: "nearest", block: "nearest" });
   }
 }
-
-

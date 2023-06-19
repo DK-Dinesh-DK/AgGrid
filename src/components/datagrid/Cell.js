@@ -292,8 +292,12 @@ function Cell({
   }
 
   if (column.cellStyle) {
-    let dynamicStyles = column.cellStyle(params);
-    style = { ...style, ...dynamicStyles }
+    let dynamicStyle;
+    if (typeof column.cellStyle === "function")
+      dynamicStyle = column.cellStyle(params);
+    else
+      dynamicStyle = column.cellStyle
+    style = { ...style, ...dynamicStyle }
   }
 
   return (

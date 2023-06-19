@@ -177,7 +177,7 @@ export default function ContextMenuDemo({ direction }) {
 
       {printTable && (
         <PrintComponent
-          rowData={rowData.slice(0, 10)}
+          rowData={rowData.slice(0, 100)}
           columnData={columns}
           onClose={() => setPrintTable(false)}
           formName={"Product Details"}

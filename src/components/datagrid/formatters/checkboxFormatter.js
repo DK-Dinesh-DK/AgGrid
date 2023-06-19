@@ -1,5 +1,5 @@
 import React from 'react';
-import {clsx} from "clsx"
+import { clsx } from "clsx"
 import { css } from "@linaria/core"
 
 const checkboxLabel = css`
@@ -89,7 +89,9 @@ export function checkboxFormatter({ onChange, ...props }, ref) {
         className={checkboxInputClassname}
         onChange={handleChange}
       />
-      <div className={checkboxClassname}>
+      <div
+        className={checkboxClassname}
+        onClick={(e) => e.stopPropagation()}>
         <div></div>
       </div>
     </label>

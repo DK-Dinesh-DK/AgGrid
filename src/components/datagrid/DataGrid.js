@@ -1,5 +1,4 @@
 import React, {
-  forwardRef,
   useState,
   useRef,
   useImperativeHandle,
@@ -79,6 +78,7 @@ const initialPosition = {
   mode: "SELECT",
 };
 
+
 /**
  * Main API Component to render a data grid of rows and columns
  *
@@ -86,7 +86,7 @@ const initialPosition = {
  *
  * <DataGrid columns={columns} rows={rows} />
  */
-function DataGrid(props, ref) {
+function DataGrid(props) {
   let {
     // Grid and data Props
     columnData: raawColumns,
@@ -186,7 +186,6 @@ function DataGrid(props, ref) {
     );
   }
   const [headerHeightFromRef, setHeaderHeightFromRef] = useState();
-
   const depth = (d) => (o) => {
     o.depth = d;
     (o.children || []).forEach(depth(d + 1));
@@ -228,8 +227,8 @@ function DataGrid(props, ref) {
     contextMenuItems.length > 0
       ? contextMenuRowRenderer
       : renderers?.rowRenderer ??
-        defaultComponents?.rowRenderer ??
-        defaultRowRenderer;
+      defaultComponents?.rowRenderer ??
+      defaultRowRenderer;
   const sortStatus =
     renderers?.sortStatus ?? defaultComponents?.sortStatus ?? defaultSortStatus;
   const checkboxFormatter =
@@ -253,8 +252,8 @@ function DataGrid(props, ref) {
   const [expandAll, setExpandAll] = useState(null);
 
   useUpdateEffect(() => {
-    setRawColumns(raawColumns);
-  }, [props.columnData]);
+    setRawColumns(raawColumns)
+  }, [props.columnData])
 
   useUpdateEffect(() => {
     setExpandAll(null);
@@ -302,14 +301,14 @@ function DataGrid(props, ref) {
   const PrevNextArrow = (current, type, originalElement) => {
     if (type === "prev") {
       return (
-        <button title="Previous" data-testid="pagination-prev">
+        <button title="Previous">
           <i className="fa fa-angle-double-left" />
         </button>
       );
     }
     if (type === "next") {
       return (
-        <button title="Next" data-testid="pagination-next">
+        <button title="Next">
           <i className="fa fa-angle-double-right" />
         </button>
       );
@@ -326,6 +325,7 @@ function DataGrid(props, ref) {
   const onSortColumnsChange = (sortColumns) => {
     setSortColumns(sortColumns.slice(-1));
   };
+
 
   let flattedColumns;
   const flat = (rawColumns) => (o) =>
@@ -477,13 +477,13 @@ function DataGrid(props, ref) {
   const rightKey = isRtl ? "ArrowLeft" : "ArrowRight";
 
   const handlePrint = () => {
-    let printContents = document.getElementById("DataGrid").innerHTML;
+    let printContents = document.getElementById('DataGrid').innerHTML;
     let originalContents = document.body.innerHTML;
     document.body.innerHTML = printContents;
     window.print();
-    window.close();
     document.body.innerHTML = originalContents;
-  };
+  }
+
 
   const defaultGridComponents = useMemo(
     () => ({
@@ -496,6 +496,7 @@ function DataGrid(props, ref) {
   const allRowsSelected = useMemo(() => {
     // no rows to select = explicitely unchecked
     const { length } = rawRows;
+    if(selectedRows1===null || selectedRows1===undefined) return null;
     return (
       length !== 0 &&
       selectedRows1 != null &&
@@ -549,7 +550,7 @@ function DataGrid(props, ref) {
     return item1;
   });
 
-  const {
+  let {
     columns,
     colSpanColumns,
     colOverscanStartIdx,
@@ -602,8 +603,9 @@ function DataGrid(props, ref) {
     merged.push({
       ...element,
       ...columns4.find((itmInner) => {
-        if (element.field) return itmInner.field === element.field;
-        return element.headerName === itmInner.headerName;
+        if (element.field)
+          return itmInner.field === element.field
+        return element.headerName === itmInner.headerName
       }),
     });
   }
@@ -688,10 +690,10 @@ function DataGrid(props, ref) {
   function getColumnWidths() {
     let keys = Array.from(columnMetrics.keys());
     let columnKeys = [];
-    keys.map((key) => columnKeys.push(key.key));
+    keys.forEach((key) => columnKeys.push(key.key));
     let values = Array.from(columnMetrics.values());
     let columnWidthValues = [];
-    values.map((value) => columnWidthValues.push(value.width));
+    values.forEach((value) => columnWidthValues.push(value.width));
     let columnWidth = new Map(columnWidths);
     for (let i = 0; i < columnWidthValues.length; i++) {
       columnWidth.set(columnKeys[i], columnWidthValues[i]);
@@ -702,8 +704,9 @@ function DataGrid(props, ref) {
     let columnObjects = [];
     columns.forEach((column) => {
       const index = raawColumns.findIndex((c) => {
-        if (column.field) return c.field === column.field;
-        return c.headerName === column.headerName;
+        if (column.field)
+          return c.field === column.field
+        return c.headerName === column.headerName
       });
       const userColDef = raawColumns[index];
       const indexOfRowGroup = rawGroupBy?.findIndex(
@@ -724,6 +727,7 @@ function DataGrid(props, ref) {
         userProvidedColDef: userColDef,
       };
       columnObjects.push(columnState);
+
     });
     return columnObjects;
   }
@@ -863,7 +867,7 @@ function DataGrid(props, ref) {
   }
   function moveRowGroupColumn(fromIndex, toIndex) {
     if (fromIndex > -1 && toIndex < rawGroupBy?.length) {
-      var element = rawGroupBy[fromIndex];
+      let element = rawGroupBy[fromIndex];
       rawGroupBy.splice(fromIndex, 1);
       rawGroupBy.splice(toIndex, 0, element);
       setRawColumns(columns);
@@ -944,7 +948,7 @@ function DataGrid(props, ref) {
     colWidthValues.forEach((colWidth) => {
       widthSum += colWidth;
     });
-    var scale = gridWidth / widthSum;
+    let scale = gridWidth / widthSum;
     const newColWidths = new Map(columnWidths);
     let colWidths = Array.from(columnWidths.keys());
     let sum = 0;
@@ -961,8 +965,8 @@ function DataGrid(props, ref) {
     setColumnWidths(newColWidths);
   }
   function getColumnState() {
-    var columns = Array.from(columnMetrics.keys());
-    var colStates = [];
+    let columns = Array.from(columnMetrics.keys());
+    let colStates = [];
     columns.forEach((col) => {
       const index = sortColumns.findIndex(
         (sortCol) => sortCol.columnKey === col.key
@@ -1105,8 +1109,8 @@ function DataGrid(props, ref) {
   }
   function setColumnsPinned(keys) {
     for (let i = 0; i < columns.length; i++) {
-      for (let j = 0; j < keys.length; j++) {
-        const key = typeof keys[j] === "string" ? keys[j] : keys[j].colId;
+      for (const element of keys) {
+        const key = typeof element === "string" ? element : element.colId;
         const columnIndex = columns.findIndex((col) => col.key === key);
         if (i === columnIndex) columns[i].frozen = true;
       }
@@ -1345,7 +1349,7 @@ function DataGrid(props, ref) {
   });
   const selectBottomSummaryCellLatest = useLatestFunc((summaryRow, column) => {
     const rowIdx = bottomSummaryRows.indexOf(summaryRow) + rows.length;
-    selectCell({ rowIdx, idx: column.ifdx });
+    selectCell({ rowIdx, idx: column.idx });
   });
   const toggleGroupLatest = useLatestFunc(toggleGroup);
 
@@ -1382,9 +1386,7 @@ function DataGrid(props, ref) {
 
       for (const column of flexWidthViewportColumns) {
         const measuringCell = grid.querySelector(
-          `[data-measuring-cell-key="${
-            column.key ?? `grid_no_key${column.idx}`
-          }"]`
+          `[data-measuring-cell-key="${column.key ?? `grid_no_key${column.idx}`}"]`
         );
         // Set the actual width of the column after it is rendered
         const { width } = measuringCell.getBoundingClientRect();
@@ -1395,7 +1397,7 @@ function DataGrid(props, ref) {
     });
   }, [isWidthInitialized, flexWidthViewportColumns, gridRef]);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle(innerRef, () => ({
     element: gridRef.current,
     scrollToColumn,
     scrollToRow(rowIdx) {
@@ -1435,6 +1437,7 @@ function DataGrid(props, ref) {
     );
     const measuredWidth = measuringCell.getBoundingClientRect().width;
     const measuredWidthPx = `${measuredWidth}px`;
+
 
     if (newTemplateColumns[column.idx] !== measuredWidthPx) {
       newTemplateColumns[column.idx] = measuredWidthPx;
@@ -1530,6 +1533,7 @@ function DataGrid(props, ref) {
   useEffect(() => {
     TreeViewHandle();
   }, [expandedTreeIds]);
+
   useEffect(() => {
     if (rest.masterData) {
       if (expandedMasterRowIds.length > 0) {
@@ -1552,17 +1556,13 @@ function DataGrid(props, ref) {
     }
   }, [expandedMasterRowIds]);
   function toggleMaster(newExpandedMasterId) {
-    var sample;
     if (!expandedMasterRowIds.includes(newExpandedMasterId)) {
       setExpandedMasterIds([...expandedMasterRowIds, newExpandedMasterId]);
-      sample = [...expandedMasterRowIds, newExpandedMasterId];
     } else {
-      sample = expandedMasterRowIds.filter(
-        (value) => value !== newExpandedMasterId
+      setExpandedMasterIds(
+        expandedMasterRowIds.filter((value) => value !== newExpandedMasterId)
       );
-      setExpandedMasterIds([...sample]);
     }
-    if (onExpandedMasterIdsChange) onExpandedMasterIdsChange(sample);
   }
 
   function toggleTree(newExpandedTreeId) {
@@ -1677,6 +1677,7 @@ function DataGrid(props, ref) {
   useEffect(() => {
     setPreviousData([...raawRows]);
   }, []);
+
   function updateRow(column, rowIdx, row, oldRow) {
     if (rest.treeData) {
       let sample = [...rawRows];
@@ -2122,10 +2123,10 @@ function DataGrid(props, ref) {
       return selectedPosition.idx > colOverscanEndIdx
         ? [...viewportColumns, selectedColumn]
         : [
-            ...viewportColumns.slice(0, lastFrozenColumnIndex + 1),
-            selectedColumn,
-            ...viewportColumns.slice(lastFrozenColumnIndex + 1),
-          ];
+          ...viewportColumns.slice(0, lastFrozenColumnIndex + 1),
+          selectedColumn,
+          ...viewportColumns.slice(lastFrozenColumnIndex + 1),
+        ];
     }
     return viewportColumns;
   }
@@ -2160,13 +2161,13 @@ function DataGrid(props, ref) {
     let secondIndex;
     let startIndex;
     let endIndex;
-    RowNodes.map((obj, idx) => {
+    RowNodes.forEach((obj, idx) => {
       if (_.isEqual(obj1, obj)) {
         firstIndex = idx;
       }
       return true;
     });
-    RowNodes.map((obj, idx) => {
+    RowNodes.forEach((obj, idx) => {
       if (_.isEqual(obj2, obj)) {
         secondIndex = idx;
       }
@@ -2375,6 +2376,7 @@ function DataGrid(props, ref) {
   }
   function getSelectedNodes() {
     let selectedNodes = [];
+    if(selectedRows1===undefined) return selectedRows
     const selectedRowsSet = Array.from(selectedRows1);
     RowNodes?.forEach((rowNode) => {
       const rowKey = rowKeyGetter?.(rowNode.data);
@@ -2384,6 +2386,7 @@ function DataGrid(props, ref) {
   }
   function getSelectedRows() {
     let selectedRows = [];
+    if(selectedRows1===undefined) return selectedRows
     const selectedRowsSet = Array.from(selectedRows1);
     raawRows.forEach((row) => {
       const rowKey = rowKeyGetter?.(row);
@@ -2424,9 +2427,9 @@ function DataGrid(props, ref) {
   function getFocusedCell() {
     return selectedPosition.rowIdx >= 0
       ? {
-          rowIndex: selectedPosition.rowIdx,
-          column: columns[selectedPosition.idx],
-        }
+        rowIndex: selectedPosition.rowIdx,
+        column: columns[selectedPosition.idx],
+      }
       : undefined;
   }
   function setFocusedCell(idx, key) {
@@ -2715,10 +2718,13 @@ function DataGrid(props, ref) {
     }
     scrollToColumn(index);
   }
+  function setCellValue(rowIndex, colKey, newValue) {
+    raawRows[rowIndex][colKey] = newValue
+    setRawRows([...raawRows])
+  }
   var apiObject = {
-    updateColumns: (newColumns) => {
-      setRawColumns([...newColumns]);
-    },
+    setCellValue:setCellValue,
+    updateColumns: (newColumns) => { setRawColumns([...newColumns]) },
     getColumnDefs: () => rawColumns,
     handlePrint,
     // handlePreview,
@@ -2828,6 +2834,7 @@ function DataGrid(props, ref) {
   useEffect(() => {
     setRowNodes(getViewportRowsSample(raawRows));
   }, [expandedGroupIds, expandAll, raawRows, afterFilter, afterSort]);
+
 
   /////
   var renderedRowNodes = [];
@@ -2967,7 +2974,6 @@ function DataGrid(props, ref) {
             selectCell={selectViewportCellLatest}
             selectedCellEditor={getCellEditor(rowIdx)}
             treeData={props.treeData}
-            previousData={changedList}
           />
         );
         continue;
@@ -3195,8 +3201,8 @@ function DataGrid(props, ref) {
     }
 
     return (
-      target?.removeEventListener("copy", () => {}),
-      target?.removeEventListener("paste", () => {})
+      target?.removeEventListener("copy", () => { }),
+      target?.removeEventListener("paste", () => { })
     );
   }, [props.restriction?.paste, props.restriction?.copy]);
   const toolbarClassname = css`
@@ -3268,10 +3274,9 @@ function DataGrid(props, ref) {
 
           scrollPaddingBlock:
             selectedPosition.rowIdx >= 0 &&
-            selectedPosition.rowIdx < rows.length
-              ? `${
-                  headerRowHeight + topSummaryRowsCount * summaryRowHeight
-                }px ${bottomSummaryRowsCount * summaryRowHeight}px`
+              selectedPosition.rowIdx < rows.length
+              ? `${headerRowHeight + topSummaryRowsCount * summaryRowHeight
+              }px ${bottomSummaryRowsCount * summaryRowHeight}px`
               : undefined,
 
           gridTemplateRows: templateRows,
@@ -3367,7 +3372,7 @@ function DataGrid(props, ref) {
                 })}
 
                 <RowSelectionChangeProvider value={selectRowLatest}>
-                  {getViewportRows(rowArray)}
+                  {getViewportRows()}
                 </RowSelectionChangeProvider>
 
                 {bottomSummaryRows?.map((row, rowIdx) => {
@@ -3383,12 +3388,12 @@ function DataGrid(props, ref) {
                   const top =
                     clientHeight > totalRowHeight
                       ? gridHeight -
-                        summaryRowHeight * (bottomSummaryRows.length - rowIdx)
+                      summaryRowHeight * (bottomSummaryRows.length - rowIdx)
                       : undefined;
                   const bottom =
                     top === undefined
                       ? summaryRowHeight *
-                        (bottomSummaryRows.length - 1 - rowIdx)
+                      (bottomSummaryRows.length - 1 - rowIdx)
                       : undefined;
 
                   return (
@@ -3460,8 +3465,7 @@ function DataGrid(props, ref) {
                         </span>
                         <span
                           className="context-menu-name"
-                          title={subItem.tooltip}
-                        >
+                          title={subItem.tooltip}>
                           {subItem.name}
                         </span>
                       </MenuItem>
@@ -3519,9 +3523,8 @@ function DataGrid(props, ref) {
                 alignItems: "center",
               }}
             >
-              {`${
-                selectedRows1?.size === undefined ? 0 : selectedRows1?.size
-              } out of ${raawRows.length} selected`}
+              {`${selectedRows1?.size === undefined ? 0 : selectedRows1?.size
+                } out of ${raawRows.length} selected`}
             </div>
           )}
           {pagination && !suppressPagination && (
@@ -3549,4 +3552,4 @@ function isSamePosition(p1, p2) {
   return p1.idx === p2.idx && p1.rowIdx === p2.rowIdx;
 }
 
-export default forwardRef(DataGrid);
+export default DataGrid;

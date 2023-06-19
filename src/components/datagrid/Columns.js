@@ -46,7 +46,7 @@ function SelectGroupFormatter(props) {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SelectColumn = {
-  field: SELECT_COLUMN_KEY,
+  key: SELECT_COLUMN_KEY,
   name: "",
   width: 35,
   minWidth: 35,
@@ -74,7 +74,7 @@ export const SelectColumn = {
   },
 };
 export const SerialNumberColumn = {
-  field: SERIAL_NUMBER_COLUMN_KEY,
+  key: SERIAL_NUMBER_COLUMN_KEY,
   name: "Sr. No.",
   field: "Sr. No.",
   width: 45,
