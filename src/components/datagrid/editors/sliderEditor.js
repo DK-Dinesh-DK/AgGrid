@@ -15,13 +15,14 @@ const sliderEditorInternalClassname = css`
 `;
 
 export const sliderEditorClassname = `rdg-slider-editor ${sliderEditorInternalClassname}`;
-export default function SliderEditor({ row, column, onRowChange }) {
+export default function SliderEditor({ row, column, onRowChange,...props }) {
   const value = row[column.key];
   return (
     <div className={sliderContainer}>
       <input
         type={"range"}
         value={value}
+        data-testid={`grid-slider-${props.rowIndex}`}
         className={sliderEditorClassname}
         {...column.inputProps}
         onChange={(e) => {

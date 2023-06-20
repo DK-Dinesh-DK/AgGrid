@@ -86,6 +86,7 @@ function LaiDataGrid() {
       className="fill-grid"
       onRowsChange={setRows}
       selection={true}
+      rowKeyGetter={(data) => data.homenumber}
     />
   );
 }

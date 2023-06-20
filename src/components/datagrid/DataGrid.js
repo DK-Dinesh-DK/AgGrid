@@ -64,7 +64,6 @@ import {
 import FilterContext from "./filterContext";
 import { SelectColumn, SerialNumberColumn } from "./Columns";
 import { exportToCsv, exportToPdf, exportToXlsx } from "./exportUtils";
-import { ExportButton } from "./ExportData";
 import Pagination from "rc-pagination";
 import "./pagination.css";
 import { useCalculatedColumnswithIdx } from "./hooks/useCalculatedColumnswithIdx";
@@ -298,23 +297,24 @@ function DataGrid(props) {
     setCurrent(page);
     setSize(pageSize);
   };
-  const PrevNextArrow = (current, type, originalElement) => {
+  const PrevNextArrow = ( type, originalElement) => {
     if (type === "prev") {
       return (
-        <button title="Previous">
+        <button title="Previous" data-testid="pagination-prev">
           <i className="fa fa-angle-double-left" />
         </button>
       );
     }
     if (type === "next") {
       return (
-        <button title="Next">
+        <button title="Next" data-testid="pagination-next">
           <i className="fa fa-angle-double-right" />
         </button>
       );
     }
     return originalElement;
   };
+
   const PerPageChange = (value) => {
     setSize(value);
     const newPerPage = Math.ceil(rawRows.length / value);
@@ -496,7 +496,7 @@ function DataGrid(props) {
   const allRowsSelected = useMemo(() => {
     // no rows to select = explicitely unchecked
     const { length } = rawRows;
-    if(selectedRows1===null || selectedRows1===undefined) return null;
+    // if(selectedRows1===null || selectedRows1===undefined) return null;
     return (
       length !== 0 &&
       selectedRows1 != null &&
@@ -1555,14 +1555,19 @@ function DataGrid(props) {
       }
     }
   }, [expandedMasterRowIds]);
+
   function toggleMaster(newExpandedMasterId) {
+    let sample;
     if (!expandedMasterRowIds.includes(newExpandedMasterId)) {
       setExpandedMasterIds([...expandedMasterRowIds, newExpandedMasterId]);
+      sample = [...expandedMasterRowIds, newExpandedMasterId];
     } else {
-      setExpandedMasterIds(
-        expandedMasterRowIds.filter((value) => value !== newExpandedMasterId)
+      sample = expandedMasterRowIds.filter(
+        (value) => value !== newExpandedMasterId
       );
+      setExpandedMasterIds([...sample]);
     }
+    if (onExpandedMasterIdsChange) onExpandedMasterIdsChange(sample);
   }
 
   function toggleTree(newExpandedTreeId) {
@@ -2899,8 +2904,8 @@ function DataGrid(props) {
               headerRowsCount + topSummaryRowsCount + startRowIndex + 1
             }
             aria-selected={isSelectable ? isGroupRowSelected : undefined}
-            key={`${row.id}`}
-            id={row.id}
+            key={`${rowKeyGetter(row)}`}
+            id={rowKeyGetter(row)}
             groupKey={row.groupKey}
             viewportColumns={regroupArray(merged)}
             childRows={row.childRows}
@@ -2936,7 +2941,7 @@ function DataGrid(props) {
               headerRowsCount + topSummaryRowsCount + startRowIndex + 1
             }
             aria-selected={isSelectable ? isTreeRowSelected : undefined}
-            key={`${row.id}`}
+            key={`${rowKeyGetter(row)}`}
             id={rowKeyGetter(row)}
             viewportColumns={regroupArray(merged)}
             childRows={row.childRows}
@@ -2974,6 +2979,7 @@ function DataGrid(props) {
             selectCell={selectViewportCellLatest}
             selectedCellEditor={getCellEditor(rowIdx)}
             treeData={props.treeData}
+            previousData={changedList}
           />
         );
         continue;
@@ -2991,7 +2997,7 @@ function DataGrid(props) {
               headerRowsCount + topSummaryRowsCount + startRowIndex + 1,
 
             "aria-selected": isSelectable ? isMasterRowSelected : undefined,
-            key: `${row.id}`,
+            key: `${rowKeyGetter(row)}`,
             id: rowKeyGetter(row),
             viewportColumns: regroupArray(merged),
             childRows: row.childRows,
@@ -3223,28 +3229,31 @@ function DataGrid(props) {
     <>
       {props.export && (
         <div className={toolbarClassname}>
-          {props.export.csvFileName && (
-            <ExportButton
-              onExport={() => exportDataAsCsv(props.export.csvFileName)}
-            >
-              Export to CSV
-            </ExportButton>
-          )}
-          {props.export.excelFileName && (
-            <ExportButton
-              onExport={() => exportDataAsExcel(props.export.excelFileName)}
-            >
-              Export to XSLX
-            </ExportButton>
-          )}
-          {props.export.pdfFileName && (
-            <ExportButton
-              onExport={() => exportDataAsPdf(props.export.pdfFileName)}
-            >
-              Export to PDF
-            </ExportButton>
-          )}
-        </div>
+        {props.export.csvFileName && (
+          <button
+            data-testid={"Export to CSV"}
+            onClick={() => exportDataAsCsv(props.export.csvFileName)}
+          >
+            Export to CSV
+          </button>
+        )}
+        {props.export.excelFileName && (
+          <button
+            data-testid={"Export to XSLX"}
+            onClick={() => exportDataAsExcel(props.export.excelFileName)}
+          >
+            Export to XSLX
+          </button>
+        )}
+        {props.export.pdfFileName && (
+          <button
+            data-testid={"Export to PDF"}
+            onClick={() => exportDataAsPdf(props.export.pdfFileName)}
+          >
+            Export to PDF
+          </button>
+        )}
+      </div>
       )}
       <div
         id="DataGrid"

@@ -131,7 +131,7 @@ function LaiDataGrid(props) {
       />
       {printTable && (
         <PrintComponent
-          rowData={rowData.slice(0, 100)}
+          rowData={rowData.slice(0, props.perPage)}
           columnData={columns}
           onClose={() => setPrintTable(false)}
           formName={"Product Details"}
@@ -201,7 +201,29 @@ describe("Datagrid Unit test for contextmenu", () => {
   });
   test("print window check", () => {
     const printSpy = jest.spyOn(window, "open");
-    render(<LaiDataGrid />);
+    render(<LaiDataGrid perPage={100} />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    // Open the context menu
+    fireEvent.contextMenu(screenArea);
+
+    // Find the disabled menu item
+    const printMenuItem = screen.getByText("Print");
+
+    // Assert that the disabled menu item is present
+    expect(printMenuItem).toBeInTheDocument();
+
+    // Click on the disabled menu item
+    fireEvent.click(printMenuItem);
+    const printIcon = screen.getByTestId("print-svg");
+    expect(printIcon).toBeInTheDocument();
+    fireEvent.click(printIcon);
+
+    // expect(printSpy).toHaveBeenCalledTimes(1);
+  });
+  test("print window check", () => {
+    const printSpy = jest.spyOn(window, "open");
+    render(<LaiDataGrid perPage={70} />);
 
     const screenArea = screen.getByTestId("laidatagrid");
     // Open the context menu

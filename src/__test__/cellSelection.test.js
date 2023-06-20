@@ -84,7 +84,7 @@ function LaiDataGrid() {
       rowData={rows}
       headerRowHeight={24}
       className="fill-grid"
-      rowKeyGetter={(data) => data.id}
+      rowKeyGetter={(data) => data.homenumber}
       enableVirtualization={false}
       onRowsChange={setRows}
       selection={true}

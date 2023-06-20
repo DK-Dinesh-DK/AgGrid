@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
-import PrintIcon from "./Print.svg";
+import "../index.css";
+import {PrintIcon} from "./../../assets/Icon";
 import DataGrid from "./DataGrid";
 import moment from "moment";
 
@@ -26,8 +26,8 @@ const PrintComponent = ({
     const result = [];
     let currentArray = [];
 
-    for (let i = 0; i < data.length; i++) {
-      currentArray.push(data[i]);
+    for (const element of data) {
+      currentArray.push(element);
 
       if (currentArray.length === count) {
         result.push(currentArray);
@@ -66,7 +66,6 @@ const PrintComponent = ({
               }}
               onClick={() => {
                 handlePrint();
-                // onClose();
               }}
             />
           </div>
@@ -121,7 +120,7 @@ const PrintComponent = ({
               <div className="modal-footer">
                 <div className="footer-left">{userDetail}</div>
                 <div className="footer-center">
-                  Print date:{moment().format("DD-MMM-YYYY HH:MM")}
+                    Printed by:  {props.printedBy}
                 </div>
                 <div className="footer-right">
                   Page {index + 1} of {rows.length}

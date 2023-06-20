@@ -148,6 +148,7 @@ function TreeRow({
             selectedCellEditor={selectedCellEditor}
             valueChangedCellStyle={valueChangedCellStyle}
             treeData={treeData}
+            previousData={props.previousData}
           />
         ))}
       </div>

@@ -1,7 +1,7 @@
 import { useMemo, useState, useRef, useCallback } from "react";
 import { css } from "@linaria/core";
 import DataGrid from "../components/datagrid/DataGrid";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/TextEditor";
 // import { Parser, SUPPORTED_FORMULAS } from 'hot-formula-parser';
 
 const rootClassname = css`

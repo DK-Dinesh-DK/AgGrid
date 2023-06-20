@@ -2,7 +2,7 @@ import { useMemo, useState, useRef } from "react";
 import { css } from "@linaria/core";
 
 import { SelectColumn } from "../components/datagrid/Columns";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/TextEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 

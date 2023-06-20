@@ -2,14 +2,24 @@ import { useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
-// import { SelectColumn } from "../components/datagrid/Columns";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import {
+  DateEditor,
+  DropDownEditor,
+  ImageViewer,
+  TextEditor,
+  CheckBoxEditor,
+  ColorPicker,
+  ButtonEditor,
+  ProgressBarEditor,
+  TimeEditor,
+  RadioButtonEditor,
+  DateTimeEditor,
+  SliderEditor,
+  LinkEditor,
+} from "../components/datagrid/editors";
 
 import DataGrid from "../components/datagrid/DataGrid";
-// import DataGrid from "../../lib/bundle"
-
-import DropDownEditor from "../components/datagrid/editors/DropDownEditor";
-// import ImageFormatter from "./ImageFormatter";
+import { random } from "lodash";
 
 const highlightClassname = css`
   .rdg-cell {
@@ -27,34 +37,20 @@ function rowKeyGetter(row) {
 }
 
 const columns = [
-  // SelectColumn,
   {
     field: "id",
     headerName: "ID",
-    
     width: 80,
     resizable: true,
-    cellEditor: TextEditor,
-    // sortable:true,
-    frozen: true,
+    editable: true,
   },
-  // {
-  //   field: "avatar",
-  //   headerName: "Avatar",
-    
-  //   width: 40,
-  //   resizable: true,frozen: true,
-  //   headerRenderer: () => <ImageFormatter value={faker.image.cats()} />,
-  //   valueFormatter: ({ row }) => <ImageFormatter value={row.avatar} />,
-  // },
   {
     field: "title",
     headerName: "Title",
-   
-    sortable:true,
+    sortable: true,
     width: 200,
-    resizable: true,frozen: true,
-    formatter(props) {
+    resizable: true,
+    valueFormatter(props) {
       return <>{props.row.title}</>;
     },
     options: [
@@ -70,78 +66,50 @@ const columns = [
     field: "firstName",
     filter: true,
     headerName: "First Name",
-    
     cellEditor: TextEditor,
     width: 200,
     resizable: true,
-    
-    // cellRenderer: (props) => {
-
-    //   return TextEditor(props);
-    // },
-    // cellRenderer: (props) => {
-    
-    //   // return <input value={props.row.firstName} onChange={(e)=> { ...props.row, [props.column.key]: e.target.value }} />
-    //   return (
-    //     <input
-    //       value={props.row.firstName}
-    //       onChange={(e) => {
-    //    
-    //         setRows([
-    //           ...props.allrow,
-    //           (props.allrow[props.rowIndex] = {
-    //             ...props.row,
-    //             [props.column.key]: e.target.value,
-    //           }),
-    //         ]);
-    //       }}
-    //     />
-    //   );
-    // },
-  },
-  
-
-  {
-    headerName: "Money",
-    field: "money",
-    cellEditor: TextEditor,
-    filter:true,
-    sortable:true,
-    // frozen: true,
-    // alignment:true,
-    width:100,
-   
   },
   {
     field: "lastName",
     headerName: "Last Name",
-    
     width: 200,
     cellEditor: TextEditor,
     resizable: true,
-    
-    // cellRenderer: TextEditor,
   },
   {
-    field: "email",
-    headerName: "Email",
-    
-    width: "max-content",
-    resizable: true,
-    // cellRenderer: TextEditor,
-  },
-  {
-    field: "street",
-    headerName: "Street",
-    
+    field: "gender",
+    headerName: "Gender",
     width: 200,
-    resizable: true,
-    // cellRenderer: TextEditor,
+    cellRenderer: RadioButtonEditor,
+    options: [
+      { label: "Male", value: "male" },
+      { label: "FeMale", value: "female" },
+      { label: "Others", value: "others" },
+    ],
   },
+  {
+    field: "datetime",
+    headerName: "Birth Date and Time",
+    cellRenderer: DateTimeEditor,
+  },
+  {
+    field: "avatar",
+    headerName: "Photo",
+    cellRenderer: ImageViewer,
+  },
+  {
+    headerName: "Money",
+    field: "money",
+    cellEditor: TextEditor,
+    filter: true,
+    sortable: true,
+    width: 100,
+  },
+
   {
     field: "zipCode",
     headerName: "ZipCode",
-    
     width: 200,
     resizable: true,
     cellRenderer: TextEditor,
@@ -149,65 +117,80 @@ const columns = [
   {
     field: "date",
     headerName: "Date",
-    
     width: 200,
-    resizable: true,
-    // cellRenderer: TextEditor,
+    editable: false,
+    cellRenderer: DateEditor,
+  },
+
+  {
+    field: "time",
+    headerName: "Time",
+    cellRenderer: TimeEditor,
   },
   {
-    field: "bs",
-    headerName: "bs",
-    
-    width: 200,
-    resizable: true,
-    // cellRenderer: TextEditor,
+    field: "valid",
+    headerName: "Vaild",
+    cellRenderer: CheckBoxEditor,
   },
   {
-    field: "catchPhrase",
-    headerName: "Catch Phrase",
-    
-    width: "max-content",
-    resizable: true,
-    // cellRenderer: TextEditor,
+    field: "favcolor",
+    headerName: "Favourite Color",
+    cellRenderer: ColorPicker,
   },
   {
-    field: "companyName",
-    headerName: "Company Name",
-    
-    width: 200,
-    resizable: true,
-    // cellRenderer: TextEditor,
+    field: "progress",
+    headerName: "Progress Level",
+    cellRenderer: ProgressBarEditor,
   },
   {
-    field: "sentence",
-    headerName: "Sentence",
-    
-    width: "max-content",
-    resizable: true,
-    // cellRenderer: TextEditor,
+    field: "range",
+    headerName: "Range",
+    width: 150,
+    cellRenderer: SliderEditor,
+  },
+  {
+    field: "save",
+    headerName: "Save",
+    cellRenderer: ButtonEditor,
+    onClick: (params) => {
+      console.log(params);
+    },
+  },
+  {
+    field: "delete",
+    headerName: "Delete",
+    inputProps: { text: "ItemDelete" },
+    editable: true,
+  },
+  {
+    headerName: "Delete",
+    cellRenderer: ButtonEditor,
+  },
+  {
+    field: "link",
+    headerName: "Link",
+    cellRenderer: LinkEditor,
   },
 ];
 
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 25000; i++) {
+  for (let i = 0; i < 100; i++) {
     rows.push({
       id: `id_${i}`,
       avatar: faker.image.avatar(),
-      email: faker.internet.email(),
       title: faker.name.prefix(),
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      street: faker.address.street(),
       zipCode: faker.address.zipCode(),
-      date: faker.date.past().toLocaleDateString(),
-      bs: faker.company.bs(),
-      catchPhrase: faker.company.catchPhrase(),
-      companyName: faker.company.name(),
-      words: faker.lorem.words(),
+      date: new Date(),
       sentence: faker.lorem.sentence(),
-      money:`₹${100+i}`
+      money: `₹${100 + i}`,
+      valid: i % 2 === true,
+      favcolor: faker.color.rgb(),
+      deletebtn: "Delete",
+      range: Math.floor(Math.random() * 100 + 1),
     });
   }
 
@@ -260,7 +243,6 @@ export default function AllFeatures({ direction }) {
       onFill={true}
       onCopy={handleCopy}
       onPaste={handlePaste}
-      
       // sortColumns={sortColumns}
       // onSortColumnsChange={setSortColumns}
       selectedRows={selectedRows}
@@ -269,7 +251,6 @@ export default function AllFeatures({ direction }) {
       headerRowHeight={24}
       selectedCellHeaderStyle={selectedCellHeaderStyle}
       selectedCellRowStyle={selectedCellRowStyle}
-
       className="fill-grid"
       rowClass={(row) =>
         row.id.includes("7") ? highlightClassname : undefined

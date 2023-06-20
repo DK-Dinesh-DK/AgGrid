@@ -1,6 +1,6 @@
 import React from "react";
 import DataGrid from "../components/datagrid/DataGrid";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import TextEditor from "../components/datagrid/editors/TextEditor";
 
 export default function TreeView({ direction }) {
   function createRows() {
