@@ -1,6 +1,6 @@
-import React from 'react';
-import { useFocusRef } from "../hooks/useFocusRef"
-import { useDefaultComponents } from "../DataGridDefaultComponentsProvider"
+import React from "react";
+import { useFocusRef } from "../hooks/useFocusRef";
+import { useDefaultComponents } from "../DataGridDefaultComponentsProvider";
 
 export function SelectCellFormatter({
   value,
@@ -8,10 +8,11 @@ export function SelectCellFormatter({
   disabled,
   onChange,
   "aria-label": ariaLabel,
-  "aria-labelledby": ariaLabelledBy
+  "aria-labelledby": ariaLabelledBy,
+  ...props
 }) {
-  const { ref, tabIndex } = useFocusRef(isCellSelected)
-  const checkboxFormatter = useDefaultComponents().checkboxFormatter
+  const { ref, tabIndex } = useFocusRef(isCellSelected);
+  const checkboxFormatter = useDefaultComponents().checkboxFormatter;
 
   return (
     <div>
@@ -22,10 +23,11 @@ export function SelectCellFormatter({
           tabIndex,
           disabled,
           checked: value,
-          onChange
+          onChange,
+          rowIndex:props.rowIndex,
         },
         ref
       )}
     </div>
-  )
+  );
 }

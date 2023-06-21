@@ -6,24 +6,25 @@ const dateTimePickerInternalClassname = css`
     height: 22px;
     background-color: #ffffff;
     font-size: var(--rdg-font-size);
-   font-family: var(--rdg-font-family);
+    font-family: var(--rdg-font-family);
   }
 `;
 
 export const dateTimePickerClassname = `rdg-date-picker-editor ${dateTimePickerInternalClassname}`;
 
-export default function DateTimeEditor({ row, column, onRowChange }) {
+export default function DateTimeEditor({ row, column, onRowChange, ...props }) {
   return (
     <>
       <input
         type={"datetime-local"}
         value={moment(row[column.key]).format("YYYY-MM-DDThh:mm")}
         className={dateTimePickerClassname}
-        disabled={column.editable ? column.editable : false}
+        disabled={column.editable ?? false}
         {...column.inputProps}
         onChange={(e) =>
           onRowChange({ ...row, [column.key]: new Date(e.target.value) })
         }
+        {...props}
       />
     </>
   );

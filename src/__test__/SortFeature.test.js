@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import{ TextEditor} from "../components/datagrid/editors";
 import React, { useState } from "react";
 
 const columns = [
@@ -12,8 +12,18 @@ const columns = [
     headerName: "Name",
     haveChildren: true,
     children: [
-      { field: "firstname", headerName: "First Name",sortable:true, cellEditor: TextEditor },
-      { field: "lastname", headerName: "Last Name", sortable:true, cellEditor: TextEditor },
+      {
+        field: "firstname",
+        headerName: "First Name",
+        sortable: true,
+        cellEditor: TextEditor,
+      },
+      {
+        field: "lastname",
+        headerName: "Last Name",
+        sortable: true,
+        cellEditor: TextEditor,
+      },
     ],
   },
   {
@@ -21,23 +31,44 @@ const columns = [
     headerName: "Number",
     haveChildren: true,
     children: [
-      { field: "homenumber", headerName: "Home Number",sortable:true, cellEditor: TextEditor },
       {
-        field: "personalnumber",sortable:true,
+        field: "homenumber",
+        headerName: "Home Number",
+        sortable: true,
+        cellEditor: TextEditor,
+      },
+      {
+        field: "personalnumber",
+        sortable: true,
         headerName: "Personal Number",
         cellEditor: TextEditor,
       },
     ],
   },
-  { field: "address", headerName: "Address", sortable:true,cellEditor: TextEditor },
-  { field: "school", headerName: "School",sortable:true, cellEditor: TextEditor },
-  { field: "class", headerName: "Class",sortable:true, cellEditor: TextEditor },
+  {
+    field: "address",
+    headerName: "Address",
+    sortable: true,
+    cellEditor: TextEditor,
+  },
+  {
+    field: "school",
+    headerName: "School",
+    sortable: true,
+    cellEditor: TextEditor,
+  },
+  {
+    field: "class",
+    headerName: "Class",
+    sortable: true,
+    cellEditor: TextEditor,
+  },
 ];
 const initialRows = [
   {
-    id:1,
+    id: 1,
     firstname: "John",
-    
+
     lastname: "Doe",
     homenumber: "9987654336",
     personalnumber: "4545454534",
@@ -45,7 +76,8 @@ const initialRows = [
     school: "DAV",
     class: "10th",
   },
-  {id:2,
+  {
+    id: 2,
     firstname: "Suvendu",
     lastname: "Sahoo",
     homenumber: "8976543234",
@@ -54,7 +86,8 @@ const initialRows = [
     school: "DPS",
     class: "7th",
   },
-  {id:3,
+  {
+    id: 3,
     firstname: "Namit",
     lastname: "Singh",
     homenumber: "6765458907",
@@ -63,7 +96,8 @@ const initialRows = [
     school: "DPS",
     class: "8th",
   },
-  {id:4,
+  {
+    id: 4,
     firstname: "Pravalika",
     lastname: "Reddy",
     homenumber: "9098654567",
@@ -73,7 +107,6 @@ const initialRows = [
     class: "9th",
   },
 ];
-
 
 function LaiDataGrid() {
   const [rows, setRows] = useState(initialRows);
@@ -94,44 +127,44 @@ function LaiDataGrid() {
 }
 
 describe("Datagrid Unit test", () => {
-  test('should sort data when user clicks header name', () => {
+  test("should sort data when user clicks header name", () => {
     const { getByText, getAllByRole } = render(<LaiDataGrid />);
-  
+
     // Find the header element for 'Last Name'
-    const lastNameHeader = getByText('Last Name');
-  
+    const lastNameHeader = getByText("Last Name");
+
     // Click on the 'Last Name' header to sort by last name in ascending order
     fireEvent.click(lastNameHeader);
-  
+
     // Get all the rows in the grid
-    const rowsAscending = getAllByRole('row');
-  
+    const rowsAscending = getAllByRole("row");
+
     // Verify that the rows are sorted by last name in ascending order
-    expect(rowsAscending[0]).toHaveTextContent('Doe');
-    expect(rowsAscending[1]).toHaveTextContent('Reddy');
-    expect(rowsAscending[2]).toHaveTextContent('Sahoo');
-    expect(rowsAscending[3]).toHaveTextContent('Singh');
+    expect(rowsAscending[0]).toHaveTextContent("Doe");
+    expect(rowsAscending[1]).toHaveTextContent("Reddy");
+    expect(rowsAscending[2]).toHaveTextContent("Sahoo");
+    expect(rowsAscending[3]).toHaveTextContent("Singh");
 
     fireEvent.click(lastNameHeader);
-  
+
     // Get all the rows in the grid after sorting in descending order
-    const rowsDescending = getAllByRole('row');
-  
+    const rowsDescending = getAllByRole("row");
+
     // Verify that the rows are sorted by last name in descending order
-    expect(rowsDescending[0]).toHaveTextContent('Singh');
-    expect(rowsDescending[1]).toHaveTextContent('Sahoo');
-    expect(rowsDescending[2]).toHaveTextContent('Reddy');
-    expect(rowsDescending[3]).toHaveTextContent('Doe');
+    expect(rowsDescending[0]).toHaveTextContent("Singh");
+    expect(rowsDescending[1]).toHaveTextContent("Sahoo");
+    expect(rowsDescending[2]).toHaveTextContent("Reddy");
+    expect(rowsDescending[3]).toHaveTextContent("Doe");
 
     fireEvent.click(lastNameHeader);
-  
+
     // Get all the rows in the grid after sorting in byDefault order
-    const rowsDefault = getAllByRole('row');
-  
+    const rowsDefault = getAllByRole("row");
+
     // Verify that the rows are sorted by last name in byDefault order
-    expect(rowsDefault[0]).toHaveTextContent('Doe');
-    expect(rowsDefault[1]).toHaveTextContent('Sahoo');
-    expect(rowsDefault[2]).toHaveTextContent('Singh');
-    expect(rowsDefault[3]).toHaveTextContent('Reddy');
+    expect(rowsDefault[0]).toHaveTextContent("Doe");
+    expect(rowsDefault[1]).toHaveTextContent("Sahoo");
+    expect(rowsDefault[2]).toHaveTextContent("Singh");
+    expect(rowsDefault[3]).toHaveTextContent("Reddy");
   });
 });

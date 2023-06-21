@@ -1,6 +1,6 @@
 import {  useState } from "react";
 
-import TextEditor from "../components/datagrid/editors/TextEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
 
 const frameworkComponents = {

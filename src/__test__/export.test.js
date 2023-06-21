@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React from "react";
+import { CSVContent, exportToCsv } from "../components/datagrid/exportUtils";
 
 function LaiDataGrid(props) {
   function createRows() {
@@ -42,7 +43,7 @@ function LaiDataGrid(props) {
       headerName: "format",
     },
     {
-      field: "position",
+      // field: "position",
       headerName: "position",
     },
     {
@@ -51,8 +52,17 @@ function LaiDataGrid(props) {
       sortable: true,
     },
   ];
+  var csvContent;
   return (
     <>
+      <button
+        data-testid={"csv-content"}
+        onClick={() => {
+          csvContent = CSVContent(rowData, columns);
+        }}
+      >
+        CSV Content
+      </button>
       <DataGrid
         columnData={columns}
         testId={"laidatagrid"}
@@ -77,7 +87,9 @@ describe("Datagrid Unit test for Export", () => {
     expect(screenArea).toBeInTheDocument();
     const csvbtn = screen.getByTestId("Export to CSV");
     expect(csvbtn).toBeInTheDocument();
-    // fireEvent.click(csvbtn);
+    const csvContentbtn = screen.getByTestId("csv-content");
+    expect(csvContentbtn).toBeInTheDocument();
+    fireEvent.click(csvContentbtn);
   });
   test("XSLX button and downloa", async () => {
     render(<LaiDataGrid />);
@@ -97,6 +109,6 @@ describe("Datagrid Unit test for Export", () => {
 
     const pdfbtn = screen.getByTestId("Export to PDF");
     expect(pdfbtn).toBeInTheDocument();
-    // fireEvent.click(pdfbtn);
+    fireEvent.click(pdfbtn);
   });
 });

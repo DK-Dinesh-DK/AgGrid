@@ -1,7 +1,7 @@
 import { css } from "@linaria/core";
 import moment from "moment";
 
-export default function TimeEditor({ row, column, onRowChange }) {
+export default function TimeEditor({ row, column, onRowChange, ...props }) {
   const value = row[column.key]
     ? row[column.key]
     : moment(new Date()).format("hh:mm");
@@ -18,11 +18,12 @@ export default function TimeEditor({ row, column, onRowChange }) {
         type={"time"}
         value={value}
         className={`rdg-time-editor ${timeEditorClassName}`}
-        disabled={column.editable ? column.editable : false}
+        disabled={column.editable ?? false}
         {...column.inputProps}
         onChange={(e) => {
           onRowChange({ ...row, [column.key]: e.target.value });
         }}
+        {...props}
       />
     </>
   );

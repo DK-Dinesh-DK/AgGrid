@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-
+import moment from "moment";
 import {
   DateEditor,
   DropDownEditor,
@@ -67,6 +67,9 @@ const columns = [
     filter: true,
     headerName: "First Name",
     cellEditor: TextEditor,
+    cellStyle: (props) => {
+      return { backgroundColor: "blue", color: "White" };
+    },
     width: 200,
     resizable: true,
   },
@@ -74,14 +77,15 @@ const columns = [
     field: "lastName",
     headerName: "Last Name",
     width: 200,
-    cellEditor: TextEditor,
+    cellStyle: { backgroundColor: "blue", color: "White" },
+    cellRenderer: TextEditor,
     resizable: true,
   },
   {
     field: "gender",
     headerName: "Gender",
-    width: 200,
     cellRenderer: RadioButtonEditor,
+    width: 200,
     options: [
       { label: "Male", value: "male" },
       { label: "FeMale", value: "female" },
@@ -118,13 +122,24 @@ const columns = [
     field: "date",
     headerName: "Date",
     width: 200,
-    editable: false,
+    editable: true,
+    cellEditor: DateEditor,
+  },
+  {
+    field: "datee",
+    headerName: "Date-Without",
+    width: 150,
     cellRenderer: DateEditor,
   },
 
   {
     field: "time",
     headerName: "Time",
+    cellRenderer: TimeEditor,
+  },
+  {
+    headerName: "New Time",
+    editable: true,
     cellRenderer: TimeEditor,
   },
   {
@@ -135,6 +150,11 @@ const columns = [
   {
     field: "favcolor",
     headerName: "Favourite Color",
+    cellRenderer: ColorPicker,
+  },
+  {
+    field: "favcolour",
+    headerName: "Favourite Colour",
     cellRenderer: ColorPicker,
   },
   {
@@ -159,12 +179,9 @@ const columns = [
   {
     field: "delete",
     headerName: "Delete",
+    cellRenderer: ButtonEditor,
     inputProps: { text: "ItemDelete" },
     editable: true,
-  },
-  {
-    headerName: "Delete",
-    cellRenderer: ButtonEditor,
   },
   {
     field: "link",
@@ -176,21 +193,22 @@ const columns = [
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 10; i++) {
     rows.push({
       id: `id_${i}`,
       avatar: faker.image.avatar(),
       title: faker.name.prefix(),
       firstName: faker.name.firstName(),
-      lastName: faker.name.lastName(),
+      lastName: `lastName${i}`,
       zipCode: faker.address.zipCode(),
-      date: new Date(),
+      date: moment(new Date()).add(i, "day").format("DD-MM-YYYY"),
       sentence: faker.lorem.sentence(),
       money: `₹${100 + i}`,
       valid: i % 2 === true,
       favcolor: faker.color.rgb(),
       deletebtn: "Delete",
       range: Math.floor(Math.random() * 100 + 1),
+      time: moment(new Date()).format("hh:mm"),
     });
   }
 

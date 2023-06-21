@@ -66,45 +66,45 @@ export default function HeaderRenderer({
 
         <div className={headerWrapperWithcellData}>
           {column.children?.map((info, index) => {
-              let style_fg = {
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              };
-              if (column.alignment) {
-                style_fg = column.alignment.align
-                  ? { ...style_fg, justifyContent: column.alignment.align }
-                  : alignmentUtilsHeader(column, rows[0], style_fg);
-              }
+            let style_fg = {
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            };
+            if (column.alignment) {
+              style_fg = column.alignment.align
+                ? { ...style_fg, justifyContent: column.alignment.align }
+                : alignmentUtilsHeader(column, rows[0], style_fg);
+            }
 
-              return (
-                <div style={style_fg} key={info.field}>
-                  {RecursiveScan(
-                    column.children,
-                    info,
-                    cellHeight,
-                    index,
-                    headerRowHeight,
-                    selectedPosition,
-                    selectedCellHeaderStyle,
-                    column,
-                    selectCell,
-                    shouldFocusGrid,
-                    onSort,
-                    sortDirection,
-                    priority,
-                    setFilters,
-                    arrayDepth,
-                    ChildColumnSetup,
-                    selectedCellIdx,
-                    filterIcon,
-                    setFilterType,
-                    gridWidth,
-                    rows
-                  )}
-                </div>
-              );
-            })}
+            return (
+              <div style={style_fg} key={info.field}>
+                {RecursiveScan(
+                  column.children,
+                  info,
+                  cellHeight,
+                  index,
+                  headerRowHeight,
+                  selectedPosition,
+                  selectedCellHeaderStyle,
+                  column,
+                  selectCell,
+                  shouldFocusGrid,
+                  onSort,
+                  sortDirection,
+                  priority,
+                  setFilters,
+                  arrayDepth,
+                  ChildColumnSetup,
+                  selectedCellIdx,
+                  filterIcon,
+                  setFilterType,
+                  gridWidth,
+                  rows
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     );
@@ -333,7 +333,7 @@ const RecursiveScan = (
   filterIcon,
   setFilterType,
   gridWidth,
-  direction,
+  direction
 ) => {
   var cellHeight = cellHeight - headerRowHeight;
   ChildColumnSetup(subData);
@@ -392,7 +392,7 @@ const RecursiveScan = (
                   filterIcon,
                   setFilterType,
                   gridWidth,
-                  direction,
+                  direction
                 )}
               </div>
             );
@@ -629,9 +629,3 @@ const RecursiveScan = (
     }
   }
 };
-
-function inputStopPropagation(event) {
-  if (["ArrowLeft", "ArrowRight"].includes(event.key)) {
-    event.stopPropagation();
-  }
-}

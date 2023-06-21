@@ -64,8 +64,8 @@ function TreeCell({
       api: props.api,
       colDef: {
         field: column.field,
-        resizable: column.resizable ?? undefined,
-        sortable: column.sortable ?? undefined,
+        resizable: column.resizable,
+        sortable: column.sortable,
         width: column.width,
       },
       data: row,

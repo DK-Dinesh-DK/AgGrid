@@ -62,8 +62,8 @@ function MasterCell({
       api: props.api,
       colDef: {
         field: column.field,
-        resizable: column.resizable ?? undefined,
-        sortable: column.sortable ?? undefined,
+        resizable: column.resizable,
+        sortable: column.sortable,
         width: column.width,
       },
       data: row,
@@ -75,24 +75,15 @@ function MasterCell({
       event: e,
     });
   }
-  function handleRowChange(newRow) {
-    onRowChange(column, rowIndex, newRow, row);
-  }
 
   const { cellClass } = column;
-  const topRow = rowIndex === 0 && isRowSelected ? true : false;
-  const bottomRow =
-    rowIndex === allrow.length - 1 && isRowSelected ? true : false;
-  const middleRow = !(topRow || bottomRow) && isRowSelected ? true : false;
+  // const topRow = rowIndex === 0 && isRowSelected ? true : false;
+  // const bottomRow =
+  //   rowIndex === allrow.length - 1 && isRowSelected ? true : false;
+  // const middleRow = !(topRow || bottomRow) && isRowSelected ? true : false;
   const className = getCellClassname(
     column,
     `rdg-cell-column-${column.idx % 2 === 0 ? "even" : "odd"}`,
-
-    {
-      [rowIsSelectedClassName]: middleRow,
-      [topRowIsSelectedClassName]: topRow,
-      [bottomRowIsSelectedClassName]: bottomRow,
-    },
     typeof cellClass === "function" ? cellClass(row) : cellClass,
     row.gridRowType === "Detail" ? "rdg-cell-detail" : undefined
   );
@@ -123,7 +114,6 @@ function MasterCell({
           colDef: column,
           viewportColumns,
           data: row,
-          // rowArray,
           allrow,
           selectedCellIdx,
           selectedCellEditor,
@@ -132,23 +122,11 @@ function MasterCell({
           value,
           rowIndex,
           selectCell,
-          onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
           eGridCell: gridCell.current,
-          refreshCell: () => {
-            const content = document.getElementById(
-              `${rowIndex}${row[column.key]}`
-            ).innerHTML;
-            document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-              content;
-          },
-          getValue: () => value,
-          setValue: (newValue) => {
-            setValue(newValue);
-          },
           ...cellRendererParams,
         })}
       {column.idx === 0 && row.gridRowType !== "Detail" && (

@@ -5,6 +5,7 @@ export default function CheckBoxEditor({
   column,
   onRowChange,
   isCellSelected,
+  ...props
 }) {
   return (
     <>
@@ -14,6 +15,7 @@ export default function CheckBoxEditor({
           onRowChange({ ...row, [column.key]: !row[column.key] });
         }}
         isCellSelected={isCellSelected}
+      {  ...props}
       />
     </>
   );

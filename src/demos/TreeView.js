@@ -1,6 +1,6 @@
 import React from "react";
 import DataGrid from "../components/datagrid/DataGrid";
-import TextEditor from "../components/datagrid/editors/TextEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 export default function TreeView({ direction }) {
   function createRows() {
@@ -44,7 +44,7 @@ export default function TreeView({ direction }) {
                     {
                       id: `${id}-1-1-0`,
                       parentId: id,
-                      name: `supplier ${i}`,
+                      name: `supplier-${i}`,
                       format: "728x90",
                       position: "run of site",
                       price: price / 2,
@@ -56,7 +56,7 @@ export default function TreeView({ direction }) {
             {
               id: `${id}-2`,
               parentId: id,
-              name: `supplier ${i}`,
+              name: `supplier-${i}`,
               format: "328x70",
               position: "run of site",
               price: price * 0.25,
@@ -66,7 +66,7 @@ export default function TreeView({ direction }) {
       } else {
         row = {
           id,
-          name: `supplier ${i}`,
+          name: `supplier-${i}`,
           format: `package ${i}`,
           position: "Run of site",
           price,
@@ -76,7 +76,6 @@ export default function TreeView({ direction }) {
     }
     return rows;
   }
-
   const columns = [
     {
       field: "id",
@@ -88,15 +87,19 @@ export default function TreeView({ direction }) {
       headerName: "Name",
       width: 100,
       filter: true,
+      cellRenderer: TextEditor,
     },
     {
       field: "format",
       headerName: "format",
-      cellEditor: TextEditor,
+      cellRenderer: TextEditor,
     },
     {
       field: "position",
       headerName: "position",
+      cellClass: (props) => {
+        console.log("props++++", props);
+      },
       // treeFormatter: TextEditor,
     },
     {

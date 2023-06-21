@@ -1,18 +1,11 @@
-import { useState } from "react";
-
-import TextEditor from "../components/datagrid/editors/textEditor";
-
+import { fireEvent, render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
+import React, { useRef } from "react";
+import { TextEditor } from "../components/datagrid/editors";
 
-const frameworkComponents = {
-  CheckBox: (props) => <button style={{ width: "100%" }}>Save</button>,
-};
-
-function rowKeyGetter(row) {
-  return row.id;
-}
-
-export default function MultilineHeader({ direction }) {
+function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
 
@@ -21,8 +14,8 @@ export default function MultilineHeader({ direction }) {
         id: `${i}`,
 
         erer: `email${i}`,
-        title1: `title-1${i}`,
-        title2: `title-2${i}`,
+        title1: `title-1-${i}`,
+        title2: `title-2-${i}`,
         ffff: `firstName${i}`,
         cvcv: `lastName${i}`,
         qqqq: `qq${i}`,
@@ -36,6 +29,7 @@ export default function MultilineHeader({ direction }) {
 
     return rows;
   }
+  const rowData = createRows();
 
   const columns = [
     {
@@ -211,20 +205,55 @@ export default function MultilineHeader({ direction }) {
       ],
     },
   ];
-  const [rows, setRows] = useState(createRows);
-
+  const gridRef = useRef(null);
+  const selectedCellHeaderStyle = {
+    backgroundColor: "red",
+    fontSize: "12px",
+  };
+  const selectedCellRowStyle = {
+    backgroundColor: "yellow",
+  };
   return (
-    <DataGrid
-      columnData={columns}
-      rowData={rows}
-      rowSelection={"multiple"}
-      rowKeyGetter={rowKeyGetter}
-      classheaderName="fill-grid"
-      className="fill-grid"
-      rowFreezLastIndex={3}
-      onRowClicked={(props) => {
-        console.log("Data", props);
-      }}
-    />
+    <>
+      <DataGrid
+        columnData={columns}
+        testId={"laidatagrid"}
+        rowData={rowData}
+        headerRowHeight={24}
+        className="fill-grid"
+        ref={gridRef}
+        selectedCellHeaderStyle={selectedCellHeaderStyle}
+        selectedCellRowStyle={selectedCellRowStyle}
+        valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
+        onCellClicked={() => console.log("Cell Clciked")}
+        onCellDoubleClicked={() => console.log("Cell Double Clciked")}
+        {...props}
+      />
+    </>
   );
 }
+
+describe("Datagrid Unit test for MultiLine Header view", () => {
+  test("Multiline header view", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByRole("gridcell", { name: "lastName0" });
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+    fireEvent.doubleClick(gridcell);
+    const sentence = screen.getByRole("gridcell", { name: "sentence0" });
+    expect(sentence).toBeInTheDocument();
+    fireEvent.click(sentence);
+    fireEvent.doubleClick(sentence);
+    const gridnamecell = screen.getByRole("gridcell", { name: "name0" });
+    expect(gridnamecell).toBeInTheDocument();
+    fireEvent.click(gridnamecell);
+    fireEvent.doubleClick(gridnamecell);
+    const qqcell = screen.getByRole("gridcell", { name: "qq0" });
+    expect(qqcell).toBeInTheDocument();
+    fireEvent.click(qqcell);
+    fireEvent.doubleClick(qqcell);
+  });
+});

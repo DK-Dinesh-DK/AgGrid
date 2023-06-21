@@ -11,7 +11,7 @@ const colorInput = css`
 
 export const colorInputClassname = `rdg-color-input ${colorInput}`;
 
-export default function ColorPicker({ row, column, onRowChange }) {
+export default function ColorPicker({ row, column, onRowChange,...props }) {
   let ref = useRef(null);
 
   const handleClick = () => {
@@ -63,24 +63,25 @@ export default function ColorPicker({ row, column, onRowChange }) {
         height: "20px",
         margin: "2px 0",
       }}
+      {...props}
     >
       <input
         type="color"
         ref={ref}
         id={`color${column.rowIndex}`}
+        data-testid={`grid-color-picker-${column.idx}-${props.rowIndex}`}
         className={colorInputClassname}
         value={row[column.key]}
         onChange={(event) => {
           onRowChange({ ...row, [column.key]: event.target.value });
           setClicked(false);
         }}
-       
       />
       <div
         className={colorPickerClassname}
-        style={{ backgroundColor: `${row[column.key] ?? "white"}` }}
+        style={{ backgroundColor: row[column.key] }}
       ></div>
-      <div className={ iconClass}></div>
+      <div className={iconClass}></div>
     </div>
   );
 }

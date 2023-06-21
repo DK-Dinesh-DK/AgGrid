@@ -5,8 +5,6 @@ import DataGrid from "../components/datagrid/DataGrid";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import React, { useState } from "react";
 
-
-
 const columns = [
   {
     field: "name",
@@ -92,7 +90,6 @@ const initialRows = [
   },
 ];
 
-
 function LaiDataGrid() {
   const [rows, setRows] = useState(initialRows);
 
@@ -130,15 +127,15 @@ describe("Datagrid Unit test", () => {
     expect(selectElement).toBeInTheDocument();
     expect(inputElement).toBeInTheDocument();
 
-// Check if the rows are filtered correctly as per "Contain"
+    // Check if the rows are filtered correctly as per "Contain"
     fireEvent.change(selectElement, { target: { value: "Contain" } });
     fireEvent.change(inputElement, { target: { value: "du" } });
     const filteredRowsAsPerContain = screen.getAllByRole("row");
     expect(filteredRowsAsPerContain).toHaveLength(1);
     expect(filteredRowsAsPerContain[0].textContent).toContain("Suvendu");
     expect(filteredRowsAsPerContain[0].textContent).toContain("ndu");
-    
-// Check if the rows are filtered correctly as per "Ends With..."
+
+    // Check if the rows are filtered correctly as per "Ends With..."
     fireEvent.change(selectElement, { target: { value: "Ends With..." } });
     userEvent.clear(inputElement);
     fireEvent.change(inputElement, { target: { value: "hn" } });
@@ -164,18 +161,18 @@ describe("Datagrid Unit test", () => {
     fireEvent.change(inputElement, { target: { value: "John" } });
     const filteredRowsAsPerEqual = screen.getAllByRole("row");
     expect(filteredRowsAsPerEqual).toHaveLength(1);
-    expect(filteredRowsAsPerEqual[0].textContent).toContain("John");    
-    expect(filteredRowsAsPerEqual[0].textContent).not.toContain("Suvendu"); 
-    
+    expect(filteredRowsAsPerEqual[0].textContent).toContain("John");
+    expect(filteredRowsAsPerEqual[0].textContent).not.toContain("Suvendu");
+
     // Check if the rows are filtered correctly as per "Not Equals"
     fireEvent.change(selectElement, { target: { value: "Not Equals" } });
     userEvent.clear(inputElement);
     fireEvent.change(inputElement, { target: { value: "Suvendu" } });
     const filteredRowsAsPerNotEqual = screen.getAllByRole("row");
     expect(filteredRowsAsPerNotEqual).toHaveLength(3);
-    expect(filteredRowsAsPerNotEqual[0].textContent).toContain("John");    
-    expect(filteredRowsAsPerNotEqual[1].textContent).toContain("Namitoh");    
-    expect(filteredRowsAsPerNotEqual[2].textContent).toContain("Pravalika");    
-    expect(filteredRowsAsPerNotEqual[0].textContent).not.toContain("Suvendu"); 
+    expect(filteredRowsAsPerNotEqual[0].textContent).toContain("John");
+    expect(filteredRowsAsPerNotEqual[1].textContent).toContain("Namitoh");
+    expect(filteredRowsAsPerNotEqual[2].textContent).toContain("Pravalika");
+    expect(filteredRowsAsPerNotEqual[0].textContent).not.toContain("Suvendu");
   });
 });

@@ -30,7 +30,10 @@ export default function RadioButtonEditor({ row, column, onRowChange }) {
     appearance: none;
   `;
   return (
-    <div className={`rdg-radio-container${radioButtonContainer}`}>
+    <div
+      className={`rdg-radio-container${radioButtonContainer}`}
+      style={{ display: "flex" }}
+    >
       {options.map((option, index) => {
         return (
           <div key={index}>
@@ -38,10 +41,11 @@ export default function RadioButtonEditor({ row, column, onRowChange }) {
               type={"radio"}
               value={option.value}
               className={`rdg-radiobutton ${radioButton}`}
+              data-testid={`grid-radio-button-${option.label}`}
               key={index}
               name={`options${column.rowIndex}`}
               checked={row[column.key] === option?.value}
-              onChange={(event) => {
+              onClick={(event) => {
                 onRowChange({ ...row, [column.key]: event.target.value });
               }}
             />

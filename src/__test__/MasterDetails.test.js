@@ -5,7 +5,8 @@ import DataGrid from "../components/datagrid/DataGrid";
 import React, { useMemo, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-
+import "./utils/index.css";
+import { TextEditor } from "../components/datagrid";
 function LaiDataGrid({ direction }) {
   function rowKeyGetter(row) {
     return row.id;
@@ -56,14 +57,9 @@ function LaiDataGrid({ direction }) {
             ? 3
             : 1;
         },
-        // cellClass(row) {
-        //   return row.gridRowType === "DETAIL"
-        //     ? css`
-        //         padding: 24px;
-        //         background-color: black;
-        //       `
-        //     : undefined;
-        // },
+        cellClass(row) {
+          return row.gridRowType === "DETAIL" ? "detail-row" : undefined;
+        },
         detailsGrid: (props) => {
           return (
             <DataGrid
@@ -75,7 +71,15 @@ function LaiDataGrid({ direction }) {
           );
         },
       },
-      { field: "id", headerName: "ID", width: 35 },
+      {
+        field: "id",
+        headerName: "ID",
+        width: 35,
+        cellRenderer: TextEditor,
+        cellRendererParams: () => {
+          return { value: "New Data" };
+        },
+      },
       { field: "department", headerName: "Department" },
     ];
   }, [direction]);

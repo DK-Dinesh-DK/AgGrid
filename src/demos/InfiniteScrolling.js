@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-import TextEditor from "../components/datagrid/editors/TextEditor";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
 
 const loadMoreRowsClassname = css`

@@ -1,29 +1,11 @@
 import { useState, useRef } from "react";
-import { groupBy as rowGrouper } from "lodash";
-import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
-import { SelectColumn } from "../components/datagrid/Columns";
-
 import DataGrid from "../components/datagrid/DataGrid";
-
-const groupingClassname = css`
-  display: flex;
-  flex-direction: column;
-  block-size: 100%;
-  gap: 8px;
-
-  > .rdg {
-    flex: 1;
-  }
-`;
-
-const optionsClassname = css`
-  display: flex;
-  gap: 8px;
-  text-transform: capitalize;
-`;
-
+import { fireEvent, render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
+import { SelectColumn } from "../components/datagrid";
 const sports = [
   "Swimming",
   "Gymnastics",
@@ -137,7 +119,7 @@ function createRows() {
 
 const options = ["country", "year", "sport", "athlete"];
 
-export default function Grouping({ direction }) {
+function LaiDataGrid() {
   const [rows] = useState(createRows);
   const [selectedRows, setSelectedRows] = useState();
   const [selectedOptions, setSelectedOptions] = useState([
@@ -164,9 +146,9 @@ export default function Grouping({ direction }) {
   const dataGridRef = useRef(null);
 
   return (
-    <div className={groupingClassname}>
+    <div>
       <b>Group by columns:</b>
-      <div className={optionsClassname}>
+      <div>
         {options.map((option) => (
           <label key={option}>
             <input
@@ -179,6 +161,7 @@ export default function Grouping({ direction }) {
         ))}
       </div>
       <button
+        data-testid={"collapseAll"}
         onClick={() => {
           dataGridRef.current.api.collapseAll();
         }}
@@ -187,6 +170,7 @@ export default function Grouping({ direction }) {
         collapseAll
       </button>
       <button
+        data-testid={"expandAll"}
         onClick={() => {
           dataGridRef.current.api.expandAll();
         }}
@@ -209,13 +193,37 @@ export default function Grouping({ direction }) {
         headerRowHeight={24}
         onSelectedRowsChange={setSelectedRows}
         groupBy={selectedOptions}
-        // rowGrouper={rowGrouper}
         expandedGroupIds={expandedGroupIds}
         onExpandedGroupIdsChange={setExpandedGroupIds}
         defaultColumnOptions={{ resizable: true }}
-        direction={direction}
         innerRef={dataGridRef}
+        testId={"laidatagrid"}
       />
     </div>
   );
 }
+
+describe("Datagrid Unit test for Group Row", () => {
+  test("group view", async () => {
+    render(<LaiDataGrid />);
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toggleBtn = screen.getByRole("gridcell", { name: "Zimbabwe" });
+    expect(toggleBtn).toBeInTheDocument();
+    fireEvent.click(toggleBtn);
+  });
+  test("group view api ", async () => {
+    render(<LaiDataGrid />);
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const expandAllBtn = screen.getByTestId("expandAll");
+    expect(expandAllBtn).toBeInTheDocument();
+    fireEvent.click(expandAllBtn);
+    const collapseAllBtn = screen.getByTestId("collapseAll");
+    expect(collapseAllBtn).toBeInTheDocument();
+    fireEvent.click(collapseAllBtn);
+    const checkBoxInput = screen.getByTestId("grid-checkbox-0");
+    expect(checkBoxInput).toBeInTheDocument();
+    fireEvent.click(checkBoxInput);
+  });
+});

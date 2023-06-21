@@ -153,13 +153,7 @@ export function useCalculatedColumns({
           column.groupFormatter ??= toggleGroupFormatter;
         }
 
-        function TreeFormatter({ row, column }) {
-          return row[column.key];
-        }
-
-        if (treeData) {
-          column.treeFormatter ??= TreeFormatter;
-        }
+        
         function TreeFormatter({ row, column }) {
           return row[column.key];
         }

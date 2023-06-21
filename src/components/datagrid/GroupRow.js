@@ -68,7 +68,8 @@ function GroupedRow({
         )}
         onClick={handleSelectGroup}
         style={getRowStyle(gridRowStart, height)}
-        {...props}>
+        {...props}
+      >
         {viewportColumns.map((column) => (
           <GroupCell
             key={`${column.key}`}
@@ -81,6 +82,7 @@ function GroupedRow({
             row={row}
             groupColumnIndex={idx}
             toggleGroup={toggleGroup}
+            rowIndex={rowIdx}
           />
         ))}
       </div>

@@ -3,7 +3,7 @@ import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useState } from "react";
 
-function LaiDataGrid() {
+function LaiDataGrid(props) {
   const [columns, setColumns] = useState([
     {
       field: "id",
@@ -49,13 +49,14 @@ function LaiDataGrid() {
         testId={"laidatagrid"}
         headerRowHeight={24}
         className="fill-grid"
+        {...props}
       />
     </>
   );
 }
 
 describe("Datagrid Unit test for NoRows", () => {
-  test("print window check", () => {
+  test("no rows", () => {
     render(<LaiDataGrid />);
 
     const screenArea = screen.getByTestId("laidatagrid");
@@ -63,5 +64,11 @@ describe("Datagrid Unit test for NoRows", () => {
     const setBtn = screen.getByTestId("setcolumn");
     expect(setBtn).toBeInTheDocument();
     fireEvent.click(setBtn);
+  });
+  test("keyGetter", () => {
+    render(<LaiDataGrid rowKeyGetter={"id"} />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
   });
 });

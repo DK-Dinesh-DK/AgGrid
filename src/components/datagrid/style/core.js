@@ -20,7 +20,7 @@ const lightTheme = `
 `;
 
 const darkTheme = `
-  --rdg-color: #000;
+  --rdg-color: #FFFF;
   --rdg-border-color: #FFFFFF;
   --rdg-summary-border-color: #555;
   --rdg-background-color: hsl(0deg 0% 13%);
@@ -61,12 +61,12 @@ const root = css`
     .rdg-row-even,
     .rdg-row-summary-row-even,
     .rdg-row-groupRow-even {
-      background-color: #E5EDF8;
+      background-color: #e5edf8;
     }
     .rdg-row-odd,
     .rdg-row-summary-row-odd,
     .rdg-row-groupRow-odd {
-      background-color: #F3F8FC;
+      background-color: #f3f8fc;
     }
     .rdg-row-selected {
       background-color: #ebf1dd;
@@ -93,7 +93,7 @@ const root = css`
       color: var(--rdg-color);
       font-size: var(--rdg-font-size);
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      height:max-content;
+      height: max-content;
 
       /* needed on Firefox */
       &::before {
@@ -152,9 +152,6 @@ export const filterContainerClassname = css`
 
     > div {
       padding-block: 0;
-      
-
-     
     }
   }
 `;

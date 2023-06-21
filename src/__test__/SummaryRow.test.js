@@ -12,6 +12,7 @@ function LaiDataGrid(props) {
       headerName: "ID",
       width: 80,
       alignment: { type: "number" },
+
       summaryFormatter() {
         return <strong>Total</strong>;
       },
@@ -21,6 +22,15 @@ function LaiDataGrid(props) {
       headerName: "First Name",
       width: 100,
       alignment: true,
+      colSpan: (props) => {
+        console.log("Propss", props);
+        if (props.type === "ROW" && props.rowIndex === 1) {
+          return 3;
+        }
+      },
+      summaryCellClass: (props) => {
+        console.log("props");
+      },
       summaryFormatter({ row }) {
         return <>{row.totalids} records</>;
       },
@@ -93,7 +103,7 @@ describe("Datagrid Unit test for Summarry Row", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    // const summarycell = screen.getByRole("gridcell",{});
+    // const summarycell = screen.getByRole("gridcell", { name: "Total" });
     // expect(summarycell).toBeInTheDocument();
   });
 });

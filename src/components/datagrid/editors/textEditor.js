@@ -47,17 +47,17 @@ export default function TextEditor({
   let value = row[column.key];
   return (
     <input
-    role="gridcellTextbox"
+      role="gridcellTextbox"
       spellCheck="true"
+      data-testid={`gird-text-editor-${column.index}-${props.rowIndex}`}
       className={textEditorClassname}
       type={type}
-      disabled={column.editable ? column.editable : false}
+      disabled={column.editable ?? false}
       value={value}
       {...column.inputProps}
       onChange={(event) =>
         onRowChange({ ...row, [column.key]: event.target.value })
       }
-
     />
   );
 }

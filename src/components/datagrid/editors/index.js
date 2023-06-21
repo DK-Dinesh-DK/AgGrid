@@ -1,6 +1,6 @@
 import TextEditor from "./textEditor";
 import CheckBoxEditor from "./CheckBoxEditor";
-import DateEditor from "./DateEditor";
+import DateEditor from "./dateEditor";
 import DateTimeEditor from "./DateTimeEditor";
 import DropDownEditor from "./DropDownEditor";
 import LinkEditor from "./LinkEditor";

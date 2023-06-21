@@ -72,7 +72,11 @@ export default function MasterDetail({ direction }) {
           );
         },
       },
-      { field: "id", headerName: "ID", width: 35 },
+      {
+        field: "id",
+        headerName: "ID",
+        width: 35,
+      },
       { field: "department", headerName: "Department" },
     ];
   }, [direction]);
@@ -90,6 +94,7 @@ export default function MasterDetail({ direction }) {
         headerRowHeight={24}
         className="fill-grid"
         masterData={true}
+        rowSelection={"single"}
         rowHeight={(args) => {
           return args.type === "ROW" && args.row.gridRowType === "Detail"
             ? 300

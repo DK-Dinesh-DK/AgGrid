@@ -19,25 +19,16 @@ const buttonInternalClassname = css`
 
 export const buttonClassname = `rdg-button-editor ${buttonInternalClassname}`;
 export default function ButtonEditor({ row, column, ...props }) {
-  let text;
-  if (column.inputProps?.text !== undefined || column.inputProps?.text !== "") {
-    text = column.inputProps?.text;
-  } else if (row[column.key] !== undefined || row[column.key] !== "") {
-    text = row[column.key];
-  } else {
-    text = column.headerName;
-  }
-
   return (
     <>
       <button
         className={buttonClassname}
-        data-testid={`datagridbutton${props.rowIndex}`}
+        data-testid={`grid-button-${column.idx}-${props.rowIndex}`}
         disabled={column.editable ? column.editable : false}
         onClick={() => column.onClick({ row, column, ...props })}
         {...column.inputProps}
       >
-        {text}
+        {column.inputProps?.text ?? row[column.key] ?? column.headerName}
       </button>
     </>
   );

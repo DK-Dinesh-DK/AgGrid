@@ -5,8 +5,6 @@ import DataGrid from "../components/datagrid/DataGrid";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import React, { useState } from "react";
 
-
-
 const columns = [
   {
     field: "name",
@@ -72,7 +70,6 @@ const initialRows = [
     class: "9th",
   },
 ];
-
 
 function LaiDataGrid() {
   const [rows, setRows] = useState(initialRows);

@@ -1,8 +1,7 @@
-import React, {memo} from 'react';
+import React, { memo } from "react";
 
-
-import { getCellStyle, getCellClassname } from "./utils"
-import { useRovingCellRef } from "./hooks/useRovingCellRef"
+import { getCellStyle, getCellClassname } from "./utils";
+import { useRovingCellRef } from "./hooks/useRovingCellRef";
 
 function GroupCell({
   id,
@@ -13,20 +12,21 @@ function GroupCell({
   column,
   row,
   groupColumnIndex,
-  toggleGroup: toggleGroupWrapper
+  toggleGroup: toggleGroupWrapper,
+  rowIndex,
 }) {
-  const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected)
+  const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
   function toggleGroup() {
-    toggleGroupWrapper(id)
+    toggleGroupWrapper(id);
   }
 
   // Only make the cell clickable if the group level matches
-  const isLevelMatching = column.rowGroup && groupColumnIndex === column.idx
+  const isLevelMatching = column.rowGroup && groupColumnIndex === column.idx;
 
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-<div
+    <div
       role="gridcell"
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
@@ -36,7 +36,7 @@ function GroupCell({
       className={getCellClassname(column)}
       style={{
         ...getCellStyle(column),
-        cursor: isLevelMatching ? "pointer" : "default"
+        cursor: isLevelMatching ? "pointer" : "default",
       }}
       onClick={isLevelMatching ? toggleGroup : undefined}
       onFocus={onFocus}
@@ -49,10 +49,11 @@ function GroupCell({
           row,
           isExpanded,
           isCellSelected,
-          toggleGroup
+          toggleGroup,
+          rowIndex,
         })}
     </div>
-  )
+  );
 }
 
-export default memo(GroupCell)
+export default memo(GroupCell);
