@@ -228,7 +228,7 @@ function LaiDataGrid(props) {
             console.log(props);
           },
         }}
-      ></ButtonEditor>
+      />
       <DateEditor
         row={{ date: new Date() }}
         column={{ editable: false, key: "date", idx: 10001 }}
@@ -335,7 +335,7 @@ describe("Datagrid Unit test for All editors", () => {
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
 
-    const checkBoxInput = screen.getByTestId("grid-checkbox-1");
+    const checkBoxInput = screen.getByTestId("grid-checkbox-0");
     expect(checkBoxInput).toBeInTheDocument();
     fireEvent.click(checkBoxInput);
   });

@@ -24,7 +24,7 @@ const cellResizable = css`
   }
 `;
 
-const cellResizableClassname = `rdg-cell-resizable ${cellResizable}`;
+const cellResizableClassname = `rdg-cell-resizable ${cellResizable??""}`;
 
 export default function HeaderCell({
   column,

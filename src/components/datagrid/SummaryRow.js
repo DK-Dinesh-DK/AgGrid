@@ -11,7 +11,7 @@ const summaryRow = css`
   @layer rdg.SummaryRow {
     line-height: var(--rdg-sumary-row-height);
 
-    > .${cell} {
+    > .${cell??""} {
       position: sticky;
     }
   }
@@ -19,11 +19,11 @@ const summaryRow = css`
 
 const topSummaryRow = css`
   @layer rdg.SummaryRow {
-    > .${cell} {
+    > .${cell??""} {
       z-index: 1;
     }
 
-    > .${cellFrozen} {
+    > .${cellFrozen??""} {
       z-index: 2;
     }
   }
@@ -31,7 +31,7 @@ const topSummaryRow = css`
 
 const topSummaryRowBorderClassname = css`
   @layer rdg.SummaryRow {
-    > .${cell} {
+    > .${cell??""} {
       border-block-end: 2px solid var(--rdg-summary-border-color);
       display: flex;
       justify-content: center;
@@ -42,7 +42,7 @@ const topSummaryRowBorderClassname = css`
 
 const bottomSummaryRowBorderClassname = css`
   @layer rdg.SummaryRow {
-    > .${cell} {
+    > .${cell??""} {
       border-block-start: 2px solid var(--rdg-summary-border-color);
       display: flex;
       justify-content: center;

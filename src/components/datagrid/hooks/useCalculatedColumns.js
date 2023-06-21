@@ -3,7 +3,6 @@ import React, { useMemo } from "react";
 import { valueFormatter, toggleGroupFormatter } from "../formatters";
 import { SELECT_COLUMN_KEY } from "../Columns";
 import { clampColumnWidth, max, min } from "../utils";
-import { textEditorClassname } from "../editors/textEditor";
 const DEFAULT_COLUMN_WIDTH = "auto";
 const DEFAULT_COLUMN_MIN_WIDTH = 40;
 
@@ -153,11 +152,9 @@ export function useCalculatedColumns({
           column.groupFormatter ??= toggleGroupFormatter;
         }
 
-        
         function TreeFormatter({ row, column }) {
           return row[column.key];
         }
-
         if (treeData) {
           column.treeFormatter ??= TreeFormatter;
         }

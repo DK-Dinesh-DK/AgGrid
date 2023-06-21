@@ -192,9 +192,8 @@ a:focus {
 .react-contextmenu-item.react-contextmenu-submenu {
   padding: 0;
 }
-.react-contextmenu-item.react-contextmenu-submenu
-  > .react-contextmenu-item::after {
-  content: "▶";
+.react-contextmenu-item.react-contextmenu-submenu > .react-contextmenu-item::after {
+  content: '▶';
   display: inline-block;
   position: absolute;
   inset-inline-end: 7px;

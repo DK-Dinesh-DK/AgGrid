@@ -18,19 +18,19 @@ const cellCopied = css`
   }
 `;
 
-const cellCopiedClassname = `rdg-cell-copied ${cellCopied}`;
+const cellCopiedClassname = `rdg-cell-copied ${cellCopied??""}`;
 
 const cellDraggedOver = css`
   @layer rdg.Cell {
     background-color: #ccccff;
 
-    &.${cellCopied} {
+    &.${cellCopied??""} {
       background-color: #9999ff;
     }
   }
 `;
 
-const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver}`;
+const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver??""}`;
 
 const rowCellFreezeClassname = css`
   @layer rdg.rowCell {

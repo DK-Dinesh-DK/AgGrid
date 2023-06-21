@@ -34,10 +34,10 @@ function SelectGroupFormatter(props) {
 
   return (
     <SelectCellFormatter
+    rowIndex={props.rowIndex}
       aria-label="Select Group"
       isCellSelected={props.isCellSelected}
       value={isRowSelected}
-      rowIndex={props.rowIndex}
       onChange={(checked) => {
         onRowSelectionChange({ row: props.row, checked, isShiftClick: false });
       }}
@@ -56,7 +56,7 @@ export const SelectColumn = {
   sortable: false,
   frozen: true,
   filter: false,
-  haveChildren: false,
+  haveChildren:false,
   headerRenderer(props) {
     return (
       <SelectCellFormatter
@@ -82,10 +82,9 @@ export const SerialNumberColumn = {
   resizable: false,
   sortable: false,
   frozen: true,
-  filter: false,
-  haveChildren: false,
+  filter: false,haveChildren:false,
   headerRenderer: () => {
-    return SerialNumberColumn.name;
+    return SerialNumberColumn.name
   },
   cellClass: headerCellClassName,
   cellRenderer: (props) => {

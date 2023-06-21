@@ -3,7 +3,7 @@ import { useReactToPrint } from "react-to-print";
 import { Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
-import { PrintIcon } from "./../../assets/Icon";
+import {PrintIcon} from "./../../assets/Icon";
 import DataGrid from "./DataGrid";
 import moment from "moment";
 
@@ -82,7 +82,7 @@ const PrintComponent = ({
                 backgroundColor: "#B8CCE4",
               }}
             >
-              <div className={"header"}>
+              <div className="header">
                 <div className="log-container">
                   <img
                     src={logo}
@@ -120,7 +120,7 @@ const PrintComponent = ({
               <div className="modal-footer">
                 <div className="footer-left">{userDetail}</div>
                 <div className="footer-center">
-                  Printed by: {props.printedBy}
+                    Printed by:  {props.printedBy}
                 </div>
                 <div className="footer-right">
                   Page {index + 1} of {rows.length}
