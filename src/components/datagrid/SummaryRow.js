@@ -1,6 +1,6 @@
-import React,{memo} from "react";
+import React, { memo } from "react";
 
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 import { css } from "@linaria/core";
 
 import { cell, cellFrozen, rowClassname, rowSelectedClassname } from "./style";
@@ -11,7 +11,7 @@ const summaryRow = css`
   @layer rdg.SummaryRow {
     line-height: var(--rdg-sumary-row-height);
 
-    > .${cell??""} {
+    > .${cell ?? ""} {
       position: sticky;
     }
   }
@@ -19,11 +19,11 @@ const summaryRow = css`
 
 const topSummaryRow = css`
   @layer rdg.SummaryRow {
-    > .${cell??""} {
+    > .${cell ?? ""} {
       z-index: 1;
     }
 
-    > .${cellFrozen??""} {
+    > .${cellFrozen ?? ""} {
       z-index: 2;
     }
   }
@@ -31,7 +31,7 @@ const topSummaryRow = css`
 
 const topSummaryRowBorderClassname = css`
   @layer rdg.SummaryRow {
-    > .${cell??""} {
+    > .${cell ?? ""} {
       border-block-end: 2px solid var(--rdg-summary-border-color);
       display: flex;
       justify-content: center;
@@ -42,7 +42,7 @@ const topSummaryRowBorderClassname = css`
 
 const bottomSummaryRowBorderClassname = css`
   @layer rdg.SummaryRow {
-    > .${cell??""} {
+    > .${cell ?? ""} {
       border-block-start: 2px solid var(--rdg-summary-border-color);
       display: flex;
       justify-content: center;
@@ -75,9 +75,9 @@ function SummaryRow({
       type: "SUMMARY",
       row,
     });
-    if (colSpan !== undefined) {
-      index += colSpan - 1;
-    }
+    // if (colSpan !== undefined) {
+    //   index += colSpan - 1;
+    // }
 
     const isCellSelected = selectedCellIdx === column.idx;
 
@@ -97,7 +97,7 @@ function SummaryRow({
 
   return (
     <div
-    key={`${rowIdx}`}
+      key={`${rowIdx}`}
       role="row"
       aria-rowindex={ariaRowIndex}
       className={clsx(
@@ -117,7 +117,8 @@ function SummaryRow({
         "--rdg-summary-row-top": top !== undefined ? `${top}px` : undefined,
         "--rdg-summary-row-bottom":
           bottom !== undefined ? `${bottom}px` : undefined,
-      }}>
+      }}
+    >
       {cells}
     </div>
   );

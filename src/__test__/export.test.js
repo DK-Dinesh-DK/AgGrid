@@ -2,7 +2,13 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React from "react";
-import { CSVContent, exportToCsv } from "../components/datagrid/exportUtils";
+import {
+  CSVContent,
+  exportToCsv,
+  exportToPdf,
+  exportToXlsx,
+} from "../components/datagrid/exportUtils";
+// import * as FileSaver from "file-saver";
 
 function LaiDataGrid(props) {
   function createRows() {

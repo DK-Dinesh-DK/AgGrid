@@ -30,7 +30,7 @@ function Row(
     node,
     viewportColumns,
     selectedCellEditor,
-    selectedCellDragHandle,
+    // selectedCellDragHandle,
     onRowClick,
     onRowDoubleClick,
     rowClass,
@@ -112,7 +112,7 @@ function Row(
         isCopied={copiedCellIdx === idx}
         isDraggedOver={draggedOverCellIdx === idx}
         isCellSelected={isCellSelected}
-        dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
+        // dragHandle={isCellSelected ? selectedCellDragHandle : undefined}
         onRowClick={onRowClick}
         onRowDoubleClick={onRowDoubleClick}
         onRowChange={handleRowChange}

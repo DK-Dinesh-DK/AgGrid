@@ -27,6 +27,16 @@ function LaiDataGrid(props) {
       sortable: true,
     },
   ]);
+  function EmptyRowsRenderer() {
+    return (
+      <div style={{ textAlign: "center", gridColumn: "1/-1" }}>
+        Nothing to show
+        <span lang="ja" title="ショボーン">
+          (´・ω・`)
+        </span>
+      </div>
+    );
+  }
   return (
     <>
       <button
@@ -46,8 +56,12 @@ function LaiDataGrid(props) {
       <DataGrid
         columnData={columns}
         rowData={[]}
+        renderers={{ noRowsFallback: <EmptyRowsRenderer /> }}
         testId={"laidatagrid"}
         headerRowHeight={24}
+        onGridReady={(props) => {
+          console.log(props);
+        }}
         className="fill-grid"
         {...props}
       />

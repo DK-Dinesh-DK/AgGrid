@@ -243,4 +243,13 @@ describe("Datagrid Unit test for contextmenu", () => {
 
     // expect(printSpy).toHaveBeenCalledTimes(1);
   });
+  test("print window check", () => {
+    render(<LaiDataGrid perPage={70} />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridCell = screen.getByRole("gridcell", { name: "product1" });
+    expect(gridCell).toBeInTheDocument();
+    fireEvent.contextMenu(gridCell);
+  });
 });

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
-import React from "react";
+import React, { useState } from "react";
 import {
   DateEditor,
   DropDownEditor,
@@ -29,7 +29,7 @@ function LaiDataGrid(props) {
         id: `id_${i}`,
         avatar: faker.image.avatar(),
         title: faker.name.prefix(),
-        firstName: faker.name.firstName(),
+        firstName: `firstName-${i}`,
         lastName: `lastName${i}`,
         zipCode: faker.address.zipCode(),
         date: moment(new Date()).add(i, "day").format("DD-MM-YYYY"),
@@ -52,7 +52,10 @@ function LaiDataGrid(props) {
       headerName: "ID",
       width: 80,
       resizable: true,
-      editable: true,
+      cellEditor: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "title",
@@ -89,7 +92,6 @@ function LaiDataGrid(props) {
       width: 200,
       cellStyle: { backgroundColor: "blue", color: "White" },
       cellRenderer: TextEditor,
-      resizable: true,
     },
     {
       field: "password",
@@ -217,6 +219,7 @@ function LaiDataGrid(props) {
       cellRenderer: LinkEditor,
     },
   ];
+  const [cellValue, setCellValue] = useState(null);
   return (
     <>
       <ButtonEditor
@@ -288,6 +291,9 @@ function LaiDataGrid(props) {
         onRowChange={(props) => console.log(props)}
         data-testid={"colorPickerTest"}
       />
+      {cellValue !== null && (
+        <button data-testid={"cell-value"}>Cell Data</button>
+      )}
       <DataGrid
         columnData={columns}
         testId={"laidatagrid"}
@@ -296,6 +302,9 @@ function LaiDataGrid(props) {
         className="fill-grid"
         selection={true}
         valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
+        onCellClicked={(params) => {
+          setCellValue(params);
+        }}
       />
     </>
   );
@@ -317,6 +326,13 @@ describe("Datagrid Unit test for All editors", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+    const cell = screen.getByTestId("gird-text-editor-4-0");
+    fireEvent.doubleClick(cell);
+    fireEvent.change(cell, { target: { value: "Sarthak" } });
+    expect(cell).toHaveValue("Sarthak");
+    const cellNew = screen.getByTestId("gird-text-editor-4-1");
+    fireEvent.click(cellNew);
+    const cellValueBtn = screen.getByTestId("cell-value");
   });
   test("editors for slider", async () => {
     render(<LaiDataGrid />);
@@ -396,5 +412,14 @@ describe("Datagrid Unit test for All editors", () => {
     const colorPickerInput = screen.getByTestId("grid-color-picker-10001-100");
     expect(colorPickerInput).toBeInTheDocument();
     fireEvent.change(colorPickerInput, { target: { value: "#ff0000" } });
+  });
+  test("edit cell onnavigation keydown", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridCell = screen.getByText("firstName-2");
+    expect(gridCell).toBeInTheDocument();
+    fireEvent.doubleClick(gridCell);
   });
 });

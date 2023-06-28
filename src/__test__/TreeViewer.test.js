@@ -86,22 +86,36 @@ function LaiDataGrid(props) {
       field: "id",
       headerName: "id",
       frozen: true,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "name",
       headerName: "Name",
       width: 100,
       filter: true,
-      cellRenderer: TextEditor,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "format",
       headerName: "format",
-      cellRenderer: TextEditor,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "position",
       headerName: "position",
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
       cellClass: (props) => {
         console.log("props++++", props);
       },
@@ -111,6 +125,10 @@ function LaiDataGrid(props) {
       field: "price",
       headerName: "price",
       sortable: true,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
   ];
   const gridRef = useRef(null);
@@ -123,9 +141,13 @@ function LaiDataGrid(props) {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
+        rowSelection={"single"}
         treeData={true}
         ref={gridRef}
-        valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
+        valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
+        onRowsChange={(data) => {
+          console.log("Data", data);
+        }}
         {...props}
       />
     </>
@@ -141,10 +163,9 @@ describe("Datagrid Unit test for Tree view", () => {
     const expandbtn = screen.getByTestId("tree-expand-icon0");
     expect(expandbtn).toBeInTheDocument();
     fireEvent.click(expandbtn);
-    // fireEvent.doubleClick(expandbtn);
-    // const gridcell = screen.getByTestId("gird-text-editor-4-0");
-    // expect(gridcell).toBeInTheDocument();
-    // fireEvent.change(gridcell, { target: { value: "Sarthak" } });
+    fireEvent.click(expandbtn);
+    fireEvent.click(expandbtn);
+
   });
   test("print window check only serial", () => {
     render(<LaiDataGrid serialNumber={true} />);
@@ -175,5 +196,24 @@ describe("Datagrid Unit test for Tree view", () => {
     expect(expandbtn).toBeInTheDocument();
     fireEvent.click(expandbtn);
     // const btn =screen.getBy
+  });
+  test("Treeview Value chage", () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const expandbtn = screen.getByTestId("gird-text-editor-2-0");
+    expect(expandbtn).toBeInTheDocument();
+    fireEvent.change(expandbtn, { target: { value: "packge-0" } });
+    expect(expandbtn).toHaveValue("packge-0");
+    // const btn =screen.getBy
+  });
+  test("Treeview Row select", () => {
+    render(<LaiDataGrid selection={true} />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    // const checkBoxInput = screen.getByTestId("grid-checkbox-undefined");
+    // expect(checkBoxInput).toBeInTheDocument();
   });
 });

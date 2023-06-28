@@ -1,9 +1,23 @@
 import { useRef, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import {
+  DateEditor,
+  DropDownEditor,
+  ImageViewer,
+  TextEditor,
+  CheckBoxEditor,
+  ColorPicker,
+  ButtonEditor,
+  ProgressBarEditor,
+  TimeEditor,
+  RadioButtonEditor,
+  DateTimeEditor,
+  SliderEditor,
+  LinkEditor,
+} from "../components/datagrid/editors";
 import DataGrid from "../components/datagrid/DataGrid";
-
+import moment from "moment";
 const loadMoreRowsClassname = css`
   inline-size: 180px;
   padding-block: 8px;
@@ -20,40 +34,40 @@ function rowKeyGetter(row) {
   return row.id;
 }
 
-const columns = [
-  {
-    field: "id",
-    headerName: "ID",
-    width: 80,
-    cellRenderer: (props) => {
-      return TextEditor(props);
-    },
-  },
-  {
-    field: "title",
-    headerName: "Title",
-    editable: true,
-    filter: true,
-  },
-  {
-    field: "firstName",
-    headerName: "First Name",
-    filter: true,
-    cellRenderer: (props) => {
-      return TextEditor(props);
-    },
-  },
-  {
-    field: "lastName",
-    headerName: "Last Name",
-    valueGetter: ({ row, column }) => `Last Name: ${row[column.key]}`,
-  },
-  {
-    field: "email",
-    headerName: "Email",
-    valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
-  },
-];
+// const columns = [
+//   {
+//     field: "id",
+//     headerName: "ID",
+//     width: 80,
+//     cellRenderer: (props) => {
+//       return TextEditor(props);
+//     },
+//   },
+//   {
+//     field: "title",
+//     headerName: "Title",
+//     editable: true,
+//     filter: true,
+//   },
+//   {
+//     field: "firstName",
+//     headerName: "First Name",
+//     filter: true,
+//     cellRenderer: (props) => {
+//       return TextEditor(props);
+//     },
+//   },
+//   {
+//     field: "lastName",
+//     headerName: "Last Name",
+//     valueGetter: ({ row, column }) => `Last Name: ${row[column.key]}`,
+//   },
+//   {
+//     field: "email",
+//     headerName: "Email",
+//     // valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
+//   },
+// ];
 
 function createFakeRowObjectData(index) {
   return {
@@ -96,7 +110,7 @@ function loadMoreRows(newRowsCount, length) {
 }
 
 export default function InfiniteScrolling({ direction }) {
-  const [rows, setRows] = useState(() => createRows(10));
+  const [rows, setRows] = useState(() => createRows(100));
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleScroll(event) {
@@ -111,31 +125,252 @@ export default function InfiniteScrolling({ direction }) {
   }
   const dataGridRef = useRef(null);
   // const [selectedRows, setSelectedRows] = useState([]);
+  function createRows() {
+    const rows = [];
 
+    for (let i = 0; i < 10; i++) {
+      rows.push({
+        id: `id_${i}`,
+        avatar: faker.image.avatar(),
+        title: faker.name.prefix(),
+        firstName: faker.name.firstName(),
+        lastName: `lastName${i}`,
+        zipCode: faker.address.zipCode(),
+        date: moment(new Date()).add(i, "day").format("DD-MM-YYYY"),
+        sentence: faker.lorem.sentence(),
+        money: `₹${100 + i}`,
+        valid: i % 2 === true,
+        favcolor: faker.color.rgb(),
+        deletebtn: "Delete",
+        range: Math.floor(Math.random() * 100 + 1),
+        time: moment(new Date()).format("hh:mm"),
+      });
+    }
 
+    return rows;
+  }
+  const rowData = createRows();
+  const columns = [
+    {
+      field: "id",
+      headerName: "ID",
+      width: 80,
+      resizable: true,
+
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+
+        return TextEditor(params);
+      },
+    },
+    {
+      field: "title",
+      headerName: "Title",
+      sortable: true,
+      width: 200,
+      resizable: true,
+      valueFormatter(props) {
+        return <>{props.row.title}</>;
+      },
+      options: [
+        { label: "task1", value: "task1" },
+        { label: "task2", value: "task2" },
+      ],
+      cellRenderer: DropDownEditor,
+      editorOptions: {
+        editOnClick: true,
+      },
+    },
+    {
+      field: "firstName",
+      filter: true,
+      headerName: "First Name",
+      cellEditor: TextEditor,
+      cellStyle: (props) => {
+        return { backgroundColor: "blue", color: "White" };
+      },
+      width: 200,
+      resizable: true,
+    },
+    {
+      field: "lastName",
+      headerName: "Last Name",
+      width: 200,
+      cellRenderer: TextEditor,
+    },
+    {
+      field: "password",
+      headerName: "Password",
+      width: 200,
+      cellStyle: { backgroundColor: "blue", color: "White" },
+      cellRenderer: TextEditor,
+      type: "mask",
+    },
+    {
+      field: "gender",
+      headerName: "Gender",
+      cellRenderer: RadioButtonEditor,
+      width: 200,
+      options: [
+        { label: "Male", value: "male" },
+        { label: "FeMale", value: "female" },
+        { label: "Others", value: "others" },
+      ],
+    },
+    {
+      field: "gend",
+      headerName: "GenderButton",
+      cellRenderer: RadioButtonEditor,
+      width: 200,
+      buttons: [
+        { label: "Male", value: "male" },
+        { label: "FeMale", value: "female" },
+        { label: "Others", value: "others" },
+      ],
+    },
+    {
+      field: "datetime",
+      headerName: "Birth Date and Time",
+      cellRenderer: DateTimeEditor,
+    },
+    {
+      field: "avatar",
+      headerName: "Photo",
+      cellRenderer: ImageViewer,
+    },
+    {
+      headerName: "Money",
+      field: "money",
+      cellEditor: TextEditor,
+      filter: true,
+      sortable: true,
+      width: 100,
+    },
+
+    {
+      field: "zipCode",
+      headerName: "ZipCode",
+      width: 200,
+      resizable: true,
+      cellRenderer: TextEditor,
+    },
+    {
+      field: "date",
+      headerName: "Date",
+      width: 200,
+      editable: true,
+      cellEditor: DateEditor,
+    },
+    {
+      field: "datee",
+      headerName: "Date-Without",
+      width: 150,
+      cellRenderer: DateEditor,
+    },
+
+    {
+      field: "time",
+      headerName: "Time",
+      cellRenderer: TimeEditor,
+    },
+    {
+      headerName: "New Time",
+      editable: true,
+      cellRenderer: TimeEditor,
+    },
+    {
+      field: "valid",
+      headerName: "Vaild",
+      cellRenderer: CheckBoxEditor,
+    },
+    {
+      field: "favcolor",
+      headerName: "Favourite Color",
+      cellRenderer: ColorPicker,
+    },
+    {
+      field: "favcolour",
+      headerName: "Favourite Colour",
+      cellRenderer: ColorPicker,
+    },
+    {
+      field: "progress",
+      headerName: "Progress Level",
+      cellRenderer: ProgressBarEditor,
+    },
+    {
+      field: "range",
+      headerName: "Range",
+      width: 150,
+      cellRenderer: SliderEditor,
+    },
+    {
+      field: "save",
+      headerName: "Save",
+      cellRenderer: ButtonEditor,
+      onClick: (params) => {
+        console.log(params);
+      },
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      cellRenderer: ButtonEditor,
+      inputProps: { text: "ItemDelete" },
+      editable: true,
+    },
+    {
+      field: "link",
+      headerName: "Link",
+      cellRenderer: LinkEditor,
+    },
+  ];
+  const [cellValue, setCellValue] = useState(null);
   return (
     <>
       <button
         onClick={() => {
-          console.log("dataGridRef", dataGridRef.current);
+          console.log("dataGridRef", dataGridRef.current.api.tabToNextCell());
         }}
       >
         getFocusedCell
       </button>
-
+      <button
+        data-testid={"ensureIndexVisible-scroll-top"}
+        onClick={() => {
+          dataGridRef.current.api.ensureIndexVisible(70, "top");
+        }}
+      >
+        ensureIndexVisible-scroll-top
+      </button>
+      {cellValue !== null && (
+        <button
+          data-testid={"cell-value"}
+          onClick={() => {
+            console.log(cellValue.getValue());
+          }}
+        >
+          Cell Data
+        </button>
+      )}
       <DataGrid
         columnData={columns}
-        rowData={rows}
+        rowData={rowData}
         rowKeyGetter={rowKeyGetter}
         onRowsChange={(data) => {
           console.log("Data", data);
         }}
         rowHeight={25}
         className="fill-grid"
-        ref={dataGridRef}
+        innerRef={dataGridRef}
         direction={direction}
         selection={true}
+        enableVirtualization={false}
         valueChangedCellStyle={{ backgroundColor: "Blue", color: "White" }}
+        onCellClicked={(params) => {
+          console.log("Params", params);
+          setCellValue(params);
+        }}
       />
       {isLoading && (
         <div className={loadMoreRowsClassname}>Loading more rows...</div>

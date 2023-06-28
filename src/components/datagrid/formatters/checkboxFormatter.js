@@ -1,6 +1,6 @@
-import React from 'react';
-import { clsx } from "clsx"
-import { css } from "@linaria/core"
+import React from "react";
+import { clsx } from "clsx";
+import { css } from "@linaria/core";
 
 const checkboxLabel = css`
   @layer rdg.CheckboxLabel {
@@ -73,7 +73,7 @@ const checkboxLabelDisabledClassname = `rdg-checkbox-label-disabled ${checkboxLa
 
 export function checkboxFormatter({ onChange, ...props }, ref) {
   function handleChange(e) {
-    onChange(e.target.checked, e.nativeEvent.shiftKey)
+    onChange(e.target.checked, e.nativeEvent.shiftKey);
   }
 
   return (
@@ -92,7 +92,8 @@ export function checkboxFormatter({ onChange, ...props }, ref) {
       <div
         data-testid={`grid-checkbox-${props.rowIndex}`}
         className={checkboxClassname}
-        onClick={(e) => e.stopPropagation()}>
+        onClick={(e) => e.stopPropagation()}
+      >
         <div></div>
       </div>
     </label>

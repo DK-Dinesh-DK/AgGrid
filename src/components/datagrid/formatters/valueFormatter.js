@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import {alignmentUtilsCell} from "../alignMentUtils";
+import { alignmentUtilsCell } from "../alignMentUtils";
 
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
@@ -10,7 +10,7 @@ export function valueFormatter(props) {
 
   function handleClick(e) {
     selectCellWrapper(props.column.editorOptions?.editOnClick);
-    e.stopPropagation()
+    e.stopPropagation();
     props.onRowClick?.({
       api: props.api,
       data: props.row,
@@ -24,15 +24,15 @@ export function valueFormatter(props) {
       api: props.api,
       colDef: {
         field: props.column.field,
-        resizable: props.column.resizable ?? undefined,
-        sortable: props.column.sortable ?? undefined,
+        resizable: props.column.resizable,
+        sortable: props.column.sortable,
         width: props.column.width,
       },
       data: props.row,
       node: props.node,
       columnApi: props.columnApi,
       rowIndex: props.rowIndex,
-      value: props.row[props.column.field] ?? undefined,
+      value: props.row[props.column.field],
       type: "cellClicked",
       event: e,
     });
@@ -40,7 +40,7 @@ export function valueFormatter(props) {
 
   function handleDoubleClick(e) {
     selectCellWrapper(true);
-    e.stopPropagation()
+    e.stopPropagation();
     props.onRowDoubleClick?.({
       api: props.api,
       data: props.row,
@@ -54,15 +54,15 @@ export function valueFormatter(props) {
       api: props.api,
       colDef: {
         field: props.column.field,
-        resizable: props.column.resizable ?? undefined,
-        sortable: props.column.sortable ?? undefined,
+        resizable: props.column.resizable,
+        sortable: props.column.sortable,
         width: props.column.width,
       },
       data: props.row,
       node: props.node,
       columnApi: props.columnApi,
       rowIndex: props.rowIndex,
-      value: props.row[props.column.field] ?? undefined,
+      value: props.row[props.column.field],
       type: "cellDoubleClicked",
       event: e,
     });
@@ -82,7 +82,8 @@ export function valueFormatter(props) {
             height: "100%",
             justifyContent: "center",
             alignItems: "center",
-          }}>
+          }}
+        >
           {childData(props.column.children, props)}
         </div>
       </>
@@ -117,7 +118,8 @@ export function valueFormatter(props) {
         // className={props.className}
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
-        onContextMenu={handleContextMenu}>
+        onContextMenu={handleContextMenu}
+      >
         {isCellSelected && props.selectedCellEditor
           ? props.selectedCellEditor
           : props.row[props.column.field]}
@@ -189,15 +191,15 @@ const childData = (subData, props) => {
         api: props.api,
         colDef: {
           field: info1.field,
-          resizable: info1.resizable ?? undefined,
-          sortable: info1.sortable ?? undefined,
+          resizable: info1.resizable,
+          sortable: info1.sortable,
           width: info1.width,
         },
         data: props.row,
         node: props.node,
         columnApi: props.columnApi,
         rowIndex: props.rowIndex,
-        value: cellValue ?? undefined,
+        value: cellValue,
         type: "cellClicked",
         event: e,
       });
@@ -220,15 +222,15 @@ const childData = (subData, props) => {
         api: props.api,
         colDef: {
           field: info1.field,
-          resizable: info1.resizable ?? undefined,
-          sortable: info1.sortable ?? undefined,
+          resizable: info1.resizable,
+          sortable: info1.sortable,
           width: info1.width,
         },
         data: props.row,
         node: props.node,
         columnApi: props.columnApi,
         rowIndex: props.rowIndex,
-        value: cellValue ?? undefined,
+        value: cellValue,
         type: "cellDoubleClicked",
         event: e,
       });
@@ -295,7 +297,6 @@ const childData = (subData, props) => {
         ? { ...childStyle, textAlign: info1.alignment.align }
         : alignmentUtilsCell(info1, props.row, childStyle);
     }
-
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
@@ -306,7 +307,6 @@ const childData = (subData, props) => {
         style={childStyle}
       >
         {/* <div style={{ borderInlineEnd: sdsd, textAlign: "center",height:"24px",width:100 }}> */}
-
         {isCellSelected && props.selectedCellEditor
           ? props.selectedCellEditor
           : !info1.rowDrag &&

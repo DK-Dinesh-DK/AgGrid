@@ -155,17 +155,6 @@ function TreeCell({
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
           eGridCell: gridCell.current,
-          refreshCell: () => {
-            const content = document.getElementById(
-              `${rowIndex}${row[column.key]}`
-            ).innerHTML;
-            document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-              content;
-          },
-          getValue: () => value,
-          setValue: (newValue) => {
-            setValue(newValue);
-          },
           ...cellRendererParams,
         })}
 
@@ -199,17 +188,6 @@ function TreeCell({
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
           eGridCell: gridCell.current,
-          refreshCell: () => {
-            const content = document.getElementById(
-              `${rowIndex}${row[column.key]}`
-            ).innerHTML;
-            document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-              content;
-          },
-          getValue: () => value,
-          setValue: (newValue) => {
-            setValue(newValue);
-          },
           ...cellRendererParams,
         })}
       {column.idx === 0 && !selection && !serialNumber && (
@@ -442,17 +420,6 @@ function TreeCell({
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
           eGridCell: gridCell.current,
-          refreshCell: () => {
-            const content = document.getElementById(
-              `${rowIndex}${row[column.key]}`
-            ).innerHTML;
-            document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-              content;
-          },
-          getValue: () => value,
-          setValue: (newValue) => {
-            setValue(newValue);
-          },
           ...cellRendererParams,
         })}
       {column.idx > 2 &&

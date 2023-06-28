@@ -49,7 +49,7 @@ export default function TextEditor({
     <input
       role="gridcellTextbox"
       spellCheck="true"
-      data-testid={`gird-text-editor-${column.index}-${props.rowIndex}`}
+      data-testid={`gird-text-editor-${column.idx}-${props.rowIndex}`}
       className={textEditorClassname}
       type={type}
       disabled={column.editable ?? false}

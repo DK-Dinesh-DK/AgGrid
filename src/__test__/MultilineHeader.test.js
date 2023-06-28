@@ -109,7 +109,21 @@ function LaiDataGrid(props) {
                   headerName: "FFFF",
                   width: 100,
                   alignment: true,
-                  cellRenderer: TextEditor,
+                  cellEditor: (params) => {
+                    console.log(params.getValue());
+                    TextEditor(params);
+                  },
+                },
+                {
+                  field: "qweasd",
+                  headerName: "DFSDF",
+                  width: 100,
+                  alignment: true,
+                  sortable: true,
+                  cellRenderer: (params) => {
+                    console.log(params.getValue());
+                    TextEditor(params);
+                  },
                 },
                 {
                   field: "vvvv1",
@@ -255,5 +269,65 @@ describe("Datagrid Unit test for MultiLine Header view", () => {
     expect(qqcell).toBeInTheDocument();
     fireEvent.click(qqcell);
     fireEvent.doubleClick(qqcell);
+  });
+
+  test("value Formatter cell clcik and double clcik ", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByTestId("gird-text-editor-11-0");
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+    fireEvent.doubleClick(gridcell);
+    fireEvent.contextMenu(gridcell);
+  });
+  test("Multiline sort  ", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByText("DFSDF");
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+    fireEvent.click(gridcell, {
+      ctrlKey: true,
+    });
+    fireEvent.click(gridcell, {
+      ctrlKey: true,
+    });
+  });
+  test("Multiline sort  ", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByText("PPPP2");
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+  });
+  test("Multiline sort  ", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByTestId("filterIcon_EEEE1");
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+    fireEvent.click(gridcell);
+    fireEvent.click(gridcell);
+    const filterInput = screen.getByPlaceholderText("Search...");
+    expect(filterInput).toBeInTheDocument();
+    fireEvent.keyDown(filterInput, { key: "ArrowRight" });
+  });
+  test("Multiline sort  ", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByTestId("filterIcon_EEEE1");
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+    fireEvent.mouseDown(document);
   });
 });

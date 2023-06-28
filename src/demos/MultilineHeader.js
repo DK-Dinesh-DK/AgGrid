@@ -115,7 +115,17 @@ export default function MultilineHeader({ direction }) {
                   headerName: "FFFF",
                   width: 100,
                   alignment: true,
-                  cellRenderer: TextEditor,
+                  cellEditor: TextEditor,
+                },
+                {
+                  field: "qweasd",
+                  headerName: "DFSDF",
+                  width: 100,
+                  alignment: true,
+                  cellRenderer: (params) => {
+                    console.log(params.getValue());
+                    TextEditor(params);
+                  },
                 },
                 {
                   field: "vvvv1",
@@ -212,7 +222,10 @@ export default function MultilineHeader({ direction }) {
     },
   ];
   const [rows, setRows] = useState(createRows);
-
+  const selectedCellHeaderStyle = {
+    backgroundColor: "red",
+    fontSize: "12px",
+  };
   return (
     <DataGrid
       columnData={columns}
@@ -220,6 +233,7 @@ export default function MultilineHeader({ direction }) {
       rowSelection={"multiple"}
       rowKeyGetter={rowKeyGetter}
       classheaderName="fill-grid"
+      selectedCellHeaderStyle={selectedCellHeaderStyle}
       className="fill-grid"
       rowFreezLastIndex={3}
       onRowClicked={(props) => {

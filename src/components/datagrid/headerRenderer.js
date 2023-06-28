@@ -71,11 +71,7 @@ export default function HeaderRenderer({
               alignItems: "center",
               justifyContent: "center",
             };
-            if (column.alignment) {
-              style_fg = column.alignment.align
-                ? { ...style_fg, justifyContent: column.alignment.align }
-                : alignmentUtilsHeader(column, rows[0], style_fg);
-            }
+
 
             return (
               <div style={style_fg} key={info.field}>

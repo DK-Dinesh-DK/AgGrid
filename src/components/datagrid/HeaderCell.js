@@ -24,7 +24,7 @@ const cellResizable = css`
   }
 `;
 
-const cellResizableClassname = `rdg-cell-resizable ${cellResizable??""}`;
+const cellResizableClassname = `rdg-cell-resizable ${cellResizable ?? ""}`;
 
 export default function HeaderCell({
   column,
@@ -198,30 +198,6 @@ export default function HeaderCell({
     }
   }
 
-  function onClick() {
-    selectCell(column.idx);
-  }
-
-  function onDoubleClick(event) {
-    const { right, left } = event.currentTarget.getBoundingClientRect();
-    const offset = isRtl ? event.clientX - left : right - event.clientX;
-
-    if (offset > 11) {
-      // +1px to account for the border size
-      return;
-    }
-
-    onColumnResize(column, "max-content");
-  }
-
-  function handleFocus(event) {
-    onFocus?.(event);
-    if (shouldFocusGrid) {
-      // Select the first header cell if there is no selected cell
-      selectCell(0);
-    }
-  }
-
   function handleColumnsReorder(sourceKey, targetKey) {
     const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
     const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
@@ -250,8 +226,6 @@ export default function HeaderCell({
     }),
   });
 
-
-
   let headerStyle = {
     display: "flex",
     height: "100%",
@@ -270,7 +244,7 @@ export default function HeaderCell({
   }
   return (
     <div
-     role="parentcolumn"
+      role="parentcolumn"
       aria-colindex={column.idx + 1}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
@@ -282,9 +256,6 @@ export default function HeaderCell({
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={style}
-      // onFocus={handleFocus}
-      // onClick={onClick}
-      // onDoubleClick={column.resizable ? onDoubleClick : undefined}
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       <div style={headerStyle}>
@@ -311,13 +282,7 @@ export default function HeaderCell({
           headerRowHeight,
           selectedCellHeaderStyle,
           gridWidth,
-          //need to be chnaged
-
           shouldFocusGrid,
-
-          handleFocus,
-          onClick,
-          onDoubleClick,
           onPointerDown,
         })}
       </div>

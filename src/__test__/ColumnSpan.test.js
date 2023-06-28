@@ -18,7 +18,6 @@ function LaiDataGrid(props) {
       header: "Three",
       field: "three",
       colSpan: (props) => {
-        console.log("Propss", props);
         if (props.type === "ROW" && props.rowIndex === 1) {
           return 3;
         }
@@ -49,5 +48,8 @@ describe("Datagrid Unit test for Column Span", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
+    const cellEle = screen.getByRole("gridcell", { name: "two2" });
+    expect(cellEle).toBeInTheDocument();
+    fireEvent.keyDown(cellEle, { key: "ArrowRight" });
   });
 });

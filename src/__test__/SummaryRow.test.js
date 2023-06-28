@@ -13,8 +13,8 @@ function LaiDataGrid(props) {
       width: 80,
       alignment: { type: "number" },
 
-      summaryFormatter() {
-        return <strong>Total</strong>;
+      summaryFormatter(props) {
+        return <strong>Total-{props.column.idx}</strong>;
       },
     },
     {
@@ -32,7 +32,7 @@ function LaiDataGrid(props) {
         console.log("props");
       },
       summaryFormatter({ row }) {
-        return <>{row.totalids} records</>;
+        return <>{row.totalids}-records</>;
       },
     },
 
@@ -65,7 +65,7 @@ function LaiDataGrid(props) {
         email: `${faker.internet.email()} `,
         title: faker.name.prefix(),
         firstName: faker.name.firstName(),
-        lastName: faker.name.lastName(),
+        lastName: `lastName-${i}`,
         date: moment(faker.date.past().toLocaleDateString()).format(
           "MMMM-DD-YYYY"
         ),
@@ -78,10 +78,13 @@ function LaiDataGrid(props) {
     return rows;
   }
   const rowData = createRows();
-  const summaryRows = [
+  const summaryRowsTop = [
     { totalids: rowData.length },
-    { totalids: rowData.length / 2 },
+    { totalids: rowData.length + 1 },
+    { totalids: rowData.length + 2 },
   ];
+  const summaryRowsBottom = [{ totalids: rowData.length / 2 }];
+
   return (
     <>
       <DataGrid
@@ -89,8 +92,8 @@ function LaiDataGrid(props) {
         testId={"laidatagrid"}
         rowData={rowData}
         headerRowHeight={24}
-        topSummaryRows={summaryRows}
-        bottomSummaryRows={summaryRows}
+        topSummaryRows={summaryRowsTop}
+        bottomSummaryRows={summaryRowsBottom}
         className="fill-grid"
       />
     </>
@@ -103,7 +106,8 @@ describe("Datagrid Unit test for Summarry Row", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    // const summarycell = screen.getByRole("gridcell", { name: "Total" });
-    // expect(summarycell).toBeInTheDocument();
+    const summarycell = screen.getByRole("gridcell", { name: "5-records" });
+    expect(summarycell).toBeInTheDocument();
+    fireEvent.click(summarycell);
   });
 });

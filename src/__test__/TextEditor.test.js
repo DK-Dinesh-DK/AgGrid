@@ -5,15 +5,20 @@ import DataGrid from "../components/datagrid/DataGrid";
 import TextEditor from "../components/datagrid/editors/textEditor";
 import React, { useState } from "react";
 
-
-
 const columns = [
   {
     field: "name",
     headerName: "Name",
     haveChildren: true,
     children: [
-      { field: "firstname", headerName: "First Name", cellEditor: TextEditor },
+      {
+        field: "firstname",
+        headerName: "First Name",
+        cellEditor: TextEditor,
+        cellClass: (props) => {
+          console.log("props");
+        },
+      },
       { field: "lastname", headerName: "Last Name", cellEditor: TextEditor },
     ],
   },
@@ -30,7 +35,11 @@ const columns = [
       },
     ],
   },
-  { field: "address", headerName: "Address", cellEditor: TextEditor },
+  {
+    field: "address",
+    headerName: "Address",
+    cellEditor: TextEditor,
+  },
   { field: "school", headerName: "School", cellEditor: TextEditor },
   { field: "class", headerName: "Class", cellEditor: TextEditor },
 ];
@@ -73,7 +82,6 @@ const initialRows = [
   },
 ];
 
-
 function LaiDataGrid() {
   const [rows, setRows] = useState(initialRows);
 
@@ -108,6 +116,43 @@ describe("Datagrid Unit test", () => {
     fireEvent.change(input, { target: { value: "Sarthak" } });
     expect(input).toHaveValue("Sarthak");
     fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    expect(input).not.toBeInTheDocument();
+    expect(gridcell).not.toBeInTheDocument();
+  });
+  test("Edit cell onKey down", async () => {
+    render(<LaiDataGrid />);
+
+    const datagrid = screen.getByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const gridcell = screen.getByRole("gridcell", { name: "Pravalika" });
+    expect(gridcell).toBeInTheDocument();
+
+    await userEvent.dblClick(gridcell);
+    let input = screen.getByRole("gridcellTextbox");
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveClass("rdg-text-editor");
+    fireEvent.keyDown(input, { key: "Tab" });
+    fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    expect(input).not.toBeInTheDocument();
+    expect(gridcell).not.toBeInTheDocument();
+  });
+  test("Edit cell onKey down", async () => {
+    render(<LaiDataGrid />);
+
+    const datagrid = screen.getByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const gridcell = screen.getByRole("gridcell", { name: "Pravalika" });
+    expect(gridcell).toBeInTheDocument();
+
+    await userEvent.dblClick(gridcell);
+    let input = screen.getByRole("gridcellTextbox");
+    expect(input).toBeInTheDocument();
+    expect(input).toHaveClass("rdg-text-editor");
+    fireEvent.keyDown(input, { key: "Escape" });
+    // fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
+    fireEvent.click(document.body);
     expect(input).not.toBeInTheDocument();
     expect(gridcell).not.toBeInTheDocument();
   });

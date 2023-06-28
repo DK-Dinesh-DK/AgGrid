@@ -1,7 +1,5 @@
-
-import React,{ useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { css } from "@linaria/core";
-import { useDrag, useDrop } from "react-dnd";
 import { useLatestFunc } from "./hooks/useLatestFunc";
 import { getCellStyle, getCellClassname, onEditorNavigation } from "./utils";
 
@@ -90,29 +88,6 @@ export default function EditCell({
     typeof cellClass === "function" ? cellClass(row) : cellClass
   );
 
-  const [{ isDragging }, drag] = useDrag({
-    type: "ROW_DRAG",
-    item: { index: rowIndex },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-  function onRowReorder(fromIndex, toIndex) {
-    
-    const newRows = [...allrow];
-    newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
-    handleReorderRow(newRows);
-  }
-  const [{ isOver }, drop] = useDrop({
-    accept: "ROW_DRAG",
-    drop({ index }) {
-      onRowReorder(index, rowIndex);
-    },
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
-  });
   return (
     <div
       role="gridcell"
@@ -125,62 +100,6 @@ export default function EditCell({
       onKeyDown={onKeyDown}
       onMouseDownCapture={commitOnOutsideClick ? cancelFrameRequest : undefined}
     >
-      {column.rowDrag && (
-        <div
-          ref={(ele) => {
-            drag(ele);
-            drop(ele);
-          }}
-        >
-          <span style={{ marginRight: "10px", cursor: "grab" }}>&#9674;</span>
-          {(column.cellEditor != null || column.editable === true) && (
-            <>
-              {column.cellEditor({
-                column,
-                colDef: column,
-                row,
-                data: row,
-                onRowChange,
-                value: row[column.key],
-                node,
-                valueFormatted: column.valueFormatter,
-                allrow,
-                rowIndex,
-                api,
-                onClose,
-              })}
-              {column.editorOptions?.renderFormatter &&
-                column.editable !== true &&
-                column.formatter({
-                  colDef: column,
-                  column,
-                  data: row,
-                  row,
-                  api,
-                  node,
-                  value: row[column.key],
-                  valueFormatted: column.valueFormatter,
-                  onRowChange,
-                  isCellSelected: true,
-                 
-                })}
-              {column.editable &&
-                column.formatter({
-                  colDef: column,
-                  column,
-                  data: row,
-                  row,
-                  api,
-                  node,
-                  value: row[column.key],
-                  valueFormatted: column.valueFormatter,
-                  onRowChange,
-                  isCellSelected: true,
-                })}
-            </>
-          )}
-        </div>
-      )}
       {(column.cellEditor != null || column.editable === true) &&
         !column.rowDrag && (
           <>
@@ -211,7 +130,6 @@ export default function EditCell({
                 valueFormatted: column.valueFormatter,
                 onRowChange,
                 isCellSelected: true,
-               
               })}
             {column.editable &&
               column.formatter({

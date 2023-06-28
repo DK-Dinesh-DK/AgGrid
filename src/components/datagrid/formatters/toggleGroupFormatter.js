@@ -1,14 +1,14 @@
-import React from 'react';
-import { css } from "@linaria/core"
-import { useFocusRef } from "../hooks/useFocusRef"
+import React from "react";
+import { css } from "@linaria/core";
+import { useFocusRef } from "../hooks/useFocusRef";
 
 const groupCellContent = css`
   @layer rdg.GroupCellContent {
     outline: none;
   }
-`
+`;
 
-const groupCellContentClassname = `rdg-group-cell-content ${groupCellContent}`
+const groupCellContentClassname = `rdg-group-cell-content ${groupCellContent}`;
 
 const caret = css`
   @layer rdg.GroupCellCaret {
@@ -22,12 +22,12 @@ const caret = css`
       transition: d 0.1s;
     }
   }
-`
+`;
 
-const caretClassname = `rdg-caret ${caret}`
+const caretClassname = `rdg-caret ${caret}`;
 
 export function toggleGroupFormatter(props) {
-  return <ToggleGroup {...props} />
+  return <ToggleGroup {...props} />;
 }
 
 export function ToggleGroup({
@@ -37,15 +37,15 @@ export function ToggleGroup({
   toggleGroup,
   ...props
 }) {
-  const { ref, tabIndex } = useFocusRef(isCellSelected)
+  const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-  function handleKeyDown({ key }) {
-    if (key === "Enter") {
-      toggleGroup()
-    }
-  }
+  // function handleKeyDown({ key }) {
+  //   if (key === "Enter") {
+  //     toggleGroup()
+  //   }
+  // }
 
-  const d = isExpanded ? "M1 1 L 7 7 L 13 1" : "M1 7 L 7 1 L 13 7"
+  const d = isExpanded ? "M1 1 L 7 7 L 13 1" : "M1 7 L 7 1 L 13 7";
 
   return (
     <span
@@ -53,7 +53,7 @@ export function ToggleGroup({
       data-testid={`grid-group-toggle-${props.column.idx}-${props.rowIndex}`}
       className={groupCellContentClassname}
       tabIndex={tabIndex}
-      onKeyDown={handleKeyDown}
+      // onKeyDown={handleKeyDown}
     >
       {groupKey}
       <svg
@@ -66,5 +66,5 @@ export function ToggleGroup({
         <path d={d} />
       </svg>
     </span>
-  )
+  );
 }

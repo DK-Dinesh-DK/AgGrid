@@ -3,48 +3,37 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
-import{ TextEditor} from "../components/datagrid/editors";
+import { TextEditor } from "../components/datagrid/editors";
 import React, { useState } from "react";
 
 const columns = [
   {
-    field: "name",
-    headerName: "Name",
-    haveChildren: true,
-    children: [
-      {
-        field: "firstname",
-        headerName: "First Name",
-        sortable: true,
-        cellEditor: TextEditor,
-      },
-      {
-        field: "lastname",
-        headerName: "Last Name",
-        sortable: true,
-        cellEditor: TextEditor,
-      },
-    ],
+    field: "firstname",
+    headerName: "First Name",
+    sortable: true,
+    cellEditor: TextEditor,
   },
   {
-    field: "number",
-    headerName: "Number",
-    haveChildren: true,
-    children: [
-      {
-        field: "homenumber",
-        headerName: "Home Number",
-        sortable: true,
-        cellEditor: TextEditor,
-      },
-      {
-        field: "personalnumber",
-        sortable: true,
-        headerName: "Personal Number",
-        cellEditor: TextEditor,
-      },
-    ],
+    field: "lastname",
+    headerName: "Last Name",
+    sortable: true,
+    resizable: true,
+    cellEditor: TextEditor,
   },
+
+  {
+    field: "homenumber",
+    headerName: "Home Number",
+    sortable: true,
+    cellEditor: TextEditor,
+  },
+  {
+    field: "personalnumber",
+    sortable: true,
+    headerName: "Personal Number",
+    cellEditor: TextEditor,
+  },
+
   {
     field: "address",
     headerName: "Address",
@@ -166,5 +155,16 @@ describe("Datagrid Unit test", () => {
     expect(rowsDefault[1]).toHaveTextContent("Sahoo");
     expect(rowsDefault[2]).toHaveTextContent("Singh");
     expect(rowsDefault[3]).toHaveTextContent("Reddy");
+  });
+  test(" header keydown", () => {
+    const { getByText, getAllByRole } = render(<LaiDataGrid />);
+
+    // Find the header element for 'Last Name'
+    const lastNameHeader = getByText("Last Name");
+    expect(lastNameHeader).toBeInTheDocument();
+    fireEvent.keyDown(lastNameHeader, { key: "Enter" });
+    fireEvent.pointerDown(lastNameHeader);
+    fireEvent.pointerMove(lastNameHeader);
+    fireEvent.lostPointerCapture(lastNameHeader);
   });
 });

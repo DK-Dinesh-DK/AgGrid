@@ -6,18 +6,13 @@ export default function FilterRenderer({
   isCellSelected,
   column,
   children,
-  selectedCellHeaderStyle,
-  selectedPosition,
   rowData,
 }) {
   const filters = useContext(FilterContext);
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
   var style = { padding: "2px 5px", display: "flex", justifyContent: "center" };
-  if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
-    style = { ...style, ...selectedCellHeaderStyle };
-  }
- 
+
   if (rowData && column.alignment) {
     style = column.alignment.align
       ? { ...style, justifyContent: column.alignment.align }

@@ -76,7 +76,7 @@ export default function RowsReordering({ direction }) {
       rowKeyGetter={rowKeyGetter}
       selectedRows={selectedRows}
       onSelectedRowsChange={setSelectedRows}
-      serialNumber={true}
+      // serialNumber={true}
       onRowsChange={setRows}
       direction={direction}
       frameworkComponents={frameworkComponents}

@@ -56,7 +56,6 @@ const columns = [
     field: "task",
     headerName: "Title",
     cellEditor: (props) => {
-   
       return TextEditor(props);
     },
     sortable: true,
@@ -97,26 +96,29 @@ export default function Pagination({ direction }) {
       return 0;
     });
   }, [rows, sortColumns]);
-
+  const [paginationPageSize, setPaginationPageSize] = useState(39);
   return (
-    <DataGrid
-      // className="fill-grid"
-      columnData={columns}
-      rowData={sortedRows}
-      rowKeyGetter={rowKeyGetter}
-      onRowsChange={setRows}
-      sortColumns={sortColumns}
-      onSortColumnsChange={setSortColumns}
-      selectedRows={selectedRows}
-      onSelectedRowsChange={setSelectedRows}
-      renderers={{ sortStatus, checkboxFormatter }}
-      direction={direction}
-      pagination={true}
-      defaultPage={3}
-      // paginationAutoPageSize={true}
-      // paginationPageSize={39}
-      // suppressPaginationPanel={true}
-    />
+    <>
+      <button onClick={() => setRows(rows.slice(0, 40))}>Clcik</button>
+      <DataGrid
+        // className="fill-grid"
+        columnData={columns}
+        rowData={sortedRows}
+        rowKeyGetter={rowKeyGetter}
+        onRowsChange={setRows}
+        sortColumns={sortColumns}
+        onSortColumnsChange={setSortColumns}
+        selectedRows={selectedRows}
+        onSelectedRowsChange={setSelectedRows}
+        renderers={{ sortStatus, checkboxFormatter }}
+        direction={direction}
+        pagination={true}
+        defaultPage={3}
+        // paginationAutoPageSize={true}
+        paginationPageSize={39}
+        // suppressPaginationPanel={true}
+      />
+    </>
   );
 }
 

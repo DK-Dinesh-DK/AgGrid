@@ -121,6 +121,7 @@ describe("Datagrid Unit test for Master Details", () => {
     const expandicon = screen.getByTestId("tree-expand-icon-1");
     expect(expandicon).toBeInTheDocument();
     fireEvent.click(expandicon);
+    fireEvent.click(expandicon);
     const setbtn = screen.getByTestId("setExpandIds");
     expect(setbtn).toBeInTheDocument();
     fireEvent.click(setbtn);

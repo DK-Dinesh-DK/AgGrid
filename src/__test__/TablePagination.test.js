@@ -1,13 +1,13 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1500; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
       var row;
@@ -24,7 +24,7 @@ function LaiDataGrid(props) {
     }
     return rows;
   }
-  const rowData = createRows();
+  const [rowData, setRowData] = useState(createRows());
 
   const columns = [
     {
@@ -130,9 +130,25 @@ function LaiDataGrid(props) {
         paginationGoToLastPage
       </button>
       <button
+        data-testid="paginationGoToPage-negative"
+        onClick={() => {
+          console.log(gridRef.current.api.paginationGoToPage(-3));
+        }}
+      >
+        paginationGoToPage
+      </button>
+      <button
         data-testid="paginationGoToPage"
         onClick={() => {
-          console.log(gridRef.current.api.paginationGoToPage(3));
+          console.log(gridRef.current.api.paginationGoToPage(2));
+        }}
+      >
+        paginationGoToPage
+      </button>
+      <button
+        data-testid="paginationGoToPage-invalid"
+        onClick={() => {
+          console.log(gridRef.current.api.paginationGoToPage(10000));
         }}
       >
         paginationGoToPage
@@ -152,6 +168,30 @@ function LaiDataGrid(props) {
         }}
       >
         paginationGoToPreviousPage
+      </button>
+      <button
+        data-testid="rowDataSlice0"
+        onClick={() => {
+          setRowData(rowData.slice(0, 1100));
+        }}
+      >
+        rowDataSlice0
+      </button>
+      <button
+        data-testid="rowDataSlice1000"
+        onClick={() => {
+          setRowData(rowData.slice(0, 1000));
+        }}
+      >
+        rowDataSlice1000
+      </button>
+      <button
+        data-testid="rowDataSlice500"
+        onClick={() => {
+          setRowData(rowData.slice(0, 500));
+        }}
+      >
+        rowDataSlice500
       </button>
 
       <DataGrid
@@ -202,15 +242,26 @@ describe("Datagrid Unit test for Table Pagination", () => {
     const gotoFirstPagebtn = screen.getByTestId("paginationGoToFirstPage");
     expect(gotoFirstPagebtn).toBeInTheDocument();
     fireEvent.click(gotoFirstPagebtn);
+    const gotoNextPagebtn = screen.getByTestId("paginationGoToNextPage");
+    expect(gotoNextPagebtn).toBeInTheDocument();
+    fireEvent.click(gotoNextPagebtn);
     const gotoLastPagebtn = screen.getByTestId("paginationGoToLastPage");
     expect(gotoLastPagebtn).toBeInTheDocument();
     fireEvent.click(gotoLastPagebtn);
     const gotoPagebtn = screen.getByTestId("paginationGoToPage");
     expect(gotoPagebtn).toBeInTheDocument();
     fireEvent.click(gotoPagebtn);
-    const gotoNextPagebtn = screen.getByTestId("paginationGoToNextPage");
-    expect(gotoNextPagebtn).toBeInTheDocument();
+    const gotoPagenegativebtn = screen.getByTestId(
+      "paginationGoToPage-negative"
+    );
+    expect(gotoPagenegativebtn).toBeInTheDocument();
+    fireEvent.click(gotoPagenegativebtn);
+    const gotoPageinvalidbtn = screen.getByTestId("paginationGoToPage-invalid");
+    expect(gotoPageinvalidbtn).toBeInTheDocument();
+    fireEvent.click(gotoPageinvalidbtn);
+
     fireEvent.click(gotoNextPagebtn);
+    // fireEvent.click(gotoNextPagebtn);
     const gotoPreviousPagebtn = screen.getByTestId(
       "paginationGoToPreviousPage"
     );
@@ -219,13 +270,19 @@ describe("Datagrid Unit test for Table Pagination", () => {
   });
 
   test("table pagination with selected", () => {
-    render(
-      <LaiDataGrid pagination={true} selection={true} showSelectedRows={true} />
-    );
+    render(<LaiDataGrid pagination={true} paginationAutoPageSize={true} />);
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-
+    const slicebtn0 = screen.getByTestId("rowDataSlice0");
+    expect(slicebtn0).toBeInTheDocument();
+    fireEvent.click(slicebtn0);
+    const slicebtn = screen.getByTestId("rowDataSlice1000");
+    expect(slicebtn).toBeInTheDocument();
+    fireEvent.click(slicebtn);
+    const slicebtn1 = screen.getByTestId("rowDataSlice500");
+    expect(slicebtn1).toBeInTheDocument();
+    fireEvent.click(slicebtn1);
   });
 });
 

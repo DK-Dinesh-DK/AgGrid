@@ -45,15 +45,15 @@ const nonInputKeys = new Set([
   "F9",
   "F10",
   "F11",
-  "F12"
-])
+  "F12",
+]);
 
 export function isCtrlKeyHeldDown(e) {
-  return (e.ctrlKey || e.metaKey) && e.key !== "Control"
+  return (e.ctrlKey || e.metaKey) && e.key !== "Control";
 }
 
 export function isDefaultCellInput(event) {
-  return !nonInputKeys.has(event.key)
+  return !nonInputKeys.has(event.key);
 }
 
 /**
@@ -71,7 +71,7 @@ export function onEditorNavigation({ key, target }) {
   ) {
     return target.matches(
       ".rdg-editor-container > :only-child, .rdg-editor-container > label:only-child > :only-child, .rdg-editor-container > div:only-child > label:only-child > :only-child"
-    )
+    );
   }
-  return false
+  return false;
 }

@@ -152,6 +152,7 @@ function LaiDataGrid() {
         {options.map((option) => (
           <label key={option}>
             <input
+              data-testid={`checkbox-${option}`}
               type="checkbox"
               checked={selectedOptions.includes(option)}
               onChange={(event) => toggleOption(option, event.target.checked)}
@@ -179,11 +180,13 @@ function LaiDataGrid() {
         expandAll
       </button>
       <button
+        data-testid={"setRowNodeExpanded"}
         onClick={() => {
-          let node = dataGridRef.current.api.getRowNodes(2);
+          let node = dataGridRef.current.api.getRowNode(2);
+          dataGridRef.current.api.setRowNodeExpanded(node, true, true);
         }}
       >
-        isExpandable
+        setRowNodeExpanded
       </button>
       <DataGrid
         columnData={columns}
@@ -211,6 +214,9 @@ describe("Datagrid Unit test for Group Row", () => {
     const toggleBtn = screen.getByRole("gridcell", { name: "Zimbabwe" });
     expect(toggleBtn).toBeInTheDocument();
     fireEvent.click(toggleBtn);
+    const checkboxInput = screen.getByTestId("checkbox-year");
+    expect(checkboxInput).toBeInTheDocument();
+    fireEvent.click(checkboxInput);
   });
   test("group view api ", async () => {
     render(<LaiDataGrid />);
@@ -219,11 +225,15 @@ describe("Datagrid Unit test for Group Row", () => {
     const expandAllBtn = screen.getByTestId("expandAll");
     expect(expandAllBtn).toBeInTheDocument();
     fireEvent.click(expandAllBtn);
+    const setRowNodeExpandedBtn = screen.getByTestId("setRowNodeExpanded");
+    expect(setRowNodeExpandedBtn).toBeInTheDocument();
+    fireEvent.click(setRowNodeExpandedBtn);
     const collapseAllBtn = screen.getByTestId("collapseAll");
     expect(collapseAllBtn).toBeInTheDocument();
     fireEvent.click(collapseAllBtn);
     const checkBoxInput = screen.getByTestId("grid-checkbox-0");
     expect(checkBoxInput).toBeInTheDocument();
+    fireEvent.click(checkBoxInput);
     fireEvent.click(checkBoxInput);
   });
 });
