@@ -2,11 +2,6 @@ import React, { memo, useRef, useState } from "react";
 
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
-import {
-  bottomRowIsSelectedClassName,
-  rowIsSelectedClassName,
-  topRowIsSelectedClassName,
-} from "./style";
 
 function MasterCell({
   id,
@@ -77,10 +72,6 @@ function MasterCell({
   }
 
   const { cellClass } = column;
-  // const topRow = rowIndex === 0 && isRowSelected ? true : false;
-  // const bottomRow =
-  //   rowIndex === allrow.length - 1 && isRowSelected ? true : false;
-  // const middleRow = !(topRow || bottomRow) && isRowSelected ? true : false;
   const className = getCellClassname(
     column,
     `rdg-cell-column-${column.idx % 2 === 0 ? "even" : "odd"}`,

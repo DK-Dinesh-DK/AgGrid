@@ -4,7 +4,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
   let symbol = ["£", "$", "₹", "€", "¥", "₣", "¢"];
   if (
     column.alignment.type?.toLowerCase() === "date" ||
-    (column.alignment.type?.toLowerCase() !== "datetime" &&
+    (column.alignment.type?.toLowerCase() !== "datetime" && typeof row === "object" &&
       (moment(row[column.field], "YYYY-MM-DD", true).isValid() ||
         moment(row[column.field], "YYYY/MM/DD", true).isValid() ||
         moment(row[column.field], "YYYY-DD-MM", true).isValid() ||
@@ -29,7 +29,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
         moment(row[column.field], "YYYY/MMM/DD", true).isValid() ||
         moment(row[column.field], "YYYY-DD-MMM", true).isValid() ||
         moment(row[column.field], "YYYY/DD/MMM", true).isValid())) ||
-    (row[column.field] &&
+    (typeof row==="object"&&row[column.field] &&
       column.alignment.type?.toLowerCase() !== "datetime" &&
       (JSON.stringify(row[column.field]).split("/").length === 3 ||
         JSON.stringify(row[column.field]).split("-").length === 3))
@@ -37,8 +37,8 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     const alignmentStyle = column.alignment.align
       ? { justifyContent: column.alignment.align }
       : {
-          justifyContent: "center",
-        };
+        justifyContent: "center",
+      };
     styles = {
       ...styles,
       ...alignmentStyle,
@@ -46,12 +46,12 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "time" ||
-    (column.alignment.type?.toLowerCase() !== "datetime" &&
+    (typeof row==="object" && column.alignment.type?.toLowerCase() !== "datetime" &&
       (moment(row[column.field], "hh:mm", true).isValid() ||
         moment(row[column.field], "hh:mm:ss", true).isValid() ||
         moment(row[column.field], "hh:mm:ss a", true).isValid() ||
         moment(row[column.field], "hh:mm a", true).isValid())) ||
-    (row[column.field] &&
+    (typeof row === "object" && row[column.field] &&
       column.alignment.type?.toLowerCase() !== "datetime" &&
       JSON.stringify(row[column.field]).split(":").length > 1)
   ) {
@@ -65,15 +65,15 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "datetime" ||
-    (row[column.field] &&
+    (typeof row==="object" && row[column.field] &&
       JSON.stringify(row[column.field]).split(":").length > 1 &&
       (JSON.stringify(row[column.field]).split("/").length === 3 ||
         JSON.stringify(row[column.field]).split("-").length === 3))
   ) {
     const alignment = column.alignment.align
       ? {
-          justifyContent: column.alignment.align,
-        }
+        justifyContent: column.alignment.align,
+      }
       : { justifyContent: "center" };
     styles = {
       ...styles,
@@ -82,7 +82,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "number" ||
-    (typeof row[column.field] === "number" &&
+    (typeof row==="object" && typeof row[column.field] === "number" &&
       column.alignment.type !== "currency")
   ) {
     let alignment = column.alignment.align
@@ -95,7 +95,7 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "currency" ||
-    (row[column.field] &&
+    ( typeof row==="object" && row[column.field] &&
       (symbol.includes(JSON.stringify(row[column.field])[1]) ||
         symbol.includes(
           JSON.stringify(row[column.field])[row[column.field].length]
@@ -113,7 +113,8 @@ export default function alignmentUtilsHeader(column, row, childStyle) {
   } else if (
     column.alignment.type?.toLowerCase() === "string" ||
     column.alignment.type?.toLowerCase() === "text" ||
-    typeof row[column.field] === "string"
+    (typeof row==="object" &&
+    typeof row[column.field] === "string")
   ) {
     const alignment = column.alignment.align
       ? { justifyContent: column.alignment.align }
@@ -132,6 +133,8 @@ export function alignmentUtilsCell(column, row, childStyle) {
   if (
     column.alignment.type?.toLowerCase() === "date" ||
     (column.alignment.type?.toLowerCase() !== "datetime" &&
+    typeof row==="object" &&
+    row[column.field] &&
       (moment(row[column.field], "YYYY-MM-DD", true).isValid() ||
         moment(row[column.field], "YYYY/MM/DD", true).isValid() ||
         moment(row[column.field], "YYYY-DD-MM", true).isValid() ||
@@ -156,7 +159,7 @@ export function alignmentUtilsCell(column, row, childStyle) {
         moment(row[column.field], "YYYY/MMM/DD", true).isValid() ||
         moment(row[column.field], "YYYY-DD-MMM", true).isValid() ||
         moment(row[column.field], "YYYY/DD/MMM", true).isValid())) ||
-    (row[column.field] &&
+    (typeof row==="object" && row[column.field] &&
       column.alignment.type?.toLowerCase() !== "datetime" &&
       (JSON.stringify(row[column.field]).split("/").length === 3 ||
         JSON.stringify(row[column.field]).split("-").length === 3))
@@ -164,10 +167,10 @@ export function alignmentUtilsCell(column, row, childStyle) {
     const alignmentStyle = column.alignment.align
       ? { textAlign: column.alignment.align }
       : {
-          textAlign: "center",
-          paddingRight: "6px",
-          paddingLeft: "6px",
-        };
+        textAlign: "center",
+        paddingRight: "6px",
+        paddingLeft: "6px",
+      };
     styles = {
       ...styles,
       ...alignmentStyle,
@@ -176,11 +179,12 @@ export function alignmentUtilsCell(column, row, childStyle) {
   } else if (
     column.alignment.type?.toLowerCase() === "time" ||
     (column.alignment.type?.toLowerCase() !== "datetime" &&
+    typeof row==="object" && row[column.field] &&
       (moment(row[column.field], "hh:mm", true).isValid() ||
         moment(row[column.field], "hh:mm:ss", true).isValid() ||
         moment(row[column.field], "hh:mm:ss a", true).isValid() ||
         moment(row[column.field], "hh:mm a", true).isValid())) ||
-    (row[column.field] &&
+    (typeof row==="object" && row[column.field] &&
       column.alignment.type?.toLowerCase() !== "datetime" &&
       JSON.stringify(row[column.field]).split(":").length > 1)
   ) {
@@ -194,16 +198,17 @@ export function alignmentUtilsCell(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "datetime" ||
+    typeof row==="object" && row[column.field] &&
     (JSON.stringify(row[column.field])?.split(":").length > 1 &&
       (JSON.stringify(row[column.field])?.split("/").length === 3 ||
         JSON.stringify(row[column.field])?.split("-").length === 3))
   ) {
     const alignment = column.alignment.align
       ? {
-          textAlign: column.alignment.align,
-          paddingRight: "6px",
-          paddingLeft: "6px",
-        }
+        textAlign: column.alignment.align,
+        paddingRight: "6px",
+        paddingLeft: "6px",
+      }
       : { textAlign: "center", paddingRight: "6px", paddingLeft: "6px" };
     styles = {
       ...styles,
@@ -212,7 +217,7 @@ export function alignmentUtilsCell(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "number" ||
-    (typeof row[column.field] === "number" &&
+    (typeof row==="object" && typeof row[column.field] === "number" &&
       column.alignment.type !== "currency")
   ) {
     const alignment = column.alignment.align
@@ -225,7 +230,7 @@ export function alignmentUtilsCell(column, row, childStyle) {
     return styles;
   } else if (
     column.alignment.type?.toLowerCase() === "currency" ||
-    (JSON.stringify(row[column.field]) &&
+    (typeof row==="object" && JSON.stringify(row[column.field]) &&
       (symbol.includes(JSON.stringify(row[column.field])[1]) ||
         symbol.includes(
           JSON.stringify(row[column.field])[row[column.field].length]
@@ -245,7 +250,8 @@ export function alignmentUtilsCell(column, row, childStyle) {
   } else if (
     column.alignment.type?.toLowerCase() === "string" ||
     column.alignment.type?.toLowerCase() === "text" ||
-    typeof row[column.field] === "string"
+   ( typeof row==="object" &&
+    typeof row[column.field] === "string")
   ) {
     const alignment = column.alignment.align
       ? { textAlign: column.alignment.align }

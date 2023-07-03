@@ -235,7 +235,7 @@ function LaiDataGrid(props) {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
-        ref={gridRef}
+        innerRef={gridRef}
         selectedCellHeaderStyle={selectedCellHeaderStyle}
         selectedCellRowStyle={selectedCellRowStyle}
         valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}

@@ -13,6 +13,7 @@ export default function FilterRenderer({
 
   var style = { padding: "2px 5px", display: "flex", justifyContent: "center" };
 
+ 
   if (rowData && column.alignment) {
     style = column.alignment.align
       ? { ...style, justifyContent: column.alignment.align }

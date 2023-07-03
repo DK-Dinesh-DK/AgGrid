@@ -24,7 +24,7 @@ const cellResizable = css`
   }
 `;
 
-const cellResizableClassname = `rdg-cell-resizable ${cellResizable ?? ""}`;
+const cellResizableClassname = `rdg-cell-resizable ${cellResizable??""}`;
 
 export default function HeaderCell({
   column,
@@ -198,6 +198,7 @@ export default function HeaderCell({
     }
   }
 
+
   function handleColumnsReorder(sourceKey, targetKey) {
     const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
     const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
@@ -226,6 +227,8 @@ export default function HeaderCell({
     }),
   });
 
+
+
   let headerStyle = {
     display: "flex",
     height: "100%",
@@ -244,7 +247,7 @@ export default function HeaderCell({
   }
   return (
     <div
-      role="parentcolumn"
+     role="parentcolumn"
       aria-colindex={column.idx + 1}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
@@ -256,6 +259,9 @@ export default function HeaderCell({
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={style}
+      // onFocus={handleFocus}
+      // onClick={onClick}
+      // onDoubleClick={column.resizable ? onDoubleClick : undefined}
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       <div style={headerStyle}>
@@ -277,11 +283,11 @@ export default function HeaderCell({
           style,
           className,
           ChildColumnSetup,
-
           selectedPosition,
           headerRowHeight,
           selectedCellHeaderStyle,
           gridWidth,
+          //need to be chnaged
           shouldFocusGrid,
           onPointerDown,
         })}

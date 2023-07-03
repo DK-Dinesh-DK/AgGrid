@@ -18,21 +18,19 @@ const cellCopied = css`
   }
 `;
 
-const cellCopiedClassname = `rdg-cell-copied ${cellCopied ?? ""}`;
+const cellCopiedClassname = `rdg-cell-copied ${cellCopied??""}`;
 
 const cellDraggedOver = css`
   @layer rdg.Cell {
     background-color: #ccccff;
 
-    &.${cellCopied ?? ""} {
+    &.${cellCopied??""} {
       background-color: #9999ff;
     }
   }
 `;
 
-const cellDraggedOverClassname = `rdg-cell-dragged-over ${
-  cellDraggedOver ?? ""
-}`;
+const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver??""}`;
 
 const rowCellFreezeClassname = css`
   @layer rdg.rowCell {
@@ -100,8 +98,8 @@ function Cell({
     cellRendererParams?.value ?? row[column.key]
   );
   useUpdateEffect(() => {
-    setValue(cellRendererParams?.value ?? row[column.key]);
-  }, [cellRendererParams?.value, row[column.key]]);
+    setValue(cellRendererParams?.value ?? row[column.key])
+  }, [cellRendererParams?.value, row[column.key]])
 
   const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
@@ -134,9 +132,8 @@ function Cell({
 
   let style = {
     ...getCellStyle(column, colSpan, row),
-    "--rdg-summary-row-top": `${
-      headerheight + summaryRowHeight + rowIndex * 24
-    }px`,
+    "--rdg-summary-row-top": `${headerheight + summaryRowHeight + rowIndex * 24
+      }px`,
   };
   style =
     column.haveChildren === true
@@ -204,7 +201,7 @@ function Cell({
     }),
   });
   function handleDoubleClick(e) {
-    e.stopPropagation();
+    e.stopPropagation()
     onRowDoubleClick?.({
       api: api,
       data: row,
@@ -226,7 +223,7 @@ function Cell({
     });
   }
   function handleClick(e) {
-    e.stopPropagation();
+    e.stopPropagation()
     onRowClick?.({
       api: api,
       data: row,
@@ -279,25 +276,27 @@ function Cell({
       const content = document.getElementById(
         `${rowIndex}${row[column.key]}`
       ).innerHTML;
-      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-        content;
+      document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML = content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue;
+      row[column.key] = newValue
     },
     ...cellRendererParams,
     expandedMasterIds,
     onExpandedMasterIdsChange,
-  };
+  }
 
   if (column.cellStyle) {
     let dynamicStyle;
     if (typeof column.cellStyle === "function")
       dynamicStyle = column.cellStyle(params);
-    else dynamicStyle = column.cellStyle;
-    style = { ...style, ...dynamicStyle };
+    else
+      dynamicStyle = column.cellStyle
+    style = { ...style, ...dynamicStyle }
   }
 
   return (
@@ -314,8 +313,7 @@ function Cell({
       className={className}
       style={style}
       onFocus={onFocus}
-      {...props}
-    >
+      {...props}>
       {!column.rowGroup && (
         <>
           {column.rowDrag && (
@@ -324,22 +322,21 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{ display: "flex" }}
-            >
+              style={{ display: "flex" }}>
               <span
                 data-testid={`drag-icon-${column.idx}-${rowIndex}`}
                 style={{
                   cursor: "grab",
                   marginLeft: "10px",
                   marginRight: "5px",
-                }}
-              >
+                }}>
                 &#9674;
               </span>
               {column.cellRenderer(params)}
             </div>
           )}
-          {!column.rowDrag && column.cellRenderer(params)}
+          {!column.rowDrag &&
+            column.cellRenderer(params)}
         </>
       )}
     </div>

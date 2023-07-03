@@ -40,7 +40,6 @@ import RowComponent, { defaultRowRenderer } from "./Row";
 import GroupRowRenderer from "./GroupRow";
 import SummaryRow from "./SummaryRow";
 import EditCell from "./EditCell";
-// import DragHandle from "./DragHandle";
 import { default as defaultSortStatus } from "./sortStatus";
 import { checkboxFormatter as defaultCheckboxFormatter } from "./formatters";
 import {
@@ -311,6 +310,7 @@ function DataGrid(props) {
     return originalElement;
   };
 
+
   const onSortColumnsChange = (sortColumns) => {
     setSortColumns(sortColumns.slice(-1));
   };
@@ -480,7 +480,7 @@ function DataGrid(props) {
       length !== 0 &&
       selectedRows1 != null &&
       rowKeyGetter != null &&
-      selectedRows1.size >= length &&
+      selectedRows1?.size >= length &&
       rawRows.every((row) => selectedRows1.has(rowKeyGetter(row)))
     );
   }, [rawRows, selectedRows1, rowKeyGetter]);
@@ -516,15 +516,16 @@ function DataGrid(props) {
       return acc;
     }, {})
   );
-  var arr2 = groupingViaCommonProperty.map((arr) =>
+
+  let arr2 = groupingViaCommonProperty.map((arr) =>
     arr.reduce((sum, item) => (sum += item))
   );
 
   const newData = rawColumns.slice().map((item1, index) => {
-    var itemFromArr2 = arr2.find((item2, index2) => index === index2);
+    let itemFromArr2 = arr2.find((item2, index2) => index === index2);
 
     if (itemFromArr2) {
-      item1.width = itemFromArr2;
+      if (item1.haveChildren) item1.width = itemFromArr2;
     }
     return item1;
   });
@@ -962,11 +963,12 @@ function DataGrid(props) {
     });
     return colStates;
   }
+
   function applyColumnState(columnState) {
     const colState = columnState.state;
     const defaultState = columnState.defaultState ?? undefined;
     const newColWidths = new Map(columnWidths);
-    colState.forEach((col) => {
+    colState?.forEach((col) => {
       const colKey = col.colId;
       if (col.frozen) {
         const index = columns.findIndex((c) => c.key === colKey);
@@ -1001,7 +1003,7 @@ function DataGrid(props) {
       }
       if (col.sort !== undefined) {
         if (col.sort !== null) {
-          const index = sortColumns.findIndex(
+          const index = sortColumns?.findIndex(
             (sortCol) => sortCol.columnKey === colKey
           );
           if (index === -1)
@@ -1010,10 +1012,10 @@ function DataGrid(props) {
             sortColumns[index].direction = col.sort;
           onSortColumnsChange(sortColumns);
         } else {
-          const index = sortColumns.findIndex(
+          const index = sortColumns?.findIndex(
             (sortCol) => sortCol.columnKey === colKey
           );
-          if (index > -1) sortColumns.splice(index, 1);
+          if (index > -1) sortColumns?.splice(index, 1);
           onSortColumnsChange(sortColumns);
         }
       }
@@ -1021,7 +1023,7 @@ function DataGrid(props) {
     });
     if (defaultState) {
       let keysOfColumns = [];
-      colState.map((col) => keysOfColumns.push(col.colId));
+      if (colState) colState.map((col) => keysOfColumns.push(col.colId));
       columns.forEach((column) => {
         if (!keysOfColumns.includes(column.key)) {
           if (defaultState.frozen !== undefined)
@@ -1070,6 +1072,7 @@ function DataGrid(props) {
     }
     setRawColumns(columns);
   }
+
   function isPinning() {
     let isPinning = false;
     columns.forEach((col) => {
@@ -1429,8 +1432,6 @@ function DataGrid(props) {
   }
 
   function selectAllRows(checked) {
-    if (!onSelectedRowsChange1) return;
-
     const newSelectedRows = new Set(selectedRows1);
     const newSelectedRows1 = selectedRows;
     for (const row of rawRows) {
@@ -1839,13 +1840,11 @@ function DataGrid(props) {
 
     if (idx > lastFrozenColumnIndex) {
       const { rowIdx } = selectedPosition;
-      // if (!isCellWithinSelectionBounds({ rowIdx, idx })) {
-      //   return;
-      // }
       const { clientWidth } = current;
       const column = columns[idx];
       const { left, width } = columnMetrics.get(column);
       let right = left + width;
+
       const colSpan = getSelectedCellColSpan({
         rows,
         topSummaryRows,
@@ -2266,11 +2265,11 @@ function DataGrid(props) {
     }
     return leafNodes;
   }
-  function forEachLeafNode(callback, rowNodes) {
+  function forEachLeafNode(callback) {
     let updatedLeafNodes = [];
-    for (let i = 0; i < rowNodes?.length ?? LeafNodes.length; i++) {
-      callback(rowNodes[i] ?? LeafNodes[i]);
-      updatedLeafNodes.push(rowNodes[i].data ?? LeafNodes[i].data);
+    for (let i = 0; i < RowNodes?.length ?? LeafNodes.length; i++) {
+      callback(RowNodes[i] ?? LeafNodes[i]);
+      updatedLeafNodes.push(RowNodes[i].data ?? LeafNodes[i].data);
     }
     setRawRows(updatedLeafNodes);
   }
@@ -2303,7 +2302,6 @@ function DataGrid(props) {
 
   function selectAll(filteredRows) {
     if (!onSelectedRowsChange) return;
-
     const newSelectedRows = new Set(selectedRows1);
     const newSelectedRows1 = selectedRows;
     for (const row of filteredRows?.data ?? rawRows) {
@@ -2317,7 +2315,6 @@ function DataGrid(props) {
   }
   function deselectAll(filteredRows) {
     if (!onSelectedRowsChange) return;
-
     let newSelectedRows = new Set(selectedRows1);
     let newSelectedRows1 = selectedRows;
     for (const row of filteredRows?.data ?? rawRows) {
@@ -3089,7 +3086,6 @@ function DataGrid(props) {
           lastFrozenColumnIndex,
           onRowChange: handleFormatterRowChangeLatest,
           selectCell: selectViewportCellLatest,
-          // selectedCellDragHandle: getDragHandle(rowIdx),
           selectedCellEditor: getCellEditor(rowIdx),
           handleReorderRow: handleReorderRow,
           selectedPosition,

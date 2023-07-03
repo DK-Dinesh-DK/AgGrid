@@ -28,7 +28,7 @@
   align-items: center;
   padding: 5px;
   background-color: #0f243e;
-  font-family: "Segoe UI";
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 11.0186px;
@@ -83,7 +83,7 @@
   justify-content: space-between;
   align-items: flex-end;
   width: max-content;
-  font-family: "Segoe UI";
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 11px;
@@ -110,7 +110,7 @@
   min-width: 200px;
   display: flex;
   justify-content: center;
-  font-family: "Segoe UI";
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 11px;

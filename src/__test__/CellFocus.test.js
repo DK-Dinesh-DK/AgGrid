@@ -10,7 +10,7 @@ function LaiDataGrid(props) {
     for (let i = 0; i < 50; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
-      var row;
+      let row;
 
       row = {
         id,
@@ -58,7 +58,7 @@ function LaiDataGrid(props) {
       <button
         data-testid={"getFocusedCell"}
         onClick={() => {
-          console.log(gridRef.current.api.getFocusedCell());
+         gridRef.current.api.getFocusedCell();
         }}
       >
         getFocusedCell
@@ -66,7 +66,7 @@ function LaiDataGrid(props) {
       <button
         data-testid={"tabToNextCell"}
         onClick={() => {
-          console.log(gridRef.current.api.tabToNextCell());
+         gridRef.current.api.tabToNextCell();
         }}
       >
         tabToNextCell
@@ -74,7 +74,7 @@ function LaiDataGrid(props) {
       <button
         data-testid={"tabToPreviousCell"}
         onClick={() => {
-          console.log(gridRef.current.api.tabToPreviousCell());
+         gridRef.current.api.tabToPreviousCell();
         }}
       >
         tabToPreviousCell
@@ -83,7 +83,7 @@ function LaiDataGrid(props) {
       <button
         data-testid={"setFocusedCell"}
         onClick={() => {
-          console.log(gridRef.current.api.setFocusedCell(2, "format"));
+         gridRef.current.api.setFocusedCell(2, "format");
         }}
       >
         setFocusedCell
@@ -91,7 +91,7 @@ function LaiDataGrid(props) {
       <button
         data-testid={"clearFocusedCell"}
         onClick={() => {
-          console.log(gridRef.current.api.clearFocusedCell());
+         gridRef.current.api.clearFocusedCell();
         }}
       >
         clearFocusedCell

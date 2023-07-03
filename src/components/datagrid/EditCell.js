@@ -19,7 +19,6 @@ export default function EditCell({
   api,
   node,
   closeEditor,
-  handleReorderRow,
 }) {
   const frameRequestRef = useRef();
   const commitOnOutsideClick =
