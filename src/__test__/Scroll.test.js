@@ -2,8 +2,10 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useRef, useState } from "react";
-import { TextEditor } from "../components/datagrid/editors";
 
+beforeEach(() => {
+  window.ResizeObserver = null;
+});
 function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
@@ -114,7 +116,23 @@ function LaiDataGrid(props) {
       >
         scrollToRow
       </button>
+      <button
+        data-testid={"getVerticalPixelRange"}
+        onClick={() => {
+          console.log(gridlocalRef.current.api.getVerticalPixelRange());
+        }}
+      >
+        getVerticalPixelRange
+      </button>
 
+      <button
+        data-testid={"getHorizontalPixelRange"}
+        onClick={() => {
+          console.log(gridlocalRef.current.api.getHorizontalPixelRange());
+        }}
+      >
+        getHorizontalPixelRange
+      </button>
       <DataGrid
         columnData={columns}
         innerRef={gridlocalRef}
@@ -157,5 +175,21 @@ describe("Datagrid Unit test for Scroll", () => {
     fireEvent.click(scrolltoColumnBtn);
     const scrolltoRowBtn = screen.getByTestId("scrollToRow");
     expect(scrolltoRowBtn).toBeInTheDocument();
+  });
+  test("Datagrid Unit test for api function", () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const getVerticalPixelRangeBtn = screen.getByTestId(
+      "getVerticalPixelRange"
+    );
+    expect(getVerticalPixelRangeBtn).toBeInTheDocument();
+    fireEvent.click(getVerticalPixelRangeBtn);
+    const getHorizontalPixelRangeBtn = screen.getByTestId(
+      "getHorizontalPixelRange"
+    );
+    expect(getHorizontalPixelRangeBtn).toBeInTheDocument();
+    fireEvent.click(getHorizontalPixelRangeBtn);
   });
 });

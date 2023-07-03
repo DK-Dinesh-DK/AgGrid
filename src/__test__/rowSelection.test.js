@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 function LaiDataGrid(props) {
   function createRows() {
@@ -53,12 +53,22 @@ function LaiDataGrid(props) {
     },
   ];
   const [selectedRows, setSelectedRows] = useState([]);
+  const gridRef = useRef(null);
   return (
     <>
+      <button
+        data-testid={"setSuppressRowClickSelection"}
+        onClick={() => {
+          gridRef.current.api.setSuppressRowClickSelection(false);
+        }}
+      >
+        setSuppressRowClickSelection
+      </button>
       <DataGrid
         columnData={columns}
         testId={"laidatagrid"}
         rowData={rowData}
+        innerRef={gridRef}
         selectedRows={selectedRows}
         {...props}
       />
@@ -117,5 +127,18 @@ describe("rowSelection event test", () => {
       ctrlKey: true,
     });
     expect(mockOnSelect).toBeCalled();
+    fireEvent.click(gridcell1);
+    fireEvent.click(gridcell1);
+  });
+  test.only("setSuppressRowClickSelection api  ", async () => {
+    render(<LaiDataGrid rowSelection={"multiple"} />);
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+
+    const setSuppressRowClickSelectionBtn = screen.getByTestId(
+      "setSuppressRowClickSelection"
+    );
+    expect(setSuppressRowClickSelectionBtn).toBeInTheDocument();
+    fireEvent.click(setSuppressRowClickSelectionBtn);
   });
 });

@@ -150,4 +150,18 @@ describe("rowSelection event test", () => {
     fireEvent.click(cellElement);
     fireEvent.keyDown(cellElement, { key: "Enter" });
   });
+  test.only("key down arrow", async () => {
+    render(
+      <LaiDataGrid
+        onCopy={(params) => console.log(params)}
+        onPaste={(params) => console.log(params)}
+      />
+    );
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const cellElement = screen.getByText("price-0");
+    expect(cellElement).toBeInTheDocument();
+    fireEvent.keyDown(cellElement, { key: "a", ctrlKey: true });
+    fireEvent.keyDown(screenArea, { key: "c", ctrlKey: true });
+  });
 });

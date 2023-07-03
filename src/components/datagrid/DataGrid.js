@@ -2012,11 +2012,6 @@ function DataGrid(props) {
     };
   }
 
-  function handleFill({ columnKey, sourceRow, targetRow }) {
-    return { ...targetRow, [columnKey]: sourceRow[columnKey] };
-  }
-
-
   function getCellEditor(rowIdx) {
     if (
       selectedPosition.rowIdx !== rowIdx ||

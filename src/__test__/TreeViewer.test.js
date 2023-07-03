@@ -165,7 +165,6 @@ describe("Datagrid Unit test for Tree view", () => {
     fireEvent.click(expandbtn);
     fireEvent.click(expandbtn);
     fireEvent.click(expandbtn);
-
   });
   test("print window check only serial", () => {
     render(<LaiDataGrid serialNumber={true} />);

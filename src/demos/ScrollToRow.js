@@ -5,7 +5,13 @@ import { TextEditor } from "../components/datagrid/editors";
 const columns = [
   { field: "id", headerName: "ID" },
   { field: "title", headerName: "Title" },
-  { field: "count", headerName: "Count",cellEditor:TextEditor },
+  {
+    field: "count",
+    headerName: "Count",
+    cellRenderer: (params) => {
+      return TextEditor(params);
+    },
+  },
 ];
 
 export default function ScrollToRow({ direction }) {
@@ -41,6 +47,7 @@ export default function ScrollToRow({ direction }) {
         >
           Scroll to row
         </button>
+        
       </div>
       <DataGrid
         ref={gridRef}

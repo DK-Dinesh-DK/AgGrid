@@ -8,8 +8,19 @@ import {
   exportToPdf,
   exportToXlsx,
 } from "../components/datagrid/exportUtils";
-// import * as FileSaver from "file-saver";
+import * as FileSaver from "file-saver";
+import * as XLSX from "xlsx";
 
+jest.mock("file-saver", () => ({
+  saveAs: jest.fn(),
+}));
+
+jest.mock("xlsx", () => ({
+  utils: {
+    json_to_sheet: jest.fn(),
+  },
+  write: jest.fn(),
+}));
 function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
@@ -116,5 +127,38 @@ describe("Datagrid Unit test for Export", () => {
     const pdfbtn = screen.getByTestId("Export to PDF");
     expect(pdfbtn).toBeInTheDocument();
     fireEvent.click(pdfbtn);
+  });
+  test("exports data to XLSX file", async () => {
+    const fileData = [
+      { id: 1, name: "John Doe" },
+      { id: 2, name: "Jane Smith" },
+    ];
+    const columns = [
+      { field: "id", headerName: "ID" },
+      { field: "name", headerName: "Name" },
+    ];
+    const fileName = "data";
+
+    const expectedFileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const expectedFileExtension = ".xlsx";
+    const expectedSheetData = { data: "mockSheetData" };
+    const expectedExcelBuffer = "mockExcelBuffer";
+    const expectedBlob = { type: expectedFileType };
+
+    // Mock the necessary functions and return values
+    XLSX.utils.json_to_sheet.mockReturnValue(expectedSheetData);
+    XLSX.write.mockReturnValue(expectedExcelBuffer);
+    window.Blob = jest.fn().mockImplementation(() => expectedBlob);
+
+    exportToXlsx(fileData, columns, fileName);
+
+    // Check if the necessary functions were called with the correct arguments
+    expect(XLSX.utils.json_to_sheet).toHaveBeenCalledWith(fileData);
+    expect(XLSX.write).toHaveBeenCalledTimes(1);
+    expect(FileSaver.saveAs).toHaveBeenCalledWith(
+      expectedBlob,
+      fileName + expectedFileExtension
+    );
   });
 });

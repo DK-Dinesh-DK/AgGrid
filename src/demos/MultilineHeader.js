@@ -21,8 +21,8 @@ export default function MultilineHeader({ direction }) {
         id: `${i}`,
 
         erer: `email${i}`,
-        title1: `title-1${i}`,
-        title2: `title-2${i}`,
+        title1: `title-1-${i}`,
+        title2: `title-2-${i}`,
         ffff: `firstName${i}`,
         cvcv: `lastName${i}`,
         qqqq: `qq${i}`,
@@ -31,6 +31,7 @@ export default function MultilineHeader({ direction }) {
         eeee1: `name${i}`,
         rdrd: `words${i}`,
         pppp2: `sentence${i}`,
+        llll: `LLL-${i}`,
       });
     }
 
@@ -115,13 +116,17 @@ export default function MultilineHeader({ direction }) {
                   headerName: "FFFF",
                   width: 100,
                   alignment: true,
-                  cellEditor: TextEditor,
+                  cellEditor: (params) => {
+                    console.log(params.getValue());
+                    TextEditor(params);
+                  },
                 },
                 {
                   field: "qweasd",
                   headerName: "DFSDF",
                   width: 100,
                   alignment: true,
+                  sortable: true,
                   cellRenderer: (params) => {
                     console.log(params.getValue());
                     TextEditor(params);
@@ -138,6 +143,7 @@ export default function MultilineHeader({ direction }) {
                       width: 100,
                       alignment: true,
                       editable: true,
+                      resizable: true,
                     },
                     {
                       field: "pppp",
