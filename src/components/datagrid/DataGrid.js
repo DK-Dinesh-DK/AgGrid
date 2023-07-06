@@ -1567,7 +1567,7 @@ function DataGrid(props) {
 
     if (
       selectedCellIsWithinViewportBounds &&
-      (onPaste != null || onCopy != null) &&
+      // (onPaste != null || onCopy != null) &&
       isCtrlKeyHeldDown(event) &&
       !isGroupRow(rows[rowIdx]) &&
       selectedPosition.mode === "SELECT"
@@ -2754,7 +2754,8 @@ function DataGrid(props) {
     },
     setFilterModel: (value) => setFilters({ ...filters, ...value }),
     destroyFilter: (key) => {
-      const sample = filters;
+      let sample = filters;
+      sample[key] = "";
       setFilters({ ...sample });
     },
     setSuppressRowDrag,

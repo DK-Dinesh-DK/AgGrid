@@ -95,6 +95,7 @@ function LaiDataGrid(props) {
         topSummaryRows={summaryRowsTop}
         bottomSummaryRows={summaryRowsBottom}
         className="fill-grid"
+        rowSelection={"single"}
       />
     </>
   );
@@ -106,8 +107,13 @@ describe("Datagrid Unit test for Summarry Row", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const summarycell = screen.getByRole("gridcell", { name: "5-records" });
+    const summarycell = screen.getByRole("gridcell", { name: "11-records" });
     expect(summarycell).toBeInTheDocument();
     fireEvent.click(summarycell);
+    const summarycellBottom = screen.getByRole("gridcell", {
+      name: "5-records",
+    });
+    expect(summarycellBottom).toBeInTheDocument();
+    fireEvent.click(summarycellBottom);
   });
 });

@@ -116,7 +116,24 @@ describe("Datagrid Unit test for Export", () => {
 
     const excelbtn = screen.getByTestId("Export to XSLX");
     expect(excelbtn).toBeInTheDocument();
-    // fireEvent.click(excelbtn);
+    const expectedFileType =
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+    const expectedFileExtension = ".xlsx";
+    const expectedSheetData = { data: "mockSheetData" };
+    const expectedExcelBuffer = "mockExcelBuffer";
+    const expectedBlob = { type: expectedFileType };
+
+    // Mock the necessary functions and return values
+    XLSX.utils.json_to_sheet.mockReturnValue(expectedSheetData);
+    XLSX.write.mockReturnValue(expectedExcelBuffer);
+    window.Blob = jest.fn().mockImplementation(() => expectedBlob);
+
+    fireEvent.click(excelbtn);
+
+    // Check if the necessary functions were called with the correct arguments
+    // expect(XLSX.utils.json_to_sheet).toHaveBeenCalledWith(fileData);
+    expect(XLSX.write).toHaveBeenCalledTimes(1);
+    expect(FileSaver.saveAs).toHaveBeenCalledTimes(1);
   });
   test("pdf button and download", async () => {
     render(<LaiDataGrid />);

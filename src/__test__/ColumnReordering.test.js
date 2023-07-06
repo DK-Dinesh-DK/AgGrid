@@ -3,6 +3,7 @@ import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useRef } from "react";
+import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
   function createRows() {
@@ -29,65 +30,71 @@ function LaiDataGrid(props) {
   const gridRef = useRef(null);
   const columns = [
     {
-      headerName: "trial",
-      field: "",
-      width: 45,
-    },
-    {
       field: "id",
       headerName: "ID",
+      topHeader: "id",
       width: 80,
-      rowDrag: true,
     },
     {
       field: "task",
       headerName: "Title",
+      resizable: true,
+      topHeader: "task",
+      sortable: true,
+      cellEditor: TextEditor,
     },
     {
       field: "priority",
       headerName: "Priority",
+      topHeader: "priority",
+      resizable: true,
+      sortable: true,
     },
     {
       field: "issueType",
       headerName: "Issue Type",
+      resizable: true,
+      topHeader: "issueType",
+      sortable: true,
     },
     {
       field: "complete",
       headerName: "% Complete",
+      topHeader: "complete",
+      headerRenderer: () => {
+        return <span>% Complete</span>;
+      },
+      resizable: true,
+      sortable: true,
     },
   ];
+
   return (
     <>
-      <button
-        data-testid={"setSuppressRowDrag"}
-        onClick={() => {
-          gridRef.current.api.setSuppressRowDrag(true);
-        }}
-      >
-        GetValue
-      </button>
+      {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
+        columnReordering={true}
         testId={"laidatagrid"}
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
-        innerRef={gridRef}
+        ref={gridRef}
         {...props}
       />
     </>
   );
 }
 
-describe("Datagrid Unit test for Row Reorder", () => {
-  test("Row Reorder", async () => {
+describe("Datagrid Unit test for column Reorder", () => {
+  test("column Reorder", async () => {
     render(<LaiDataGrid />);
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
 
-    const firstColumn = screen.getByTestId("drag-icon-1-0");
-    const targetColumn = screen.getByTestId("drag-icon-1-3");
+    const firstColumn = screen.getByText("Priority");
+    const targetColumn = screen.getByText("Title");
     expect(firstColumn).toBeInTheDocument();
     expect(targetColumn).toBeInTheDocument();
 
@@ -97,14 +104,30 @@ describe("Datagrid Unit test for Row Reorder", () => {
     fireEvent.drop(targetColumn);
     fireEvent.dragEnd(firstColumn);
   });
-  test("Row Reorder suppress Row Drag", async () => {
+  test("column onClcik", async () => {
     render(<LaiDataGrid />);
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
 
-    const suppressbtn = screen.getByTestId("setSuppressRowDrag");
-    expect(suppressbtn).toBeInTheDocument();
-    fireEvent.click(suppressbtn);
+    const columnCell = screen.getByText("% Complete");
+    expect(columnCell).toBeInTheDocument();
+    fireEvent.click(columnCell);
+  });
+  test("Edit cell UseEffect", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+
+    const columnCell = screen.getByText("Task 1");
+    expect(columnCell).toBeInTheDocument();
+    fireEvent.doubleClick(columnCell);
+
+    let input = screen.getByRole("gridcellTextbox");
+    expect(input).toBeInTheDocument();
+    userEvent.click(input);
+    const ceell = screen.getByText("Task 2");
+    fireEvent.click(ceell);
   });
 });

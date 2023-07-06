@@ -30,7 +30,26 @@ function LaiDataGrid(props) {
     return rows;
   }
   const rowData = createRows();
-
+  const summaryRowsTop = [
+    {
+      id: "id",
+      erer: `email`,
+      title1: `title-1-`,
+      title2: `title-2-`,
+      ffff: `firstName}`,
+      cvcv: `lastName`,
+    },
+  ];
+  const summaryRowsBottom = [
+    {
+      id: "id-bottom",
+      erer: `email-bottom`,
+      title1: `title-1-bottom`,
+      title2: `title-2-bottom`,
+      ffff: `firstName-bottom`,
+      cvcv: `lastName-bottom`,
+    },
+  ];
   const columns = [
     {
       field: "id",
@@ -40,6 +59,14 @@ function LaiDataGrid(props) {
       frozen: true,
       alignment: true,
       cellEditor: TextEditor,
+      summaryFormatter(props) {
+        return props.row.id;
+      },
+      colSpan: (props) => {
+        if (props.type === "SUMMARY" && props.rowIndex === 0) {
+          return 2;
+        }
+      },
     },
     {
       field: "rdrd",
@@ -241,6 +268,8 @@ function LaiDataGrid(props) {
         valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
         onCellClicked={() => console.log("Cell Clciked")}
         onCellDoubleClicked={() => console.log("Cell Double Clciked")}
+        topSummaryRows={summaryRowsTop}
+        bottomSummaryRows={summaryRowsBottom}
         {...props}
       />
     </>

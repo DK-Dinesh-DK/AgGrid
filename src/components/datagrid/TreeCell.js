@@ -151,6 +151,7 @@ function TreeCell({
           treeData: props.treeData,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
+          onCellClick: props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -184,6 +185,7 @@ function TreeCell({
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
+          onCellClick: props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -254,21 +256,22 @@ function TreeCell({
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
+          onCellClick: props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
           eGridCell: gridCell.current,
-          refreshCell: () => {
-            const content = document.getElementById(
-              `${rowIndex}${row[column.key]}`
-            ).innerHTML;
-            document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-              content;
-          },
+          // refreshCell: () => {
+          //   const content = document.getElementById(
+          //     `${rowIndex}${row[column.key]}`
+          //   ).innerHTML;
+          //   document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+          //     content;
+          // },
           getValue: () => value,
-          setValue: (newValue) => {
-            setValue(newValue);
-          },
+          // setValue: (newValue) => {
+          //   setValue(newValue);
+          // },
           ...cellRendererParams,
         })}
       {column.idx === 1 && !selection && serialNumber && (
@@ -416,6 +419,7 @@ function TreeCell({
           treeData: props.treeData,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
+          onCellClick: props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -448,21 +452,22 @@ function TreeCell({
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
+          onCellClick: props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
           eGridCell: gridCell.current,
-          refreshCell: () => {
-            const content = document.getElementById(
-              `${rowIndex}${row[column.key]}`
-            ).innerHTML;
-            document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-              content;
-          },
+          // refreshCell: () => {
+          //   const content = document.getElementById(
+          //     `${rowIndex}${row[column.key]}`
+          //   ).innerHTML;
+          //   document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+          //     content;
+          // },
           getValue: () => value,
-          setValue: (newValue) => {
-            setValue(newValue);
-          },
+          // setValue: (newValue) => {
+          //   setValue(newValue);
+          // },
           ...cellRendererParams,
         })}
     </div>

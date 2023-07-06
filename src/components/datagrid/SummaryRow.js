@@ -74,10 +74,11 @@ function SummaryRow({
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "SUMMARY",
       row,
+      rowIndex: rowIdx,
     });
-    // if (colSpan !== undefined) {
-    //   index += colSpan - 1;
-    // }
+    if (colSpan !== undefined) {
+      index += colSpan - 1;
+    }
 
     const isCellSelected = selectedCellIdx === column.idx;
 

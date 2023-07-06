@@ -71,7 +71,7 @@ function LaiDataGrid(props) {
   );
 }
 describe("rowSelection event test", () => {
-  test.only("Copy Paste event ", async () => {
+  test("Copy Paste event ", async () => {
     render(<LaiDataGrid restriction={{ copy: true, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -81,7 +81,7 @@ describe("rowSelection event test", () => {
     fireEvent.click(removebtn);
     fireEvent.click(removebtn);
   });
-  test.only("copy checking ", async () => {
+  test("copy checking ", async () => {
     render(<LaiDataGrid restriction={{ copy: false, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -98,14 +98,14 @@ describe("rowSelection event test", () => {
     fireEvent.click(cellEle);
     fireEvent.keyDown(cellEle, { key: "v", ctrlKey: true });
   });
-  test.only("key down escape", async () => {
+  test("key down escape", async () => {
     render(<LaiDataGrid restriction={{ copy: false, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
     fireEvent.keyDown(screenArea);
     fireEvent.keyDown(screenArea, { key: "Escape" });
   });
-  test.only("key down arrow", async () => {
+  test("key down arrow", async () => {
     render(<LaiDataGrid restriction={{ copy: false, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -123,7 +123,7 @@ describe("rowSelection event test", () => {
     fireEvent.keyDown(cellElement, { key: "PageDown" });
     fireEvent.keyDown(cellElement, { key: "Escape" });
   });
-  test.only("key down arrow", async () => {
+  test("key down arrow", async () => {
     render(<LaiDataGrid restriction={{ copy: false, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -141,7 +141,7 @@ describe("rowSelection event test", () => {
     fireEvent.keyDown(cellElement, { key: "PageDown" });
     fireEvent.keyDown(cellElement, { key: "Escape" });
   });
-  test.only("key down arrow", async () => {
+  test("key down arrow", async () => {
     render(<LaiDataGrid restriction={{ copy: false, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -150,18 +150,23 @@ describe("rowSelection event test", () => {
     fireEvent.click(cellElement);
     fireEvent.keyDown(cellElement, { key: "Enter" });
   });
-  test.only("key down arrow", async () => {
+  test("key down arrow", async () => {
     render(
       <LaiDataGrid
         onCopy={(params) => console.log(params)}
         onPaste={(params) => console.log(params)}
+        onRowsChange={(params) => console.log(params)}
       />
     );
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const cellElement = screen.getByText("price-0");
+    const cellElement = screen.getByText("supplier-0");
     expect(cellElement).toBeInTheDocument();
-    fireEvent.keyDown(cellElement, { key: "a", ctrlKey: true });
-    fireEvent.keyDown(screenArea, { key: "c", ctrlKey: true });
+    fireEvent.click(cellElement);
+    fireEvent.keyDown(cellElement, { key: "c", keyCode: 67, ctrlKey: true });
+    const cellElement1 = screen.getByText("price-0");
+    expect(cellElement1).toBeInTheDocument();
+    fireEvent.keyDown(cellElement1, { key: "v", keyCode: 86, ctrlKey: true });
+    // fireEvent.keyDown(screenArea, { key: "c", keyCode: 67, ctrlKey: true });
   });
 });

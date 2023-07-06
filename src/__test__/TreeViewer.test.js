@@ -153,6 +153,124 @@ function LaiDataGrid(props) {
     </>
   );
 }
+function LaiDataGrid1(props) {
+  function createRows() {
+    const rows = [];
+    for (let i = 0; i < 10; i++) {
+      const price = Math.random() * 30;
+      const id = `row${i}`;
+      var row;
+      if (i < 1 || i == 3) {
+        row = {
+          id,
+          name: `supplier ${i}`,
+          format: `package-${i}`,
+          position: "Run of site",
+          price,
+          children: [
+            {
+              id: `${id}-0`,
+              parentId: id,
+              name: `supplier ${id}-0`,
+              format: "728x90",
+              position: "run of site",
+              price: price / 2,
+            },
+            {
+              id: `${id}-1`,
+              parentId: id,
+              name: `supplier ${id}-1`,
+              format: "480x600",
+              position: "run of site",
+              price: price * 0.25,
+              children: [
+                {
+                  id: `${id}-1-1`,
+                  parentId: id,
+                  name: `supplier ${id}-1-1`,
+                  format: "728x90",
+                  position: "run of site",
+                  price: price / 2,
+                  children: [
+                    {
+                      id: `${id}-1-1-0`,
+                      parentId: id,
+                      name: `supplier ${id}-1-1-0`,
+                      format: "728x90",
+                      position: "run of site",
+                      price: price / 2,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: `${id}-2`,
+              parentId: id,
+              name: `supplier${id}-2`,
+              format: "328x70",
+              position: "run of site",
+              price: price * 0.25,
+            },
+          ],
+        };
+      } else {
+        row = {
+          id,
+          name: `supplier-${i}`,
+          format: `package ${i}`,
+          position: "Run of site",
+          price,
+        };
+      }
+      rows.push(row);
+    }
+    return rows;
+  }
+  const rowData = createRows();
+
+  const columns = [
+    {
+      field: "id",
+      headerName: "id",
+      frozen: true,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 100,
+    },
+    {
+      field: "format",
+      headerName: "format",
+    },
+    {
+      field: "position",
+      headerName: "position",
+    },
+    {
+      field: "price",
+      headerName: "price",
+      sortable: true,
+    },
+  ];
+  const gridRef = useRef(null);
+  return (
+    <>
+      <DataGrid
+        columnData={columns}
+        testId={"laidatagrid1"}
+        rowData={rowData}
+        headerRowHeight={24}
+        className="fill-grid"
+        rowSelection={"multiple"}
+        treeData={true}
+        ref={gridRef}
+        {...props}
+      />
+    </>
+  );
+}
 
 describe("Datagrid Unit test for Tree view", () => {
   test("Tree view", async () => {
@@ -212,7 +330,18 @@ describe("Datagrid Unit test for Tree view", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    // const checkBoxInput = screen.getByTestId("grid-checkbox-undefined");
-    // expect(checkBoxInput).toBeInTheDocument();
+  });
+  test("Treeview Row select", () => {
+    render(<LaiDataGrid1 />);
+
+    const screenArea = screen.getByTestId("laidatagrid1");
+    expect(screenArea).toBeInTheDocument();
+    const gridcell = screen.getByText("package-0");
+    expect(gridcell).toBeInTheDocument();
+    fireEvent.click(gridcell);
+    const gridcell1 = screen.getByText("package-3");
+    expect(gridcell1).toBeInTheDocument();
+    fireEvent.click(gridcell1, { ctrlKey: true });
+    fireEvent.click(gridcell, { ctrlKey: true });
   });
 });

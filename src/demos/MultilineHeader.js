@@ -38,6 +38,17 @@ export default function MultilineHeader({ direction }) {
     return rows;
   }
 
+  const summaryRowsTop = [
+    {
+      id: "id",
+      erer: `email`,
+      title1: `title-1-`,
+      title2: `title-2-`,
+      ffff: `firstName}`,
+      cvcv: `lastName`,
+    },
+  ];
+
   const columns = [
     {
       field: "id",
@@ -47,6 +58,14 @@ export default function MultilineHeader({ direction }) {
       frozen: true,
       alignment: true,
       cellEditor: TextEditor,
+      summaryFormatter(props) {
+        return props.row.id;
+      },
+      colSpan: (props) => {
+        if (props.type === "SUMMARY" && props.rowIndex === 0) {
+          return 2;
+        }
+      },
     },
     {
       field: "rdrd",
@@ -232,6 +251,7 @@ export default function MultilineHeader({ direction }) {
     backgroundColor: "red",
     fontSize: "12px",
   };
+
   return (
     <DataGrid
       columnData={columns}
@@ -245,6 +265,8 @@ export default function MultilineHeader({ direction }) {
       onRowClicked={(props) => {
         console.log("Data", props);
       }}
+      topSummaryRows={summaryRowsTop}
+      // bottomSummaryRows={summaryRowsBottom}
     />
   );
 }

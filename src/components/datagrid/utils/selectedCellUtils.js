@@ -44,8 +44,9 @@ export function getSelectedCellColSpan({
   ) {
     return getColSpan(column, lastFrozenColumnIndex, {
       type: "SUMMARY",
-      row: topSummaryRows[rowIdx + topSummaryRowsCount]
-    })
+      row: topSummaryRows[rowIdx + topSummaryRowsCount],
+      rowIndex: rowIdx + topSummaryRowsCount,
+    });
   }
 
   if (rowIdx >= 0 && rowIdx < rows.length) {
@@ -59,8 +60,9 @@ export function getSelectedCellColSpan({
   if (bottomSummaryRows) {
     return getColSpan(column, lastFrozenColumnIndex, {
       type: "SUMMARY",
-      row: bottomSummaryRows[rowIdx - rows.length]
-    })
+      row: bottomSummaryRows[rowIdx - rows.length],
+      rowIndex: rowIdx - rows.length,
+    });
   }
 
   return undefined

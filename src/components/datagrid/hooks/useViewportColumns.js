@@ -55,7 +55,11 @@ export function useViewportColumns({
         if (
           updateStartIdx(
             colIdx,
-            getColSpan(column, lastFrozenColumnIndex, { type: "ROW", row })
+            getColSpan(column, lastFrozenColumnIndex, {
+              type: "ROW",
+              row,
+              rowIndex: rowIdx,
+            })
           )
         ) {
           break;

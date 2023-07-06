@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { floor, max, min } from "../utils";
 
@@ -144,8 +143,8 @@ export function useViewportRows({
     return {
       totalRowHeight,
       gridTemplateRows,
-      getRowTop: (rowIdx) => rowPositions[validateRowIdx(rowIdx)].top,
-      getRowHeight: (rowIdx) => rowPositions[validateRowIdx(rowIdx)].height,
+      getRowTop: (rowIdx) => rowPositions[validateRowIdx(rowIdx)]?.top,
+      getRowHeight: (rowIdx) => rowPositions[validateRowIdx(rowIdx)]?.height,
       findRowIdx(offset) {
         let start = 0;
         let end = rowPositions.length - 1;

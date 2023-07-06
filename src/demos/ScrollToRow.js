@@ -3,11 +3,12 @@ import DataGrid from "../components/datagrid/DataGrid";
 import { TextEditor } from "../components/datagrid/editors";
 
 const columns = [
-  { field: "id", headerName: "ID" },
-  { field: "title", headerName: "Title" },
+  { field: "id", headerName: "ID", filter: true },
+  { field: "title", headerName: "Title", filter: true },
   {
     field: "count",
     headerName: "Count",
+    editable: true,
     cellRenderer: (params) => {
       return TextEditor(params);
     },
@@ -43,18 +44,19 @@ export default function ScrollToRow({ direction }) {
         />
         <button
           type="button"
-          onClick={() => gridRef.current.scrollToRow(value)}
+          onClick={() => gridRef.current.api.destroyFilter("id")}
         >
-          Scroll to row
+          destroyFilter
         </button>
-        
       </div>
       <DataGrid
-        ref={gridRef}
+        innerRef={gridRef}
         columnData={columns}
         rowData={rows}
         direction={direction}
         valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
+        onPaste={(params) => console.log(params)}
+        onRowsChange={(params) => console.log(params)}
       />
     </>
   );
