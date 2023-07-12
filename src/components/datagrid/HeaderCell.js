@@ -6,7 +6,7 @@ import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { filterColumnClassName } from "./style";
 import { useDrag, useDrop } from "react-dnd";
-import alignmentUtilsHeader from "./alignMentUtils";
+import alignmentUtils from "./utils/alignMentUtils";
 
 const cellResizable = css`
   @layer rdg.HeaderCell {
@@ -238,12 +238,12 @@ export default function HeaderCell({
   if (column.alignment) {
     headerStyle = column.alignment.align
       ? { ...headerStyle, justifyContent: column.alignment.align }
-      : alignmentUtilsHeader(column, rows[0], headerStyle);
+      : alignmentUtils(column, rows[0], headerStyle, "Header");
   }
   if (column.alignment) {
     style = column.alignment.align
       ? { ...style, justifyContent: column.alignment.align }
-      : alignmentUtilsHeader(column, rows[0], style);
+      : alignmentUtils(column, rows[0], style, "Header");
   }
   return (
     <div

@@ -1,99 +1,130 @@
-import React from "react";
+import React, { useRef } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
-import TextEditor from "../components/datagrid/editors/textEditor";
-import { faker } from "@faker-js/faker";
-import moment from "moment";
-export default function TreeView({ direction }) {
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 80,
-      alignment: { type: "number" },
+import { TextEditor } from "../components/datagrid/editors";
 
-      summaryFormatter(props) {
-        return <strong>Total-{props.column.idx}</strong>;
-      },
-    },
-    {
-      field: "firstName",
-      headerName: "First Name",
-      width: 100,
-      alignment: true,
-      colSpan: (props) => {
-        console.log("Propss", props);
-        if (props.type === "ROW" && props.rowIndex === 1) {
-          return 3;
-        }
-      },
-      summaryCellClass: (props) => {
-        console.log("props");
-      },
-      summaryFormatter({ row }) {
-        return <>{row.totalids}-records</>;
-      },
-    },
-
-    {
-      field: "lastName",
-      headerName: "Last Name",
-      width: 100,
-      alignment: { type: "string" },
-    },
-
-    {
-      field: "time",
-      headerName: "Time",
-      // width: 150,
-      alignment: { type: "Time" },
-    },
-    {
-      field: "datetime",
-      headerName: "DateTime",
-      alignment: { type: "datetime" },
-    },
-  ];
-
+export default function TreeView() {
   function createRows() {
     const rows = [];
-
     for (let i = 0; i < 10; i++) {
-      rows.push({
-        id: i,
-        email: `${faker.internet.email()} `,
-        title: faker.name.prefix(),
-        firstName: faker.name.firstName(),
-        lastName: `lastName-${i}`,
-        date: moment(faker.date.past().toLocaleDateString()).format(
-          "MMMM-DD-YYYY"
-        ),
-        money: "₹101",
-        time: new Date().toLocaleTimeString("en-IN"),
-        datetime: moment(new Date()).format("MM-DD-YYYY h:mm:ss a"),
-      });
+      const price = Math.random() * 30;
+      const id = `row${i}`;
+      var row;
+      if (i < 1 || i == 3) {
+        row = {
+          id,
+          name: `supplier ${i}`,
+          format: `package ${i}`,
+          position: "Run of site",
+          price,
+          children: [
+            {
+              id: `${id}-0`,
+              parentId: id,
+              name: `supplier ${i}`,
+              format: "728x90",
+              position: "run of site",
+              price: price / 2,
+            },
+            {
+              id: `${id}-1`,
+              parentId: id,
+              name: `supplier ${i}`,
+              format: "480x600",
+              position: "run of site",
+              price: price * 0.25,
+              children: [
+                {
+                  id: `${id}-1-1`,
+                  parentId: id,
+                  name: `supplier ${i}`,
+                  format: "728x90",
+                  position: "run of site",
+                  price: price / 2,
+                  children: [
+                    {
+                      id: `${id}-1-1-0`,
+                      parentId: id,
+                      name: `supplier-${i}`,
+                      format: "728x90",
+                      position: "run of site",
+                      price: price / 2,
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: `${id}-2`,
+              parentId: id,
+              name: `supplier-${i}`,
+              format: "328x70",
+              position: "run of site",
+              price: price * 0.25,
+            },
+          ],
+        };
+      } else {
+        row = {
+          id,
+          name: `supplier-${i}`,
+          format: `package ${i}`,
+          position: "Run of site",
+          price,
+        };
+      }
+      rows.push(row);
     }
-
     return rows;
   }
   const rowData = createRows();
-  const summaryRowsTop = [
-    { totalids: rowData.length },
-    { totalids: rowData.length + 1 },
-    { totalids: rowData.length + 2 },
-  ];
-  const summaryRowsBottom = [{ totalids: rowData.length / 2 }];
 
+  const columns = [
+    {
+      field: "id",
+      headerName: "id",
+      frozen: true,
+    },
+    {
+      field: "name",
+      headerName: "Name",
+      width: 100,
+      filter: true,
+    },
+    {
+      field: "format",
+      headerName: "format",
+    },
+    {
+      field: "position",
+      headerName: "position",
+      cellRenderer: (params) => {
+        return TextEditor(params);
+      },
+    },
+    {
+      field: "price",
+      headerName: "price",
+      sortable: true,
+    },
+  ];
+  const gridRef = useRef(null);
   return (
     <>
+      {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
         testId={"laidatagrid"}
         rowData={rowData}
         headerRowHeight={24}
-        topSummaryRows={summaryRowsTop}
-        bottomSummaryRows={summaryRowsBottom}
-        rowSelection={"single"}
         className="fill-grid"
+        treeData={true}
+        ref={gridRef}
+        valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
+        onRowsChange={(data) => {
+          console.log("Data", data);
+        }}
+        // selection={true}
+        serialNumber={true}
       />
     </>
   );

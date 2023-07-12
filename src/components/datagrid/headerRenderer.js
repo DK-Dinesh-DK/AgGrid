@@ -5,7 +5,7 @@ import FilterRenderer from "./FilterRenderer";
 import SortableHeaderCell from "./SortableHeaderCell";
 import { RecordsFilter as FilterIcon } from "../../assets/Icon";
 import { FilterRendererWithSvg } from "./FilterRendererWithSvg";
-import alignmentUtilsHeader from "./alignMentUtils";
+import alignmentUtils from "./utils/alignMentUtils";
 
 const filterIcon = <FilterIcon />;
 
@@ -72,7 +72,6 @@ export default function HeaderRenderer({
               justifyContent: "center",
             };
 
-
             return (
               <div style={style_fg} key={info.field}>
                 {RecursiveScan(
@@ -126,7 +125,7 @@ export default function HeaderRenderer({
     if (column.alignment) {
       style = column.alignment.align
         ? { ...style, justifyContent: column.alignment.align }
-        : alignmentUtilsHeader(column, rows[0], style);
+        : alignmentUtils(column, rows[0], style, "Header");
     }
     if (selectedCellHeaderStyle && selectedPosition.idx === column.idx)
       style = { ...style, ...selectedCellHeaderStyle };
@@ -163,7 +162,7 @@ export default function HeaderRenderer({
     if (column.alignment) {
       style_1 = column.alignment.align
         ? { ...style_1, justifyContent: column.alignment.align }
-        : alignmentUtilsHeader(column, rows[0], style_1);
+        : alignmentUtils(column, rows[0], style_1, "Header");
     }
     if (!(column.sortable || column.filter)) {
       return (
@@ -266,7 +265,7 @@ export default function HeaderRenderer({
       if (column.alignment) {
         styleSF = column.alignment.align
           ? { ...styleSF, justifyContent: column.alignment.align }
-          : alignmentUtilsHeader(column, rows[0], styleSF);
+          : alignmentUtils(column, rows[0], styleSF, "Header");
       }
       return (
         <div
@@ -421,7 +420,7 @@ const RecursiveScan = (
     if (subData.alignment) {
       style = subData.alignment.align
         ? { ...style, justifyContent: subData.alignment.align }
-        : alignmentUtilsHeader(subData, rowData[0], style);
+        : alignmentUtils(subData, rowData[0], style, "Header");
     }
     function onClick() {
       selectCell(subData.idx);
@@ -514,7 +513,7 @@ const RecursiveScan = (
       if (subData.alignment) {
         style1 = subData.alignment.align
           ? { ...style1, justifyContent: subData.alignment.align }
-          : alignmentUtilsHeader(subData, rowData[0], style1);
+          : alignmentUtils(subData, rowData[0], style1, "Header");
       }
       return (
         <div
@@ -566,7 +565,7 @@ const RecursiveScan = (
       if (column.alignment) {
         style = column.alignment.align
           ? { ...style, justifyContent: column.alignment.align }
-          : alignmentUtilsHeader(column, rowData[0], style);
+          : alignmentUtils(column, rowData[0], style, "Header");
       }
 
       function onClickFilter() {

@@ -4,7 +4,7 @@ import { css } from "@linaria/core";
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { useDrag, useDrop } from "react-dnd";
-import { alignmentUtilsCell } from "./alignMentUtils";
+import alignmentUtils from "./utils/alignMentUtils";
 
 import {
   bottomRowIsSelectedClassName,
@@ -191,7 +191,7 @@ function Cell({
   if (column.alignment) {
     style = column.alignment.align
       ? { ...style, textAlign: column.alignment.align }
-      : alignmentUtilsCell(column, row, style);
+      : alignmentUtils(column, row, style,"Row");
   }
   /// -----------------------
   if (valueChangedCellStyle) {

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useFocusRef } from "./hooks";
 import FilterContext from "./filterContext";
-import alignmentUtilsHeader from "./alignMentUtils";
+import alignmentUtils from "./utils/alignMentUtils";
 export default function FilterRenderer({
   isCellSelected,
   column,
@@ -17,7 +17,7 @@ export default function FilterRenderer({
   if (rowData && column.alignment) {
     style = column.alignment.align
       ? { ...style, justifyContent: column.alignment.align }
-      : alignmentUtilsHeader(column, rowData[0], style);
+      : alignmentUtils(column, rowData[0], style,"Header");
   }
   return (
     <>

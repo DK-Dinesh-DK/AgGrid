@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { alignmentUtilsCell } from "../alignMentUtils";
+import alignmentUtils from "../utils/alignMentUtils";
 
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
@@ -106,7 +106,7 @@ export function valueFormatter(props) {
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align
         ? { ...cellStyle, textAlign: props.column.alignment.align }
-        : alignmentUtilsCell(props.column, props.row, cellStyle);
+        : alignmentUtils(props.column, props.row, cellStyle, "Row");
     }
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
@@ -295,7 +295,7 @@ const childData = (subData, props) => {
     if (info1.alignment) {
       childStyle = info1.alignment.align
         ? { ...childStyle, textAlign: info1.alignment.align }
-        : alignmentUtilsCell(info1, props.row, childStyle);
+        : alignmentUtils(info1, props.row, childStyle, "Row");
     }
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>

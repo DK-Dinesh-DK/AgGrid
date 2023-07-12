@@ -52,27 +52,26 @@ function TreeCell({
     value: value,
     node: node,
     colDef: column,
-    api:apiObject,
+    api: apiObject,
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
         `${rowIndex}${row[column.key]}`
       ).innerHTML;
-      document.getElementById(
-        `${rowIndex}${row[column.key]}`
-      ).innerHTML = content;
+      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+        content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue
-    }
-  }
-  
+      row[column.key] = newValue;
+    },
+  };
+
   const cellRendererParams =
-  typeof column?.cellRendererParams === "function"
-    ? column?.cellRendererParams(cellParams)
-    : column?.cellRendererParams;
+    typeof column?.cellRendererParams === "function"
+      ? column?.cellRendererParams(cellParams)
+      : column?.cellRendererParams;
 
   function handleClick(e) {
     selectCell(row, column);
@@ -131,6 +130,47 @@ function TreeCell({
       };
     }
   }
+  let cellRender = {
+    childRows,
+    column,
+    row,
+    isExpanded,
+    isCellSelected,
+    toggleTree,
+    colDef: column,
+    viewportColumns,
+    data: row,
+    // rowArray,
+    allrow,
+    selectedCellIdx,
+    selectedCellEditor,
+    api: apiObject,
+    node,
+    value,
+    rowIndex,
+    treeData: props.treeData,
+    selectCell,
+    onRowChange: handleRowChange,
+    onRowClick: props.onRowClick,
+    onCellClick: props.onCellClick,
+    onRowDoubleClick: props.onRowDoubleClick,
+    valueFormatted: cellRendererParams?.valueFormatted,
+    fullWidth: cellRendererParams?.fullWidth,
+    eGridCell: gridCell.current,
+    // refreshCell: () => {
+    //   const content = document.getElementById(
+    //     `${rowIndex}${row[column.key]}`
+    //   ).innerHTML;
+    //   document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+    //     content;
+    // },
+    getValue: () => value,
+    // setValue: (newValue) => {
+    //   setValue(newValue);
+    // },
+    ...cellRendererParams,
+  };
+
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -153,70 +193,9 @@ function TreeCell({
     >
       {column.idx < 1 &&
         serialNumber &&
-        column.cellRenderer({
-          childRows,
-          column: { ...column, rowIndex },
-          row,
-          isExpanded,
-          isCellSelected,
-          toggleTree,
-          colDef: column,
-          viewportColumns,
-          data: row,
-          // rowArray,
+        column.cellRenderer({ ...cellRender, column: { ...column, rowIndex } })}
 
-          value,
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
-          rowIndex,
-          selectCell,
-          treeData: props.treeData,
-          onRowChange: handleRowChange,
-          onRowClick: props.onRowClick,
-          onCellClick:props.onCellClick,
-          onRowDoubleClick: props.onRowDoubleClick,
-          valueFormatted: cellRendererParams?.valueFormatted,
-          fullWidth: cellRendererParams?.fullWidth,
-          eGridCell: gridCell.current,
-          ...cellRendererParams,
-        })}
-
-      {column.idx < 1 &&
-        selection &&
-        column.cellRenderer({
-          allRow: props.allRow,
-          row,
-          column,
-          isCellSelected,
-          childRows,
-          isExpanded,
-          toggleTree,
-          colDef: column,
-          viewportColumns,
-          data: row,
-          value,
-          // rowArray,
-
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
-          treeData: props.treeData,
-          rowIndex,
-          selectCell,
-          onRowChange: handleRowChange,
-          onRowClick: props.onRowClick,
-          onCellClick:props.onCellClick,
-          onRowDoubleClick: props.onRowDoubleClick,
-          valueFormatted: cellRendererParams?.valueFormatted,
-          fullWidth: cellRendererParams?.fullWidth,
-          eGridCell: gridCell.current,
-          ...cellRendererParams,
-        })}
+      {column.idx < 1 && selection && column.cellRenderer(cellRender)}
       {column.idx === 0 && !selection && !serialNumber && (
         <>
           <span
@@ -258,47 +237,7 @@ function TreeCell({
       {column.idx >= 1 &&
         !selection &&
         !serialNumber &&
-        column.cellRenderer?.({
-          childRows,
-          column,
-          row,
-          isExpanded,
-          isCellSelected,
-          toggleTree,
-          colDef: column,
-          viewportColumns,
-          data: row,
-          // rowArray,
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
-          value,
-          rowIndex,
-          treeData: props.treeData,
-
-          selectCell,
-          onRowChange: handleRowChange,
-          onRowClick: props.onRowClick,
-          onCellClick:props.onCellClick,
-          onRowDoubleClick: props.onRowDoubleClick,
-          valueFormatted: cellRendererParams?.valueFormatted,
-          fullWidth: cellRendererParams?.fullWidth,
-          eGridCell: gridCell.current,
-          // refreshCell: () => {
-          //   const content = document.getElementById(
-          //     `${rowIndex}${row[column.key]}`
-          //   ).innerHTML;
-          //   document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-          //     content;
-          // },
-          getValue: () => value,
-          // setValue: (newValue) => {
-          //   setValue(newValue);
-          // },
-          ...cellRendererParams,
-        })}
+        column.cellRenderer?.(cellRender)}
       {column.idx === 1 && !selection && serialNumber && (
         <>
           <span
@@ -421,79 +360,19 @@ function TreeCell({
       {column.idx === 1 &&
         serialNumber &&
         selection &&
-        column.cellRenderer({
-          childRows,
-          column: { ...column, rowIndex },
-          row,
-          isExpanded,
-          isCellSelected,
-          toggleTree,
-          colDef: column,
-          viewportColumns,
-          data: row,
-          // rowArray,
-
-          value,
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
-          rowIndex,
-          selectCell,
-          treeData: props.treeData,
-          onRowChange: handleRowChange,
-          onRowClick: props.onRowClick,
-          onCellClick:props.onCellClick,
-          onRowDoubleClick: props.onRowDoubleClick,
-          valueFormatted: cellRendererParams?.valueFormatted,
-          fullWidth: cellRendererParams?.fullWidth,
-          eGridCell: gridCell.current,
-          ...cellRendererParams,
-        })}
+        column.cellRenderer({ ...cellRender, column: { ...column, rowIndex } })}
       {column.idx > 2 &&
         selection &&
         serialNumber &&
-        column.cellRenderer?.({
-          childRows,
-          column,
-          row,
-          isExpanded,
-          isCellSelected,
-          toggleTree,
-          colDef: column,
-          viewportColumns,
-          data: row,
-          // rowArray,
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
-          value,
-          rowIndex,
-          treeData: props.treeData,
-          selectCell,
-          onRowChange: handleRowChange,
-          onRowClick: props.onRowClick,
-          onCellClick:props.onCellClick,
-          onRowDoubleClick: props.onRowDoubleClick,
-          valueFormatted: cellRendererParams?.valueFormatted,
-          fullWidth: cellRendererParams?.fullWidth,
-          eGridCell: gridCell.current,
-          // refreshCell: () => {
-          //   const content = document.getElementById(
-          //     `${rowIndex}${row[column.key]}`
-          //   ).innerHTML;
-          //   document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-          //     content;
-          // },
-          getValue: () => value,
-          // setValue: (newValue) => {
-          //   setValue(newValue);
-          // },
-          ...cellRendererParams,
-        })}
+        column.cellRenderer?.(cellRender)}
+      {column.idx > 1 &&
+        !selection &&
+        serialNumber &&
+        column.cellRenderer?.(cellRender)}
+      {column.idx > 1 &&
+        selection &&
+        !serialNumber &&
+        column.cellRenderer?.(cellRender)}
     </div>
   );
 }

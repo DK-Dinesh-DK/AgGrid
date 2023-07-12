@@ -45,27 +45,26 @@ function MasterCell({
     value: value,
     node: node,
     colDef: column,
-    api:apiObject,
+    api: apiObject,
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
         `${rowIndex}${row[column.key]}`
       ).innerHTML;
-      document.getElementById(
-        `${rowIndex}${row[column.key]}`
-      ).innerHTML = content;
+      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+        content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue
-    }
-  }
-  
+      row[column.key] = newValue;
+    },
+  };
+
   const cellRendererParams =
-  typeof column?.cellRendererParams === "function"
-    ? column?.cellRendererParams(cellParams)
-    : column?.cellRendererParams;
+    typeof column?.cellRendererParams === "function"
+      ? column?.cellRendererParams(cellParams)
+      : column?.cellRendererParams;
 
   function handleClick(e) {
     selectCell(row, column);
@@ -127,22 +126,18 @@ function MasterCell({
           isExpanded,
           isCellSelected,
           toggleMaster,
-          colDef: column,
           viewportColumns,
           data: row,
           allrow,
           selectedCellIdx,
           selectedCellEditor,
-          api: apiObject,
-          node,
-          value,
           rowIndex,
           selectCell,
           onRowClick: props.onRowClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
-          eGridCell: gridCell.current,
+          ...cellParams,
           ...cellRendererParams,
         })}
       {column.idx === 0 && row.gridRowType !== "Detail" && (
