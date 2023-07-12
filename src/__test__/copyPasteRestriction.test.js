@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useState } from "react";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
   function createRows() {

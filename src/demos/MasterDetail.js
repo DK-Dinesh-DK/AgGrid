@@ -80,13 +80,12 @@ export default function MasterDetail({ direction }) {
       { field: "department", headerName: "Department" },
     ];
   }, [direction]);
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState(createDepartments());
 
   const [expandedIds, setExpandedIds] = useState([]);
   console.log("expandedIds", expandedIds);
   return (
     <>
-      <button onClick={() => setRows([...createDepartments()])}>Insert</button>
       <DataGrid
         rowKeyGetter={rowKeyGetter}
         columnData={columns}

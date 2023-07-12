@@ -4,7 +4,7 @@ import { getCellsAtRowIndex } from "./utils/utils";
 import DataGrid from "../components/datagrid/DataGrid";
 import { useState, useRef } from "react";
 import { SelectColumn } from "../components/datagrid/Columns";
-import textEditor from "../components/datagrid/editors/textEditor";
+import { TextEditor } from "../components/datagrid/editors";
 import "@testing-library/jest-dom";
 beforeAll(() => {
   userEvent.setup();
@@ -27,7 +27,7 @@ describe("getSelectedNodes Works Correctly", () => {
         headerName: "Title",
         cellEditor: (props) => {
           //console.log(props);
-          return textEditor(props);
+          return TextEditor(props);
         },
       },
     ];
@@ -56,7 +56,8 @@ describe("getSelectedNodes Works Correctly", () => {
             type="button"
             onClick={() =>
               (selectedNodes = dataGridRef.current.api.getSelectedNodes())
-            }>
+            }
+          >
             getSelectedNodes
           </button>
           <DataGrid

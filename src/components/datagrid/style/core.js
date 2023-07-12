@@ -7,24 +7,24 @@ const lightTheme = `
   --rdg-border-color: #FFFFFF;
   --rdg-summary-border-color: #aaa;
   --rdg-background-color: hsl(0deg 0% 100%);
-  --rdg-header-background-color: #16365D;
+  --rdg-header-background-color:  #16365D;
   --rdg-header-row-color: #FFFFFF;
   --rdg-row-hover-background-color: #D7E3BC;
   --rdg-row-selected-background-color: hsl(207deg 76% 92%);
   --rdg-row-selected-hover-background-color: hsl(207deg 76% 88%);
-
   --rdg-checkbox-color: hsl(207deg 100% 29%);
   --rdg-checkbox-focus-color: hsl(207deg 100% 69%);
   --rdg-checkbox-disabled-border-color: #ccc;
   --rdg-checkbox-disabled-background-color: #ddd;
+  --rdg-textEditor-text-color: #000000;
 `;
 
 const darkTheme = `
-  --rdg-color: #fff;
+  --rdg-color: #000;
   --rdg-border-color: #FFFFFF;
   --rdg-summary-border-color: #555;
   --rdg-background-color: hsl(0deg 0% 13%);
-  --rdg-header-background-color: #16365D;
+  --rdg-header-background-color:  #16365D;
   --rdg-row-hover-background-color: #D7E3BC;
   --rdg-row-selected-background-color: hsl(207deg 76% 42%);
   --rdg-row-selected-hover-background-color: hsl(207deg 76% 38%);
@@ -32,6 +32,7 @@ const darkTheme = `
   --rdg-checkbox-focus-color: hsl(207deg 100% 89%);
   --rdg-checkbox-disabled-border-color: #000;
   --rdg-checkbox-disabled-background-color: #333;
+  --rdg-textEditor-text-color: #FFFFFF;
 `;
 
 const root = css`
@@ -155,3 +156,4 @@ export const filterContainerClassname = css`
     }
   }
 `;
+

@@ -39,11 +39,6 @@ export function ToggleGroup({
 }) {
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-  // function handleKeyDown({ key }) {
-  //   if (key === "Enter") {
-  //     toggleGroup()
-  //   }
-  // }
 
   const d = isExpanded ? "M1 1 L 7 7 L 13 1" : "M1 7 L 7 1 L 13 7";
 
@@ -53,7 +48,6 @@ export function ToggleGroup({
       data-testid={`grid-group-toggle-${props.column.idx}-${props.rowIndex}`}
       className={groupCellContentClassname}
       tabIndex={tabIndex}
-      // onKeyDown={handleKeyDown}
     >
       {groupKey}
       <svg

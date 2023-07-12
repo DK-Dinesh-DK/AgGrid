@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import { TextEditor } from "../components/datagrid/editors";
 import React, { useState } from "react";
 
 const columns = [

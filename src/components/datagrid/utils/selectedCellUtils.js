@@ -45,14 +45,14 @@ export function getSelectedCellColSpan({
     return getColSpan(column, lastFrozenColumnIndex, {
       type: "SUMMARY",
       row: topSummaryRows[rowIdx + topSummaryRowsCount],
-      rowIndex: rowIdx + topSummaryRowsCount,
-    });
+      rowIndex: rowIdx + topSummaryRowsCount
+    })
   }
 
   if (rowIdx >= 0 && rowIdx < rows.length) {
     const row = rows[rowIdx]
     if (!isGroupRow(row)) {
-      return getColSpan(column, lastFrozenColumnIndex, { type: "ROW", row })
+      return getColSpan(column, lastFrozenColumnIndex, { type: "ROW", row, rowIndex:rowIdx })
     }
     return undefined
   }
@@ -62,7 +62,7 @@ export function getSelectedCellColSpan({
       type: "SUMMARY",
       row: bottomSummaryRows[rowIdx - rows.length],
       rowIndex: rowIdx - rows.length,
-    });
+    })
   }
 
   return undefined

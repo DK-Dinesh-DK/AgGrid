@@ -18,19 +18,19 @@ const cellCopied = css`
   }
 `;
 
-const cellCopiedClassname = `rdg-cell-copied ${cellCopied??""}`;
+const cellCopiedClassname = `rdg-cell-copied ${cellCopied}`;
 
 const cellDraggedOver = css`
   @layer rdg.Cell {
     background-color: #ccccff;
 
-    &.${cellCopied??""} {
+    &.${cellCopied} {
       background-color: #9999ff;
     }
   }
 `;
 
-const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver??""}`;
+const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver}`;
 
 const rowCellFreezeClassname = css`
   @layer rdg.rowCell {
@@ -90,13 +90,40 @@ function Cell({
   ...props
 }) {
   const gridCell = useRef(null);
-  const cellRendererParams =
-    typeof column?.cellRendererParams === "function"
-      ? column?.cellRendererParams()
-      : column?.cellRendererParams;
   const [value, setValue] = useState(
     cellRendererParams?.value ?? row[column.key]
   );
+
+  let cellParams = {
+    column: column,
+    data: row,
+    value: value,
+    node: node,
+    colDef: column,
+    api,
+    columnApi,
+    eGridCell: gridCell.current,
+    refreshCell: () => {
+      const content = document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML;
+      document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML = content;
+    },
+    getValue: () => value,
+    setValue: (newValue) => {
+      setValue(newValue);
+      row[column.key] = newValue
+    }
+  }
+  
+  const cellRendererParams =
+  typeof column?.cellRendererParams === "function"
+    ? column?.cellRendererParams(cellParams)
+    : column?.cellRendererParams;
+
+  
   useUpdateEffect(() => {
     setValue(cellRendererParams?.value ?? row[column.key])
   }, [cellRendererParams?.value, row[column.key]])

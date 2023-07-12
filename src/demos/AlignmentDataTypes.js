@@ -3,7 +3,7 @@ import { useState } from "react";
 import { faker } from "@faker-js/faker";
 
 // import { SelectColumn } from "../components/datagrid/Columns";
-import TextEditor from "../components/datagrid/editors/TextEditor";
+import { TextEditor } from "../components/datagrid/editors";
 
 import DataGrid from "../components/datagrid/DataGrid";
 

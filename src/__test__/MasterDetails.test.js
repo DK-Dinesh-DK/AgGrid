@@ -6,7 +6,7 @@ import React, { useMemo, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import "./utils/index.css";
-import { TextEditor } from "../components/datagrid";
+import { TextEditor } from "../components/datagrid/editors";
 function LaiDataGrid({ direction }) {
   function rowKeyGetter(row) {
     return row.id;

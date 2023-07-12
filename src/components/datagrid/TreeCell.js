@@ -41,13 +41,38 @@ function TreeCell({
   }
   let style = getCellStyle(column);
   const gridCell = useRef(null);
-  const cellRendererParams =
-    typeof column?.cellRendererParams === "function"
-      ? column?.cellRendererParams()
-      : column?.cellRendererParams;
+
   const [value, setValue] = useState(
     cellRendererParams?.value ?? row[column.key]
   );
+
+  let cellParams = {
+    column: column,
+    data: row,
+    value: value,
+    node: node,
+    colDef: column,
+    api:apiObject,
+    eGridCell: gridCell.current,
+    refreshCell: () => {
+      const content = document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML;
+      document.getElementById(
+        `${rowIndex}${row[column.key]}`
+      ).innerHTML = content;
+    },
+    getValue: () => value,
+    setValue: (newValue) => {
+      setValue(newValue);
+      row[column.key] = newValue
+    }
+  }
+  
+  const cellRendererParams =
+  typeof column?.cellRendererParams === "function"
+    ? column?.cellRendererParams(cellParams)
+    : column?.cellRendererParams;
 
   function handleClick(e) {
     selectCell(row, column);
@@ -151,7 +176,7 @@ function TreeCell({
           treeData: props.treeData,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
-          onCellClick: props.onCellClick,
+          onCellClick:props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -185,7 +210,7 @@ function TreeCell({
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
-          onCellClick: props.onCellClick,
+          onCellClick:props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -256,7 +281,7 @@ function TreeCell({
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
-          onCellClick: props.onCellClick,
+          onCellClick:props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -419,7 +444,7 @@ function TreeCell({
           treeData: props.treeData,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
-          onCellClick: props.onCellClick,
+          onCellClick:props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
@@ -448,11 +473,10 @@ function TreeCell({
           value,
           rowIndex,
           treeData: props.treeData,
-
           selectCell,
           onRowChange: handleRowChange,
           onRowClick: props.onRowClick,
-          onCellClick: props.onCellClick,
+          onCellClick:props.onCellClick,
           onRowDoubleClick: props.onRowDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,

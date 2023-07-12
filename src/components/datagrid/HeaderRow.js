@@ -18,14 +18,14 @@ const headerRow = css`
     font-size: 11px;
     text-align: center;
 
-    & > .${cell??""} {
+    & > .${cell} {
       /* Should have a higher value than 0 to show up above regular cells */
       z-index: 1;
       position: sticky;
       inset-block-start: 0;
     }
 
-    & > .${cellFrozen??""} {
+    & > .${cellFrozen} {
       z-index: 2;
     }
   }

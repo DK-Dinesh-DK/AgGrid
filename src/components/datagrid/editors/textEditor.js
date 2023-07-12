@@ -13,7 +13,7 @@ const textEditorInternalClassname = css`
     padding-inline: 6px;
     border: none;
     vertical-align: top;
-    color: var(--rdg-color);
+    color: var(--rdg-textEditor-text-color);
     background-color: var(--rdg-background-color);
     font-family: inherit;
     font-size: var(--rdg-font-size);

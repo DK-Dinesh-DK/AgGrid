@@ -481,7 +481,7 @@ function DataGrid(props) {
       selectedRows1 != null &&
       rowKeyGetter != null &&
       selectedRows1?.size >= length &&
-      rawRows.every((row) => selectedRows1.has(rowKeyGetter(row)))
+      rawRows.every((row) => selectedRows1?.has(rowKeyGetter(row)))
     );
   }, [rawRows, selectedRows1, rowKeyGetter]);
 
@@ -493,15 +493,15 @@ function DataGrid(props) {
     return flatten(into, node.children);
   }
 
-  var rowArray = flatten([], rawColumns);
+  let rowArray = flatten([], rawColumns);
 
-  var value = false;
-  var rowColD = rowArray.slice();
+  let value = false;
+  let rowColD = rowArray.slice();
   rowColD = rowColD.filter(function (item) {
     return item !== value;
   });
 
-  var rowArray1 = rowColD.slice();
+  let rowArray1 = rowColD.slice();
   for (var i = 0; i < rowArray1.length; i++) {
     if (rowArray1[i].haveChildren) {
       rowArray1.splice(i, 1);
@@ -1257,7 +1257,7 @@ function DataGrid(props) {
       !suppressRowClickSelection &&
       (!props.selection || (props.selection && selectedPosition.idx !== 0))
     ) {
-      if (selectedRows1 === undefined || !selectedRows1.has(rowKey)) {
+      if (selectedRows1 === undefined || !selectedRows1?.has(rowKey)) {
         if (!onSelectedRowsChange1) return;
         if (selectedRows1 !== undefined)
           newSelectedRows.splice(0, newSelectedRows.length);
@@ -1283,11 +1283,11 @@ function DataGrid(props) {
           checked:
             selectedRows1 === undefined
               ? true
-              : !selectedRows1.has(rowKeyGetter(row)),
+              : !selectedRows1?.has(rowKeyGetter(row)),
           isShiftClick: false,
         });
       } else {
-        if (selectedRows1 === undefined || !selectedRows1.has(rowKey)) {
+        if (selectedRows1 === undefined || !selectedRows1?.has(rowKey)) {
           if (!onSelectedRowsChange1) return;
           if (selectedRows1 !== undefined)
             newSelectedRows.splice(0, newSelectedRows.length);
@@ -1512,10 +1512,10 @@ function DataGrid(props) {
 
   useEffect(() => {
     if (rest.masterData) {
-      if (expandedMasterRowIds.length > 0) {
+      if (expandedMasterRowIds?.length > 0) {
         let sampleRows = [];
         raawRows.map((row) => {
-          if (expandedMasterRowIds.includes(row.id)) {
+          if (expandedMasterRowIds?.includes(row.id)) {
             sampleRows.push({ ...row, gridRowType: "Master" });
             sampleRows.push({
               gridRowType: "Detail",
@@ -1534,11 +1534,11 @@ function DataGrid(props) {
 
   function toggleMaster(newExpandedMasterId) {
     let sample;
-    if (!expandedMasterRowIds.includes(newExpandedMasterId)) {
+    if (!expandedMasterRowIds?.includes(newExpandedMasterId)) {
       setExpandedMasterIds([...expandedMasterRowIds, newExpandedMasterId]);
       sample = [...expandedMasterRowIds, newExpandedMasterId];
     } else {
-      sample = expandedMasterRowIds.filter(
+      sample = expandedMasterRowIds?.filter(
         (value) => value !== newExpandedMasterId
       );
       setExpandedMasterIds([...sample]);
@@ -1759,7 +1759,7 @@ function DataGrid(props) {
       const rowKey = rowKeyGetter(row);
       selectRow({
         row,
-        checked: !selectedRows1.has(rowKey),
+        checked: !selectedRows1?.has(rowKey),
         isShiftClick: false,
       });
       // do not scroll
@@ -2010,7 +2010,7 @@ function DataGrid(props) {
       gridTemplateColumns: newTemplateColumns.join(" "),
     };
   }
-
+  const gridViewportTemplateColumns = getLayoutCssVars();
   function getCellEditor(rowIdx) {
     if (
       selectedPosition.rowIdx !== rowIdx ||
@@ -2274,11 +2274,12 @@ function DataGrid(props) {
     setRawRows(updatedLeafNodes);
   }
   function forEachLeafNodeAfterFilter(callback) {
-    forEachLeafNode(callback, RowNodes);
+    forEachLeafNode(callback);
   }
   function forEachLeafNodeAfterFilterAndSort(callback) {
-    forEachLeafNode(callback, RowNodes);
+    forEachLeafNode(callback);
   }
+
   function findRowIndex(id) {
     let index = -1;
     for (const element of LeafNodes) {
@@ -2755,7 +2756,7 @@ function DataGrid(props) {
     setFilterModel: (value) => setFilters({ ...filters, ...value }),
     destroyFilter: (key) => {
       let sample = filters;
-      sample[key] = "";
+      sample[key] = ""
       setFilters({ ...sample });
     },
     setSuppressRowDrag,
@@ -2948,7 +2949,7 @@ function DataGrid(props) {
             gridRowStart: gridRowStart,
             height: getRowHeight(rowIdx),
             level: row.level,
-            isExpanded: expandedMasterRowIds.includes(rowKeyGetter(row)),
+            isExpanded: expandedMasterRowIds?.includes(rowKeyGetter(row)),
             selectedCellIdx:
               selectedRowIdx === rowIdx ? selectedIdx : undefined,
 
@@ -3232,7 +3233,7 @@ function DataGrid(props) {
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
           "--rdg-sign": isRtl ? -1 : 1,
-          ...getLayoutCssVars(),
+          gridTemplateColumns : gridViewportTemplateColumns,
         }}
         dir={direction}
         ref={gridRef}
