@@ -10,6 +10,7 @@ const lightTheme = `
   --rdg-header-background-color:  #16365D;
   --rdg-header-row-color: #FFFFFF;
   --rdg-row-hover-background-color: #D7E3BC;
+  --rdg-row-hover-color: #000;
   --rdg-row-selected-background-color: hsl(207deg 76% 92%);
   --rdg-row-selected-hover-background-color: hsl(207deg 76% 88%);
   --rdg-checkbox-color: hsl(207deg 100% 29%);
@@ -17,6 +18,17 @@ const lightTheme = `
   --rdg-checkbox-disabled-border-color: #ccc;
   --rdg-checkbox-disabled-background-color: #ddd;
   --rdg-textEditor-text-color: #000000;
+  --rdg-row-even-background-color:#E5EDF8;
+  --rdg-row-odd-background-color:#f3f8fc;
+  --rdg-row-selected-background-color:#ebf1dd;
+  --rdg-font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --rdg-header-font-size: 11px;
+  --rdg-tree-icon-color:#000;
+  --rdg-tree-icon-font-size:12px;
+  --rdg-master-icon-color:#000;
+  --rdg-master-icon-font-size:12px;
+  --rdg-group-icon-color:#000;
+  --rdg-group-icon-font-size:12px;
 `;
 
 const darkTheme = `
@@ -33,6 +45,18 @@ const darkTheme = `
   --rdg-checkbox-disabled-border-color: #000;
   --rdg-checkbox-disabled-background-color: #333;
   --rdg-textEditor-text-color: #FFFFFF;
+  --rdg-row-even-background-color:#E5EDF8;
+  --rdg-row-odd-background-color:#f3f8fc;
+  --rdg-row-selected-background-color:#ebf1dd;
+  --rdg-font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --rdg-row-hover-color: #000;
+  --rdg-header-font-size: 11px;
+  --rdg-tree-icon-color:#000;
+  --rdg-tree-icon-font-size:12px;
+  --rdg-master-icon-color:#000;
+  --rdg-master-icon-font-size:12px;
+  --rdg-group-icon-color:#000;
+  --rdg-group-icon-font-size:12px;
 `;
 
 const root = css`
@@ -62,17 +86,30 @@ const root = css`
     .rdg-row-even,
     .rdg-row-summary-row-even,
     .rdg-row-groupRow-even {
-      background-color: #E5EDF8;
+      background-color: var(--rdg-row-even-background-color);
     }
     .rdg-row-odd,
     .rdg-row-summary-row-odd,
     .rdg-row-groupRow-odd {
-      background-color: #F3F8FC;
+      background-color: var(--rdg-row-odd-background-color);
     }
     .rdg-row-selected {
-      background-color: #ebf1dd;
+      background-color: var(--rdg-row-selected-background-color);
+      color: var(--rdg-row-selected-color);
     }
-
+    .tree-expand-icon {
+      color: var(--rdg-tree-icon-color) !important;
+      font-size: var(--rdg-tree-icon-font-size) !important;
+    }
+    .master-expand-icon {
+      color: var(--rdg-master-icon-color) !important;
+      font-size: var(--rdg-master-icon-font-size) !important;
+    }
+    .rdg-caret {
+      color: var(--rdg-group-icon-color) !important;
+      font-size: var(--rdg-group-icon-font-size) !important;
+    }
+    
     @layer Root {
       ${lightTheme}
       --rdg-selection-color: #66afe9;
@@ -93,8 +130,8 @@ const root = css`
       background-color: var(--rdg-background-color);
       color: var(--rdg-color);
       font-size: var(--rdg-font-size);
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      height:max-content;
+      font-family: var(--rdg-font-family);
+      height: inherit;
 
       /* needed on Firefox */
       &::before {
@@ -156,4 +193,3 @@ export const filterContainerClassname = css`
     }
   }
 `;
-

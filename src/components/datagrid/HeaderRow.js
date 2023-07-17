@@ -1,5 +1,5 @@
-import React,{ memo } from "react";
-import {clsx} from "clsx";
+import React, { memo } from "react";
+import { clsx } from "clsx";
 import { css } from "@linaria/core";
 
 import HeaderCell from "./HeaderCell";
@@ -14,8 +14,8 @@ const headerRow = css`
     line-height: var(--rdg-header-row-height);
     background-color: var(--rdg-header-background-color);
     font-weight: bold;
-    color: var(--rdg-header-row-color);
-    font-size: 11px;
+    color: var(--rdg-header-row-color) !important;
+    font-size: var(--rdg-header-font-size) !important;
     text-align: center;
 
     & > .${cell} {
@@ -35,8 +35,10 @@ const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
   columns,
-  rows,arrayDepth,
-  headerheight,cellHeight,
+  rows,
+  arrayDepth,
+  headerheight,
+  cellHeight,
   headerData,
   allRowsSelected,
   headerRowHeight,
@@ -62,9 +64,8 @@ function HeaderRow({
     props.ChildColumnSetup(data);
   }
   for (let index = 0; index < columns.length; index++) {
-    
     const column = columns[index];
-    
+
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "HEADER",
     });
@@ -104,17 +105,17 @@ function HeaderRow({
     );
   }
 
-
   return (
     <DndProvider backend={HTML5Backend}>
       <div
-       role="header-row"
+        role="header-row"
         // aria-rowindex is 1 based
         aria-rowindex={1}
         className={clsx(headerRowClassname, {
           // [rowSelectedClassname]: selectedCellIdx === -1,
         })}
-        style={getRowStyle(1)}>
+        style={getRowStyle(1)}
+      >
         {cells}
       </div>
     </DndProvider>

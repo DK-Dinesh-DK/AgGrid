@@ -143,7 +143,7 @@ function MasterCell({
       {column.idx === 0 && row.gridRowType !== "Detail" && (
         <>
           <span
-            className="tree-expand-icon"
+            className="master-expand-icon"
             data-testid={`tree-expand-icon-${rowIndex}`}
             style={{
               color: "black",

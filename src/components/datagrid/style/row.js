@@ -9,6 +9,7 @@ export const row = css`
 
     &:hover {
       background-color: var(--rdg-row-hover-background-color) !important;
+      color: var(--rdg-row-hover-color) !important;
     }
 
     &[aria-selected="true"] {

@@ -116,6 +116,47 @@ export default function Pagination({ direction }) {
         defaultPage={3}
         // paginationAutoPageSize={true}
         paginationPageSize={39}
+        paginationStyle={{
+          "--rc-pagination-button-active-background-color": "#5a8dee",
+          "--rc-pagination-button-active-border-color": "none",
+          "--rc-pagination-button-active-color": "#fff",
+          "--rc-pagination-button-font-family":
+            '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+          "--rc-pagination-button-color": "#656f84 ",
+          "--rc-pagination-button-border": "none",
+          "--rc-pagination-button-background-color": "transparent",
+          "--rc-pagination-button-font-size": "11px",
+          "--rc-pagination-button-border-radius": "8px",
+        }}
+        style={{
+          "--rdg-color": " #000",
+          "--rdg-border-color": "#FFFFFF",
+          "--rdg-summary-border-color": "#aaa",
+          "--rdg-background-color": "hsl(0deg 0% 100%)",
+          "--rdg-header-background-color": "#16365D",
+          "--rdg-header-row-color": "#FFFFFF",
+          "--rdg-row-hover-background-color": "#D7E3BC",
+          "--rdg-row-hover-color": "#000",
+          "--rdg-row-selected-background-color": "hsl(207deg 76% 92%)",
+          "--rdg-row-selected-hover-background-color": "hsl(207deg 76% 88%)",
+          "--rdg-checkbox-color": "hsl(207deg 100% 29%)",
+          "--rdg-checkbox-focus-color": "hsl(207deg 100% 69%)",
+          "--rdg-checkbox-disabled-border-color": " #ccc",
+          "--rdg-checkbox-disabled-background-color": "#ddd",
+          "--rdg-textEditor-text-color": "#000000",
+          "--rdg-row-even-background-color": "#E5EDF8",
+          "--rdg-row-odd-background-color": "#f3f8fc",
+          "--rdg-row-selected-background-color": "#ebf1dd",
+          "--rdg-font-family":
+            '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+          "--rdg-header-font-size": "11px",
+          "--rdg-tree-icon-color": "#000",
+          "--rdg-tree-icon-font-size": "12px",
+          "--rdg-master-icon-color": "#000",
+          "--rdg-master-icon-font-size": "12px",
+          "--rdg-group-icon-color": "#000",
+          "--rdg-group-icon-font-size": "12px",
+        }}
         // suppressPaginationPanel={true}
       />
     </>

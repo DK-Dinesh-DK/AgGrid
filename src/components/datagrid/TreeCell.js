@@ -171,6 +171,46 @@ function TreeCell({
     ...cellRendererParams,
   };
 
+  function TreeViewCell() {
+    return (
+      <>
+        <span
+          className="tree-expand-icon"
+          data-testId={`tree-expand-icon${rowIndex}`}
+          style={{
+            cursor: "pointer",
+            paddingLeft: `${level * 10 + 10}px`,
+            width: "30%",
+            textAlign: "start",
+          }}
+          onClick={toggleTree}
+        >
+          {isExpanded ? "\u25BC" : "\u25B6"}
+        </span>
+        <span
+          style={{
+            width: "70%",
+            textAlign: "start",
+            paddingLeft: `${level * 5 + 5}px`,
+          }}
+        >
+          {(!column.rowGroup || treeColumnIndex === column.idx) &&
+            column.treeFormatter?.({
+              childRows,
+              column,
+              row,
+              isExpanded,
+              isCellSelected,
+              treeData: props.treeData,
+              toggleTree,
+              value,
+              allrow,
+            })}
+        </span>
+      </>
+    );
+  }
+
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -196,167 +236,14 @@ function TreeCell({
         column.cellRenderer({ ...cellRender, column: { ...column, rowIndex } })}
 
       {column.idx < 1 && selection && column.cellRenderer(cellRender)}
-      {column.idx === 0 && !selection && !serialNumber && (
-        <>
-          <span
-            className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
-            style={{
-              color: "black",
-              fontSize: "12px",
-              cursor: "pointer",
-              paddingLeft: `${level * 10 + 10}px`,
-              width: "30%",
-              textAlign: "start",
-            }}
-            onClick={toggleTree}
-          >
-            {isExpanded ? "\u25BC" : "\u25B6"}
-          </span>
-          <span
-            style={{
-              width: "70%",
-              textAlign: "start",
-              paddingLeft: `${level * 5 + 5}px`,
-            }}
-          >
-            {column.treeFormatter?.({
-              childRows,
-              column,
-              row,
-              isExpanded,
-              isCellSelected,
-              toggleTree,
-              selectCell,
-              treeData: props.treeData,
-              allrow,
-            })}
-          </span>
-        </>
-      )}
+      {column.idx === 0 && !selection && !serialNumber && TreeViewCell()}
       {column.idx >= 1 &&
         !selection &&
         !serialNumber &&
         column.cellRenderer?.(cellRender)}
-      {column.idx === 1 && !selection && serialNumber && (
-        <>
-          <span
-            className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
-            style={{
-              color: "black",
-              fontSize: "12px",
-              cursor: "pointer",
-              paddingLeft: `${level * 10 + 10}px`,
-              width: "30%",
-              textAlign: "start",
-            }}
-            onClick={toggleTree}
-          >
-            {isExpanded ? "\u25BC" : "\u25B6"}
-          </span>
-          <span
-            style={{
-              width: "70%",
-              textAlign: "start",
-              paddingLeft: `${level * 5 + 5}px`,
-            }}
-          >
-            {(!column.rowGroup || treeColumnIndex === column.idx) &&
-              column.treeFormatter?.({
-                childRows,
-                column,
-                row,
-                isExpanded,
-                isCellSelected,
-                treeData: props.treeData,
-                toggleTree,
-                value,
-                allrow,
-              })}
-          </span>
-        </>
-      )}
-      {column.idx === 1 && selection && !serialNumber && (
-        <>
-          {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-          <span
-            className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
-            style={{
-              color: "black",
-              fontSize: "12px",
-              cursor: "pointer",
-              paddingLeft: `${level * 10 + 10}px`,
-              width: "30%",
-              textAlign: "start",
-            }}
-            onClick={toggleTree}
-          >
-            {isExpanded ? "\u25BC" : "\u25B6"}
-          </span>
-          <span
-            style={{
-              width: "70%",
-              textAlign: "start",
-              paddingLeft: `${level * 5 + 5}px`,
-            }}
-          >
-            {(!column.rowGroup || treeColumnIndex === column.idx) &&
-              column.treeFormatter?.({
-                childRows,
-                column,
-                row,
-                isExpanded,
-                isCellSelected,
-                treeData: props.treeData,
-                toggleTree,
-                value,
-                allrow,
-              })}
-          </span>
-        </>
-      )}
-      {column.idx === 2 && selection && serialNumber && (
-        <>
-          {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-          <span
-            className="tree-expand-icon"
-            data-testId={`tree-expand-icon${rowIndex}`}
-            style={{
-              color: "black",
-              fontSize: "12px",
-              cursor: "pointer",
-              paddingLeft: `${level * 10 + 10}px`,
-              width: "30%",
-              textAlign: "start",
-            }}
-            onClick={toggleTree}
-          >
-            {isExpanded ? "\u25BC" : "\u25B6"}
-          </span>
-          <span
-            style={{
-              width: "70%",
-              textAlign: "start",
-              paddingLeft: `${level * 5 + 5}px`,
-            }}
-          >
-            {(!column.rowGroup || treeColumnIndex === column.idx) &&
-              column.treeFormatter?.({
-                childRows,
-                column,
-                row,
-                isExpanded,
-                isCellSelected,
-                treeData: props.treeData,
-                toggleTree,
-                value,
-                allrow,
-              })}
-          </span>
-        </>
-      )}
+      {column.idx === 1 && !selection && serialNumber && TreeViewCell()}
+      {column.idx === 1 && selection && !serialNumber && TreeViewCell()}
+      {column.idx === 2 && selection && serialNumber && TreeViewCell()}
       {column.idx === 1 &&
         serialNumber &&
         selection &&

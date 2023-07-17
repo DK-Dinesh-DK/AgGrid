@@ -310,7 +310,6 @@ function DataGrid(props) {
     return originalElement;
   };
 
-
   const onSortColumnsChange = (sortColumns) => {
     setSortColumns(sortColumns.slice(-1));
   };
@@ -2756,7 +2755,7 @@ function DataGrid(props) {
     setFilterModel: (value) => setFilters({ ...filters, ...value }),
     destroyFilter: (key) => {
       let sample = filters;
-      sample[key] = ""
+      sample[key] = "";
       setFilters({ ...sample });
     },
     setSuppressRowDrag,
@@ -3233,7 +3232,7 @@ function DataGrid(props) {
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
           "--rdg-sign": isRtl ? -1 : 1,
-          gridTemplateColumns : gridViewportTemplateColumns,
+          gridTemplateColumns: gridViewportTemplateColumns,
         }}
         dir={direction}
         ref={gridRef}
@@ -3381,7 +3380,20 @@ function DataGrid(props) {
         </FilterContext.Provider>
         {createPortal(
           <div dir={direction}>
-            <ContextMenu id="grid-context-menu" rtl={direction === "rtl"}>
+            <ContextMenu
+              id="grid-context-menu"
+              rtl={direction === "rtl"}
+              style={{
+                "--menuBackgroundColor": "#FFFF",
+                "--menuColor": "#000",
+                "--activeMenuColor": "#000",
+                "--disabledMenuColor": "#878a8c",
+                "--menuBorderColor": "rgba(0,0,0,0.15)",
+                "--menuFontSize": "16px",
+                "--hoverMenuBackgroundColor": "#20a0ff",
+                ...props.contextmenuStyle,
+              }}
+            >
               {contextMenuItems.map((item) =>
                 item.subMenu?.length > 0 ? (
                   <SubMenu title={item.name} key={item.name}>
@@ -3489,6 +3501,19 @@ function DataGrid(props) {
               pageSize={size}
               showSizeChanger={false}
               itemRender={PrevNextArrow}
+              style={{
+                "--rc-pagination-button-active-background-color": "#5a8dee",
+                "--rc-pagination-button-active-border-color": "none",
+                "--rc-pagination-button-active-color": "#fff",
+                "--rc-pagination-button-font-family":
+                  '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                "--rc-pagination-button-color": "#656f84 ",
+                "--rc-pagination-button-border": "none",
+                "--rc-pagination-button-background-color": "transparent",
+                "--rc-pagination-button-font-size": "11px",
+                "--rc-pagination-button-border-radius": "8px",
+                ...props.paginationStyle,
+              }}
             />
           )}
         </div>
