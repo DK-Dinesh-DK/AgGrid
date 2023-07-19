@@ -267,6 +267,7 @@ export default function MultilineHeader({ direction }) {
       }}
       topSummaryRows={summaryRowsTop}
       // bottomSummaryRows={summaryRowsBottom}
+      multilineHeaderEnable={true}
     />
   );
 }

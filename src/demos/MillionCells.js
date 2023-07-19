@@ -1,9 +1,7 @@
-import { useMemo } from 'react';
-import DataGrid from '../components/datagrid/DataGrid';
+import { useMemo } from "react";
+import DataGrid from "../components/datagrid/DataGrid";
 
-
-
-const rows = [...Array(1000).keys()];
+const rows = [...Array(500000).keys()];
 
 function cellFormatter(props) {
   return (
@@ -17,17 +15,16 @@ export default function MillionCells({ direction }) {
   const columns = useMemo(() => {
     const columns = [];
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 15; i++) {
       const key = String(i);
       columns.push({
-       field: key,
+        field: key,
         headerName: key,
-        topHeader:key,
-        haveChildren:false,
-        // frozen: i < 5,
+        topHeader: key,
+        haveChildren: false,
         width: 80,
         resizable: true,
-        valueFormatter: cellFormatter
+        valueFormatter: cellFormatter,
       });
     }
 
