@@ -362,6 +362,7 @@ const RecursiveScan = (
               alignItems: "center",
               justifyContent: "center",
               boxSizing: "border-box",
+              borderInlineEnd: "1px solid var(--rdg-border-color)",
             };
 
             return (
@@ -491,7 +492,6 @@ const RecursiveScan = (
       let style1 = {
         display: "flex",
         justifyContent: "center",
-        borderRight: "1px solid var(--rdg-border-color)",
         width: subData.width,
         alignItems: "center",
         height: `${cellHeight}px`,

@@ -144,7 +144,7 @@ function MasterCell({
         <>
           <span
             className="master-expand-icon"
-            data-testid={`tree-expand-icon-${rowIndex}`}
+            data-testid={`master-expand-icon-${rowIndex}`}
             style={{
               color: "black",
               fontSize: "12px",

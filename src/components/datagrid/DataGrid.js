@@ -2911,7 +2911,6 @@ function DataGrid(props) {
             onCellContextMenu={onCellContextMenuLatest}
             onRowDoubleClick={onRowDoubleClick}
             columnApi={columnApiObject}
-            ref={key}
             valueChangedCellStyle={valueChangedCellStyle}
             headerheight={headerheight} //need to be added
             rowClass={rowClass}
@@ -2967,7 +2966,6 @@ function DataGrid(props) {
             onCellContextMenu: onCellContextMenuLatest,
             onRowDoubleClick: onRowDoubleClick,
             columnApi: columnApiObject,
-            ref: key,
             valueChangedCellStyle: valueChangedCellStyle,
             headerheight: headerheight, //need to be adde,
             rowClass: rowClass,
@@ -3232,7 +3230,7 @@ function DataGrid(props) {
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
           "--rdg-sign": isRtl ? -1 : 1,
-          gridTemplateColumns: gridViewportTemplateColumns,
+          ...gridViewportTemplateColumns,
         }}
         dir={direction}
         ref={gridRef}

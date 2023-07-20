@@ -118,7 +118,7 @@ describe("Datagrid Unit test for Master Details", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const expandicon = screen.getByTestId("tree-expand-icon-1");
+    const expandicon = screen.getByTestId("master-expand-icon-1");
     expect(expandicon).toBeInTheDocument();
     fireEvent.click(expandicon);
     fireEvent.click(expandicon);

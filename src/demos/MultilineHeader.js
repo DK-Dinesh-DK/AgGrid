@@ -77,18 +77,17 @@ export default function MultilineHeader({ direction }) {
 
     {
       field: "title",
-      cellEditor: TextEditor,
       frozen: true,
-      width: 300,
+      haveChildren: true,
       children: [
         {
           field: "title1",
           headerName: "Title1",
           filter: true,
           sortable: true,
-          alignment: true,
+          width: 150,
         },
-        { field: "title2", headerName: "Title2" },
+        { field: "title2", headerName: "Title2", width: 150 },
       ],
     },
     {

@@ -42,7 +42,7 @@ function TreeRow({
   selectGroup,
   serialNumber,
   toggleTree,
-  rowArray,
+  // rowArray,
   sourceData,
   childRows,
   treeData,
