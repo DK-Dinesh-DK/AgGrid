@@ -87,6 +87,9 @@ function Cell({
   summaryRowHeight,
   expandedMasterIds,
   onExpandedMasterIdsChange,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -107,26 +110,24 @@ function Cell({
       const content = document.getElementById(
         `${rowIndex}${row[column.key]}`
       ).innerHTML;
-      document.getElementById(
-        `${rowIndex}${row[column.key]}`
-      ).innerHTML = content;
+      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+        content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue
-    }
-  }
-  
-  const cellRendererParams =
-  typeof column?.cellRendererParams === "function"
-    ? column?.cellRendererParams(cellParams)
-    : column?.cellRendererParams;
+      row[column.key] = newValue;
+    },
+  };
 
-  
+  const cellRendererParams =
+    typeof column?.cellRendererParams === "function"
+      ? column?.cellRendererParams(cellParams)
+      : column?.cellRendererParams;
+
   useUpdateEffect(() => {
-    setValue(cellRendererParams?.value ?? row[column.key])
-  }, [cellRendererParams?.value, row[column.key]])
+    setValue(cellRendererParams?.value ?? row[column.key]);
+  }, [cellRendererParams?.value, row[column.key]]);
 
   const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
@@ -159,8 +160,9 @@ function Cell({
 
   let style = {
     ...getCellStyle(column, colSpan, row),
-    "--rdg-summary-row-top": `${headerheight + summaryRowHeight + rowIndex * 24
-      }px`,
+    "--rdg-summary-row-top": `${
+      headerheight + summaryRowHeight + rowIndex * 24
+    }px`,
   };
   style =
     column.haveChildren === true
@@ -191,7 +193,7 @@ function Cell({
   if (column.alignment) {
     style = column.alignment.align
       ? { ...style, textAlign: column.alignment.align }
-      : alignmentUtils(column, row, style,"Row");
+      : alignmentUtils(column, row, style, "Row");
   }
   /// -----------------------
   if (valueChangedCellStyle) {
@@ -228,7 +230,7 @@ function Cell({
     }),
   });
   function handleDoubleClick(e) {
-    e.stopPropagation()
+    e.stopPropagation();
     onRowDoubleClick?.({
       api: api,
       data: row,
@@ -250,7 +252,7 @@ function Cell({
     });
   }
   function handleClick(e) {
-    e.stopPropagation()
+    e.stopPropagation();
     onRowClick?.({
       api: api,
       data: row,
@@ -271,6 +273,13 @@ function Cell({
       event: e,
     });
   }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
+
   let params = {
     column,
     colDef: column,
@@ -303,32 +312,33 @@ function Cell({
       const content = document.getElementById(
         `${rowIndex}${row[column.key]}`
       ).innerHTML;
-      document.getElementById(
-        `${rowIndex}${row[column.key]}`
-      ).innerHTML = content;
+      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+        content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue
+      row[column.key] = newValue;
     },
+    handleToolTip,
+    handleToolTipContent,
     ...cellRendererParams,
     expandedMasterIds,
     onExpandedMasterIdsChange,
-  }
+  };
 
   if (column.cellStyle) {
     let dynamicStyle;
     if (typeof column.cellStyle === "function")
       dynamicStyle = column.cellStyle(params);
-    else
-      dynamicStyle = column.cellStyle
-    style = { ...style, ...dynamicStyle }
+    else dynamicStyle = column.cellStyle;
+    style = { ...style, ...dynamicStyle };
   }
 
   return (
     <div
       data-testid="rowCell"
+      id={`cellid-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
       aria-colspan={colSpan}
       aria-rowspan={rowSpan}
@@ -340,7 +350,15 @@ function Cell({
       className={className}
       style={style}
       onFocus={onFocus}
-      {...props}>
+      {...props}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          `cellid-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + props.Rowheight / 2);
+      }}
+    >
       {!column.rowGroup && (
         <>
           {column.rowDrag && (
@@ -349,21 +367,22 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{ display: "flex" }}>
+              style={{ display: "flex" }}
+            >
               <span
                 data-testid={`drag-icon-${column.idx}-${rowIndex}`}
                 style={{
                   cursor: "grab",
                   marginLeft: "10px",
                   marginRight: "5px",
-                }}>
+                }}
+              >
                 &#9674;
               </span>
               {column.cellRenderer(params)}
             </div>
           )}
-          {!column.rowDrag &&
-            column.cellRenderer(params)}
+          {!column.rowDrag && column.cellRenderer(params)}
         </>
       )}
     </div>

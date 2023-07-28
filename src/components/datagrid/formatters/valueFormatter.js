@@ -108,6 +108,7 @@ export function valueFormatter(props) {
         ? { ...cellStyle, textAlign: props.column.alignment.align }
         : alignmentUtils(props.column, props.row, cellStyle, "Row");
     }
+    let toolTipContent;
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
@@ -119,6 +120,26 @@ export function valueFormatter(props) {
         onClick={handleClick}
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
+        onMouseOver={(e) => {
+          if (props.column.haveChildren === false && props.column.toolTip) {
+            if (typeof props.column.toolTip === "function") {
+              toolTipContent = props.column.toolTip({
+                row: props.row,
+                rowIndex: props.rowIndex,
+                column: props.column,
+              });
+            } else {
+              toolTipContent = props.row[props.column.field];
+            }
+            props.handleToolTipContent(toolTipContent);
+            props.handleToolTip(true);
+          }
+        }}
+        onMouseOutCapture={() => {
+          if (props.column.haveChildren === false && props.column.toolTip) {
+            props.handleToolTip(false);
+          }
+        }}
       >
         {isCellSelected && props.selectedCellEditor
           ? props.selectedCellEditor
@@ -297,6 +318,7 @@ const childData = (subData, props) => {
         ? { ...childStyle, textAlign: info1.alignment.align }
         : alignmentUtils(info1, props.row, childStyle, "Row");
     }
+    let toolTipContent;
     return (
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
@@ -305,6 +327,27 @@ const childData = (subData, props) => {
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
         style={childStyle}
+        onMouseOver={(e) => {
+          if (info1.toolTip) {
+            if (typeof info1.toolTip === "function") {
+              toolTipContent = info1.toolTip({
+                row: props.row,
+                rowIndex: props.rowIndex,
+                column: info1,
+              });
+            } else {
+              toolTipContent = props.row[info1.field];
+            }
+            props.handleToolTipContent(toolTipContent);
+            props.handleToolTip(true);
+          }
+        }}
+        onMouseOutCapture={() => {
+          if (info1.toolTip) {
+            props.handleToolTip(false);
+          }
+        }}
+        // title={info1.toolTip && !info1.haveChildren ? toolTipContent : null}
       >
         {/* <div style={{ borderInlineEnd: sdsd, textAlign: "center",height:"24px",width:100 }}> */}
         {isCellSelected && props.selectedCellEditor

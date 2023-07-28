@@ -60,12 +60,23 @@ function TreeRow({
   selectedCellEditor,
   node,
   allrow,
+  setToolTip,
+  setToolTipContent,
+  setMouseY,
   ...props
 }) {
   // Select is always the first column
   const idx = viewportColumns[0].key === SELECT_COLUMN_KEY ? level + 1 : level;
   const [detectedLevel, setDetectedLevel] = useState();
-
+  function handleMouseY(y) {
+    setMouseY(y);
+  }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
   useEffect(() => {
     var detectedLevel;
     function recursiveChild(obj, level) {
@@ -99,10 +110,36 @@ function TreeRow({
       <div
         key={`${rowIdx}`}
         role="row"
-        id={row?.id ?? rowIdx}
+        id={
+          row.children
+            ? `tree-row-${row?.id ?? rowIdx}`
+            : `row-${row?.id ?? rowIdx}`
+        }
         ref={props.ref}
         aria-level={level}
         aria-expanded={isExpanded}
+        onMouseOver={() => {
+          if (props.rowLevelToolTip) {
+            let toolTipContent;
+            if (typeof props.rowLevelToolTip === "function") {
+              toolTipContent = props.rowLevelToolTip({
+                row,
+                rowIndex: rowIdx,
+              });
+            } else {
+              toolTipContent = row.children
+                ? `tree-row-${row?.id ?? rowIdx}`
+                : `row-index-${row?.id ?? rowIdx}`;
+            }
+            handleToolTipContent(toolTipContent);
+            handleToolTip(true);
+          }
+        }}
+        onMouseOutCapture={() => {
+          if (props.rowLevelToolTip) {
+            handleToolTip(false);
+          }
+        }}
         className={clsx(
           rowClassname,
           rowClass,
@@ -149,6 +186,10 @@ function TreeRow({
             valueChangedCellStyle={valueChangedCellStyle}
             treeData={treeData}
             previousData={props.previousData}
+            setMouseY={handleMouseY}
+            setToolTip={handleToolTip}
+            setToolTipContent={handleToolTipContent}
+            Rowheight={height}
           />
         ))}
       </div>

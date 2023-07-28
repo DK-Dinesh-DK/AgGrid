@@ -170,7 +170,7 @@ a:focus {
 .react-contextmenu-item.react-contextmenu-item--active,
 .react-contextmenu-item.react-contextmenu-item--selected {
   color: var(--activeMenuColor);
-  background-color:var(--hoverMenuBackgroundColor);
+  background-color: var(--hoverMenuBackgroundColor);
   border-color: #20a0ff;
   text-decoration: none;
 }
@@ -204,4 +204,26 @@ a:focus {
 .example-multiple-targets::after {
   content: attr(data-count);
   display: block;
+}
+@media screen and (max-width: 600px) {
+  .tooltiptext {
+    max-width: 200px !important;
+  }
+}
+.tooltiptext {
+  visibility: hidden;
+  word-wrap: break-word;
+  min-width: 75px;
+  max-width: 340px;
+  font-size: 11px;
+  background-color: #f5fbff;
+  color: #0f243e;
+  text-align: center;
+  padding: 5px;
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+  border: 1px solid #7c94b6;
+  z-index: 10;
 }

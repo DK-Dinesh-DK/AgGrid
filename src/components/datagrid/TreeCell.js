@@ -32,6 +32,9 @@ function TreeCell({
   selectCell,
   valueChangedCellStyle,
   previousData,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
   ...props
 }) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
@@ -43,9 +46,14 @@ function TreeCell({
   const gridCell = useRef(null);
 
   const [value, setValue] = useState(
-    cellRendererParams?.value ?? row[column.key]
+    column?.cellRendererParams?.value ?? row[column.key]
   );
-
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
   let cellParams = {
     column: column,
     data: row,
@@ -66,6 +74,8 @@ function TreeCell({
       setValue(newValue);
       row[column.key] = newValue;
     },
+    handleToolTip,
+    handleToolTipContent,
   };
 
   const cellRendererParams =
@@ -168,6 +178,8 @@ function TreeCell({
     // setValue: (newValue) => {
     //   setValue(newValue);
     // },
+    handleToolTip,
+    handleToolTipContent,
     ...cellRendererParams,
   };
 
@@ -215,6 +227,11 @@ function TreeCell({
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       role="gridcell"
+      id={
+        row.children
+          ? `tree-cell-${column.idx}-${rowIndex}`
+          : `cell-id-${column.idx}-${rowIndex}`
+      }
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
       ref={ref}
@@ -230,6 +247,15 @@ function TreeCell({
       onClick={handleClick}
       onFocus={onFocus}
       // onDoubleClick={toggleTree}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          row.children
+            ? `tree-cell-${column.idx}-${rowIndex}`
+            : `cell-id-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + props.Rowheight / 2);
+      }}
     >
       {column.idx < 1 &&
         serialNumber &&

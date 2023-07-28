@@ -258,6 +258,11 @@ function DataGrid(props) {
   const { columns3 } = useCalculatedColumnsWithTopHeader({
     raawColumns, //need to be added
   });
+  const [toolTip, setToolTip] = useState(false);
+  const [toolTipContent, setToolTipContent] = useState("");
+  const [mouseX, setMouseX] = useState();
+  const [mouseY, setMouseY] = useState();
+  const toolTipRef = useRef(null);
 
   const [scrollTop, setScrollTop] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -2861,6 +2866,10 @@ function DataGrid(props) {
             isRowSelected={isGroupRowSelected}
             selectGroup={selectGroupLatest}
             toggleGroup={toggleGroupLatest}
+            rowLevelToolTip={rest.rowLevelToolTip}
+            setToolTip={(val) => setToolTip(val)}
+            setToolTipContent={(val) => setToolTipContent(val)}
+            setMouseY={(y) => setMouseY(y)}
           />
         );
         continue;
@@ -2919,6 +2928,10 @@ function DataGrid(props) {
             selectedCellEditor={getCellEditor(rowIdx)}
             treeData={props.treeData}
             previousData={changedList}
+            rowLevelToolTip={rest.rowLevelToolTip}
+            setToolTip={(val) => setToolTip(val)}
+            setToolTipContent={(val) => setToolTipContent(val)}
+            setMouseY={(y) => setMouseY(y)}
           />
         );
         continue;
@@ -2974,6 +2987,10 @@ function DataGrid(props) {
             selectedCellEditor: getCellEditor(rowIdx),
             lastFrozenColumnIndex,
             expandedMasterRowIds,
+            rowLevelToolTip: rest.rowLevelToolTip,
+            setToolTip,
+            setToolTipContent,
+            setMouseY: (y) => setMouseY(y),
           })
         );
 
@@ -3091,6 +3108,10 @@ function DataGrid(props) {
           subColumn,
           summaryRowHeight: topSummaryRows !== undefined ? summaryRowHeight : 0,
           rowFreezLastIndex,
+          rowLevelToolTip: rest.rowLevelToolTip,
+          setToolTip,
+          setToolTipContent,
+          setMouseY: (y) => setMouseY(y),
         })
       );
     }
@@ -3162,6 +3183,26 @@ function DataGrid(props) {
   if (jumpprev) {
     jumpprev[0]?.setAttribute("title", "");
   }
+
+  window.addEventListener("mousemove", (e) => {
+    let x = e.clientX;
+    let y = e.clientY;
+
+    setMouseX(x + 75);
+  });
+
+  if (toolTipRef) {
+    const toolTipWidth = toolTipRef.current?.scrollWidth + mouseX;
+    const gridElement = document.getElementById("DataGrid");
+    const dimensions = gridElement?.getBoundingClientRect();
+    let gridWidth = dimensions?.width + dimensions?.x;
+
+    if (typeof gridWidth === "number" && gridWidth < toolTipWidth) {
+      let changeWidth = toolTipWidth - gridWidth;
+      setMouseX(mouseX - changeWidth);
+    }
+  }
+
   return (
     <>
       {props.export && (
@@ -3193,7 +3234,7 @@ function DataGrid(props) {
         </div>
       )}
       <div
-        id="DataGrid"
+        id={rest.id ?? "DataGrid"}
         role={hasGroups ? "treegrid" : "grid"}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
@@ -3314,6 +3355,12 @@ function DataGrid(props) {
                         isSummaryRowSelected ? selectedPosition.idx : undefined
                       }
                       selectCell={selectTopSummaryCellLatest}
+                      height={summaryRowHeight}
+                      rowType={"Top"}
+                      rowLevelToolTip={rest.rowLevelToolTip}
+                      setToolTip={(val) => setToolTip(val)}
+                      setToolTipContent={(val) => setToolTipContent(val)}
+                      setMouseY={(y) => setMouseY(y)}
                     />
                   );
                 })}
@@ -3366,6 +3413,12 @@ function DataGrid(props) {
                       }
                       selectCell={selectBottomSummaryCellLatest}
                       selectedRows={selectedRows}
+                      height={summaryRowHeight}
+                      rowType={"Bottom"}
+                      rowLevelToolTip={rest.rowLevelToolTip}
+                      setToolTip={(val) => setToolTip(val)}
+                      setToolTipContent={(val) => setToolTipContent(val)}
+                      setMouseY={(y) => setMouseY(y)}
                     />
                   );
                 })}
@@ -3516,6 +3569,25 @@ function DataGrid(props) {
           )}
         </div>
       )}
+      <div
+        ref={toolTipRef}
+        id="tool-tip-span"
+        class="tooltiptext"
+        style={{
+          visibility:
+            !toolTip ||
+            toolTipContent === null ||
+            toolTipContent === undefined ||
+            toolTipContent.length === 0
+              ? "hidden"
+              : "visible",
+          top: mouseY,
+          left: mouseX,
+          height: "max-content",
+        }}
+      >
+        {toolTipContent}
+      </div>
     </>
   );
 }

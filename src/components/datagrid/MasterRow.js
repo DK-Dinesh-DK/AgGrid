@@ -45,12 +45,23 @@ const MasterRow = forwardRef(
       allrow,
       lastFrozenColumnIndex,
       expandedMasterRowIds,
+      setToolTip,
+      setToolTipContent,
+      setMouseY,
       ...props
     },
     ref
   ) => {
     // Select is always the first column
-
+    function handleMoseY(y) {
+      setMouseY(y);
+    }
+    function handleToolTip(value) {
+      setToolTip(value);
+    }
+    function handleToolTipContent(value) {
+      setToolTipContent(value);
+    }
     let style = getRowStyle(gridRowStart, height);
 
     const cells = [];
@@ -100,6 +111,10 @@ const MasterRow = forwardRef(
           selectedCellEditor={selectedCellEditor}
           valueChangedCellStyle={valueChangedCellStyle}
           treeData={treeData}
+          setMouseY={handleMoseY}
+          setToolTip={handleToolTip}
+          setToolTipContent={handleToolTipContent}
+          Rowheight={height}
         />
       );
     }
@@ -109,10 +124,37 @@ const MasterRow = forwardRef(
         <div
           key={`${rowIdx}`}
           role="row"
-          id={row?.id ?? rowIdx}
+          id={
+            row.gridRowType === "Detail"
+              ? `details-row-${row?.id ?? rowIdx}`
+              : `master-row-${row?.id ?? rowIdx}`
+          }
           ref={ref}
           aria-level={level}
           aria-expanded={isExpanded}
+          onMouseOver={() => {
+            if (props.rowLevelToolTip) {
+              let toolTipContent;
+              if (typeof props.rowLevelToolTip === "function") {
+                toolTipContent = props.rowLevelToolTip({
+                  row,
+                  rowIndex: rowIdx,
+                });
+              } else {
+                toolTipContent =
+                  row.gridRowType === "Detail"
+                    ? `details-row-${row?.id ?? rowIdx}`
+                    : `master-row-${row?.id ?? rowIdx}`;
+              }
+              handleToolTipContent(toolTipContent);
+              handleToolTip(true);
+            }
+          }}
+          onMouseOutCapture={() => {
+            if (props.rowLevelToolTip) {
+              handleToolTip(false);
+            }
+          }}
           className={clsx(
             rowClassname,
             `rdg-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,

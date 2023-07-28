@@ -60,18 +60,22 @@ const columns = [
   {
     field: "country",
     headerName: "Country",
+    toolTip: true,
   },
   {
     field: "year",
     headerName: "Year",
+    toolTip: true,
   },
   {
     field: "sport",
     headerName: "Sport",
+    toolTip: true,
   },
   {
     field: "athlete",
     headerName: "Athlete",
+    toolTip: true,
   },
   {
     field: "gold",
@@ -97,7 +101,7 @@ const columns = [
   {
     field: "total",
     headerName: "Total",
-    formatter({ row }) {
+    valueFormatter({ row }) {
       return <>{row.gold + row.silver + row.bronze}</>;
     },
     groupFormatter({ childRows }) {
@@ -215,6 +219,7 @@ export default function Grouping({ direction }) {
         defaultColumnOptions={{ resizable: true }}
         direction={direction}
         innerRef={dataGridRef}
+        // rowLevelToolTip={true}
       />
     </div>
   );

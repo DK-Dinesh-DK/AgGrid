@@ -89,10 +89,12 @@ export default function TreeView() {
       headerName: "Name",
       width: 100,
       filter: true,
+      toolTip: true,
     },
     {
       field: "format",
       headerName: "format",
+      toolTip: true,
     },
     {
       field: "position",
@@ -100,6 +102,7 @@ export default function TreeView() {
       cellRenderer: (params) => {
         return TextEditor(params);
       },
+      toolTip: true,
     },
     {
       field: "price",
@@ -125,6 +128,7 @@ export default function TreeView() {
         }}
         // selection={true}
         serialNumber={true}
+        rowLevelToolTip={true}
       />
     </>
   );

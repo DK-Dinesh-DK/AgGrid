@@ -1,5 +1,5 @@
-import React,{memo} from "react";
-import {clsx} from "clsx";
+import React, { memo } from "react";
+import { clsx } from "clsx";
 import { css } from "@linaria/core";
 
 import {
@@ -42,6 +42,9 @@ function GroupedRow({
   isRowSelected,
   selectGroup,
   toggleGroup,
+  setToolTip,
+  setToolTipContent,
+  setMouseY,
   ...props
 }) {
   // Select is always the first column
@@ -50,14 +53,43 @@ function GroupedRow({
   function handleSelectGroup() {
     selectGroup(rowIdx);
   }
-
+  function handleMoseY(y) {
+    setMouseY(y);
+  }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
   return (
     <RowSelectionProvider value={isRowSelected}>
       <div
         key={`${rowIdx}`}
         role="row"
+        id={`group-row-${row?.id ?? rowIdx}`}
         aria-level={level}
         aria-expanded={isExpanded}
+        onMouseOver={() => {
+          if (props.rowLevelToolTip) {
+            let toolTipContent;
+            if (typeof props.rowLevelToolTip === "function") {
+              toolTipContent = props.rowLevelToolTip({
+                row,
+                rowIndex: rowIdx,
+              });
+            } else {
+              toolTipContent = `group-rowIndex-${rowIdx}`;
+            }
+            handleToolTipContent(toolTipContent);
+            handleToolTip(true);
+          }
+        }}
+        onMouseOutCapture={() => {
+          if (props.rowLevelToolTip) {
+            handleToolTip(false);
+          }
+        }}
         className={clsx(
           rowClassname,
           groupRowClassname,
@@ -83,6 +115,10 @@ function GroupedRow({
             groupColumnIndex={idx}
             toggleGroup={toggleGroup}
             rowIndex={rowIdx}
+            setMouseY={handleMoseY}
+            setToolTip={handleToolTip}
+            setToolTipContent={handleToolTipContent}
+            Rowheight={height}
           />
         ))}
       </div>

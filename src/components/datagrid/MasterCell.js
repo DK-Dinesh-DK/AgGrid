@@ -25,6 +25,9 @@ function MasterCell({
   isRowSelected,
   selectCell,
   valueChangedCellStyle,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
   ...props
 }) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
@@ -36,8 +39,14 @@ function MasterCell({
   const gridCell = useRef(null);
 
   const [value, setValue] = useState(
-    cellRendererParams?.value ?? row[column.key]
+    column?.cellRendererParams?.value ?? row[column.key]
   );
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
 
   let cellParams = {
     column: column,
@@ -59,6 +68,8 @@ function MasterCell({
       setValue(newValue);
       row[column.key] = newValue;
     },
+    handleToolTip,
+    handleToolTipContent,
   };
 
   const cellRendererParams =
@@ -102,11 +113,24 @@ function MasterCell({
     typeof cellClass === "function" ? cellClass(row) : cellClass,
     row.gridRowType === "Detail" ? "rdg-cell-detail" : undefined
   );
-
+  if (row.gridRowType === "Detail" && column.toolTip) {
+    let toolTipContent;
+    if (typeof column.toolTip === "function") {
+      toolTipContent = column.toolTip({
+        row,
+        rowIndex,
+      });
+    } else {
+      toolTipContent = `details-row-${row?.id ?? rowIndex}`;
+    }
+    handleToolTipContent(toolTipContent);
+    handleToolTip(true);
+  }
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       role="gridcell"
+      id={`mastercellid-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
       ref={ref}
@@ -116,7 +140,13 @@ function MasterCell({
       style={style}
       onClick={handleClick}
       onFocus={onFocus}
-      // onDoubleClick={toggleMaster}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          `mastercellid-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + props.Rowheight / 2);
+      }}
     >
       {column.idx > 0 &&
         row.gridRowType !== "Detail" &&

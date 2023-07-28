@@ -67,8 +67,23 @@ function SummaryRow({
   lastTopRowIdx,
   selectCell,
   "aria-rowindex": ariaRowIndex,
+  height,
+  rowType,
+  rowLevelToolTip,
+  setToolTip,
+  setToolTipContent,
+  setMouseY,
 }) {
   const cells = [];
+  function handleMoseY(y) {
+    setMouseY(y);
+  }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = viewportColumns[index];
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
@@ -91,6 +106,12 @@ function SummaryRow({
         row={row}
         isCellSelected={isCellSelected}
         selectCell={selectCell}
+        setMouseY={handleMoseY}
+        setToolTip={handleToolTip}
+        setToolTipContent={handleToolTipContent}
+        rowHeight={height}
+        rowIndex={rowIdx}
+        type={rowType}
       />
     );
   }
@@ -102,6 +123,27 @@ function SummaryRow({
       key={`${rowIdx}`}
       role="row"
       aria-rowindex={ariaRowIndex}
+      onMouseOver={() => {
+        if (rowLevelToolTip) {
+          let toolTipContent;
+          if (typeof rowLevelToolTip === "function") {
+            toolTipContent = rowLevelToolTip({
+              row,
+              rowIndex: rowIdx,
+              summarryRowtype: rowType,
+            });
+          } else {
+            toolTipContent = `${rowType}-SummarryRow-${rowIdx}`;
+          }
+          handleToolTipContent(toolTipContent);
+          handleToolTip(true);
+        }
+      }}
+      onMouseOutCapture={() => {
+        if (rowLevelToolTip) {
+          handleToolTip(false);
+        }
+      }}
       className={clsx(
         rowClassname,
         `rdg-row-summary-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,

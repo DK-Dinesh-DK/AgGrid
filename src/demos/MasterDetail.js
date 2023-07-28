@@ -56,7 +56,7 @@ export default function MasterDetail({ direction }) {
         cellClass(row) {
           return row.gridRowType === "DETAIL"
             ? css`
-                padding: 24px;
+                padding: 30px;
                 background-color: black;
               `
             : undefined;
@@ -64,10 +64,11 @@ export default function MasterDetail({ direction }) {
         detailsGrid: (props) => {
           return (
             <DataGrid
+              id={`details-gird-${props.row.parentId}`}
               rowData={getProducts(props.row.parentId)}
               columnData={productColumns}
               rowKeyGetter={rowKeyGetter}
-              style={{ blockSize: 250, margin: "30px" }}
+              style={{ blockSize: 250 }}
             />
           );
         },
@@ -75,6 +76,10 @@ export default function MasterDetail({ direction }) {
       {
         field: "id",
         headerName: "ID",
+        valueFormatter: (params) => {
+          console.log(params);
+          return `id-${params.row.id}`;
+        },
         width: 35,
       },
       { field: "department", headerName: "Department" },
@@ -103,6 +108,7 @@ export default function MasterDetail({ direction }) {
         onExpandedMasterIdsChange={(pro) => {
           console.log("fvfvf", pro);
         }}
+        rowLevelToolTip={true}
         direction={direction}
       />
     </>

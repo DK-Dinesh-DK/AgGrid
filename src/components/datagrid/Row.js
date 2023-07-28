@@ -1,5 +1,5 @@
 import React, { memo, forwardRef } from "react";
-import {clsx} from "clsx";
+import { clsx } from "clsx";
 
 import Cell from "./Cell";
 import { RowSelectionProvider, useLatestFunc } from "./hooks";
@@ -53,19 +53,30 @@ function Row(
     headerheight,
     expandedMasterIds,
     onExpandedMasterIdsChange,
+    setToolTip,
+    setToolTipContent,
+    setMouseY,
     ...props
   },
   ref
 ) {
   const handleRowChange = useLatestFunc((column, newRow) => {
-    onRowChange(column, rowIdx, newRow,row);
+    onRowChange(column, rowIdx, newRow, row);
   });
 
   function handleDragEnter(event) {
     setDraggedOverRowIdx?.(rowIdx);
     onMouseEnter?.(event);
   }
-
+  function handleMoseY(y) {
+    setMouseY(y);
+  }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
   className = clsx(
     rowClassname,
     `rdg-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,
@@ -129,6 +140,10 @@ function Row(
         headerheight={headerheight}
         expandedMasterIds={expandedMasterIds}
         onExpandedMasterIdsChange={onExpandedMasterIdsChange}
+        setMouseY={handleMoseY}
+        setToolTip={handleToolTip}
+        setToolTipContent={handleToolTipContent}
+        Rowheight={height}
       />
     );
   }
@@ -138,25 +153,43 @@ function Row(
   if (rowIdx === selectedPosition.rowIdx) {
     style = { ...style, ...selectedCellRowStyle };
   }
+  let toolTipContent;
 
   return (
-
     <DndProvider backend={HTML5Backend}>
-      <RowSelectionProvider value={isRowSelected}> 
+      <RowSelectionProvider value={isRowSelected}>
         <div
           role="row"
           ref={ref}
-          id={row?.id ?? rowIdx}
+          id={`rowid-${row?.id ?? rowIdx}`}
           className={className}
           onMouseEnter={handleDragEnter}
+          onMouseOver={() => {
+            if (props.rowLevelToolTip) {
+              if (typeof props.rowLevelToolTip === "function") {
+                toolTipContent = props.rowLevelToolTip({
+                  row,
+                  rowIndex: rowIdx,
+                });
+              } else {
+                toolTipContent = `rowIndex-${rowIdx}`;
+              }
+              handleToolTipContent(toolTipContent);
+              handleToolTip(true);
+            }
+          }}
+          onMouseOutCapture={() => {
+            if (props.rowLevelToolTip) {
+              handleToolTip(false);
+            }
+          }}
           style={style}
           {...props}
         >
           {cells}
-        </div> 
-       
+        </div>
       </RowSelectionProvider>
-    </DndProvider> 
+    </DndProvider>
   );
 }
 

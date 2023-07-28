@@ -14,8 +14,18 @@ function GroupCell({
   groupColumnIndex,
   toggleGroup: toggleGroupWrapper,
   rowIndex,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
+  Rowheight,
 }) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
 
   function toggleGroup() {
     toggleGroupWrapper(id);
@@ -28,11 +38,19 @@ function GroupCell({
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       role="gridcell"
+      id={`group-cell-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
       ref={ref}
       tabIndex={tabIndex}
       key={column.key}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          `group-cell-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + Rowheight / 2);
+      }}
       className={getCellClassname(column)}
       style={{
         ...getCellStyle(column),
@@ -51,6 +69,8 @@ function GroupCell({
           isCellSelected,
           toggleGroup,
           rowIndex,
+          handleToolTip,
+          handleToolTipContent,
         })}
     </div>
   );

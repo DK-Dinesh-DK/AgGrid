@@ -26,6 +26,7 @@ export default function ColumnSpanning({ direction }) {
     {
       header: "One",
       field: "one",
+      toolTip: (params) => `"Oneee${params.row.one}`,
       summaryFormatter(props) {
         return props.row.one;
       },
@@ -107,6 +108,7 @@ export default function ColumnSpanning({ direction }) {
       onRowDoubleClicked={onRowDoubleClicked}
       topSummaryRows={summaryRowsTop}
       bottomSummaryRows={summaryRowsBottom}
+      // rowLevelToolTip={(params) => `ColumnSpanRow-${params.rowIndex}`}
     />
   );
 }

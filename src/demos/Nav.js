@@ -141,6 +141,9 @@ export default function Nav({ direction, onDirectionChange }) {
       <NavLink to="/multilineheader" end className={getActiveClassname}>
         24. MultilineHeader
       </NavLink>
+      <NavLink to="/tool-tip" end className={getActiveClassname}>
+        25. ToolTip
+      </NavLink>
       <h2>Direction</h2>
       <label className={rtlCheckboxClassname}>
         <input
