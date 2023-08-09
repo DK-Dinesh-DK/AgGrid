@@ -62,6 +62,7 @@ function GroupedRow({
   function handleToolTipContent(value) {
     setToolTipContent(value);
   }
+  
   return (
     <RowSelectionProvider value={isRowSelected}>
       <div

@@ -32,6 +32,7 @@ import Demos from "./demos/demo";
 import AlignmentDataTypes from "./demos/AlignmentDataTypes";
 import MultilineHeader from "./demos/MultilineHeader";
 import ToolTip from "./demos/ToolTip";
+import DetailedRow from "./demos/DetailedRow";
 css`
   @at-root {
     :root,
@@ -163,6 +164,10 @@ function App() {
             element={<MultilineHeader direction={direction} />}
           />
           <Route path="tool-tip" element={<ToolTip direction={direction} />} />
+          <Route
+            path="details-row"
+            element={<DetailedRow direction={direction} />}
+          />
 
           <Route path="*" element="Nothing to see here" />
         </Routes>

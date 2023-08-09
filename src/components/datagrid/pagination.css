@@ -227,3 +227,7 @@ a:focus {
   border: 1px solid #7c94b6;
   z-index: 10;
 }
+.grid-wrapper {
+  height: inherit;
+  display: table;
+}

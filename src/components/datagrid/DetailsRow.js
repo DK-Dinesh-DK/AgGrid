@@ -3,10 +3,10 @@ import clsx from "clsx";
 import { getRowStyle, getColSpan } from "./utils";
 import { rowClassname, rowSelectedClassname } from "./style";
 
-import { RowSelectionProvider } from "./hooks";
-import MasterCell from "./MasterCell";
+import { RowSelectionProvider, useLatestFunc } from "./hooks";
+import DetailsCell from "./DetailsCell";
 
-const MasterRow = forwardRef(
+const DetailsRow = forwardRef(
   (
     {
       id,
@@ -24,11 +24,13 @@ const MasterRow = forwardRef(
       isRowSelected,
       selectGroup,
       serialNumber,
-      toggleMaster,
+      toggleDetailed,
       rowArray,
       sourceData,
       childRows,
+      treeData,
       apiObject,
+      selectTree,
       valueChangedCellStyle,
       onRowClick,
       onRowDoubleClick,
@@ -36,13 +38,13 @@ const MasterRow = forwardRef(
       onCellContextMenu,
       onCellDoubleClick,
       rowClass,
-      handleRowChange,
       selectCell,
       selectedCellEditor,
       node,
       allrow,
       lastFrozenColumnIndex,
-      expandedMasterRowIds,
+      detailedRowIds,
+      gridWidth,
       setToolTip,
       setToolTipContent,
       setMouseY,
@@ -50,7 +52,7 @@ const MasterRow = forwardRef(
     },
     ref
   ) => {
-    // Select is always the first column
+    let style = getRowStyle(gridRowStart, height);
     function handleMoseY(y) {
       setMouseY(y);
     }
@@ -60,25 +62,31 @@ const MasterRow = forwardRef(
     function handleToolTipContent(value) {
       setToolTipContent(value);
     }
-    let style = getRowStyle(gridRowStart, height);
+    const handleRowChange = (column, newRow) => {
+      props.onRowChange(column, rowIdx, newRow, row);
+    };
 
     const cells = [];
 
     for (let index = 0; index < viewportColumns.length; index++) {
       const column = { ...viewportColumns[index], rowIndex: rowIdx };
       const { idx } = column;
-      const colSpan = getColSpan(column, lastFrozenColumnIndex, {
+      let colSpan = getColSpan(column, lastFrozenColumnIndex, {
         type: "ROW",
         row,
         rowIndex: rowIdx,
-        expandedMasterIds: expandedMasterRowIds,
+        detailedRowIds,
       });
       if (colSpan !== undefined) {
         index += colSpan - 1;
       }
+      if (row.gridRowType === "detailedRow") {
+        index += viewportColumns.length;
+        colSpan = viewportColumns.length;
+      }
 
       cells.push(
-        <MasterCell
+        <DetailsCell
           key={`${column.key}`}
           id={id}
           childRows={row.children}
@@ -89,7 +97,7 @@ const MasterRow = forwardRef(
           row={row}
           apiObject={apiObject}
           groupColumnIndex={idx}
-          toggleMaster={toggleMaster}
+          toggleDetailed={toggleDetailed}
           selection={selection}
           serialNumber={serialNumber}
           allrow={allrow}
@@ -111,6 +119,9 @@ const MasterRow = forwardRef(
           setToolTip={handleToolTip}
           setToolTipContent={handleToolTipContent}
           Rowheight={height}
+          selectedCellIdx={selectedCellIdx}
+          deviceType={props.deviceType}
+          gridWidth={gridWidth}
         />
       );
     }
@@ -120,37 +131,10 @@ const MasterRow = forwardRef(
         <div
           key={`${rowIdx}`}
           role="row"
-          id={
-            row.gridRowType === "Detail"
-              ? `details-row-${row?.id ?? rowIdx}`
-              : `master-row-${row?.id ?? rowIdx}`
-          }
+          id={`master-row-${row?.id ?? rowIdx}`}
           ref={ref}
           aria-level={level}
           aria-expanded={isExpanded}
-          onMouseOver={() => {
-            if (props.rowLevelToolTip) {
-              let toolTipContent;
-              if (typeof props.rowLevelToolTip === "function") {
-                toolTipContent = props.rowLevelToolTip({
-                  row,
-                  rowIndex: rowIdx,
-                });
-              } else {
-                toolTipContent =
-                  row.gridRowType === "Detail"
-                    ? `details-row-${row?.id ?? rowIdx}`
-                    : `master-row-${row?.id ?? rowIdx}`;
-              }
-              handleToolTipContent(toolTipContent);
-              handleToolTip(true);
-            }
-          }}
-          onMouseOutCapture={() => {
-            if (props.rowLevelToolTip) {
-              handleToolTip(false);
-            }
-          }}
           className={clsx(
             rowClassname,
             `rdg-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,
@@ -162,6 +146,26 @@ const MasterRow = forwardRef(
             className
           )}
           style={style}
+          onMouseOver={() => {
+            if (props.rowLevelToolTip) {
+              let toolTipContent;
+              if (typeof props.rowLevelToolTip === "function") {
+                toolTipContent = props.rowLevelToolTip({
+                  row,
+                  rowIndex: rowIdx,
+                });
+              } else {
+                toolTipContent = `rowIndex-${rowIdx}`;
+              }
+              handleToolTipContent(toolTipContent);
+              handleToolTip(true);
+            }
+          }}
+          onMouseOutCapture={() => {
+            if (props.rowLevelToolTip) {
+              handleToolTip(false);
+            }
+          }}
           {...props}
         >
           {cells}
@@ -171,4 +175,4 @@ const MasterRow = forwardRef(
   }
 );
 
-export default memo(MasterRow);
+export default memo(DetailsRow);

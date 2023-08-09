@@ -94,7 +94,7 @@ function Cell({
 }) {
   const gridCell = useRef(null);
   const [value, setValue] = useState(
-    cellRendererParams?.value ?? row[column.key]
+    column?.cellRendererParams?.value ?? row[column.key]
   );
 
   let cellParams = {
@@ -126,8 +126,8 @@ function Cell({
       : column?.cellRendererParams;
 
   useUpdateEffect(() => {
-    setValue(cellRendererParams?.value ?? row[column.key]);
-  }, [cellRendererParams?.value, row[column.key]]);
+    setValue(column?.cellRendererParams?.value ?? row[column.key]);
+  }, [column?.cellRendererParams?.value, row[column.key]]);
 
   const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
@@ -340,6 +340,7 @@ function Cell({
       data-testid="rowCell"
       id={`cellid-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
+      aria-selected={isCellSelected}
       aria-colspan={colSpan}
       aria-rowspan={rowSpan}
       onClick={handleClick}

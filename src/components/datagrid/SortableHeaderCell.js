@@ -1,12 +1,15 @@
-import React from 'react';
+import React from "react";
 import { useDefaultComponents } from "./DataGridDefaultComponentsProvider";
 import { useFocusRef } from "./hooks";
 import { css } from "@linaria/core";
+import alignmentUtils from "./utils/alignMentUtils";
 const headerSortCell = css`
   @layer rdg.SortableHeaderCell {
     cursor: pointer;
-    padding:2px;
-
+    padding: 2px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
     &:focus {
       outline: none;
     }
@@ -39,6 +42,7 @@ export default function SortableHeaderCell({
   isCellSelected,
   column,
   borderBottom,
+  rowData,
 }) {
   const sortStatus = useDefaultComponents().sortStatus;
 
@@ -55,20 +59,31 @@ export default function SortableHeaderCell({
   function handleClick(event) {
     onSort(event.ctrlKey || event.metaKey, children);
   }
-  
-
+  let style = {
+    width: column?.filter ? "95%" : "90%",
+    display: "flex",
+  };
+  if (column?.alignment) {
+    style = alignmentUtils(column, rowData, style, "Header");
+  }
   return (
-    <span
-    data-testid="sortableHeaderName"
+    <div
+      data-testid="sortableHeaderName"
       ref={ref}
       tabIndex={tabIndex}
       className={headerSortCellClassname}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
-     
     >
-      <span className={headerSortNameClassname}>{children}</span>
-     { selectedPositionIdx===subCellIdx && <span>{sortStatus({ sortDirection, priority })}</span>}
-    </span>
+      {/* <span className={headerSortNameClassname}>{children}</span> */}
+      <div style={style}>{children}</div>
+      {selectedPositionIdx === subCellIdx && (
+        <div
+          style={{ width: "10%", display: sortDirection ? "block" : "none" }}
+        >
+          {sortStatus({ sortDirection, priority })}
+        </div>
+      )}
+    </div>
   );
 }

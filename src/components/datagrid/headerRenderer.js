@@ -193,7 +193,7 @@ export default function HeaderRenderer({
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
         >
-          <div style={{ ...style }}>
+          <div style={{ ...style, width: "100%" }}>
             <SortableHeaderCell
               onSort={onSort}
               sortDirection={sortDirection}
@@ -201,6 +201,7 @@ export default function HeaderRenderer({
               isCellSelected={isCellSelected}
               column={column}
               borderBottom={"none"}
+              rowData={rows[0]}
             >
               {column.headerName ?? column.field}
             </SortableHeaderCell>

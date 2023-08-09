@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
 import { TextEditor } from "../components/datagrid/editors";
-
+import "../App.css";
+// import { DataGrid } from "../../node_modules/lai_datagrid/lib/bundle";
+// import "../../node_modules/lai_datagrid/lib/styles.css";
 const columns = [
   { field: "id", headerName: "ID", filter: true },
   { field: "title", headerName: "Title", filter: true },
@@ -44,7 +46,7 @@ export default function ScrollToRow({ direction }) {
         />
         <button
           type="button"
-          onClick={() => gridRef.current.api.destroyFilter("id")}
+          onClick={() => console.log(gridRef.current.api.getFocusedCell())}
         >
           destroyFilter
         </button>
@@ -57,6 +59,7 @@ export default function ScrollToRow({ direction }) {
         valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
         onPaste={(params) => console.log(params)}
         onRowsChange={(params) => console.log(params)}
+        serialNumber={true}
       />
     </>
   );

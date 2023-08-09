@@ -1,6 +1,9 @@
 import RecordsFilter from "./RecordsFilter.svg";
-import PrintIcon from "./PrintIcon.svg";
+import PlusIcon from "./Add.svg";
+import MinusIcon from "./Minus.svg";
+
 export {
     RecordsFilter,
-    PrintIcon
+    PlusIcon,
+    MinusIcon
 };

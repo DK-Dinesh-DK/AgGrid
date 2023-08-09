@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
-import PrintComponent from "../components/datagrid/PrintComponent";
+
 import { Button } from "react-bootstrap";
 
 function createRows() {
@@ -175,27 +175,6 @@ export default function ContextMenuDemo({ direction }) {
         getContextMenuItems={getContextMenuItems}
       />
 
-      {printTable && (
-        <PrintComponent
-          rowData={rowData.slice(0, 100)}
-          columnData={columns}
-          onClose={() => setPrintTable(false)}
-          formName={"Product Details"}
-          reportName={"Product Details Report"}
-          headerName={"Header Name"}
-          subHeaderName={"Sub Header Name"}
-          personName={"David"}
-          rowsPerPage={34}
-          userDetail={
-            <div>
-              <div>Time: User Name:</div>
-            </div>
-          }
-          logo={
-            "https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
-          }
-        />
-      )}
     </>
   );
 }

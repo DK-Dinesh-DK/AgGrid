@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 import { floor, max, min } from "../utils";
 
@@ -21,6 +20,9 @@ export function useViewportRows({
   pagination,
   expandAll,
   expandedMasterIds,
+  detailedRowIds,
+  detailedRow,
+  columns,
 }) {
   const [groupedRows, rowsCount] = useMemo(() => {
     if (groupBy.length === 0 || rowGrouper == null)
@@ -111,7 +113,7 @@ export function useViewportRows({
     getRowHeight,
     findRowIdx,
   } = useMemo(() => {
-    if (typeof rowHeight === "number") {
+    if (typeof rowHeight === "number" && !detailedRow) {
       return {
         totalRowHeight: rowHeight * rows.length,
         gridTemplateRows: pagination
@@ -129,9 +131,22 @@ export function useViewportRows({
     // and we can consider using a similar approach as react-window
     // https://github.com/bvaughn/react-window/blob/b0a470cc264e9100afcaa1b78ed59d88f7914ad4/src/VariableSizeList.js#L68
     const rowPositions = rows.map((row, index) => {
-      const currentRowHeight = isGroupRow(row)
-        ? rowHeight({ type: "GROUP", row })
-        : rowHeight({ type: "ROW", row, expandedMasterIds, index });
+      let height =
+        typeof rowHeight === "number"
+          ? rowHeight
+          : rowHeight({ type: "ROW", row, index });
+      function Cal() {
+        return (columns.length - 1) * height + 20;
+      }
+
+      const currentRowHeight =
+        row.gridRowType === "detailedRow"
+          ? Cal()
+          : typeof rowHeight === "number"
+          ? rowHeight
+          : isGroupRow(row)
+          ? rowHeight({ type: "GROUP", row })
+          : rowHeight({ type: "ROW", row, expandedMasterIds, index });
       const position = { top: totalRowHeight, height: currentRowHeight };
       gridTemplateRows += `${currentRowHeight}px `;
       totalRowHeight += currentRowHeight;
@@ -167,7 +182,7 @@ export function useViewportRows({
         return 0;
       },
     };
-  }, [isGroupRow, rowHeight, rows]);
+  }, [isGroupRow, rowHeight, rows, detailedRowIds, detailedRow]);
 
   let rowOverscanStartIdx = 0;
   let rowOverscanEndIdx = rows.length - 1;

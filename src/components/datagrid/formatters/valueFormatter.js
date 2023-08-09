@@ -108,9 +108,11 @@ export function valueFormatter(props) {
         ? { ...cellStyle, textAlign: props.column.alignment.align }
         : alignmentUtils(props.column, props.row, cellStyle, "Row");
     }
+    if (props.row.gridRowType === "detailedRow") {
+      cellStyle = { ...cellStyle, textAlign: "start" };
+    }
     let toolTipContent;
     return (
-      // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
         key={props.column.field}
         role="gridcell"

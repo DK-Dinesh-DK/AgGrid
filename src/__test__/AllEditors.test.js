@@ -53,7 +53,6 @@ function LaiDataGrid(props) {
       width: 80,
       resizable: true,
       cellEditor: (params) => {
-        console.log(params.getValue());
         return TextEditor(params);
       },
     },
