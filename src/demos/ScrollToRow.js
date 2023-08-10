@@ -11,14 +11,14 @@ const columns = [
     headerName: "Title",
     filter: true,
     sortable: true,
-    width: 100,
+    // width: 100,
     resizable:true
   },
   {
     field: "count",
     headerName: "Count",
     filter: true,
-    width: 100,
+    // width: 100,
   },
 ];
 
@@ -67,7 +67,7 @@ export default function ScrollToRow({ direction }) {
         onPaste={(params) => console.log(params)}
         onRowsChange={(params) => console.log(params)}
         serialNumber={true}
-        style={{ width: "max-content" }}
+        // style={{ width: "max-content" }}
       />
     </>
   );

@@ -50,7 +50,7 @@ a:focus {
   vertical-align: middle;
   list-style: none;
   border-radius: 2px;
-  cursor: pointer;
+  cursor: pointer !important;
   transition: all 0.3s;
 }
 .rc-pagination-jump-next button,
@@ -85,8 +85,9 @@ a:focus {
 .rc-pagination-total-text a,
 .rc-pagination-total-text button {
   height: auto;
-  min-width: 20px;
-  min-height: 20px;
+  max-width: 38px;
+  max-height: 16px;
+  min-width: 16px;
   border-radius: var(--rc-pagination-button-border-radius);
   border: var(--rc-pagination-button-border) !important;
   background-color: var(--rc-pagination-button-background-color) !important;
@@ -101,6 +102,7 @@ a:focus {
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   -o-transition: 0.3s;
+  cursor: pointer;
 }
 .rc-pagination-item.rc-pagination-item-active a,
 .rc-pagination-item.rc-pagination-item-active a:hover,
@@ -113,7 +115,7 @@ a:focus {
   background-color: var(
     --rc-pagination-button-active-background-color
   ) !important;
-  border-color: var(--rc-pagination-button-active-border-color) !important;
+  border: 1px solid var(--rc-pagination-button-active-border-color) !important;
   color: var(--rc-pagination-button-active-color) !important;
 }
 .rc-pagination-item a:hover,

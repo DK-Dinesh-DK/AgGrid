@@ -322,14 +322,14 @@ function DataGrid(props) {
     if (type === "prev") {
       return (
         <button title="Previous" data-testid="pagination-prev">
-          <i className="fa fa-angle-double-left" />
+          Prev
         </button>
       );
     }
     if (type === "next") {
       return (
         <button title="Next" data-testid="pagination-next">
-          <i className="fa fa-angle-double-right" />
+          Next
         </button>
       );
     }
@@ -694,6 +694,20 @@ function DataGrid(props) {
     columnWidths,
     isGroupRow,
   });
+
+  function getLayoutCssVars() {
+    if (flexWidthViewportColumns.length === 0) return layoutCssVars;
+    const newTemplateColumns = [...templateColumns];
+    for (const column of flexWidthViewportColumns) {
+      newTemplateColumns[column.idx] = column.width;
+    }
+
+    return {
+      ...layoutCssVars,
+      gridTemplateColumns: newTemplateColumns.join(" "),
+    };
+  }
+  const gridViewportTemplateColumns = getLayoutCssVars();
   //column Api
   function getColumnWidths() {
     let keys = Array.from(columnMetrics.keys());
@@ -2112,7 +2126,6 @@ function DataGrid(props) {
     return isDraggedOver ? selectedPosition.idx : undefined;
   }
 
- 
   function getCellEditor(rowIdx) {
     if (
       selectedPosition.rowIdx !== rowIdx ||
@@ -3419,7 +3432,7 @@ function DataGrid(props) {
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
           "--rdg-sign": isRtl ? -1 : 1,
-        gridTemplateColumns:templateColumns,
+          ...gridViewportTemplateColumns,
         }}
         dir={direction}
         ref={gridRef}
@@ -3691,9 +3704,15 @@ function DataGrid(props) {
           {pagination && !suppressPagination && (
             <Pagination
               className="pagination-data"
-              showTotal={(total, range) =>
-                `Showing ${range[0]}-${range[1]} of ${total}`
-              }
+              showTotal={(total, range) => {
+                if (rest.showTotal) {
+                  if (typeof rest.showtotal === "function") {
+                    return rest.showtotal(total, range);
+                  } else {
+                    return `Showing ${range[0]}-${range[1]} of ${total}`;
+                  }
+                }
+              }}
               onChange={PaginationChange}
               total={rawRows.length}
               current={current}
@@ -3701,16 +3720,15 @@ function DataGrid(props) {
               showSizeChanger={false}
               itemRender={PrevNextArrow}
               style={{
-                "--rc-pagination-button-active-background-color": "#5a8dee",
-                "--rc-pagination-button-active-border-color": "none",
-                "--rc-pagination-button-active-color": "#fff",
+                "--rc-pagination-button-active-background-color": "#fff",
+                "--rc-pagination-button-active-border-color": "#A9B7C6",
+                "--rc-pagination-button-active-color": "#A9B7C6",
                 "--rc-pagination-button-font-family":
                   '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-                "--rc-pagination-button-color": "#656f84 ",
-                "--rc-pagination-button-border": "none",
-                "--rc-pagination-button-background-color": "transparent",
-                "--rc-pagination-button-font-size": "11px",
-                "--rc-pagination-button-border-radius": "8px",
+                "--rc-pagination-button-color": "#fff",
+                "--rc-pagination-button-background-color": "#A9B7C6",
+                "--rc-pagination-button-font-size": "10px",
+                "--rc-pagination-button-border-radius": "0",
                 ...props.paginationStyle,
               }}
             />
