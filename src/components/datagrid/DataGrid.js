@@ -1750,6 +1750,7 @@ function DataGrid(props) {
           if (JSON.stringify(rt) === JSON.stringify(dat)) {
             index = idx;
           }
+          return true;
         });
         sample[index] = ty;
 
@@ -2111,19 +2112,7 @@ function DataGrid(props) {
     return isDraggedOver ? selectedPosition.idx : undefined;
   }
 
-  function getLayoutCssVars() {
-    // if (flexWidthViewportColumns.length === 0) return layoutCssVars;
-    const newTemplateColumns = [...templateColumns];
-    for (const column of flexWidthViewportColumns) {
-      newTemplateColumns[column.idx] = column.width;
-    }
-
-    return {
-      ...layoutCssVars,
-      gridTemplateColumns: newTemplateColumns.join(" "),
-    };
-  }
-  const gridViewportTemplateColumns = getLayoutCssVars();
+ 
   function getCellEditor(rowIdx) {
     if (
       selectedPosition.rowIdx !== rowIdx ||
@@ -2560,7 +2549,18 @@ function DataGrid(props) {
     });
     return filterPresent;
   }
-
+  function setData(newValue, rowIndex) {
+    let list = [...rawRows];
+    list[rowIndex] = newValue;
+    setRawRows(list);
+  }
+  function setDataValue(key, newValue, row, rowIndex) {
+    let data = row;
+    data[key] = newValue;
+    let list = [...rawRows];
+    list[rowIndex] = data;
+    setRawRows(list);
+  }
   const getViewportRowsSample = (rowArray) => {
     let rowElementsSample = [];
     let listOfRows = rowArray;
@@ -2579,18 +2579,6 @@ function DataGrid(props) {
 
       const row = listOfRows[rowIdx];
 
-      function setDataValue(key, newValue) {
-        let data = row;
-        data[key] = newValue;
-        let list = [...rawRows];
-        list[rowIdx] = data;
-        setRawRows(list);
-      }
-      function setData(newValue) {
-        let list = [...rawRows];
-        list[rowIdx] = newValue;
-        setRawRows(list);
-      }
       node = {
         rowIndex: rowIdx,
         rowTop: rowIdx * rowHeight,
@@ -2601,8 +2589,9 @@ function DataGrid(props) {
         firstChild: rowIdx === 0,
         id: row?.id ?? String(rowIdx),
         selected: selectedRowIdx === rowIdx,
-        setDataValue,
-        setData,
+        setDataValue: (key, newValue) =>
+          setDataValue(key, newValue, row, rowIdx),
+        setData: (val) => setData(val, rowIdx),
         parent: {
           allLeafChildren: RowNodes,
           childrenAfterFilter: afterFilter,
@@ -2633,7 +2622,7 @@ function DataGrid(props) {
           onExpandedGroupIdsChange(expandIds);
         },
 
-        updateData: setData,
+        updateData: (val) => setData(val, rowIdx),
         // isSelected: () => isRowSelected,
       };
       rowElementsSample.push(node);
@@ -2670,11 +2659,12 @@ function DataGrid(props) {
     var sampleKeys = Object.keys(filters);
     var result = false;
     sampleKeys.forEach((value) => {
-      if (value === "undefined" || value === "enabled") {
-      } else {
-        if (filters[value] !== "") {
-          result = true;
-        }
+      if (
+        value !== "undefined" &&
+        value !== "enabled" &&
+        filters[value] !== ""
+      ) {
+        result = true;
       }
     });
     return result;
@@ -2887,6 +2877,7 @@ function DataGrid(props) {
     ensureColumnVisible,
     getRows: () => rawRows,
     getRenderedrows: () => rows,
+    setSuppressPagination: (val) => setSuppressPagination(),
   };
 
   ///////////  start
@@ -3183,18 +3174,6 @@ function DataGrid(props) {
         key = hasGroups ? startRowIndex : rowIdx;
       }
 
-      function setDataValue(key, newValue) {
-        let data = row;
-        data[key] = newValue;
-        let list = [...rawRows];
-        list[rowIdx] = data;
-        setRawRows(list);
-      }
-      function setData(newValue) {
-        let list = [...rawRows];
-        list[rowIdx] = newValue;
-        setRawRows(list);
-      }
       node = {
         rowIndex: rowIdx,
         rowTop: rowHeight * rowIdx,
@@ -3205,14 +3184,15 @@ function DataGrid(props) {
         firstChild: rowIdx === 0,
         id: row?.id ?? String(rowIdx),
         selected: selectedRowIdx === rowIdx,
-        setDataValue,
-        setData,
+        setDataValue: (key, newValue) =>
+          setDataValue(key, newValue, row, rowIdx),
+        setData: (val) => setData(val, rowIdx),
         parent: {
           allLeafChildren: RowNodes,
           childrenAfterFilter: afterFilter,
           childrenAfterSort: afterSort,
         },
-        updateData: setData,
+        updateData: (val) => setData(val, rowIdx),
         expanded: rows[rowIdx]?.isExpanded,
         isSelected: () => selectedRowIdx === rowIdx,
         setSelected: () => {
@@ -3327,24 +3307,6 @@ function DataGrid(props) {
     }
   }, [raawRows, paginationAutoPageSize]);
 
-  useEffect(() => {
-    const target = document.getElementById("DataGrid");
-    if (props.restriction?.copy) {
-      target.addEventListener("copy", (event) => {
-        event.preventDefault();
-      });
-    }
-    if (props.restriction?.paste) {
-      target.addEventListener("paste", (event) => {
-        event.preventDefault();
-      });
-    }
-
-    return (
-      target?.removeEventListener("copy", () => {}),
-      target?.removeEventListener("paste", () => {})
-    );
-  }, [props.restriction?.paste, props.restriction?.copy]);
   const toolbarClassname = css`
     display: flex;
     justify-content: flex-end;
@@ -3411,6 +3373,16 @@ function DataGrid(props) {
             setMouseX(x + 75);
           }
         }}
+        onCopy={(e) => {
+          if (props.restriction?.copy) {
+            e.preventDefault();
+          }
+        }}
+        onPaste={(e) => {
+          if (props.restriction?.paste) {
+            e.preventDefault();
+          }
+        }}
         role={hasGroups ? "treegrid" : "grid"}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
@@ -3447,7 +3419,7 @@ function DataGrid(props) {
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
           "--rdg-sign": isRtl ? -1 : 1,
-          ...gridViewportTemplateColumns,
+        gridTemplateColumns:templateColumns,
         }}
         dir={direction}
         ref={gridRef}
@@ -3518,7 +3490,7 @@ function DataGrid(props) {
                   return (
                     <SummaryRow
                       aria-rowindex={gridRowStart}
-                      key={`${rowIdx}${summaryRowIdx}`}
+                      key={`top-summary-row-${rowIdx}-${summaryRowIdx}`}
                       rowIdx={rowIdx}
                       gridRowStart={gridRowStart}
                       row={row}
@@ -3576,7 +3548,7 @@ function DataGrid(props) {
                         1
                       }
                       rowIdx={rowIdx}
-                      key={`${rowIdx}${summaryRowIdx}`}
+                      key={`bottom-summary-row-${rowIdx}-${summaryRowIdx}`}
                       gridRowStart={gridRowStart}
                       row={row}
                       top={top}

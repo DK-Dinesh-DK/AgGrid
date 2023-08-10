@@ -47,7 +47,8 @@ export function useCalculatedColumns({
 
         let recursiveChild = (subChild, rawColumn) => {
           return (
-            subChild?.haveChildren === true && Array.isArray(subChild?.children) &&
+            subChild?.haveChildren === true &&
+            Array.isArray(subChild?.children) &&
             subChild?.children.map((subChild2, index1) => {
               const rawChild2 = {
                 ...subChild2,
@@ -98,7 +99,8 @@ export function useCalculatedColumns({
             defaultFormatter,
           // topHeader: rawColumn.field,
           children:
-          rawColumn?.haveChildren === true && Array.isArray(rawColumn?.children) &&
+            rawColumn?.haveChildren === true &&
+            Array.isArray(rawColumn?.children) &&
             rawColumn?.children.map((child, index1) => {
               const cellRendererValue = child.cellRenderer;
               const components = frameworkComponents
@@ -122,7 +124,8 @@ export function useCalculatedColumns({
                   defaultFormatter,
 
                 children:
-                child?.haveChildren === true && Array.isArray(child?.children) &&
+                  child?.haveChildren === true &&
+                  Array.isArray(child?.children) &&
                   child?.children.map((subChild, index2) => {
                     const rawChild1 = {
                       ...subChild,
@@ -254,6 +257,7 @@ export function useCalculatedColumns({
         // The actual value is set after the column is rendered
         width = column.minWidth;
       }
+      if (column.width) width = column.width;
       templateColumns.push(`${width}px`);
       columnMetrics.set(column, { width, left });
       left += width;

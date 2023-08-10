@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useState } from "react";
+import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
   function createRows() {
@@ -32,9 +33,10 @@ function LaiDataGrid(props) {
     {
       field: "count",
       headerName: "Count",
+      cellRenderer: TextEditor,
     },
   ];
-  const rows = createRows();
+  const [rows, setRows] = useState(createRows());
   const [expandedId, setExpandedId] = useState([]);
   return (
     <>
@@ -44,6 +46,9 @@ function LaiDataGrid(props) {
         rowData={rows}
         rowHeight={24}
         detailedRowIds={expandedId}
+        onRowsChange={(rows) => {
+          setRows(rows);
+        }}
         onDetailedRowIdsChange={(ids) => setExpandedId(ids)}
         {...props}
       />
@@ -52,7 +57,7 @@ function LaiDataGrid(props) {
 }
 
 describe("Datagrid Unit test for Responsive Detailed Row", () => {
-  test("DetailedRow tab view with single", async () => {
+  test("DetailedRow Mobile view with single", async () => {
     const mobileViewWidth = 360;
     const mobileViewHeight = 640;
     window.innerWidth = mobileViewWidth;
@@ -76,7 +81,7 @@ describe("Datagrid Unit test for Responsive Detailed Row", () => {
     expect(detailCell).toBeInTheDocument();
     fireEvent.click(detailCell);
   });
-  test("DetailedRow tab view with multiple", async () => {
+  test("DetailedRow Mobile view with multiple", async () => {
     const mobileViewWidth = 360;
     const mobileViewHeight = 640;
     window.innerWidth = mobileViewWidth;
@@ -94,10 +99,13 @@ describe("Datagrid Unit test for Responsive Detailed Row", () => {
     fireEvent.click(expandIcon1);
   });
   test("DetailedRow desktop view with single", async () => {
+    const deskTopViewWidth = 1024;
+    window.innerWidth = deskTopViewWidth;
     render(
       <LaiDataGrid
         detailedRow={true}
         detailedRowType={"multiple"}
+        desktopDetailedRowEnable={true}
         onCellClicked={(params) => {
           console.log("OnCellclciked", params);
         }}
@@ -114,24 +122,36 @@ describe("Datagrid Unit test for Responsive Detailed Row", () => {
     expect(detailCell).toBeInTheDocument();
     fireEvent.click(detailCell);
   });
-  test("DetailedRow desktop view with multiple", async () => {
-    render(<LaiDataGrid detailedRow={true} detailedRowType={"multiple"} />);
+  test("DetailedRow desktop view with single", async () => {
+    const deskTopViewWidth = 1024;
+    window.innerWidth = deskTopViewWidth;
+    render(
+      <LaiDataGrid
+        detailedRow={true}
+        detailedRowType={"multiple"}
+        desktopDetailedRowEnable={true}
+        onCellClicked={(params) => {
+          console.log("OnCellclciked", params);
+        }}
+      />
+    );
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
 
-    const content = screen.getByText("Title 0");
-    expect(content).toBeInTheDocument();
-    fireEvent.click(content);
-
+    const detailCell = screen.getByTestId("gird-text-editor-4-0");
+    expect(detailCell).toBeInTheDocument();
+    fireEvent.change(detailCell, { target: { value: "1010" } });
     const expandIcon = screen.getByTestId("details-expand-icon-0");
     expect(expandIcon).toBeInTheDocument();
     fireEvent.click(expandIcon);
-    const expandIcon1 = screen.getByTestId("details-expand-icon-1");
-    expect(expandIcon1).toBeInTheDocument();
-    fireEvent.click(expandIcon1);
+    const input1 = screen.getByTestId("gird-text-editor-4-undefined");
+    expect(input1).toBeInTheDocument();
+    fireEvent.click(input1);
+    fireEvent.change(input1, { target: { value: "101" } });
   });
-  test("DetailedRow tab view with cell ToolTip", async () => {
+
+  test("DetailedRow Mobile view with cell ToolTip", async () => {
     const mobileViewWidth = 360;
     const mobileViewHeight = 640;
     window.innerWidth = mobileViewWidth;
@@ -146,7 +166,7 @@ describe("Datagrid Unit test for Responsive Detailed Row", () => {
     fireEvent.mouseMove(cont1);
     fireEvent.mouseOut(cont1);
   });
-  test("DetailedRow tab view with cell ToolTip static", async () => {
+  test("DetailedRow Mobile view with cell ToolTip static", async () => {
     const mobileViewWidth = 360;
     const mobileViewHeight = 640;
     window.innerWidth = mobileViewWidth;
@@ -160,10 +180,10 @@ describe("Datagrid Unit test for Responsive Detailed Row", () => {
     fireEvent.mouseOver(cont1);
     fireEvent.mouseOut(cont1);
   });
-  test("DetailedRow tab view with cell ToolTip dynamic", async () => {
-    const mobileViewWidth = 360;
+  test("DetailedRow Tab view with cell ToolTip dynamic", async () => {
+    const tabViewWidth = 750;
     const mobileViewHeight = 640;
-    window.innerWidth = mobileViewWidth;
+    window.innerWidth = tabViewWidth;
     window.innerHeight = mobileViewHeight;
     render(
       <LaiDataGrid detailedRow={true} rowLevelToolTip={() => "ToolTip"} />

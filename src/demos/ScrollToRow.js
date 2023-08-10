@@ -5,15 +5,20 @@ import "../App.css";
 // import { DataGrid } from "../../node_modules/lai_datagrid/lib/bundle";
 // import "../../node_modules/lai_datagrid/lib/styles.css";
 const columns = [
-  { field: "id", headerName: "ID", filter: true },
-  { field: "title", headerName: "Title", filter: true },
+  { field: "id", headerName: "ID", sortable: true, width: 100 },
+  {
+    field: "title",
+    headerName: "Title",
+    filter: true,
+    sortable: true,
+    width: 100,
+    resizable:true
+  },
   {
     field: "count",
     headerName: "Count",
-    editable: true,
-    cellRenderer: (params) => {
-      return TextEditor(params);
-    },
+    filter: true,
+    width: 100,
   },
 ];
 
@@ -46,9 +51,11 @@ export default function ScrollToRow({ direction }) {
         />
         <button
           type="button"
-          onClick={() => console.log(gridRef.current.api.getFocusedCell())}
+          onClick={() =>
+            console.log(gridRef.current.api.isColumnFilterPresent())
+          }
         >
-          destroyFilter
+          isColumnFilterPresent
         </button>
       </div>
       <DataGrid
@@ -60,6 +67,7 @@ export default function ScrollToRow({ direction }) {
         onPaste={(params) => console.log(params)}
         onRowsChange={(params) => console.log(params)}
         serialNumber={true}
+        style={{ width: "max-content" }}
       />
     </>
   );

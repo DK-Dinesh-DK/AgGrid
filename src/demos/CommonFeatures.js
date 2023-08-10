@@ -392,7 +392,7 @@ export default function CommonFeatures({ direction }) {
         columnData={columns}
         restriction={{
           copy: true,
-          paste: true,
+          paste: false,
         }}
         rowData={sortedRows}
         //  onRowsChange={setRows}

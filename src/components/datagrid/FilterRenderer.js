@@ -11,14 +11,17 @@ export default function FilterRenderer({
   const filters = useContext(FilterContext);
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-  var style = { padding: "2px 5px", display: "flex", justifyContent: "center" };
+  var style = {
+    padding: "5px",
+    display: "flex",
+    justifyContent: "center",
+    paddingLeft: !column.sortable ? "15px" : "5px",
+  };
 
- 
-  if (rowData && column.alignment) {
-    style = column.alignment.align
-      ? { ...style, justifyContent: column.alignment.align }
-      : alignmentUtils(column, rowData[0], style,"Header");
+  if (rowData && column?.alignment) {
+    style = alignmentUtils(column, rowData, style, "Header");
   }
+
   return (
     <>
       {!column.sortable && (

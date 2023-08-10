@@ -60,8 +60,10 @@ export default function SortableHeaderCell({
     onSort(event.ctrlKey || event.metaKey, children);
   }
   let style = {
-    width: column?.filter ? "95%" : "90%",
+    width: "90%",
     display: "flex",
+    justifyContent: "center",
+    paddingLeft: column?.filter ? "15px" : 0,
   };
   if (column?.alignment) {
     style = alignmentUtils(column, rowData, style, "Header");

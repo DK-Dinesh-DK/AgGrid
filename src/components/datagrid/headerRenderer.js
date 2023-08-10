@@ -50,6 +50,13 @@ export default function HeaderRenderer({
   ChildColumnSetup,
   gridWidth,
 }) {
+  let isCellSelected;
+  if (selectedCellIdx === column.idx) {
+    isCellSelected = true;
+  } else {
+    isCellSelected = false;
+  }
+  const { onFocus } = useRovingCellRef(isCellSelected);
   if (column.haveChildren === true) {
     return (
       <div>
@@ -104,14 +111,6 @@ export default function HeaderRenderer({
       </div>
     );
   } else {
-    let isCellSelected;
-    if (selectedCellIdx === column.idx) {
-      isCellSelected = true;
-    } else {
-      isCellSelected = false;
-    }
-    const { onFocus } = useRovingCellRef(isCellSelected);
-
     ChildColumnSetup(column);
     let style = {
       display: "flex",
@@ -237,6 +236,7 @@ export default function HeaderRenderer({
             column={column}
             onDoubleClick={column.resizable ? onDoubleClick : undefined}
             isCellSelected={isCellSelected}
+            rowData={rows[0]}
           >
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
@@ -278,12 +278,13 @@ export default function HeaderRenderer({
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           style={{ ...styleSF }}
         >
-          <div style={{ width: "90%" }}>
+          <div style={{ width: "95%" }}>
             <SortableHeaderCell
               onSort={onSort}
               sortDirection={sortDirection}
               priority={priority}
               isCellSelected={isCellSelected}
+              column={column}
             >
               {column.headerName ?? column.field}
             </SortableHeaderCell>
@@ -339,7 +340,7 @@ const RecursiveScan = (
   } else {
     isCellSelected = false;
   }
-  const { onFocus } = useRovingCellRef(isCellSelected);
+
   let rowData = direction;
   if (subData.haveChildren === true) {
     return (
@@ -484,6 +485,7 @@ const RecursiveScan = (
             sortDirection={sortDirection}
             priority={priority}
             isCellSelected={isCellSelected}
+            column={subData}
           >
             {subData.headerName ?? subData.field}
           </SortableHeaderCell>
@@ -600,6 +602,7 @@ const RecursiveScan = (
               sortDirection={sortDirection}
               priority={priority}
               isCellSelected={isCellSelected}
+              column={subData}
             >
               {subData.headerName ?? subData.field}
             </SortableHeaderCell>

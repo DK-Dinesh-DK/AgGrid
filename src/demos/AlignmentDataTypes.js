@@ -18,6 +18,8 @@ const columns = [
     field: "id",
     headerName: "ID",
     width: 80,
+    filter: true,
+    // sortable: true,
     alignment: { type: "number" },
   },
   {
@@ -25,12 +27,16 @@ const columns = [
     headerName: "First Name",
     width: 100,
     alignment: true,
+    filter: true,
+    sortable: true,
   },
   {
     headerName: "Money",
     field: "money",
     cellEditor: TextEditor,
     alignment: true,
+    filter: true,
+    sortable: true,
     width: 100,
     validation: {
       style: { backgroundColor: "red", color: "blue" },
@@ -42,6 +48,8 @@ const columns = [
     headerName: "Last Name",
     width: 100,
     alignment: { type: "string" },
+    filter: true,
+    sortable: true,
   },
   {
     field: "email",
@@ -54,17 +62,23 @@ const columns = [
     alignment: { type: "DATe" },
     // width:200,
     resizable: true,
+    filter: true,
+    sortable: true,
   },
   {
     field: "time",
     headerName: "Time",
     // width: 150,
     alignment: { type: "Time" },
+    filter: true,
+    sortable: true,
   },
   {
     field: "datetime",
     headerName: "DateTime",
     alignment: { type: "datetime" },
+    filter: true,
+    sortable: true,
   },
 ];
 
