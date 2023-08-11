@@ -3679,7 +3679,13 @@ function DataGrid(props) {
         )}
       </div>
       {(pagination || showSelectedRows) && (
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingTop: "12px",
+          }}
+        >
           {showSelectedRows && (
             <div
               className="footer-bottom"
@@ -3705,13 +3711,15 @@ function DataGrid(props) {
             <Pagination
               className="pagination-data"
               showTotal={(total, range) => {
+                let content = "";
                 if (rest.showTotal) {
-                  if (typeof rest.showtotal === "function") {
-                    return rest.showtotal(total, range);
+                  if (typeof rest.showTotal === "function") {
+                    content = rest.showTotal(total, range);
                   } else {
-                    return `Showing ${range[0]}-${range[1]} of ${total}`;
+                    content = `Showing ${range[0]}-${range[1]} of ${total}`;
                   }
                 }
+                return content;
               }}
               onChange={PaginationChange}
               total={rawRows.length}

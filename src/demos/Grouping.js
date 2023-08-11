@@ -166,7 +166,32 @@ export default function Grouping({ direction }) {
     setExpandedGroupIds(new Set());
   }
   const dataGridRef = useRef(null);
-
+  const initialRowGroupColumns = [
+    {
+      colId: "country",
+      columnIndex: 1,
+      width: "40px",
+      frozen: true,
+      rowGroup: true,
+      rowGroupIndex: 0,
+      sort: null,
+      userProvidedColDef: {
+        field: "country",
+        headerName: "Country",
+        depth: 0,
+      },
+    },
+    {
+      colId: "year",
+      columnIndex: 2,
+      width: "40px",
+      frozen: true,
+      rowGroup: true,
+      rowGroupIndex: 1,
+      sort: null,
+      userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+    },
+  ];
   return (
     <div className={groupingClassname}>
       <b>Group by columns:</b>
@@ -205,6 +230,17 @@ export default function Grouping({ direction }) {
       >
         isExpandable
       </button>
+
+      <button
+        data-testId="getRowGroupColumnsBtn"
+        onClick={() => {
+          console.log(dataGridRef.current.columnApi.getRowGroupColumns());
+          console.log(initialRowGroupColumns);
+        }}
+      >
+        getRowGroupColumns
+      </button>
+
       <DataGrid
         columnData={columns}
         rowData={rows}

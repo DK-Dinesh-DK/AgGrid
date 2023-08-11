@@ -15,7 +15,7 @@ export default function FilterRenderer({
     padding: "5px",
     display: "flex",
     justifyContent: "center",
-    paddingLeft: !column.sortable ? "15px" : "5px",
+    paddingLeft: !column.sortable && !column?.alignment ? "15px" : "5px",
   };
 
   if (rowData && column?.alignment) {

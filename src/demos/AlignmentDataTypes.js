@@ -25,7 +25,7 @@ const columns = [
   {
     field: "firstName",
     headerName: "First Name",
-    width: 100,
+    width: 200,
     alignment: true,
     filter: true,
     sortable: true,
@@ -35,18 +35,18 @@ const columns = [
     field: "money",
     cellEditor: TextEditor,
     alignment: true,
-    filter: true,
-    sortable: true,
-    width: 100,
-    validation: {
-      style: { backgroundColor: "red", color: "blue" },
-      method: (value) => value.slice(1) >= 100,
-    },
+    // filter: true,
+    // sortable: true,
+    width: 200,
+    // validation: {
+    //   style: { backgroundColor: "red", color: "blue" },
+    //   method: (value) => value.slice(1) >= 100,
+    // },
   },
   {
     field: "lastName",
     headerName: "Last Name",
-    width: 100,
+    width: 200,
     alignment: { type: "string" },
     filter: true,
     sortable: true,
@@ -55,6 +55,7 @@ const columns = [
     field: "email",
     headerName: "Email",
     width: "max-content",
+    alignment:true
   },
   {
     field: "date",
@@ -95,7 +96,7 @@ function createRows() {
       date: moment(faker.date.past().toLocaleDateString()).format(
         "MMMM-DD-YYYY"
       ),
-      money: "₹101",
+      money: 101,
       time: new Date().toLocaleTimeString("en-IN"),
       datetime: moment(new Date()).format("MM-DD-YYYY h:mm:ss a"),
     });

@@ -63,7 +63,7 @@ export default function SortableHeaderCell({
     width: "90%",
     display: "flex",
     justifyContent: "center",
-    paddingLeft: column?.filter ? "15px" : 0,
+    paddingLeft: column?.filter && !column?.alignment ? "15px" : 0,
   };
   if (column?.alignment) {
     style = alignmentUtils(column, rowData, style, "Header");

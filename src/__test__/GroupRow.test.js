@@ -211,7 +211,7 @@ describe("Datagrid Unit test for Group Row", () => {
     render(<LaiDataGrid />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const toggleBtn = screen.getByRole("gridcell", { name: "Zimbabwe" });
+    const toggleBtn = screen.getByTestId("grid-group-toggle-1-0");
     expect(toggleBtn).toBeInTheDocument();
     fireEvent.click(toggleBtn);
     const checkboxInput = screen.getByTestId("checkbox-year");

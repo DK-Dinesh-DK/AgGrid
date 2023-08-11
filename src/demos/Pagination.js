@@ -116,7 +116,7 @@ export default function Pagination({ direction }) {
         defaultPage={3}
         // paginationAutoPageSize={true}
         paginationPageSize={39}
-        showtotal={true}
+        // showTotal={true}
         // suppressPaginationPanel={true}
       />
     </>

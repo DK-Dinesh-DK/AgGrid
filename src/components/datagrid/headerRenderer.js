@@ -285,6 +285,7 @@ export default function HeaderRenderer({
               priority={priority}
               isCellSelected={isCellSelected}
               column={column}
+              rowData={rows[0]}
             >
               {column.headerName ?? column.field}
             </SortableHeaderCell>
@@ -297,7 +298,8 @@ export default function HeaderRenderer({
                 filters,
                 setFilters,
                 setFilterType,
-                gridWidth
+                gridWidth,
+              
               )
             }
           </FilterRenderer>
