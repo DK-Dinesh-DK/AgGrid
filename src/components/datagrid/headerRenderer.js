@@ -298,8 +298,7 @@ export default function HeaderRenderer({
                 filters,
                 setFilters,
                 setFilterType,
-                gridWidth,
-              
+                gridWidth
               )
             }
           </FilterRenderer>
