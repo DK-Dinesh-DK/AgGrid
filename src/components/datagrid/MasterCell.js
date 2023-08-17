@@ -80,16 +80,20 @@ function MasterCell({
   function handleClick(e) {
     selectCell(row, column);
     props.onRowClick?.({
+      event: e,
+      rowIndex: rowIndex,
       api: props.api,
+      node: node,
       data: row,
       columnApi: props.columnApi,
-      node: node,
-      rowIndex: rowIndex,
       type: "rowClicked",
-      event: e,
     });
     props.onCellClick?.({
       api: props.api,
+      rowIndex: rowIndex,
+      value: row[column.field] ?? undefined,
+      type: "cellClicked",
+      event: e,
       colDef: {
         field: column.field,
         resizable: column.resizable,
@@ -99,10 +103,6 @@ function MasterCell({
       data: row,
       node: node,
       columnApi: props.columnApi,
-      rowIndex: rowIndex,
-      value: row[column.field] ?? undefined,
-      type: "cellClicked",
-      event: e,
     });
   }
 
@@ -190,6 +190,11 @@ function MasterCell({
       {row.gridRowType === "Detail" &&
         column.detailsGrid &&
         column.detailsGrid({
+          allrow,
+          selectedCellIdx,
+          selectedCellEditor,
+          api: apiObject,
+          node,
           row,
           rowIndex,
           column,
@@ -198,11 +203,6 @@ function MasterCell({
           toggleMaster,
           colDef: column,
           viewportColumns,
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
         })}
     </div>
   );

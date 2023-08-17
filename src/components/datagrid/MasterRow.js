@@ -44,8 +44,9 @@ const MasterRow = forwardRef(
       lastFrozenColumnIndex,
       expandedMasterRowIds,
       setToolTip,
-      setToolTipContent,
+      rowLevelToolTip,
       setMouseY,
+      setToolTipContent,
       ...props
     },
     ref
@@ -103,12 +104,12 @@ const MasterRow = forwardRef(
           onCellContextMenu={onCellContextMenu}
           onRowDoubleClick={onRowDoubleClick}
           columnApi={columnApi}
+          setMouseY={handleMoseY}
           isRowSelected={isRowSelected}
           selectCell={selectCell}
+          setToolTip={handleToolTip}
           selectedCellEditor={selectedCellEditor}
           valueChangedCellStyle={valueChangedCellStyle}
-          setMouseY={handleMoseY}
-          setToolTip={handleToolTip}
           setToolTipContent={handleToolTipContent}
           Rowheight={height}
         />
@@ -129,10 +130,10 @@ const MasterRow = forwardRef(
           aria-level={level}
           aria-expanded={isExpanded}
           onMouseOver={() => {
-            if (props.rowLevelToolTip) {
+            if (rowLevelToolTip) {
               let toolTipContent;
-              if (typeof props.rowLevelToolTip === "function") {
-                toolTipContent = props.rowLevelToolTip({
+              if (typeof rowLevelToolTip === "function") {
+                toolTipContent = rowLevelToolTip({
                   row,
                   rowIndex: rowIdx,
                 });
@@ -147,7 +148,7 @@ const MasterRow = forwardRef(
             }
           }}
           onMouseOutCapture={() => {
-            if (props.rowLevelToolTip) {
+            if (rowLevelToolTip) {
               handleToolTip(false);
             }
           }}

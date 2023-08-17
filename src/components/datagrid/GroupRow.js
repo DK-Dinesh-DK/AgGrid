@@ -45,6 +45,7 @@ function GroupedRow({
   setToolTip,
   setToolTipContent,
   setMouseY,
+  rowLevelToolTip,
   ...props
 }) {
   // Select is always the first column
@@ -62,7 +63,7 @@ function GroupedRow({
   function handleToolTipContent(value) {
     setToolTipContent(value);
   }
-  
+
   return (
     <RowSelectionProvider value={isRowSelected}>
       <div
@@ -72,10 +73,10 @@ function GroupedRow({
         aria-level={level}
         aria-expanded={isExpanded}
         onMouseOver={() => {
-          if (props.rowLevelToolTip) {
+          if (rowLevelToolTip) {
             let toolTipContent;
-            if (typeof props.rowLevelToolTip === "function") {
-              toolTipContent = props.rowLevelToolTip({
+            if (typeof rowLevelToolTip === "function") {
+              toolTipContent = rowLevelToolTip({
                 row,
                 rowIndex: rowIdx,
               });
@@ -87,7 +88,7 @@ function GroupedRow({
           }
         }}
         onMouseOutCapture={() => {
-          if (props.rowLevelToolTip) {
+          if (rowLevelToolTip) {
             handleToolTip(false);
           }
         }}

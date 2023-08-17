@@ -90,6 +90,7 @@ function Cell({
   setMouseY,
   setToolTip,
   setToolTipContent,
+  Rowheight,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -157,9 +158,9 @@ function Cell({
   }
 
   // -----------
-
+ const rowSpan = column.rowSpan?.({ type: "ROW", row, rowIndex }) ?? undefined;
   let style = {
-    ...getCellStyle(column, colSpan, row),
+    ...getCellStyle(column, colSpan, rowSpan),
     "--rdg-summary-row-top": `${
       headerheight + summaryRowHeight + rowIndex * 24
     }px`,
@@ -176,7 +177,7 @@ function Cell({
     column.idx === totalColumns - 1 && isRowSelected
       ? { ...style, ...{ borderInlineEnd: "1px solid #9bbb59" } }
       : { ...style };
-  const rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
+ 
 
   if (column.validation) {
     const validationStyle = column.validation.style
@@ -357,7 +358,7 @@ function Cell({
           `cellid-${column.idx}-${rowIndex}`
         );
         let y = element.getBoundingClientRect().y;
-        setMouseY(y + props.Rowheight / 2);
+        setMouseY(y + Rowheight / 2);
       }}
     >
       {!column.rowGroup && (

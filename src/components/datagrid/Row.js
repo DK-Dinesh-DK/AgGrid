@@ -56,6 +56,7 @@ function Row(
     setToolTip,
     setToolTipContent,
     setMouseY,
+    rowLevelToolTip,
     ...props
   },
   ref
@@ -165,9 +166,9 @@ function Row(
           className={className}
           onMouseEnter={handleDragEnter}
           onMouseOver={() => {
-            if (props.rowLevelToolTip) {
-              if (typeof props.rowLevelToolTip === "function") {
-                toolTipContent = props.rowLevelToolTip({
+            if (rowLevelToolTip) {
+              if (typeof rowLevelToolTip === "function") {
+                toolTipContent = rowLevelToolTip({
                   row,
                   rowIndex: rowIdx,
                 });
@@ -179,7 +180,7 @@ function Row(
             }
           }}
           onMouseOutCapture={() => {
-            if (props.rowLevelToolTip) {
+            if (rowLevelToolTip) {
               handleToolTip(false);
             }
           }}

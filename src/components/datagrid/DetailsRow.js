@@ -48,6 +48,9 @@ const DetailsRow = forwardRef(
       setToolTip,
       setToolTipContent,
       setMouseY,
+      deviceType,
+      rowLevelToolTip,
+      onRowChange,
       ...props
     },
     ref
@@ -63,7 +66,7 @@ const DetailsRow = forwardRef(
       setToolTipContent(value);
     }
     const handleRowChange = (column, newRow) => {
-      props.onRowChange(column, rowIdx, newRow, row);
+      onRowChange(column, rowIdx, newRow, row);
     };
 
     const cells = [];
@@ -87,7 +90,7 @@ const DetailsRow = forwardRef(
 
       cells.push(
         <DetailsCell
-          key={`${column.key}`}
+          key={`detailcell-${rowIdx}-${index}-${column.key}`}
           id={id}
           childRows={row.children}
           isExpanded={isExpanded}
@@ -120,7 +123,7 @@ const DetailsRow = forwardRef(
           setToolTipContent={handleToolTipContent}
           Rowheight={height}
           selectedCellIdx={selectedCellIdx}
-          deviceType={props.deviceType}
+          deviceType={deviceType}
           gridWidth={gridWidth}
         />
       );
@@ -147,10 +150,10 @@ const DetailsRow = forwardRef(
           )}
           style={style}
           onMouseOver={() => {
-            if (props.rowLevelToolTip) {
+            if (rowLevelToolTip) {
               let toolTipContent;
-              if (typeof props.rowLevelToolTip === "function") {
-                toolTipContent = props.rowLevelToolTip({
+              if (typeof rowLevelToolTip === "function") {
+                toolTipContent = rowLevelToolTip({
                   row,
                   rowIndex: rowIdx,
                 });
@@ -162,7 +165,7 @@ const DetailsRow = forwardRef(
             }
           }}
           onMouseOutCapture={() => {
-            if (props.rowLevelToolTip) {
+            if (rowLevelToolTip) {
               handleToolTip(false);
             }
           }}

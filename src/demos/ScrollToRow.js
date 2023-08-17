@@ -1,24 +1,30 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
 import { TextEditor } from "../components/datagrid/editors";
 import "../App.css";
 // import { DataGrid } from "../../node_modules/lai_datagrid/lib/bundle";
 // import "../../node_modules/lai_datagrid/lib/styles.css";
 const columns = [
-  { field: "id", headerName: "ID", sortable: true, width: 100 },
+  { field: "id", headerName: "ID", sortable: true },
   {
     field: "title",
     headerName: "Title",
     filter: true,
     sortable: true,
-    // width: 100,
-    resizable:true
+    resizable: true,
   },
   {
     field: "count",
     headerName: "Count",
     filter: true,
-    // width: 100,
+    // frozen: true,
+    rowSpan: (params) => {
+      if (params.rowIndex == 2) return 2;
+    },
+  },
+  {
+    field: "count3",
+    headerName: "Count2",
   },
 ];
 
@@ -38,7 +44,10 @@ export default function ScrollToRow({ direction }) {
   });
   const [value, setValue] = useState(10);
   const gridRef = useRef(null);
-
+  const [gridApi, setGridApi] = useState(null);
+  const onGridReady = (params) => {
+    setGridApi(params.api);
+  };
   return (
     <>
       <div style={{ marginBlockEnd: 5 }}>
@@ -49,13 +58,8 @@ export default function ScrollToRow({ direction }) {
           value={value}
           onChange={(event) => setValue(event.target.valueAsNumber)}
         />
-        <button
-          type="button"
-          onClick={() =>
-            console.log(gridRef.current.api.isColumnFilterPresent())
-          }
-        >
-          isColumnFilterPresent
+        <button type="button" onClick={() => console.log("gridApi", gridApi)}>
+          gridApi
         </button>
       </div>
       <DataGrid
@@ -64,9 +68,8 @@ export default function ScrollToRow({ direction }) {
         rowData={rows}
         direction={direction}
         valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
-        onPaste={(params) => console.log(params)}
-        onRowsChange={(params) => console.log(params)}
         serialNumber={true}
+        onGridReady={onGridReady}
         // style={{ width: "max-content" }}
       />
     </>

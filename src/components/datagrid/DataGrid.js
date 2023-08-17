@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useMemo,
   useEffect,
+  memo,
 } from "react";
 import useUpdateEffect from "./hooks/useUpdateEffect";
 import TreeRowRenderer from "./TreeRow";
@@ -2890,17 +2891,19 @@ function DataGrid(props) {
     ensureColumnVisible,
     getRows: () => rawRows,
     getRenderedrows: () => rows,
-    setSuppressPagination: (val) => setSuppressPagination(),
+    setSuppressPagination: (val) => setSuppressPagination(val),
   };
 
   ///////////  start
-  if (onGridReady) {
-    onGridReady({
-      api: apiObject,
-      columnApi: columnApiObject,
-      type: "gridReady",
-    });
-  }
+  useEffect(() => {
+    if (onGridReady) {
+      onGridReady({
+        api: apiObject,
+        columnApi: columnApiObject,
+        type: "gridReady",
+      });
+    }
+  }, []);
 
   useEffect(() => {
     setAfterFilter(getViewportRowsSample(sortedRows));
@@ -3009,7 +3012,6 @@ function DataGrid(props) {
             childRows={row.childRows}
             rowIdx={rowIdx}
             row={row}
-            rowArray={columns5}
             allrow={rows}
             gridRowStart={gridRowStart}
             height={getRowHeight(rowIdx)}
@@ -3024,7 +3026,6 @@ function DataGrid(props) {
             serialNumber={serialNumber}
             sourceData={raawRows}
             isRowSelected={isTreeRowSelected ?? false}
-            selectTree={selectGroupLatest}
             handleRowChange={handleFormatterRowChangeLatest}
             toggleTree={toggleTreeLatest}
             onRowClick={onRowClick}
@@ -3036,7 +3037,6 @@ function DataGrid(props) {
             valueChangedCellStyle={valueChangedCellStyle}
             headerheight={headerheight} //need to be added
             rowClass={rowClass}
-            onRowChange={handleFormatterRowChangeLatest}
             selectCell={selectViewportCellLatest}
             selectedCellEditor={getCellEditor(rowIdx)}
             treeData={props.treeData}
@@ -3083,7 +3083,6 @@ function DataGrid(props) {
             serialNumber: serialNumber,
             sourceData: raawRows,
             isRowSelected: isMasterRowSelected ?? false,
-            selectTree: selectGroupLatest,
             handleRowChange: handleFormatterRowChangeLatest,
             toggleMaster: toggleMasterLatest,
             onRowClick: onRowClick,
@@ -3095,7 +3094,6 @@ function DataGrid(props) {
             valueChangedCellStyle: valueChangedCellStyle,
             headerheight: headerheight, //need to be adde,
             rowClass: rowClass,
-            onRowChange: handleFormatterRowChangeLatest,
             selectCell: selectViewportCellLatest,
             selectedCellEditor: getCellEditor(rowIdx),
             lastFrozenColumnIndex,
@@ -3124,7 +3122,7 @@ function DataGrid(props) {
             "aria-rowindex": headerRowsCount + topSummaryRowsCount + rowIdx + 1,
 
             "aria-selected": isSelectable ? isMasterRowSelected : undefined,
-            key: `${rowKeyGetter(row)}`,
+            key: `detailed-${rowIdx}-${rowKeyGetter(row)}`,
             id: rowKeyGetter(row),
             viewportColumns: regroupArray(merged),
             childRows: row.childRows,
@@ -3145,8 +3143,6 @@ function DataGrid(props) {
             serialNumber: serialNumber,
             sourceData: raawRows,
             isRowSelected: isMasterRowSelected ?? false,
-
-            handleRowChange: handleFormatterRowChangeLatest,
             toggleDetailed: toggleDetailedLatest,
             onRowClick: onRowClick,
             onCellClick: onCellClickLatest,
@@ -3381,7 +3377,6 @@ function DataGrid(props) {
         id={rest.id ?? "DataGrid"}
         onMouseMove={(e) => {
           let x = e.clientX;
-          let y = e.clientY;
           if (toolTip) {
             setMouseX(x + 75);
           }

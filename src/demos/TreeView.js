@@ -116,12 +116,12 @@ export default function TreeView() {
       {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
-        testId={"laidatagrid"}
+        // testId={"laidatagrid"}
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
         treeData={true}
-        ref={gridRef}
+        // ref={gridRef}
         valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
         onRowsChange={(data) => {
           console.log("Data", data);

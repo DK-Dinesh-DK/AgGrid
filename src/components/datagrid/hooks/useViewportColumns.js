@@ -1,4 +1,3 @@
-
 import React, { useMemo } from "react";
 
 import { getColSpan } from "../utils";
@@ -55,7 +54,11 @@ export function useViewportColumns({
         if (
           updateStartIdx(
             colIdx,
-            getColSpan(column, lastFrozenColumnIndex, { type: "ROW", row, rowIndex:rowIdx})
+            getColSpan(column, lastFrozenColumnIndex, {
+              type: "ROW",
+              row,
+              rowIndex: rowIdx,
+            })
           )
         ) {
           break;

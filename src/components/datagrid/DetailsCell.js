@@ -85,33 +85,32 @@ function DetailsCell({
 
   function handleClick(e) {
     if (row.gridRowType !== "detailedRow") {
-      selectCell(rowIndex, column.idx);
-
       props.onRowClick?.({
-        api: props.api,
-        data: row,
         columnApi: props.columnApi,
         node: node,
-        rowIndex: rowIndex,
+        api: props.api,
+        data: row,
         type: "rowClicked",
+        rowIndex: rowIndex,
         event: e,
       });
       props.onCellClick?.({
         api: props.api,
+        node: node,
+        data: row,
+        type: "cellClicked",
+        columnApi: props.columnApi,
         colDef: {
           field: column.field,
           resizable: column.resizable,
           sortable: column.sortable,
           width: column.width,
         },
-        data: row,
-        node: node,
-        columnApi: props.columnApi,
         rowIndex: rowIndex,
         value: row[column.field] ?? undefined,
-        type: "cellClicked",
         event: e,
       });
+      selectCell(rowIndex, column.idx);
     }
   }
 
@@ -141,7 +140,7 @@ function DetailsCell({
       aria-selected={isCellSelected}
       ref={ref}
       tabIndex={tabIndex}
-      key={column.key}
+      key={`${column.idx}-${rowIndex}-${column.key}`}
       className={className}
       style={style}
       onClick={handleClick}
@@ -199,6 +198,7 @@ function DetailsCell({
             return (
               <div
                 aria-selected={selectedCellIdx - 1 === index}
+                key={`detailed-row-${rowIndex}-${index}`}
                 className={clsx(
                   rowClassname,
                   `rdg-row-${index % 2 === 0 ? "even" : "odd"}`,

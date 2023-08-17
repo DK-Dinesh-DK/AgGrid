@@ -214,6 +214,7 @@ describe("Datagrid Unit test for Group Row", () => {
     const toggleBtn = screen.getByTestId("grid-group-toggle-1-0");
     expect(toggleBtn).toBeInTheDocument();
     fireEvent.click(toggleBtn);
+    fireEvent.click(toggleBtn);
     const checkboxInput = screen.getByTestId("checkbox-year");
     expect(checkboxInput).toBeInTheDocument();
     fireEvent.click(checkboxInput);

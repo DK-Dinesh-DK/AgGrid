@@ -404,6 +404,7 @@ export default function CommonFeatures({ direction }) {
         className="fill-grid"
         direction={direction}
         selection={true}
+        serialNumber={true}
         onRowClicked={(props) => {
           console.log("Data", props);
         }}

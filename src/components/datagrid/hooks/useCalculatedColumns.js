@@ -257,8 +257,17 @@ export function useCalculatedColumns({
         // The actual value is set after the column is rendered
         width = column.minWidth;
       }
-      if (typeof column.width === "number") width = column.width;
-      templateColumns.push(`${width}px`);
+      // console.log("Columnss", column);
+      if (
+        !column.colSpan &&
+        (typeof column.width === "number" || column.width === "auto")
+      ) {
+        width = column.width;
+      }
+
+      width === "auto"
+        ? templateColumns.push(`${width}`)
+        : templateColumns.push(`${width}px`);
       columnMetrics.set(column, { width, left });
       left += width;
     }

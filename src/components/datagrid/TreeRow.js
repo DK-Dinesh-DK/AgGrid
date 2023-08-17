@@ -47,7 +47,6 @@ function TreeRow({
   childRows,
   treeData,
   apiObject,
-  selectTree,
   valueChangedCellStyle,
   onRowClick,
   onRowDoubleClick,
@@ -63,6 +62,8 @@ function TreeRow({
   setToolTip,
   setToolTipContent,
   setMouseY,
+  rowLevelToolTip,
+  previousData,
   ...props
 }) {
   // Select is always the first column
@@ -119,10 +120,10 @@ function TreeRow({
         aria-level={level}
         aria-expanded={isExpanded}
         onMouseOver={() => {
-          if (props.rowLevelToolTip) {
+          if (rowLevelToolTip) {
             let toolTipContent;
-            if (typeof props.rowLevelToolTip === "function") {
-              toolTipContent = props.rowLevelToolTip({
+            if (typeof rowLevelToolTip === "function") {
+              toolTipContent = rowLevelToolTip({
                 row,
                 rowIndex: rowIdx,
               });
@@ -136,7 +137,7 @@ function TreeRow({
           }
         }}
         onMouseOutCapture={() => {
-          if (props.rowLevelToolTip) {
+          if (rowLevelToolTip) {
             handleToolTip(false);
           }
         }}
@@ -178,14 +179,13 @@ function TreeRow({
             onCellContextMenu={onCellContextMenu}
             onRowDoubleClick={onRowDoubleClick}
             columnApi={columnApi}
-            selectTree={selectTree}
             isRowSelected={isRowSelected}
             // isCopied={props.copiedCellIdx === idx}
             selectCell={selectCell}
             selectedCellEditor={selectedCellEditor}
             valueChangedCellStyle={valueChangedCellStyle}
             treeData={treeData}
-            previousData={props.previousData}
+            previousData={previousData}
             setMouseY={handleMouseY}
             setToolTip={handleToolTip}
             setToolTipContent={handleToolTipContent}

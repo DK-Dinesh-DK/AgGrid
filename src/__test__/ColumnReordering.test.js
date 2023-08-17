@@ -71,7 +71,6 @@ function LaiDataGrid(props) {
 
   return (
     <>
-      {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
         columnReordering={true}
@@ -79,7 +78,6 @@ function LaiDataGrid(props) {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
-        ref={gridRef}
         {...props}
       />
     </>

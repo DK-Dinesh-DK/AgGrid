@@ -95,36 +95,36 @@ export default function ColumnSpanning({ direction }) {
       five: "five2-summary-bottom",
     },
   ];
-   const columns = [
-     {
-       header: "One",
-       field: "one",
-       toolTip: () => "SummaryCellOneColumns",
-       summaryFormatter(props) {
-         return props.row.one;
-       },
-       colSpan: (props) => {
-         if (props.type === "SUMMARY" && props.rowIndex === 0) {
-           return 2;
-         }
-       },
-     },
-     { header: "Two", field: "two" },
-     {
-       header: "Three",
-       field: "three",
-       colSpan: (props) => {
-         if (props.type === "ROW" && props.rowIndex === 1) {
-           return 3;
-         }
-         if (props.type === "HEADER") {
-           return 3;
-         }
-       },
-     },
-     { header: "Four", field: "four", width: 100 },
-     { header: "Five", field: "five" },
-   ];
+  const columns = [
+    {
+      header: "One",
+      field: "one",
+      toolTip: () => "SummaryCellOneColumns",
+      summaryFormatter(props) {
+        return props.row.one;
+      },
+      colSpan: (props) => {
+        if (props.type === "SUMMARY" && props.rowIndex === 0) {
+          return 2;
+        }
+      },
+    },
+    { header: "Two", field: "two" },
+    {
+      header: "Three",
+      field: "three",
+      colSpan: (props) => {
+        if (props.type === "ROW" && props.rowIndex === 1) {
+          return 3;
+        }
+        if (props.type === "HEADER") {
+          return 3;
+        }
+      },
+    },
+    { header: "Four", field: "four" },
+    { header: "Five", field: "five" },
+  ];
   return (
     <DataGrid
       columnData={columns}

@@ -1,4 +1,3 @@
-
 import { css } from "@linaria/core";
 import { row } from "./row";
 
@@ -175,7 +174,7 @@ const root = css`
       contain: strict;
       content-visibility: auto;
       block-size: 350px;
-      border: 1px solid var(--rdg-border-color);
+      border: none;
       box-sizing: border-box;
       overflow: auto;
       background-color: var(--rdg-background-color);
