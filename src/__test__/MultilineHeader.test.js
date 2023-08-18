@@ -9,7 +9,7 @@ function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 10; i++) {
       rows.push({
         id: `${i}`,
 

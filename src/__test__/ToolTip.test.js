@@ -6,7 +6,7 @@ import DataGrid from "../components/datagrid/DataGrid";
 function createRows() {
   const rows = [];
 
-  for (let i = 1; i <= 50; i++) {
+  for (let i = 1; i <= 10; i++) {
     rows.push({
       id: i,
       task: `Task ${i}`,

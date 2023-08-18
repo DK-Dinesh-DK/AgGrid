@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { getRowStyle, getColSpan } from "./utils";
 import { rowClassname, rowSelectedClassname } from "./style";
 
-import { RowSelectionProvider, useLatestFunc } from "./hooks";
+import { RowSelectionProvider } from "./hooks";
 import DetailsCell from "./DetailsCell";
 
 const DetailsRow = forwardRef(

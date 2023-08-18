@@ -104,7 +104,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest --jest.config.js",
-    "jest": "jest test --ci --testResultsProcessor=jest-junit --coverage --coverageReporters=cobertura --coverageReporters=lcov --maxWorkers=4 --watch",
+    "jest": "jest test --ci --testResultsProcessor=jest-junit --coverage --coverageReporters=cobertura --coverageReporters=lcov  --watch",
     "eject": "react-scripts eject",
     "prodbuild": "webpack --config webpack.config.prod.js",
     "dev": "webpack --config webpack.config.dev.js",

@@ -79,7 +79,7 @@ function TreeRow({
     setToolTipContent(value);
   }
   useEffect(() => {
-    var detectedLevel;
+    let detectedLevel;
     function recursiveChild(obj, level) {
       if (!obj.children) return;
       if (JSON.stringify(obj) === JSON.stringify(row)) {

@@ -158,7 +158,7 @@ function Cell({
   }
 
   // -----------
- const rowSpan = column.rowSpan?.({ type: "ROW", row, rowIndex }) ?? undefined;
+  let rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
   let style = {
     ...getCellStyle(column, colSpan, rowSpan),
     "--rdg-summary-row-top": `${
@@ -177,7 +177,6 @@ function Cell({
     column.idx === totalColumns - 1 && isRowSelected
       ? { ...style, ...{ borderInlineEnd: "1px solid #9bbb59" } }
       : { ...style };
- 
 
   if (column.validation) {
     const validationStyle = column.validation.style

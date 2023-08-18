@@ -11,11 +11,11 @@ export default function FilterRenderer({
   const filters = useContext(FilterContext);
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-  var style = {
-    padding: "5px",
+  let style = {
+    padding: "6px",
     display: "flex",
     justifyContent: "center",
-    paddingLeft: !column.sortable && !column?.alignment ? "15px" : "5px",
+    paddingLeft: !(column.sortable || column?.alignment ) ? "15px" : "6px",
   };
 
   if (rowData && column?.alignment) {

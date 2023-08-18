@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 

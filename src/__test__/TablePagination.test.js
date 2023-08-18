@@ -7,7 +7,7 @@ import { TextEditor } from "../components/datagrid/editors";
 function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
-    for (let i = 0; i < 1500; i++) {
+    for (let i = 0; i < 10; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
       var row;

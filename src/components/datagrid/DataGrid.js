@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useMemo,
   useEffect,
-  memo,
 } from "react";
 import useUpdateEffect from "./hooks/useUpdateEffect";
 import TreeRowRenderer from "./TreeRow";
@@ -528,7 +527,7 @@ function DataGrid(props) {
   });
 
   let rowArray1 = rowColD.slice();
-  for (var i = 0; i < rowArray1.length; i++) {
+  for (let i = 0; i < rowArray1.length; i++) {
     if (rowArray1[i].haveChildren) {
       rowArray1.splice(i, 1);
       i--;
@@ -579,14 +578,14 @@ function DataGrid(props) {
     treeData: rest.treeData,
   });
 
-  var rowData = flatten([], columns);
-  var value1 = false;
+  let rowData = flatten([], columns);
+  let value1 = false;
 
   rowData = rowData.filter(function (item) {
     return item !== value1;
   });
   const rowData1 = rowData.slice();
-  for (var i = 0; i < rowData1.length; i++) {
+  for (let i = 0; i < rowData1.length; i++) {
     if (rowData1[i].haveChildren) {
       rowData1.splice(i, 1);
       i--;
@@ -1148,7 +1147,7 @@ function DataGrid(props) {
     });
     return sortColumns;
   }
-  var columnApiObject = {
+  let columnApiObject = {
     columnModel: {
       columnDefs: raawColumns,
       rowGroupColumns: getRowGroupColumns(),
@@ -1745,10 +1744,19 @@ function DataGrid(props) {
   }
   const [changedList, setChangedList] = useState([]);
   const [previousData, setPreviousData] = useState([]);
+
   useUpdateEffect(() => {
     setPreviousData([...raawRows]);
   }, [raawRows]);
+
   useEffect(() => {
+    if (onGridReady) {
+      onGridReady({
+        api: apiObject,
+        columnApi: columnApiObject,
+        type: "gridReady",
+      });
+    }
     setPreviousData([...raawRows]);
   }, []);
 
@@ -1760,19 +1768,18 @@ function DataGrid(props) {
 
         const { gridRowType, parentId, ...ty } = row;
 
-        sample.map((dat, idx) => {
+        sample.forEach((dat, idx) => {
           const { gridRowType, parentId, ...rt } = oldRow;
           if (JSON.stringify(rt) === JSON.stringify(dat)) {
             index = idx;
           }
-          return true;
         });
         sample[index] = ty;
-
         if (typeof onRowsChange === "function") {
           onRowsChange([...sample]);
         }
       }
+      
       if (row.gridRowType === "detailedRow") {
         let sam = rawRows;
         sam[rowIdx] = row;
@@ -2468,7 +2475,7 @@ function DataGrid(props) {
   function deselectAllFiltered() {
     deselectAll(RowNodes);
   }
-  var totalPages =
+  let totalPages =
     Math.floor(raawRows.length / size) + (raawRows.length % size < 0 ? 1 : 0);
   function paginationGoToPage(pageNumberNew) {
     if (pagination) {
@@ -2626,7 +2633,7 @@ function DataGrid(props) {
           return rows[rowIdx]?.isExpanded;
         },
         setExpanded: (value) => {
-          var expandIds = new Set(expandedGroupIds);
+          let expandIds = new Set(expandedGroupIds);
           let rowKey = rowKeyGetter(rows[rowIdx]);
           if (value) {
             expandIds.add(rowKey);
@@ -2670,8 +2677,8 @@ function DataGrid(props) {
     };
   }
   function isColumnFilterPresent() {
-    var sampleKeys = Object.keys(filters);
-    var result = false;
+    let sampleKeys = Object.keys(filters);
+    let result = false;
     sampleKeys.forEach((value) => {
       if (
         value !== "undefined" &&
@@ -2891,19 +2898,10 @@ function DataGrid(props) {
     ensureColumnVisible,
     getRows: () => rawRows,
     getRenderedrows: () => rows,
-    setSuppressPagination: (val) => setSuppressPagination(val),
+    setSuppressPagination: (val) => setSuppressPagination(),
   };
 
   ///////////  start
-  useEffect(() => {
-    if (onGridReady) {
-      onGridReady({
-        api: apiObject,
-        columnApi: columnApiObject,
-        type: "gridReady",
-      });
-    }
-  }, []);
 
   useEffect(() => {
     setAfterFilter(getViewportRowsSample(sortedRows));
@@ -3076,7 +3074,6 @@ function DataGrid(props) {
             isExpanded: expandedMasterRowIds?.includes(rowKeyGetter(row)),
             selectedCellIdx:
               selectedRowIdx === rowIdx ? selectedIdx : undefined,
-
             apiObject: apiObject,
             node: node,
             selection: rest.selection,
@@ -3136,7 +3133,6 @@ function DataGrid(props) {
             isExpanded: detailedRowIds?.includes(rowKeyGetter(row)),
             selectedCellIdx:
               selectedRowIdx === rowIdx ? selectedIdx : undefined,
-
             apiObject: apiObject,
             node: node,
             selection: rest.selection,
@@ -3215,7 +3211,7 @@ function DataGrid(props) {
           return rows[rowIdx]?.isExpanded;
         },
         setExpanded: (value) => {
-          var expandIds = new Set(expandedGroupIds);
+          let expandIds = new Set(expandedGroupIds);
           let rowKey = rowKeyGetter(rows[rowIdx]);
           if (value) {
             expandIds.add(rowKey);
@@ -3674,13 +3670,7 @@ function DataGrid(props) {
         )}
       </div>
       {(pagination || showSelectedRows) && (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            paddingTop: "12px",
-          }}
-        >
+        <div style={{ display: "flex", justifyContent: "space-between", paddingTop:"12px" }}>
           {showSelectedRows && (
             <div
               className="footer-bottom"
@@ -3708,8 +3698,8 @@ function DataGrid(props) {
               showTotal={(total, range) => {
                 let content = "";
                 if (rest.showTotal) {
-                  if (typeof rest.showTotal === "function") {
-                    content = rest.showTotal(total, range);
+                  if (typeof rest.showtotal === "function") {
+                    content = rest.showtotal(total, range);
                   } else {
                     content = `Showing ${range[0]}-${range[1]} of ${total}`;
                   }

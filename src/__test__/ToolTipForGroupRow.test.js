@@ -99,7 +99,7 @@ function rowKeyGetter(row) {
 
 function createRows() {
   const rows = [];
-  for (let i = 1; i < 1000; i++) {
+  for (let i = 1; i < 10; i++) {
     rows.push({
       id: i,
       year: 2015 + faker.datatype.number(3),
@@ -296,7 +296,7 @@ describe("Datagrid Unit test for Group Row Tool Tip", () => {
     render(<LaiDataGrid rowLevelToolTip={true} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const content = screen.getByRole("gridcell", { name: "Zimbabwe" });
+    const content = screen.getByTestId("grid-group-toggle-0-0");
     expect(content).toBeInTheDocument();
     fireEvent.mouseOver(content);
     fireEvent.mouseMove(content);
@@ -312,7 +312,7 @@ describe("Datagrid Unit test for Group Row Tool Tip", () => {
     );
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const content = screen.getByRole("gridcell", { name: "Zimbabwe" });
+    const content = screen.getByTestId("grid-group-toggle-0-0");
     expect(content).toBeInTheDocument();
     fireEvent.mouseOver(content);
     fireEvent.mouseMove(content);

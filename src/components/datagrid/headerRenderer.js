@@ -444,7 +444,7 @@ const RecursiveScan = (
       onColumnResize(subData, "max-content");
     }
 
-    if (!subData.sortable && !subData.filter) {
+    if (!(subData.sortable || subData.filter)) {
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <>

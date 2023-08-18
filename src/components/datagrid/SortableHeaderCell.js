@@ -46,7 +46,7 @@ export default function SortableHeaderCell({
 }) {
   const sortStatus = useDefaultComponents().sortStatus;
 
-  var { ref, tabIndex } = useFocusRef(isCellSelected);
+  let { ref, tabIndex } = useFocusRef(isCellSelected);
 
   function handleKeyDown(event) {
     if (event.key === " " || event.key === "Enter") {
@@ -63,7 +63,7 @@ export default function SortableHeaderCell({
     width: "90%",
     display: "flex",
     justifyContent: "center",
-    paddingLeft: column?.filter && !column?.alignment ? "15px" : 0,
+    paddingLeft: column?.filter && !column?.alignment ? "15px" : "6px",
   };
   if (column?.alignment) {
     style = alignmentUtils(column, rowData, style, "Header");

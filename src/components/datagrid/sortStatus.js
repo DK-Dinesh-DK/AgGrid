@@ -1,17 +1,5 @@
 import React from "react";
-import { css } from "@linaria/core";
 
-const arrow = css`
-  @layer rdg.SortIcon {
-    fill: currentColor;
-
-    > path {
-      transition: d 0.1s;
-    }
-  }
-`;
-
-const arrowClassname = `rdg-sort-arrow ${arrow}`;
 
 export default function sortStatus({ sortDirection, priority }) {
   return (

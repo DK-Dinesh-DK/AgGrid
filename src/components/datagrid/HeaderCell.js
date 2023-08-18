@@ -53,7 +53,7 @@ export default function HeaderCell({
   gridWidth,
 }) {
   const isRtl = direction === "rtl";
-  const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const { tabIndex } = useRovingCellRef(isCellSelected);
   const [sortableColumnKey, setSortableColumnKey] = useState();
   const sortIndex = sortColumns?.findIndex(
     (sort) => sort.columnKey === sortableColumnKey

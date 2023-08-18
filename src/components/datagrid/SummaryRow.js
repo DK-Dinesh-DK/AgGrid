@@ -120,7 +120,7 @@ function SummaryRow({
 
   return (
     <div
-      key={`${rowIdx}`}
+      key={`SummaryRow-${rowIdx}`}
       role="row"
       aria-rowindex={ariaRowIndex}
       onMouseOver={() => {
