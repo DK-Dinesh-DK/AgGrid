@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { useFocusRef } from "./hooks";
 import FilterContext from "./filterContext";
 import alignmentUtils from "./utils/alignMentUtils";

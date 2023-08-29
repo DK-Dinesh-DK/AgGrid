@@ -168,6 +168,9 @@ function DataGrid(props) {
   } else if (!rest.selection && serialNumber) {
     raawColumns = [SerialNumberColumn, ...raawColumns];
   }
+  raawColumns = raawColumns.filter((col) => {
+    if (!col.hide) return col;
+  });
   if (
     rest.detailedRow &&
     (deviceType === "tab" ||
@@ -308,10 +311,10 @@ function DataGrid(props) {
     props.expandedTreeIds ?? []
   );
   const [expandedMasterRowIds, setExpandedMasterIds] = useState(
-    props.expandedMasterRowIds ?? []
+    props.expandedMasterRowIds ? [props.expandedMasterRowIds[0]] : []
   );
   useUpdateEffect(() => {
-    setExpandedMasterIds(props.expandedMasterRowIds);
+    setExpandedMasterIds([props.expandedMasterRowIds[0]]);
   }, [props.expandedMasterRowIds]);
 
   const PaginationChange = (page, pageSize) => {
@@ -1565,6 +1568,7 @@ function DataGrid(props) {
             sampleRows.push({
               gridRowType: "Detail",
               parentId: rowKeyGetter(row),
+              masterRowData: row,
             });
           } else {
             sampleRows.push({ ...row, gridRowType: "Master" });
@@ -1575,7 +1579,7 @@ function DataGrid(props) {
         setRawRows([...raawRows]);
       }
     }
-  }, [expandedMasterRowIds]);
+  }, [expandedMasterRowIds, raawRows]);
   function handleDetailedRow(rows) {
     if (
       (rest.detailedRow && deviceType !== "deskTop") ||
@@ -1605,16 +1609,11 @@ function DataGrid(props) {
     handleDetailedRow(raawRows);
   }, [detailedRowIds, raawRows]);
   function toggleMaster(newExpandedMasterId) {
-    let sample;
+    let sample = [];
     if (!expandedMasterRowIds?.includes(newExpandedMasterId)) {
-      setExpandedMasterIds([...expandedMasterRowIds, newExpandedMasterId]);
-      sample = [...expandedMasterRowIds, newExpandedMasterId];
-    } else {
-      sample = expandedMasterRowIds?.filter(
-        (value) => value !== newExpandedMasterId
-      );
-      setExpandedMasterIds([...sample]);
+      sample.push(newExpandedMasterId);
     }
+    setExpandedMasterIds(sample);
     if (onExpandedMasterIdsChange) onExpandedMasterIdsChange(sample);
   }
   function toggleDetailed(newDetailedRowId) {
@@ -1779,13 +1778,11 @@ function DataGrid(props) {
           onRowsChange([...sample]);
         }
       }
-      
       if (row.gridRowType === "detailedRow") {
         let sam = rawRows;
         sam[rowIdx] = row;
         let fg = sam[rowIdx - 1];
         sam[rowIdx - 1] = { ...fg, [column.key]: row[column.key] };
-
         setRawRows([...sam]);
         updateSource();
       } else {
@@ -1822,6 +1819,34 @@ function DataGrid(props) {
       setRawRows(res);
       if (typeof onRowsChange === "function") {
         onRowsChange(sample);
+      }
+    } else if (rest.masterData) {
+      if (
+        Object.values(rawRows[rowIdx]).join("") !== Object.values(row).join("")
+      ) {
+        let originalRows = [...rawRows];
+        originalRows[rowIdx] = row;
+        setRawRows(originalRows);
+
+        if (typeof onRowsChange !== "function") {
+          if (expandedMasterRowIds.includes(rowKeyGetter(row))) {
+            let sd = originalRows[rowIdx + 1];
+            sd = { ...sd, masterRowData: row };
+            originalRows[rowIdx + 1] = sd;
+            setRawRows([...originalRows]);
+          }
+          return;
+        }
+        const updatedMasterRows = [];
+        originalRows.forEach((row) => {
+          if (row.gridRowType !== "Detail") {
+            const { gridRowType, ...others } = row;
+            updatedMasterRows.push(others);
+          }
+        });
+        onRowsChange(updatedMasterRows, {
+          column,
+        });
       }
     } else {
       let sampleData = raawRows;
@@ -2148,7 +2173,9 @@ function DataGrid(props) {
       row,
       expandedMasterRowIds,
     });
-
+    // if (rest.masterData && expandedMasterRowIds.length > 0) {
+    //   setExpandedMasterIds([]);
+    // }
     const closeEditor = () => {
       setSelectedPosition(({ idx, rowIdx }) => ({
         idx,
@@ -2869,13 +2896,20 @@ function DataGrid(props) {
     collapseAll: () => setExpandAll(false),
     getFilterModel: () => filters,
     setQuickFilter: (newValue) => {
-      let filteredRows = raawRows?.filter((row) => {
-        for (let key in row) {
-          if (row?.[key].toString().toLowerCase().includes(newValue))
-            return true;
-        }
-      });
-      setRawRows([...filteredRows]);
+      if (newValue && newValue.toString().length > 0) {
+        let filteredRows = raawRows?.filter((row) => {
+          for (let key in row) {
+            if (
+              row?.[key] &&
+              row?.[key].toString().toLowerCase().includes(newValue)
+            )
+              return true;
+          }
+        });
+        setRawRows([...filteredRows]);
+      } else {
+        setRawRows(raawRows);
+      }
     },
     setFilterModel: (value) => setFilters({ ...filters, ...value }),
     destroyFilter: (key) => {
@@ -2983,7 +3017,9 @@ function DataGrid(props) {
             rowLevelToolTip={rest.rowLevelToolTip}
             setToolTip={(val) => setToolTip(val)}
             setToolTipContent={(val) => setToolTipContent(val)}
-            setMouseY={(y) => setMouseY(y)}
+            setMouseY={(y) => {
+              if (toolTip) setMouseY(y);
+            }}
           />
         );
         continue;
@@ -3042,7 +3078,9 @@ function DataGrid(props) {
             rowLevelToolTip={rest.rowLevelToolTip}
             setToolTip={(val) => setToolTip(val)}
             setToolTipContent={(val) => setToolTipContent(val)}
-            setMouseY={(y) => setMouseY(y)}
+            setMouseY={(y) => {
+              if (toolTip) setMouseY(y);
+            }}
           />
         );
         continue;
@@ -3066,7 +3104,6 @@ function DataGrid(props) {
             childRows: row.childRows,
             rowIdx: rowIdx,
             row: row,
-            rowArray: columns5,
             allrow: rows,
             gridRowStart: gridRowStart,
             height: getRowHeight(rowIdx),
@@ -3098,7 +3135,9 @@ function DataGrid(props) {
             rowLevelToolTip: rest.rowLevelToolTip,
             setToolTip,
             setToolTipContent,
-            setMouseY: (y) => setMouseY(y),
+            setMouseY: (y) => {
+              if (toolTip) setMouseY(y);
+            },
           })
         );
 
@@ -3160,7 +3199,9 @@ function DataGrid(props) {
             rowLevelToolTip: rest.rowLevelToolTip,
             setToolTip,
             setToolTipContent,
-            setMouseY: (y) => setMouseY(y),
+            setMouseY: (y) => {
+              if (toolTip) setMouseY(y);
+            },
             gridWidth,
             deviceType,
           })
@@ -3272,7 +3313,9 @@ function DataGrid(props) {
           rowLevelToolTip: rest.rowLevelToolTip,
           setToolTip,
           setToolTipContent,
-          setMouseY: (y) => setMouseY(y),
+          setMouseY: (y) => {
+            if (toolTip) setMouseY(y);
+          },
         })
       );
     }
@@ -3327,7 +3370,7 @@ function DataGrid(props) {
     jumpprev[0]?.setAttribute("title", "");
   }
 
-  if (toolTipRef) {
+  if (toolTip && toolTipRef) {
     const toolTipWidth = toolTipRef.current?.scrollWidth + mouseX;
     const gridElement = document.getElementById("DataGrid");
     const dimensions = gridElement?.getBoundingClientRect();
@@ -3512,7 +3555,9 @@ function DataGrid(props) {
                       rowLevelToolTip={rest.rowLevelToolTip}
                       setToolTip={(val) => setToolTip(val)}
                       setToolTipContent={(val) => setToolTipContent(val)}
-                      setMouseY={(y) => setMouseY(y)}
+                      setMouseY={(y) => {
+                        if (toolTip) setMouseY(y);
+                      }}
                     />
                   );
                 })}
@@ -3570,7 +3615,9 @@ function DataGrid(props) {
                       rowLevelToolTip={rest.rowLevelToolTip}
                       setToolTip={(val) => setToolTip(val)}
                       setToolTipContent={(val) => setToolTipContent(val)}
-                      setMouseY={(y) => setMouseY(y)}
+                      setMouseY={(y) => {
+                        if (toolTip) setMouseY(y);
+                      }}
                     />
                   );
                 })}
@@ -3670,7 +3717,13 @@ function DataGrid(props) {
         )}
       </div>
       {(pagination || showSelectedRows) && (
-        <div style={{ display: "flex", justifyContent: "space-between", paddingTop:"12px" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            paddingTop: "12px",
+          }}
+        >
           {showSelectedRows && (
             <div
               className="footer-bottom"

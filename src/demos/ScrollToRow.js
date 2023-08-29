@@ -1,32 +1,6 @@
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
-import { TextEditor } from "../components/datagrid/editors";
 import "../App.css";
-// import { DataGrid } from "../../node_modules/lai_datagrid/lib/bundle";
-// import "../../node_modules/lai_datagrid/lib/styles.css";
-const columns = [
-  { field: "id", headerName: "ID", sortable: true },
-  {
-    field: "title",
-    headerName: "Title",
-    filter: true,
-    sortable: true,
-    resizable: true,
-  },
-  {
-    field: "count",
-    headerName: "Count",
-    filter: true,
-    // frozen: true,
-    rowSpan: (params) => {
-      if (params.rowIndex == 2) return 2;
-    },
-  },
-  {
-    field: "count3",
-    headerName: "Count2",
-  },
-];
 
 export default function ScrollToRow({ direction }) {
   const [rows] = useState(() => {
@@ -37,6 +11,7 @@ export default function ScrollToRow({ direction }) {
         id: i,
         title: `Title ${i}`,
         count: i * 1000,
+        fg: null,
       });
     }
 
@@ -48,6 +23,36 @@ export default function ScrollToRow({ direction }) {
   const onGridReady = (params) => {
     setGridApi(params.api);
   };
+  const selectedCellHeaderStyle = {
+    backgroundColor: "red",
+    fontSize: "12px",
+  };
+  const [hide, setHide] = useState(true);
+  const columns = [
+    { field: "id", headerName: "", sortable: true, hide: hide },
+    {
+      field: "title",
+      headerName: "Title",
+      sortable: true,
+      filter: true,
+      editable: true,
+      readOnly: true,
+    },
+    {
+      field: "count",
+      headerName: "Count",
+      filter: true,
+      // frozen: true,
+      rowSpan: (params) => {
+        if (params.rowIndex === 2) return 2;
+      },
+    },
+    {
+      field: "count3",
+      headerName: "Count2",
+      hide: hide,
+    },
+  ];
   return (
     <>
       <div style={{ marginBlockEnd: 5 }}>
@@ -58,19 +63,35 @@ export default function ScrollToRow({ direction }) {
           value={value}
           onChange={(event) => setValue(event.target.valueAsNumber)}
         />
-        <button type="button" onClick={() => console.log("gridApi", gridApi)}>
+        <button type="button" onClick={() => console.log(gridRef.current)}>
           gridApi
         </button>
+        <input
+          onChange={(e) => {
+            gridRef.current.api.setQuickFilter(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            setHide(!hide);
+          }}
+        >
+          {!hide ? "Hide" : "Show"}
+        </button>
       </div>
+
       <DataGrid
         innerRef={gridRef}
         columnData={columns}
         rowData={rows}
         direction={direction}
-        valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
+        // valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
         serialNumber={true}
         onGridReady={onGridReady}
-        // style={{ width: "max-content" }}
+        // selectedCellHeaderStyle={selectedCellHeaderStyle}
+        // multilineHeaderEnable={true}
+        rowSelection={"multiple"}
+        onCellClicked={(params) => console.log("CellCleciked", params)}
       />
     </>
   );

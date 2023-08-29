@@ -1,4 +1,5 @@
 import { SelectCellFormatter } from "../formatters";
+import React from "react";
 
 export default function CheckBoxEditor({
   row,

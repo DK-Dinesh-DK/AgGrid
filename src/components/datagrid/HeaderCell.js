@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { css } from "@linaria/core";
-
 import defaultHeaderRenderer from "./headerRenderer";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -11,7 +10,6 @@ import alignmentUtils from "./utils/alignMentUtils";
 const cellResizable = css`
   @layer rdg.HeaderCell {
     touch-action: none;
-
     &::after {
       content: "";
       cursor: col-resize;
@@ -77,9 +75,6 @@ export default function HeaderCell({
         : "descending"
       : undefined;
   let style = getCellStyle(column, colSpan);
-  // selectedCellHeaderStyle && selectedPosition.idx === column.idx
-  //   ? (style = { ...style, ...selectedCellHeaderStyle })
-  //   : style;
 
   const className = getCellClassname(
     column,
@@ -259,9 +254,6 @@ export default function HeaderCell({
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={style}
-      // onFocus={handleFocus}
-      // onClick={onClick}
-      // onDoubleClick={column.resizable ? onDoubleClick : undefined}
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       <div style={headerStyle}>

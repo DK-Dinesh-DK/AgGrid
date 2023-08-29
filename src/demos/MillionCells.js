@@ -22,6 +22,7 @@ export default function MillionCells({ direction }) {
         headerName: key,
         topHeader: key,
         haveChildren: false,
+        frozen: i < 3 ? true : false,
         width: 80,
         resizable: true,
         valueFormatter: cellFormatter,

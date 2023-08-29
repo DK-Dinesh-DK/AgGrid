@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { getRowStyle, getColSpan } from "./utils";
 import { rowClassname, rowSelectedClassname } from "./style";
 
-import { RowSelectionProvider } from "./hooks";
+import { RowSelectionProvider, useLatestFunc } from "./hooks";
 import MasterCell from "./MasterCell";
 
 const MasterRow = forwardRef(
@@ -62,7 +62,9 @@ const MasterRow = forwardRef(
       setToolTipContent(value);
     }
     let style = getRowStyle(gridRowStart, height);
-
+    const onRowChange = useLatestFunc((column, newRow) => {
+      handleRowChange(column, rowIdx, newRow, row);
+    });
     const cells = [];
 
     for (let index = 0; index < viewportColumns.length; index++) {
@@ -85,6 +87,7 @@ const MasterRow = forwardRef(
           childRows={row.children}
           isExpanded={isExpanded}
           isCellSelected={selectedCellIdx === column.idx}
+          selectedCellIdx={selectedCellIdx}
           column={column}
           colSpan={colSpan}
           row={row}
@@ -98,7 +101,7 @@ const MasterRow = forwardRef(
           viewportColumns={viewportColumns}
           node={node}
           onRowClick={onRowClick}
-          onRowChange={handleRowChange}
+          onRowChange={onRowChange}
           onCellClick={onCellClick}
           onCellDoubleClick={onCellDoubleClick}
           onCellContextMenu={onCellContextMenu}

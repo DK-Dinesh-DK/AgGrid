@@ -195,7 +195,7 @@ export default function HeaderFilters({ direction }) {
         selectedRows={selectedRows}
         onSelectedRowsChange
         showSelectedRows
-        ref={dataGridRef}
+        innerRef={dataGridRef}
       />
     </div>
   );

@@ -11,7 +11,7 @@ export function valueFormatter(props) {
   function handleClick(e) {
     selectCellWrapper(props.column.editorOptions?.editOnClick);
     e.stopPropagation();
-    props.onRowClick?.({
+    if(!props.column.readOnly){props.onRowClick?.({
       api: props.api,
       data: props.row,
       columnApi: props.columnApi,
@@ -19,7 +19,7 @@ export function valueFormatter(props) {
       rowIndex: props.rowIndex,
       type: "rowClicked",
       event: e,
-    });
+    })
     props.onCellClick?.({
       api: props.api,
       colDef: {
@@ -35,13 +35,13 @@ export function valueFormatter(props) {
       value: props.row[props.column.field],
       type: "cellClicked",
       event: e,
-    });
+    })}
   }
 
   function handleDoubleClick(e) {
     selectCellWrapper(true);
     e.stopPropagation();
-    props.onRowDoubleClick?.({
+    if(!props.column.readOnly){props.onRowDoubleClick?.({
       api: props.api,
       data: props.row,
       columnApi: props.columnApi,
@@ -49,7 +49,7 @@ export function valueFormatter(props) {
       rowIndex: props.rowIndex,
       type: "rowDoubleClicked",
       event: e,
-    });
+    })
     props.onCellDoubleClick?.({
       api: props.api,
       colDef: {
@@ -65,7 +65,7 @@ export function valueFormatter(props) {
       value: props.row[props.column.field],
       type: "cellDoubleClicked",
       event: e,
-    });
+    })}
   }
 
   function handleContextMenu() {
@@ -161,13 +161,13 @@ const childData = (subData, props) => {
   }
 
   var rowSubData = flatten([], subData);
-  var value1 = false;
+  let value1 = false;
 
   rowSubData = rowSubData.filter(function (item) {
     return item !== value1;
   });
 
-  for (var i = 0; i < rowSubData.length; i++) {
+  for (let i = 0; i < rowSubData.length; i++) {
     if (rowSubData[i].haveChildren) {
       rowSubData.splice(i, 1);
       i--;
@@ -201,7 +201,7 @@ const childData = (subData, props) => {
     }
     function handleClick(e) {
       selectSubCellWrapper(info1.editorOptions?.editOnClick);
-      props.onRowClick?.({
+      if(!info1.readOnly){ props.onRowClick?.({
         api: props.api,
         data: props.row,
         columnApi: props.columnApi,
@@ -209,7 +209,7 @@ const childData = (subData, props) => {
         rowIndex: props.rowIndex,
         type: "rowClicked",
         event: e,
-      });
+      })
       props.onCellClick?.({
         api: props.api,
         colDef: {
@@ -225,14 +225,14 @@ const childData = (subData, props) => {
         value: cellValue,
         type: "cellClicked",
         event: e,
-      });
+      })};
     }
     function handleContextMenu() {
       selectSubCellWrapper();
     }
     function handleDoubleClick(e) {
       selectSubCellWrapper(true);
-      props.onRowDoubleClick?.({
+     if(!info1.readOnly){ props.onRowDoubleClick?.({
         api: props.api,
         data: props.row,
         columnApi: props.columnApi,
@@ -256,7 +256,7 @@ const childData = (subData, props) => {
         value: cellValue,
         type: "cellDoubleClicked",
         event: e,
-      });
+      })};
     }
 
     var isCellSelected;

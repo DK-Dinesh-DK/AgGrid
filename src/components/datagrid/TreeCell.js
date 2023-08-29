@@ -85,7 +85,7 @@ function TreeCell({
 
   function handleClick(e) {
     selectCell(row, column);
-    props.onRowClick?.({
+    if(!column.readOnly){props.onRowClick?.({
       api: props.api,
       data: row,
       columnApi: props.columnApi,
@@ -93,7 +93,7 @@ function TreeCell({
       rowIndex: rowIndex,
       type: "rowClicked",
       event: e,
-    });
+    })
     props.onCellClick?.({
       api: props.api,
       colDef: {
@@ -109,7 +109,7 @@ function TreeCell({
       value: row[column.field] ?? undefined,
       type: "cellClicked",
       event: e,
-    });
+    })}
   }
   function handleRowChange(newRow) {
     onRowChange(column, rowIndex, newRow, row);

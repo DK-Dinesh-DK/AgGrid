@@ -57,7 +57,7 @@ export default function DetailedRow() {
         onDetailedRowIdsChange={(ids) => setExpandedId(ids)}
         detailedRow={true}
         // detailedRowType={"multiple"}
-        desktopDetailedRowEnable={true}
+        // desktopDetailedRowEnable={true}
         onRowsChange={(rows) => {
           console.log("Sampleee", rows);
           setRows(rows);

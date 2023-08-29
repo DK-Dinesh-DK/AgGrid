@@ -1,4 +1,5 @@
 import { css } from "@linaria/core";
+import React from "react";
 
 const linkEditorInternalClassname = css`
   @layer rdg.LinkEditor {

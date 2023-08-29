@@ -252,6 +252,7 @@ export default function MultilineHeader({ direction }) {
   };
 
   return (
+    // <div style={{ width: "800px", height: "500px" }}>
     <DataGrid
       columnData={columns}
       rowData={rows}
@@ -260,7 +261,6 @@ export default function MultilineHeader({ direction }) {
       classheaderName="fill-grid"
       selectedCellHeaderStyle={selectedCellHeaderStyle}
       className="fill-grid"
-      rowFreezLastIndex={3}
       onRowClicked={(props) => {
         console.log("Data", props);
       }}
@@ -269,5 +269,6 @@ export default function MultilineHeader({ direction }) {
       multilineHeaderEnable={true}
       serialNumber={true}
     />
+    // </div>
   );
 }

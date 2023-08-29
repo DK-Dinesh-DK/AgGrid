@@ -1,9 +1,6 @@
 import React,{useMemo} from "react";
 import { valueFormatter, toggleGroupFormatter } from "../formatters";
-// import { SELECT_COLUMN_KEY } from "../Columns";
-// import { clampColumnWidth, max, min } from "../utils";
-import { textEditorClassname } from "../editors/textEditor";
-// import { checkboxFormatter } from "../formatters";
+import  textEditorClassname  from "../editors/textEditor";
 const DEFAULT_COLUMN_WIDTH = "auto";
 const DEFAULT_COLUMN_MIN_WIDTH = 40;
 
@@ -46,9 +43,7 @@ export function useCalculatedRowColumns({
           ...rawColumn,
           key: rawColumn.field,
           parent:null,
-          
           idx: 0,
-          
           frozen,
           isLastFrozenColumn: false,
           rowGroup,

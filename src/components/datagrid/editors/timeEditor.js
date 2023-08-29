@@ -1,5 +1,6 @@
 import { css } from "@linaria/core";
 import moment from "moment";
+import React from "react";
 
 export default function TimeEditor({ row, column, onRowChange, ...props }) {
   const value = row[column.key]

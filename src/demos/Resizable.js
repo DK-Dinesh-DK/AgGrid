@@ -1,6 +1,6 @@
-import DataGrid from '../components/datagrid/DataGrid';
+import DataGrid from "../components/datagrid/DataGrid";
 
-const rows= [...Array(100).keys()];
+const rows = [...Array(100).keys()];
 
 function cellFormatter(props) {
   return (
@@ -10,14 +10,14 @@ function cellFormatter(props) {
   );
 }
 
-const columns= [];
+const columns = [];
 
 for (let i = 0; i < 50; i++) {
   const key = String(i);
   columns.push({
-    field:key,
+    field: key,
     headerName: key,
-    valueFormatter: cellFormatter
+    valueFormatter: cellFormatter,
   });
 }
 
@@ -27,7 +27,7 @@ export default function ResizableGrid({ direction }) {
       columnData={columns}
       rowData={rows}
       className="fill-grid"
-      style={{ resize: 'both' }}
+      style={{ resize: "both" }}
       direction={direction}
     />
   );

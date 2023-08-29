@@ -1,5 +1,4 @@
-import React, { useMemo } from "react";
-
+import { useMemo } from "react";
 import { valueFormatter, toggleGroupFormatter } from "../formatters";
 import { SELECT_COLUMN_KEY } from "../Columns";
 import { clampColumnWidth, max, min } from "../utils";
@@ -74,6 +73,7 @@ export function useCalculatedColumns({
 
         const column = {
           ...rawColumn,
+          readOnly:rawColumn.readOnly??false,
           colId: rawColumn.field,
           key: rawColumn.field ?? rawColumn.key,
           userProvidedColDef: rawColumn,

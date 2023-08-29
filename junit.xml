@@ -1,459 +1,461 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuites name="jest tests" tests="175" failures="0" errors="0" time="166.127">
-  <testsuite name="Datagrid Unit test for Master Details" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:32:59" time="28.346" tests="4">
-    <testcase classname="Datagrid Unit test for Master Details Master Details default row Tool tip" name="Datagrid Unit test for Master Details Master Details default row Tool tip" time="2.876">
+<testsuites name="jest tests" tests="176" failures="0" errors="0" time="66.074">
+  <testsuite name="Datagrid Unit test for Tree view" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:27:54" time="10.96" tests="7">
+    <testcase classname="Datagrid Unit test for Tree view Tree view" name="Datagrid Unit test for Tree view Tree view" time="1.862">
     </testcase>
-    <testcase classname="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" name="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" time="1.946">
+    <testcase classname="Datagrid Unit test for Tree view print window check only serial" name="Datagrid Unit test for Tree view print window check only serial" time="0.687">
     </testcase>
-    <testcase classname="Datagrid Unit test for Master Details Master Details default cell Tool tip" name="Datagrid Unit test for Master Details Master Details default cell Tool tip" time="2.575">
+    <testcase classname="Datagrid Unit test for Tree view print window check only serial" name="Datagrid Unit test for Tree view print window check only serial" time="0.842">
     </testcase>
-    <testcase classname="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" name="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" time="1.222">
+    <testcase classname="Datagrid Unit test for Tree view print window check only serial" name="Datagrid Unit test for Tree view print window check only serial" time="0.707">
     </testcase>
-  </testsuite>
-  <testsuite name="RowGrouping API" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:32:58" time="36.496" tests="12">
-    <testcase classname="RowGrouping API getRowGroupColumns works correctly" name="RowGrouping API getRowGroupColumns works correctly" time="3.584">
+    <testcase classname="Datagrid Unit test for Tree view Treeview Value chage" name="Datagrid Unit test for Tree view Treeview Value chage" time="0.637">
     </testcase>
-    <testcase classname="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of objects" name="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of objects" time="2.197">
+    <testcase classname="Datagrid Unit test for Tree view Treeview Row select" name="Datagrid Unit test for Tree view Treeview Row select" time="0.471">
     </testcase>
-    <testcase classname="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of strings" name="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of strings" time="1.509">
-    </testcase>
-    <testcase classname="RowGrouping API addRowGroupColumn works correctly when column is passed as object" name="RowGrouping API addRowGroupColumn works correctly when column is passed as object" time="1.003">
-    </testcase>
-    <testcase classname="RowGrouping API addRowGroupColumn works correctly when column is passed as string" name="RowGrouping API addRowGroupColumn works correctly when column is passed as string" time="1.025">
-    </testcase>
-    <testcase classname="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of objects" name="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of objects" time="0.976">
-    </testcase>
-    <testcase classname="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of strings" name="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of strings" time="0.926">
-    </testcase>
-    <testcase classname="RowGrouping API removeRowGroupColumn works correctly when column is passed as an object" name="RowGrouping API removeRowGroupColumn works correctly when column is passed as an object" time="1.073">
-    </testcase>
-    <testcase classname="RowGrouping API removeRowGroupColumn works correctly when column is passed as string" name="RowGrouping API removeRowGroupColumn works correctly when column is passed as string" time="1.205">
-    </testcase>
-    <testcase classname="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of objects" name="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of objects" time="0.956">
-    </testcase>
-    <testcase classname="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of strings" name="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of strings" time="0.929">
-    </testcase>
-    <testcase classname="RowGrouping API moveRowGroupColumn works correctly" name="RowGrouping API moveRowGroupColumn works correctly" time="0.91">
+    <testcase classname="Datagrid Unit test for Tree view Treeview Row select" name="Datagrid Unit test for Tree view Treeview Row select" time="0.26">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Master Details" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:33:27" time="10.338" tests="1">
-    <testcase classname="Datagrid Unit test for Master Details Master Details" name="Datagrid Unit test for Master Details Master Details" time="2.98">
+  <testsuite name="RowGrouping API" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:27:54" time="17.898" tests="12">
+    <testcase classname="RowGrouping API getRowGroupColumns works correctly" name="RowGrouping API getRowGroupColumns works correctly" time="1.612">
+    </testcase>
+    <testcase classname="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of objects" name="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of objects" time="0.834">
+    </testcase>
+    <testcase classname="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of strings" name="RowGrouping API setRowGroupColumns works correctly when columns are passed as array of strings" time="0.68">
+    </testcase>
+    <testcase classname="RowGrouping API addRowGroupColumn works correctly when column is passed as object" name="RowGrouping API addRowGroupColumn works correctly when column is passed as object" time="0.433">
+    </testcase>
+    <testcase classname="RowGrouping API addRowGroupColumn works correctly when column is passed as string" name="RowGrouping API addRowGroupColumn works correctly when column is passed as string" time="0.446">
+    </testcase>
+    <testcase classname="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of objects" name="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of objects" time="0.403">
+    </testcase>
+    <testcase classname="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of strings" name="RowGrouping API addRowGroupColumns works correctly when columns are passed as array of strings" time="0.448">
+    </testcase>
+    <testcase classname="RowGrouping API removeRowGroupColumn works correctly when column is passed as an object" name="RowGrouping API removeRowGroupColumn works correctly when column is passed as an object" time="0.669">
+    </testcase>
+    <testcase classname="RowGrouping API removeRowGroupColumn works correctly when column is passed as string" name="RowGrouping API removeRowGroupColumn works correctly when column is passed as string" time="0.971">
+    </testcase>
+    <testcase classname="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of objects" name="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of objects" time="0.866">
+    </testcase>
+    <testcase classname="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of strings" name="RowGrouping API removeRowGroupColumns works correctly when columns are passed an array of strings" time="0.78">
+    </testcase>
+    <testcase classname="RowGrouping API moveRowGroupColumn works correctly" name="RowGrouping API moveRowGroupColumn works correctly" time="0.63">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Group Row" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:33:36" time="9.965" tests="2">
-    <testcase classname="Datagrid Unit test for Group Row group view" name="Datagrid Unit test for Group Row group view" time="1.293">
+  <testsuite name="Datagrid Unit test for Group Row" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:10" time="8.598" tests="2">
+    <testcase classname="Datagrid Unit test for Group Row group view" name="Datagrid Unit test for Group Row group view" time="1.216">
     </testcase>
-    <testcase classname="Datagrid Unit test for Group Row group view api " name="Datagrid Unit test for Group Row group view api " time="1.825">
-    </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for All editors" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:32:59" time="47.016" tests="11">
-    <testcase classname="Datagrid Unit test for All editors editors for button" name="Datagrid Unit test for All editors editors for button" time="6.401">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for textEditor" name="Datagrid Unit test for All editors editors for textEditor" time="3.619">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for slider" name="Datagrid Unit test for All editors editors for slider" time="2.27">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for checkbox" name="Datagrid Unit test for All editors editors for checkbox" time="2.535">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for dateEditor" name="Datagrid Unit test for All editors editors for dateEditor" time="1.58">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for dateTimeEditor" name="Datagrid Unit test for All editors editors for dateTimeEditor" time="1.648">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for timeEditor" name="Datagrid Unit test for All editors editors for timeEditor" time="1.686">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for dropDownEditor" name="Datagrid Unit test for All editors editors for dropDownEditor" time="1.644">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for radioButtonEditor" name="Datagrid Unit test for All editors editors for radioButtonEditor" time="1.574">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors editors for colorPicker" name="Datagrid Unit test for All editors editors for colorPicker" time="1.58">
-    </testcase>
-    <testcase classname="Datagrid Unit test for All editors edit cell onnavigation keydown" name="Datagrid Unit test for All editors edit cell onnavigation keydown" time="2.634">
+    <testcase classname="Datagrid Unit test for Group Row group view api " name="Datagrid Unit test for Group Row group view api " time="1.061">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Summarry Row" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:33:38" time="11.605" tests="1">
-    <testcase classname="Datagrid Unit test for Summarry Row print window check" name="Datagrid Unit test for Summarry Row print window check" time="4.789">
+  <testsuite name="Datagrid Unit test for All editors" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:27:54" time="24.107" tests="11">
+    <testcase classname="Datagrid Unit test for All editors editors for button" name="Datagrid Unit test for All editors editors for button" time="2.599">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for textEditor" name="Datagrid Unit test for All editors editors for textEditor" time="1.566">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for slider" name="Datagrid Unit test for All editors editors for slider" time="1.14">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for checkbox" name="Datagrid Unit test for All editors editors for checkbox" time="1.897">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for dateEditor" name="Datagrid Unit test for All editors editors for dateEditor" time="1.014">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for dateTimeEditor" name="Datagrid Unit test for All editors editors for dateTimeEditor" time="1.112">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for timeEditor" name="Datagrid Unit test for All editors editors for timeEditor" time="0.888">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for dropDownEditor" name="Datagrid Unit test for All editors editors for dropDownEditor" time="0.989">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for radioButtonEditor" name="Datagrid Unit test for All editors editors for radioButtonEditor" time="1.066">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors editors for colorPicker" name="Datagrid Unit test for All editors editors for colorPicker" time="0.993">
+    </testcase>
+    <testcase classname="Datagrid Unit test for All editors edit cell onnavigation keydown" name="Datagrid Unit test for All editors edit cell onnavigation keydown" time="1.812">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for MultiLine Header view" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:32:58" time="61.837" tests="6">
-    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline header view" name="Datagrid Unit test for MultiLine Header view Multiline header view" time="16.319">
+  <testsuite name="Datagrid Unit test for Master Details" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:13" time="7.541" tests="4">
+    <testcase classname="Datagrid Unit test for Master Details Master Details default row Tool tip" name="Datagrid Unit test for Master Details Master Details default row Tool tip" time="1.468">
     </testcase>
-    <testcase classname="Datagrid Unit test for MultiLine Header view value Formatter cell clcik and double clcik " name="Datagrid Unit test for MultiLine Header view value Formatter cell clcik and double clcik " time="5.05">
+    <testcase classname="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" name="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" time="0.861">
     </testcase>
-    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="11.734">
+    <testcase classname="Datagrid Unit test for Master Details Master Details default cell Tool tip" name="Datagrid Unit test for Master Details Master Details default cell Tool tip" time="0.811">
     </testcase>
-    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="7.245">
-    </testcase>
-    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="4.663">
-    </testcase>
-    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="4.256">
+    <testcase classname="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" name="Datagrid Unit test for Master Details Master Details dynamic row Tool tip" time="0.484">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Tree view" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:33:46" time="12.706" tests="7">
-    <testcase classname="Datagrid Unit test for Tree view Tree view" name="Datagrid Unit test for Tree view Tree view" time="3.533">
+  <testsuite name="Datagrid Unit test for MultiLine Header view" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:27:54" time="29.32" tests="6">
+    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline header view" name="Datagrid Unit test for MultiLine Header view Multiline header view" time="6.724">
     </testcase>
-    <testcase classname="Datagrid Unit test for Tree view print window check only serial" name="Datagrid Unit test for Tree view print window check only serial" time="1.363">
+    <testcase classname="Datagrid Unit test for MultiLine Header view value Formatter cell clcik and double clcik " name="Datagrid Unit test for MultiLine Header view value Formatter cell clcik and double clcik " time="2.207">
     </testcase>
-    <testcase classname="Datagrid Unit test for Tree view print window check only serial" name="Datagrid Unit test for Tree view print window check only serial" time="1.411">
+    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="7.038">
     </testcase>
-    <testcase classname="Datagrid Unit test for Tree view print window check only serial" name="Datagrid Unit test for Tree view print window check only serial" time="1.378">
+    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="3.988">
     </testcase>
-    <testcase classname="Datagrid Unit test for Tree view Treeview Value chage" name="Datagrid Unit test for Tree view Treeview Value chage" time="0.915">
+    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="1.887">
     </testcase>
-    <testcase classname="Datagrid Unit test for Tree view Treeview Row select" name="Datagrid Unit test for Tree view Treeview Row select" time="0.754">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Tree view Treeview Row select" name="Datagrid Unit test for Tree view Treeview Row select" time="0.51">
+    <testcase classname="Datagrid Unit test for MultiLine Header view Multiline sort  " name="Datagrid Unit test for MultiLine Header view Multiline sort  " time="1.84">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for rowNode" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:19" time="10.887" tests="2">
-    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" time="0.825">
-    </testcase>
-    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" time="3.294">
+  <testsuite name="Datagrid Unit test for Alignment" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:19" time="4.722" tests="1">
+    <testcase classname="Datagrid Unit test for Alignment print window check" name="Datagrid Unit test for Alignment print window check" time="1.856">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Alignment" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:18" time="12.63" tests="1">
-    <testcase classname="Datagrid Unit test for Alignment print window check" name="Datagrid Unit test for Alignment print window check" time="5.135">
+  <testsuite name="rowSelection event test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:26" time="4.152" tests="8">
+    <testcase classname="rowSelection event test Copy Paste event " name="rowSelection event test Copy Paste event " time="0.763">
+    </testcase>
+    <testcase classname="rowSelection event test copy checking " name="rowSelection event test copy checking " time="0.305">
+    </testcase>
+    <testcase classname="rowSelection event test Copy Paste event Checking " name="rowSelection event test Copy Paste event Checking " time="0.279">
+    </testcase>
+    <testcase classname="rowSelection event test key down escape" name="rowSelection event test key down escape" time="0.151">
+    </testcase>
+    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.367">
+    </testcase>
+    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.43">
+    </testcase>
+    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.188">
+    </testcase>
+    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.242">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Group Row Tool Tip" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:21" time="12.866" tests="4">
-    <testcase classname="Datagrid Unit test for Group Row Tool Tip GroupRow Row Default Tooltip" name="Datagrid Unit test for Group Row Tool Tip GroupRow Row Default Tooltip" time="0.954">
+  <testsuite name="Datagrid Unit test for Responsive Detailed Row" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:26" time="6.368" tests="7">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with single" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with single" time="1.715">
     </testcase>
-    <testcase classname="Datagrid Unit test for Group Row Tool Tip Group Row Row Dynamic Tooltip" name="Datagrid Unit test for Group Row Tool Tip Group Row Row Dynamic Tooltip" time="0.616">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with multiple" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with multiple" time="0.586">
     </testcase>
-    <testcase classname="Datagrid Unit test for Group Row Tool Tip GroupRow Cell  Default Tooltip" name="Datagrid Unit test for Group Row Tool Tip GroupRow Cell  Default Tooltip" time="0.441">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" name="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" time="1.041">
     </testcase>
-    <testcase classname="Datagrid Unit test for Group Row Tool Tip GroupRow Cell Dynamic Tooltip" name="Datagrid Unit test for Group Row Tool Tip GroupRow Cell Dynamic Tooltip" time="0.32">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" name="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" time="0.63">
     </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for rowNode" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:33" time="9.804" tests="2">
-    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" time="0.928">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip" time="0.347">
     </testcase>
-    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" time="1.828">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip static" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip static" time="0.252">
     </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for ToolTip view with multiline header" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:38" time="7.611" tests="1">
-    <testcase classname="Datagrid Unit test for ToolTip view with multiline header ToolTip view" name="Datagrid Unit test for ToolTip view with multiline header ToolTip view" time="4.584">
+    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Tab view with cell ToolTip dynamic" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Tab view with cell ToolTip dynamic" time="0.305">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Responsive Detailed Row" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:33" time="13.017" tests="7">
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with single" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with single" time="3.158">
+  <testsuite name="Datagrid Unit test for rowNode" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:28" time="4.706" tests="2">
+    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" time="0.448">
     </testcase>
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with multiple" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with multiple" time="1.486">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" name="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" time="2.49">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" name="Datagrid Unit test for Responsive Detailed Row DetailedRow desktop view with single" time="1.232">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip" time="0.67">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip static" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Mobile view with cell ToolTip static" time="0.522">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Responsive Detailed Row DetailedRow Tab view with cell ToolTip dynamic" name="Datagrid Unit test for Responsive Detailed Row DetailedRow Tab view with cell ToolTip dynamic" time="0.51">
+    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" time="0.911">
     </testcase>
   </testsuite>
-  <testsuite name="rowSelection event test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:38" time="8.711" tests="8">
-    <testcase classname="rowSelection event test Copy Paste event " name="rowSelection event test Copy Paste event " time="1.291">
-    </testcase>
-    <testcase classname="rowSelection event test copy checking " name="rowSelection event test copy checking " time="0.728">
-    </testcase>
-    <testcase classname="rowSelection event test Copy Paste event Checking " name="rowSelection event test Copy Paste event Checking " time="0.594">
-    </testcase>
-    <testcase classname="rowSelection event test key down escape" name="rowSelection event test key down escape" time="0.398">
-    </testcase>
-    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.812">
-    </testcase>
-    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.804">
-    </testcase>
-    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.551">
-    </testcase>
-    <testcase classname="rowSelection event test key down arrow" name="rowSelection event test key down arrow" time="0.493">
+  <testsuite name="Datagrid Unit test for Summarry Row" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:27" time="7.039" tests="1">
+    <testcase classname="Datagrid Unit test for Summarry Row print window check" name="Datagrid Unit test for Summarry Row print window check" time="1.817">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Table Pagination" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:43" time="5.357" tests="2">
-    <testcase classname="Datagrid Unit test for Table Pagination table pagination" name="Datagrid Unit test for Table Pagination table pagination" time="1.254">
+  <testsuite name="Datagrid Unit test for Group Row Tool Tip" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:31" time="4.5" tests="4">
+    <testcase classname="Datagrid Unit test for Group Row Tool Tip GroupRow Row Default Tooltip" name="Datagrid Unit test for Group Row Tool Tip GroupRow Row Default Tooltip" time="0.291">
     </testcase>
-    <testcase classname="Datagrid Unit test for Table Pagination table pagination with selected" name="Datagrid Unit test for Table Pagination table pagination with selected" time="1.292">
+    <testcase classname="Datagrid Unit test for Group Row Tool Tip Group Row Row Dynamic Tooltip" name="Datagrid Unit test for Group Row Tool Tip Group Row Row Dynamic Tooltip" time="0.376">
     </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for column Reorder" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:46" time="5.755" tests="3">
-    <testcase classname="Datagrid Unit test for column Reorder column Reorder" name="Datagrid Unit test for column Reorder column Reorder" time="1.051">
+    <testcase classname="Datagrid Unit test for Group Row Tool Tip GroupRow Cell  Default Tooltip" name="Datagrid Unit test for Group Row Tool Tip GroupRow Cell  Default Tooltip" time="0.29">
     </testcase>
-    <testcase classname="Datagrid Unit test for column Reorder column onClcik" name="Datagrid Unit test for column Reorder column onClcik" time="0.518">
-    </testcase>
-    <testcase classname="Datagrid Unit test for column Reorder Edit cell UseEffect" name="Datagrid Unit test for column Reorder Edit cell UseEffect" time="0.806">
+    <testcase classname="Datagrid Unit test for Group Row Tool Tip GroupRow Cell Dynamic Tooltip" name="Datagrid Unit test for Group Row Tool Tip GroupRow Cell Dynamic Tooltip" time="0.24">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:47" time="5.584" tests="2">
-    <testcase classname="Datagrid Unit test Headerdata rendered &amp; on headerCell click it should be selected" name="Datagrid Unit test Headerdata rendered &amp; on headerCell click it should be selected" time="1.291">
-    </testcase>
-    <testcase classname="Datagrid Unit test Rowdata rendered &amp; on rowCell click it should be selected" name="Datagrid Unit test Rowdata rendered &amp; on rowCell click it should be selected" time="0.72">
+  <testsuite name="Datagrid Unit test for ToolTip view with multiline header" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:33" time="3.355" tests="1">
+    <testcase classname="Datagrid Unit test for ToolTip view with multiline header ToolTip view" name="Datagrid Unit test for ToolTip view with multiline header ToolTip view" time="2.24">
     </testcase>
   </testsuite>
-  <testsuite name="rowSelection event test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:46" time="6.893" tests="4">
-    <testcase classname="rowSelection event test Single row selection with onSelectedRow " name="rowSelection event test Single row selection with onSelectedRow " time="1.633">
+  <testsuite name="Datagrid Unit test for rowNode" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:33" time="4.675" tests="2">
+    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isSelected,setSelected" time="0.361">
     </testcase>
-    <testcase classname="rowSelection event test Single row selection without onSelectedRow " name="rowSelection event test Single row selection without onSelectedRow " time="1.068">
-    </testcase>
-    <testcase classname="rowSelection event test Multiple row selection with onSelectedRow " name="rowSelection event test Multiple row selection with onSelectedRow " time="0.959">
-    </testcase>
-    <testcase classname="rowSelection event test setSuppressRowClickSelection api  " name="rowSelection event test setSuppressRowClickSelection api  " time="0.263">
+    <testcase classname="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" name="Datagrid Unit test for rowNode Datagrid Unit test for rownode isExpanded" time="1.095">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for contextmenu" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:49" time="4.808" tests="3">
-    <testcase classname="Datagrid Unit test for contextmenu context menu and menu click " name="Datagrid Unit test for contextmenu context menu and menu click " time="0.896">
+  <testsuite name="rowSelection event test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:35" time="2.748" tests="4">
+    <testcase classname="rowSelection event test Single row selection with onSelectedRow " name="rowSelection event test Single row selection with onSelectedRow " time="0.592">
     </testcase>
-    <testcase classname="Datagrid Unit test for contextmenu sub contextmenu " name="Datagrid Unit test for contextmenu sub contextmenu " time="0.509">
+    <testcase classname="rowSelection event test Single row selection without onSelectedRow " name="rowSelection event test Single row selection without onSelectedRow " time="0.391">
     </testcase>
-    <testcase classname="Datagrid Unit test for contextmenu disabled menu onclick " name="Datagrid Unit test for contextmenu disabled menu onclick " time="0.49">
+    <testcase classname="rowSelection event test Multiple row selection with onSelectedRow " name="rowSelection event test Multiple row selection with onSelectedRow " time="0.441">
     </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for Column Span" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:53" time="4.66" tests="2">
-    <testcase classname="Datagrid Unit test for Column Span editors for button" name="Datagrid Unit test for Column Span editors for button" time="1.61">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Column Span editors for button" name="Datagrid Unit test for Column Span editors for button" time="0.498">
+    <testcase classname="rowSelection event test setSuppressRowClickSelection api  " name="rowSelection event test setSuppressRowClickSelection api  " time="0.151">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Cell Focus" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:54" time="3.952" tests="1">
-    <testcase classname="Datagrid Unit test for Cell Focus table pagination with Cell Focus" name="Datagrid Unit test for Cell Focus table pagination with Cell Focus" time="1.533">
+  <testsuite name="Datagrid Unit test for Master Details" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:35" time="3.857" tests="2">
+    <testcase classname="Datagrid Unit test for Master Details Master Details" name="Datagrid Unit test for Master Details Master Details" time="0.781">
+    </testcase>
+    <testcase classname="Datagrid Unit test for Master Details Master Details editable master row" name="Datagrid Unit test for Master Details Master Details editable master row" time="0.105">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:53" time="4.77" tests="2">
-    <testcase classname="Datagrid Unit test should sort data when user clicks header name" name="Datagrid Unit test should sort data when user clicks header name" time="1.435">
+  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:37" time="2.802" tests="2">
+    <testcase classname="Datagrid Unit test Filter features" name="Datagrid Unit test Filter features" time="1.054">
     </testcase>
-    <testcase classname="Datagrid Unit test  header keydown" name="Datagrid Unit test  header keydown" time="0.57">
-    </testcase>
-  </testsuite>
-  <testsuite name="GridAPI - Filtering APIs" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:55" time="4.304" tests="6">
-    <testcase classname="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered" name="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered" time="0.516">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered with onSelectedRowsChange" name="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered with onSelectedRowsChange" time="0.325">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs setSuppressPagination" name="GridAPI - Filtering APIs setSuppressPagination" time="0.231">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs setHeaderHeight" name="GridAPI - Filtering APIs setHeaderHeight" time="0.25">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs forEachLeafNodeAfterFilterAndSort(" name="GridAPI - Filtering APIs forEachLeafNodeAfterFilterAndSort(" time="0.304">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs forEachLeafNodeAfterFilter(" name="GridAPI - Filtering APIs forEachLeafNodeAfterFilter(" time="0.219">
+    <testcase classname="Datagrid Unit test Filter features" name="Datagrid Unit test Filter features" time="0.369">
     </testcase>
   </testsuite>
-  <testsuite name="GridAPI" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:59" time="4.469" tests="5">
-    <testcase classname="GridAPI setCellValue and getFirstRenderedData work correctly" name="GridAPI setCellValue and getFirstRenderedData work correctly" time="0.545">
+  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:38" time="2.748" tests="3">
+    <testcase classname="Datagrid Unit test Multiline Header rowdata should be editable on dblClick and new edited data should be rendered in that cell" name="Datagrid Unit test Multiline Header rowdata should be editable on dblClick and new edited data should be rendered in that cell" time="0.737">
     </testcase>
-    <testcase classname="GridAPI getColumnDefs,setColumnDefs and updateColumns work correctly" name="GridAPI getColumnDefs,setColumnDefs and updateColumns work correctly" time="0.441">
+    <testcase classname="Datagrid Unit test Edit cell onKey down" name="Datagrid Unit test Edit cell onKey down" time="0.408">
     </testcase>
-    <testcase classname="GridAPI getRowNode and getValue work correctly" name="GridAPI getRowNode and getValue work correctly" time="0.288">
-    </testcase>
-    <testcase classname="GridAPI getDisplayedRowCount,getDisplayedRowAtIndex,getFirstDisplayedRow and getLastDisplayedRow work correctly" name="GridAPI getDisplayedRowCount,getDisplayedRowAtIndex,getFirstDisplayedRow and getLastDisplayedRow work correctly" time="0.31">
-    </testcase>
-    <testcase classname="GridAPI getRows, getRenderedrows, getRenderedNodes and getModel work correctly" name="GridAPI getRows, getRenderedrows, getRenderedNodes and getModel work correctly" time="0.351">
+    <testcase classname="Datagrid Unit test Edit cell onKey down" name="Datagrid Unit test Edit cell onKey down" time="0.342">
     </testcase>
   </testsuite>
-  <testsuite name="ToolTip test for Tree view Row" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:58" time="6.095" tests="5">
-    <testcase classname="ToolTip test for Tree view Row Tree view Default Row" name="ToolTip test for Tree view Row Tree view Default Row" time="1.13">
+  <testsuite name="ToolTip test for Tree view Row" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:38" time="2.726" tests="5">
+    <testcase classname="ToolTip test for Tree view Row Tree view Default Row" name="ToolTip test for Tree view Row Tree view Default Row" time="0.531">
     </testcase>
-    <testcase classname="ToolTip test for Tree view Row Tree view  Dynamic Tooltip for Row " name="ToolTip test for Tree view Row Tree view  Dynamic Tooltip for Row " time="0.583">
+    <testcase classname="ToolTip test for Tree view Row Tree view  Dynamic Tooltip for Row " name="ToolTip test for Tree view Row Tree view  Dynamic Tooltip for Row " time="0.337">
     </testcase>
-    <testcase classname="ToolTip test for Tree view Row Tree view Default Row without id" name="ToolTip test for Tree view Row Tree view Default Row without id" time="0.497">
+    <testcase classname="ToolTip test for Tree view Row Tree view Default Row without id" name="ToolTip test for Tree view Row Tree view Default Row without id" time="0.263">
     </testcase>
-    <testcase classname="ToolTip test for Tree view Row Tree view Default Cell" name="ToolTip test for Tree view Row Tree view Default Cell" time="0.646">
+    <testcase classname="ToolTip test for Tree view Row Tree view Default Cell" name="ToolTip test for Tree view Row Tree view Default Cell" time="0.216">
     </testcase>
-    <testcase classname="ToolTip test for Tree view Row Tree view Default Dynamic" name="ToolTip test for Tree view Row Tree view Default Dynamic" time="0.647">
-    </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for Summary Row ToolTip" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:34:58" time="5.808" tests="4">
-    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Default ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Default ToolTip" time="1.826">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Dynamic ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Dynamic ToolTip" time="0.523">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Default ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Default ToolTip" time="0.47">
-    </testcase>
-    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Dynamic ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Dynamic ToolTip" time="0.437">
+    <testcase classname="ToolTip test for Tree view Row Tree view Default Dynamic" name="ToolTip test for Tree view Row Tree view Default Dynamic" time="0.201">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:00" time="7.116" tests="3">
-    <testcase classname="Datagrid Unit test Multiline Header rowdata should be editable on dblClick and new edited data should be rendered in that cell" name="Datagrid Unit test Multiline Header rowdata should be editable on dblClick and new edited data should be rendered in that cell" time="2.244">
+  <testsuite name="Show selected rows prop works correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:39" time="2.76" tests="4">
+    <testcase classname="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows prop is passed" name="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows prop is passed" time="0.335">
     </testcase>
-    <testcase classname="Datagrid Unit test Edit cell onKey down" name="Datagrid Unit test Edit cell onKey down" time="1.004">
+    <testcase classname="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows=false or prop is not passed" name="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows=false or prop is not passed" time="0.202">
     </testcase>
-    <testcase classname="Datagrid Unit test Edit cell onKey down" name="Datagrid Unit test Edit cell onKey down" time="0.801">
+    <testcase classname="Show selected rows prop works correctly Show selected rows shows correct number of rows when row is selected" name="Show selected rows prop works correctly Show selected rows shows correct number of rows when row is selected" time="0.469">
     </testcase>
-  </testsuite>
-  <testsuite name="MoveColumns" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:05" time="5.228" tests="5">
-    <testcase classname="MoveColumns moveColumn works correctly when column passed as string" name="MoveColumns moveColumn works correctly when column passed as string" time="0.71">
-    </testcase>
-    <testcase classname="MoveColumns moveColumn works correctly when column passed as object" name="MoveColumns moveColumn works correctly when column passed as object" time="0.342">
-    </testcase>
-    <testcase classname="MoveColumns moveColumns works correctly when columns are passed as array of objects" name="MoveColumns moveColumns works correctly when columns are passed as array of objects" time="0.318">
-    </testcase>
-    <testcase classname="MoveColumns moveColumns works correctly when columns are passed as array of strings" name="MoveColumns moveColumns works correctly when columns are passed as array of strings" time="0.27">
-    </testcase>
-    <testcase classname="MoveColumns moveColumnByIndex works correctly" name="MoveColumns moveColumnByIndex works correctly" time="0.279">
+    <testcase classname="Show selected rows prop works correctly Show selected rows shows correct number of rows when all rows are selected" name="Show selected rows prop works correctly Show selected rows shows correct number of rows when all rows are selected" time="0.463">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:04" time="7.021" tests="2">
-    <testcase classname="Datagrid Unit test Filter features" name="Datagrid Unit test Filter features" time="2.631">
+  <testsuite name="Datagrid Unit test for Summary Row ToolTip" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:40" time="2.597" tests="4">
+    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Default ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Default ToolTip" time="0.778">
     </testcase>
-    <testcase classname="Datagrid Unit test Filter features" name="Datagrid Unit test Filter features" time="1.011">
+    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Dynamic ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Row Dynamic ToolTip" time="0.185">
     </testcase>
-  </testsuite>
-  <testsuite name="Show selected rows prop works correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:05" time="6.824" tests="4">
-    <testcase classname="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows prop is passed" name="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows prop is passed" time="0.773">
+    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Default ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Default ToolTip" time="0.167">
     </testcase>
-    <testcase classname="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows=false or prop is not passed" name="Show selected rows prop works correctly Show selected rows is rendered when showSelectedRows=false or prop is not passed" time="0.498">
-    </testcase>
-    <testcase classname="Show selected rows prop works correctly Show selected rows shows correct number of rows when row is selected" name="Show selected rows prop works correctly Show selected rows shows correct number of rows when row is selected" time="1.148">
-    </testcase>
-    <testcase classname="Show selected rows prop works correctly Show selected rows shows correct number of rows when all rows are selected" name="Show selected rows prop works correctly Show selected rows shows correct number of rows when all rows are selected" time="1.009">
+    <testcase classname="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Dynamic ToolTip" name="Datagrid Unit test for Summary Row ToolTip SummarryRow Cell Dynamic ToolTip" time="0.187">
     </testcase>
   </testsuite>
-  <testsuite name="GridAPI - Filtering APIs" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:09" time="4.98" tests="4">
-    <testcase classname="GridAPI - Filtering APIs setQuickFilter works correctly" name="GridAPI - Filtering APIs setQuickFilter works correctly" time="0.772">
+  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:41" time="1.976" tests="2">
+    <testcase classname="Datagrid Unit test Headerdata rendered &amp; on headerCell click it should be selected" name="Datagrid Unit test Headerdata rendered &amp; on headerCell click it should be selected" time="0.466">
     </testcase>
-    <testcase classname="GridAPI - Filtering APIs getFilterModel,setFilterModel work correctly" name="GridAPI - Filtering APIs getFilterModel,setFilterModel work correctly" time="0.366">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs isColumnFilterPresent" name="GridAPI - Filtering APIs isColumnFilterPresent" time="0.351">
-    </testcase>
-    <testcase classname="GridAPI - Filtering APIs isAnyFilterPresent" name="GridAPI - Filtering APIs isAnyFilterPresent" time="0.324">
+    <testcase classname="Datagrid Unit test Rowdata rendered &amp; on rowCell click it should be selected" name="Datagrid Unit test Rowdata rendered &amp; on rowCell click it should be selected" time="0.308">
     </testcase>
   </testsuite>
-  <testsuite name="GridAPI - column APIs" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:11" time="5.308" tests="6">
-    <testcase classname="GridAPI - column APIs sizeColumnsToFit" name="GridAPI - column APIs sizeColumnsToFit" time="0.656">
+  <testsuite name="Datagrid Unit test for Table Pagination" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:41" time="2.12" tests="2">
+    <testcase classname="Datagrid Unit test for Table Pagination table pagination" name="Datagrid Unit test for Table Pagination table pagination" time="0.506">
     </testcase>
-    <testcase classname="GridAPI - column APIs autoSizeAllColumns" name="GridAPI - column APIs autoSizeAllColumns" time="0.331">
-    </testcase>
-    <testcase classname="GridAPI - column APIs autoSizeColumn" name="GridAPI - column APIs autoSizeColumn" time="0.277">
-    </testcase>
-    <testcase classname="GridAPI - column APIs autoSizeColumns" name="GridAPI - column APIs autoSizeColumns" time="0.302">
-    </testcase>
-    <testcase classname="GridAPI - column APIs setColumnWidth" name="GridAPI - column APIs setColumnWidth" time="0.406">
-    </testcase>
-    <testcase classname="GridAPI - column APIs setColumnsWidth" name="GridAPI - column APIs setColumnsWidth" time="0.288">
+    <testcase classname="Datagrid Unit test for Table Pagination table pagination with selected" name="Datagrid Unit test for Table Pagination table pagination with selected" time="0.447">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Row Reorder" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:12" time="5.041" tests="2">
-    <testcase classname="Datagrid Unit test for Row Reorder Row Reorder" name="Datagrid Unit test for Row Reorder Row Reorder" time="1.182">
+  <testsuite name="GridAPI - Filtering APIs" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:42" time="2" tests="6">
+    <testcase classname="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered" name="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered" time="0.204">
     </testcase>
-    <testcase classname="Datagrid Unit test for Row Reorder Row Reorder suppress Row Drag" name="Datagrid Unit test for Row Reorder Row Reorder suppress Row Drag" time="0.575">
+    <testcase classname="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered with onSelectedRowsChange" name="GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered with onSelectedRowsChange" time="0.145">
     </testcase>
-  </testsuite>
-  <testsuite name="getSelectedNodes Works Correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:12" time="4.739" tests="1">
-    <testcase classname="getSelectedNodes Works Correctly getSelectedNodes shows correct selected nodes" name="getSelectedNodes Works Correctly getSelectedNodes shows correct selected nodes" time="1.404">
+    <testcase classname="GridAPI - Filtering APIs setSuppressPagination" name="GridAPI - Filtering APIs setSuppressPagination" time="0.139">
     </testcase>
-  </testsuite>
-  <testsuite name="Column Pinning" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:14" time="4.491" tests="4">
-    <testcase classname="Column Pinning setColumnPinned works correctly when column passed as string" name="Column Pinning setColumnPinned works correctly when column passed as string" time="0.448">
+    <testcase classname="GridAPI - Filtering APIs setHeaderHeight" name="GridAPI - Filtering APIs setHeaderHeight" time="0.152">
     </testcase>
-    <testcase classname="Column Pinning setColumnPinned works correctly when column passed as object" name="Column Pinning setColumnPinned works correctly when column passed as object" time="0.213">
+    <testcase classname="GridAPI - Filtering APIs forEachLeafNodeAfterFilterAndSort(" name="GridAPI - Filtering APIs forEachLeafNodeAfterFilterAndSort(" time="0.162">
     </testcase>
-    <testcase classname="Column Pinning setColumnsPinned works correctly when columns are passed as array of strings" name="Column Pinning setColumnsPinned works correctly when columns are passed as array of strings" time="0.154">
-    </testcase>
-    <testcase classname="Column Pinning setColumnsPinned works correctly when columns are passed as array of objects" name="Column Pinning setColumnsPinned works correctly when columns are passed as array of objects" time="0.181">
+    <testcase classname="GridAPI - Filtering APIs forEachLeafNodeAfterFilter(" name="GridAPI - Filtering APIs forEachLeafNodeAfterFilter(" time="0.134">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Scroll" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:17" time="4.807" tests="3">
-    <testcase classname="Datagrid Unit test for Scroll Datagrid Unit test for Scrol" name="Datagrid Unit test for Scroll Datagrid Unit test for Scrol" time="1.431">
+  <testsuite name="Datagrid Unit test for Scroll" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:42" time="1.925" tests="3">
+    <testcase classname="Datagrid Unit test for Scroll Datagrid Unit test for Scrol" name="Datagrid Unit test for Scroll Datagrid Unit test for Scrol" time="0.486">
     </testcase>
-    <testcase classname="Datagrid Unit test for Scroll Datagrid Unit test for EnsureScroll" name="Datagrid Unit test for Scroll Datagrid Unit test for EnsureScroll" time="0.414">
+    <testcase classname="Datagrid Unit test for Scroll Datagrid Unit test for EnsureScroll" name="Datagrid Unit test for Scroll Datagrid Unit test for EnsureScroll" time="0.189">
     </testcase>
-    <testcase classname="Datagrid Unit test for Scroll Datagrid Unit test for api function" name="Datagrid Unit test for Scroll Datagrid Unit test for api function" time="0.344">
-    </testcase>
-  </testsuite>
-  <testsuite name="cellrenderer works properly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:17" time="4.291" tests="2">
-    <testcase classname="cellrenderer works properly cellRenderer renders in every row for particular column" name="cellrenderer works properly cellRenderer renders in every row for particular column" time="0.543">
-    </testcase>
-    <testcase classname="cellrenderer works properly cellRenderer renders in every row for particular multiline header column" name="cellrenderer works properly cellRenderer renders in every row for particular multiline header column" time="0.363">
+    <testcase classname="Datagrid Unit test for Scroll Datagrid Unit test for api function" name="Datagrid Unit test for Scroll Datagrid Unit test for api function" time="0.155">
     </testcase>
   </testsuite>
-  <testsuite name="ColumnState API" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:17" time="4.339" tests="4">
-    <testcase classname="ColumnState API getColumnState works correctly" name="ColumnState API getColumnState works correctly" time="0.337">
+  <testsuite name="GridAPI - column APIs" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:44" time="1.971" tests="6">
+    <testcase classname="GridAPI - column APIs sizeColumnsToFit" name="GridAPI - column APIs sizeColumnsToFit" time="0.228">
     </testcase>
-    <testcase classname="ColumnState API applyColumnState works correctly" name="ColumnState API applyColumnState works correctly" time="0.194">
+    <testcase classname="GridAPI - column APIs autoSizeAllColumns" name="GridAPI - column APIs autoSizeAllColumns" time="0.146">
     </testcase>
-    <testcase classname="ColumnState API defaultState passed to applyColumnState works correctly" name="ColumnState API defaultState passed to applyColumnState works correctly" time="0.259">
+    <testcase classname="GridAPI - column APIs autoSizeColumn" name="GridAPI - column APIs autoSizeColumn" time="0.084">
     </testcase>
-    <testcase classname="ColumnState API resetColumnState works correctly" name="ColumnState API resetColumnState works correctly" time="0.3">
+    <testcase classname="GridAPI - column APIs autoSizeColumns" name="GridAPI - column APIs autoSizeColumns" time="0.135">
     </testcase>
-  </testsuite>
-  <testsuite name="Display name column apis" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:19" time="4.828" tests="5">
-    <testcase classname="Display name column apis getDisplayNameForColumn works correctly" name="Display name column apis getDisplayNameForColumn works correctly" time="0.551">
+    <testcase classname="GridAPI - column APIs setColumnWidth" name="GridAPI - column APIs setColumnWidth" time="0.118">
     </testcase>
-    <testcase classname="Display name column apis getDisplayedColAfter works correctly" name="Display name column apis getDisplayedColAfter works correctly" time="0.261">
-    </testcase>
-    <testcase classname="Display name column apis getDisplayedColBefore works correctly" name="Display name column apis getDisplayedColBefore works correctly" time="0.166">
-    </testcase>
-    <testcase classname="Display name column apis getAllDisplayedVirtualColumns works correctly" name="Display name column apis getAllDisplayedVirtualColumns works correctly" time="0.198">
-    </testcase>
-    <testcase classname="Display name column apis getAllDisplayedColumns works correctly" name="Display name column apis getAllDisplayedColumns works correctly" time="0.191">
+    <testcase classname="GridAPI - column APIs setColumnsWidth" name="GridAPI - column APIs setColumnsWidth" time="0.108">
     </testcase>
   </testsuite>
-  <testsuite name="getColumn works correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:22" time="3.762" tests="2">
-    <testcase classname="getColumn works correctly getColumn gets column object of correct column(priority) when colKey passed as string" name="getColumn works correctly getColumn gets column object of correct column(priority) when colKey passed as string" time="0.473">
+  <testsuite name="Datagrid Unit test for contextmenu" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:44" time="2.029" tests="3">
+    <testcase classname="Datagrid Unit test for contextmenu context menu and menu click " name="Datagrid Unit test for contextmenu context menu and menu click " time="0.369">
     </testcase>
-    <testcase classname="getColumn works correctly getColumn gets column object of correct column(id) when colKey passed as object" name="getColumn works correctly getColumn gets column object of correct column(id) when colKey passed as object" time="0.205">
+    <testcase classname="Datagrid Unit test for contextmenu sub contextmenu " name="Datagrid Unit test for contextmenu sub contextmenu " time="0.24">
     </testcase>
-  </testsuite>
-  <testsuite name="isPinning works correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:22" time="3.852" tests="2">
-    <testcase classname="isPinning works correctly isPinning returns true if atleast one column is pinned" name="isPinning works correctly isPinning returns true if atleast one column is pinned" time="0.445">
-    </testcase>
-    <testcase classname="isPinning works correctly isPinning returns false if no columns are pinned" name="isPinning works correctly isPinning returns false if no columns are pinned" time="0.296">
+    <testcase classname="Datagrid Unit test for contextmenu disabled menu onclick " name="Datagrid Unit test for contextmenu disabled menu onclick " time="0.229">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:22" time="4.494" tests="1">
-    <testcase classname="Datagrid Unit test All Row selection using HeaderRow Checkbox" name="Datagrid Unit test All Row selection using HeaderRow Checkbox" time="1.322">
+  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:44" time="2.084" tests="2">
+    <testcase classname="Datagrid Unit test should sort data when user clicks header name" name="Datagrid Unit test should sort data when user clicks header name" time="0.695">
+    </testcase>
+    <testcase classname="Datagrid Unit test  header keydown" name="Datagrid Unit test  header keydown" time="0.252">
     </testcase>
   </testsuite>
-  <testsuite name="getSelectedRows" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:25" time="3.626" tests="1">
-    <testcase classname="getSelectedRows getSelectedRows correctly" name="getSelectedRows getSelectedRows correctly" time="0.811">
+  <testsuite name="Datagrid Unit test for Column Span" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:45" time="2.069" tests="2">
+    <testcase classname="Datagrid Unit test for Column Span editors for button" name="Datagrid Unit test for Column Span editors for button" time="0.745">
+    </testcase>
+    <testcase classname="Datagrid Unit test for Column Span editors for button" name="Datagrid Unit test for Column Span editors for button" time="0.213">
     </testcase>
   </testsuite>
-  <testsuite name="rowSingleClick event test" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:26" time="3.92" tests="1">
-    <testcase classname="rowSingleClick event test Row Single Click event works properly" name="rowSingleClick event test Row Single Click event works properly" time="0.71">
+  <testsuite name="rowSingleClick event test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:46" time="1.497" tests="1">
+    <testcase classname="rowSingleClick event test Row Single Click event works properly" name="rowSingleClick event test Row Single Click event works properly" time="0.274">
     </testcase>
   </testsuite>
-  <testsuite name="SerialNumber Column Renders correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:27" time="3.351" tests="2">
-    <testcase classname="SerialNumber Column Renders correctly Page has serial number column after passing serialNumber or serialNumber=true" name="SerialNumber Column Renders correctly Page has serial number column after passing serialNumber or serialNumber=true" time="0.473">
+  <testsuite name="Datagrid Unit test for column Reorder" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:46" time="2.093" tests="3">
+    <testcase classname="Datagrid Unit test for column Reorder column Reorder" name="Datagrid Unit test for column Reorder column Reorder" time="0.309">
     </testcase>
-    <testcase classname="SerialNumber Column Renders correctly Page doesnt serial number column serialNumber=false or prop is not passed" name="SerialNumber Column Renders correctly Page doesnt serial number column serialNumber=false or prop is not passed" time="0.234">
+    <testcase classname="Datagrid Unit test for column Reorder column onClcik" name="Datagrid Unit test for column Reorder column onClcik" time="0.17">
     </testcase>
-  </testsuite>
-  <testsuite name="getColumns and getAllGridColumns work correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:27" time="3.948" tests="2">
-    <testcase classname="getColumns and getAllGridColumns work correctly getColumns returns all columns" name="getColumns and getAllGridColumns work correctly getColumns returns all columns" time="0.471">
-    </testcase>
-    <testcase classname="getColumns and getAllGridColumns work correctly getAllGridColumns returns all grid columns" name="getColumns and getAllGridColumns work correctly getAllGridColumns returns all grid columns" time="0.218">
+    <testcase classname="Datagrid Unit test for column Reorder Edit cell UseEffect" name="Datagrid Unit test for column Reorder Edit cell UseEffect" time="0.344">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Get Model" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:29" time="3.338" tests="1">
-    <testcase classname="Datagrid Unit test for Get Model get Model" name="Datagrid Unit test for Get Model get Model" time="0.802">
+  <testsuite name="GridAPI - Filtering APIs" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:47" time="1.821" tests="4">
+    <testcase classname="GridAPI - Filtering APIs setQuickFilter works correctly" name="GridAPI - Filtering APIs setQuickFilter works correctly" time="0.278">
+    </testcase>
+    <testcase classname="GridAPI - Filtering APIs getFilterModel,setFilterModel work correctly" name="GridAPI - Filtering APIs getFilterModel,setFilterModel work correctly" time="0.173">
+    </testcase>
+    <testcase classname="GridAPI - Filtering APIs isColumnFilterPresent" name="GridAPI - Filtering APIs isColumnFilterPresent" time="0.194">
+    </testcase>
+    <testcase classname="GridAPI - Filtering APIs isAnyFilterPresent" name="GridAPI - Filtering APIs isAnyFilterPresent" time="0.131">
     </testcase>
   </testsuite>
-  <testsuite name="framework components render correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:31" time="3.299" tests="2">
-    <testcase classname="framework components render correctly Page has framework checkbox components in all rows" name="framework components render correctly Page has framework checkbox components in all rows" time="0.427">
+  <testsuite name="Datagrid Unit test for Export" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:47" time="1.928" tests="4">
+    <testcase classname="Datagrid Unit test for Export CSV button and download" name="Datagrid Unit test for Export CSV button and download" time="0.793">
     </testcase>
-    <testcase classname="framework components render correctly Page has framework button components in all rows" name="framework components render correctly Page has framework button components in all rows" time="0.359">
+    <testcase classname="Datagrid Unit test for Export XSLX button and downloa" name="Datagrid Unit test for Export XSLX button and downloa" time="0.19">
     </testcase>
-  </testsuite>
-  <testsuite name="Datagrid Unit test for NoRows" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:31" time="3.199" tests="2">
-    <testcase classname="Datagrid Unit test for NoRows no rows" name="Datagrid Unit test for NoRows no rows" time="0.543">
+    <testcase classname="Datagrid Unit test for Export pdf button and download" name="Datagrid Unit test for Export pdf button and download" time="0.21">
     </testcase>
-    <testcase classname="Datagrid Unit test for NoRows keyGetter" name="Datagrid Unit test for NoRows keyGetter" time="0.103">
+    <testcase classname="Datagrid Unit test for Export exports data to XLSX file" name="Datagrid Unit test for Export exports data to XLSX file" time="0.003">
     </testcase>
   </testsuite>
-  <testsuite name="GridAPI" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:31" time="3.703" tests="1">
-    <testcase classname="GridAPI applyTransaction works correctly" name="GridAPI applyTransaction works correctly" time="0.735">
+  <testsuite name="GridAPI" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:48" time="2.134" tests="5">
+    <testcase classname="GridAPI setCellValue and getFirstRenderedData work correctly" name="GridAPI setCellValue and getFirstRenderedData work correctly" time="0.254">
+    </testcase>
+    <testcase classname="GridAPI getColumnDefs,setColumnDefs and updateColumns work correctly" name="GridAPI getColumnDefs,setColumnDefs and updateColumns work correctly" time="0.196">
+    </testcase>
+    <testcase classname="GridAPI getRowNode and getValue work correctly" name="GridAPI getRowNode and getValue work correctly" time="0.089">
+    </testcase>
+    <testcase classname="GridAPI getDisplayedRowCount,getDisplayedRowAtIndex,getFirstDisplayedRow and getLastDisplayedRow work correctly" name="GridAPI getDisplayedRowCount,getDisplayedRowAtIndex,getFirstDisplayedRow and getLastDisplayedRow work correctly" time="0.108">
+    </testcase>
+    <testcase classname="GridAPI getRows, getRenderedrows, getRenderedNodes and getModel work correctly" name="GridAPI getRows, getRenderedrows, getRenderedNodes and getModel work correctly" time="0.163">
     </testcase>
   </testsuite>
-  <testsuite name="GridAPI" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:33" time="3.442" tests="1">
-    <testcase classname="GridAPI forEachNode and forEachLeafNode work correctly" name="GridAPI forEachNode and forEachLeafNode work correctly" time="0.45">
+  <testsuite name="MoveColumns" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:48" time="2.187" tests="5">
+    <testcase classname="MoveColumns moveColumn works correctly when column passed as string" name="MoveColumns moveColumn works correctly when column passed as string" time="0.271">
+    </testcase>
+    <testcase classname="MoveColumns moveColumn works correctly when column passed as object" name="MoveColumns moveColumn works correctly when column passed as object" time="0.292">
+    </testcase>
+    <testcase classname="MoveColumns moveColumns works correctly when columns are passed as array of objects" name="MoveColumns moveColumns works correctly when columns are passed as array of objects" time="0.196">
+    </testcase>
+    <testcase classname="MoveColumns moveColumns works correctly when columns are passed as array of strings" name="MoveColumns moveColumns works correctly when columns are passed as array of strings" time="0.11">
+    </testcase>
+    <testcase classname="MoveColumns moveColumnByIndex works correctly" name="MoveColumns moveColumnByIndex works correctly" time="0.124">
     </testcase>
   </testsuite>
-  <testsuite name="Datagrid Unit test for Export" errors="0" failures="0" skipped="0" timestamp="2023-08-18T07:35:35" time="4.572" tests="4">
-    <testcase classname="Datagrid Unit test for Export CSV button and download" name="Datagrid Unit test for Export CSV button and download" time="1.469">
+  <testsuite name="getSelectedNodes Works Correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:49" time="1.955" tests="1">
+    <testcase classname="getSelectedNodes Works Correctly getSelectedNodes shows correct selected nodes" name="getSelectedNodes Works Correctly getSelectedNodes shows correct selected nodes" time="0.673">
     </testcase>
-    <testcase classname="Datagrid Unit test for Export XSLX button and downloa" name="Datagrid Unit test for Export XSLX button and downloa" time="0.501">
+  </testsuite>
+  <testsuite name="Datagrid Unit test" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:49" time="1.962" tests="1">
+    <testcase classname="Datagrid Unit test All Row selection using HeaderRow Checkbox" name="Datagrid Unit test All Row selection using HeaderRow Checkbox" time="0.547">
     </testcase>
-    <testcase classname="Datagrid Unit test for Export pdf button and download" name="Datagrid Unit test for Export pdf button and download" time="0.509">
+  </testsuite>
+  <testsuite name="isPinning works correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:50" time="1.729" tests="2">
+    <testcase classname="isPinning works correctly isPinning returns true if atleast one column is pinned" name="isPinning works correctly isPinning returns true if atleast one column is pinned" time="0.215">
     </testcase>
-    <testcase classname="Datagrid Unit test for Export exports data to XLSX file" name="Datagrid Unit test for Export exports data to XLSX file" time="0.007">
+    <testcase classname="isPinning works correctly isPinning returns false if no columns are pinned" name="isPinning works correctly isPinning returns false if no columns are pinned" time="0.117">
+    </testcase>
+  </testsuite>
+  <testsuite name="Datagrid Unit test for NoRows" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:51" time="1.222" tests="2">
+    <testcase classname="Datagrid Unit test for NoRows no rows" name="Datagrid Unit test for NoRows no rows" time="0.201">
+    </testcase>
+    <testcase classname="Datagrid Unit test for NoRows keyGetter" name="Datagrid Unit test for NoRows keyGetter" time="0.049">
+    </testcase>
+  </testsuite>
+  <testsuite name="ColumnState API" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:51" time="1.609" tests="4">
+    <testcase classname="ColumnState API getColumnState works correctly" name="ColumnState API getColumnState works correctly" time="0.13">
+    </testcase>
+    <testcase classname="ColumnState API applyColumnState works correctly" name="ColumnState API applyColumnState works correctly" time="0.122">
+    </testcase>
+    <testcase classname="ColumnState API defaultState passed to applyColumnState works correctly" name="ColumnState API defaultState passed to applyColumnState works correctly" time="0.124">
+    </testcase>
+    <testcase classname="ColumnState API resetColumnState works correctly" name="ColumnState API resetColumnState works correctly" time="0.104">
+    </testcase>
+  </testsuite>
+  <testsuite name="cellrenderer works properly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:51" time="1.454" tests="2">
+    <testcase classname="cellrenderer works properly cellRenderer renders in every row for particular column" name="cellrenderer works properly cellRenderer renders in every row for particular column" time="0.2">
+    </testcase>
+    <testcase classname="cellrenderer works properly cellRenderer renders in every row for particular multiline header column" name="cellrenderer works properly cellRenderer renders in every row for particular multiline header column" time="0.097">
+    </testcase>
+  </testsuite>
+  <testsuite name="GridAPI" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:52" time="1.359" tests="1">
+    <testcase classname="GridAPI forEachNode and forEachLeafNode work correctly" name="GridAPI forEachNode and forEachLeafNode work correctly" time="0.208">
+    </testcase>
+  </testsuite>
+  <testsuite name="GridAPI" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:53" time="1.299" tests="1">
+    <testcase classname="GridAPI applyTransaction works correctly" name="GridAPI applyTransaction works correctly" time="0.2">
+    </testcase>
+  </testsuite>
+  <testsuite name="Datagrid Unit test for Cell Focus" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:52" time="1.844" tests="1">
+    <testcase classname="Datagrid Unit test for Cell Focus table pagination with Cell Focus" name="Datagrid Unit test for Cell Focus table pagination with Cell Focus" time="0.709">
+    </testcase>
+  </testsuite>
+  <testsuite name="Datagrid Unit test for Row Reorder" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:53" time="1.921" tests="2">
+    <testcase classname="Datagrid Unit test for Row Reorder Row Reorder" name="Datagrid Unit test for Row Reorder Row Reorder" time="0.367">
+    </testcase>
+    <testcase classname="Datagrid Unit test for Row Reorder Row Reorder suppress Row Drag" name="Datagrid Unit test for Row Reorder Row Reorder suppress Row Drag" time="0.246">
+    </testcase>
+  </testsuite>
+  <testsuite name="Datagrid Unit test for Get Model" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:54" time="1.619" tests="1">
+    <testcase classname="Datagrid Unit test for Get Model get Model" name="Datagrid Unit test for Get Model get Model" time="0.38">
+    </testcase>
+  </testsuite>
+  <testsuite name="getColumns and getAllGridColumns work correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:54" time="1.553" tests="2">
+    <testcase classname="getColumns and getAllGridColumns work correctly getColumns returns all columns" name="getColumns and getAllGridColumns work correctly getColumns returns all columns" time="0.232">
+    </testcase>
+    <testcase classname="getColumns and getAllGridColumns work correctly getAllGridColumns returns all grid columns" name="getColumns and getAllGridColumns work correctly getAllGridColumns returns all grid columns" time="0.117">
+    </testcase>
+  </testsuite>
+  <testsuite name="Column Pinning" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:54" time="1.75" tests="4">
+    <testcase classname="Column Pinning setColumnPinned works correctly when column passed as string" name="Column Pinning setColumnPinned works correctly when column passed as string" time="0.212">
+    </testcase>
+    <testcase classname="Column Pinning setColumnPinned works correctly when column passed as object" name="Column Pinning setColumnPinned works correctly when column passed as object" time="0.103">
+    </testcase>
+    <testcase classname="Column Pinning setColumnsPinned works correctly when columns are passed as array of strings" name="Column Pinning setColumnsPinned works correctly when columns are passed as array of strings" time="0.084">
+    </testcase>
+    <testcase classname="Column Pinning setColumnsPinned works correctly when columns are passed as array of objects" name="Column Pinning setColumnsPinned works correctly when columns are passed as array of objects" time="0.097">
+    </testcase>
+  </testsuite>
+  <testsuite name="getColumn works correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:55" time="1.546" tests="2">
+    <testcase classname="getColumn works correctly getColumn gets column object of correct column(priority) when colKey passed as string" name="getColumn works correctly getColumn gets column object of correct column(priority) when colKey passed as string" time="0.227">
+    </testcase>
+    <testcase classname="getColumn works correctly getColumn gets column object of correct column(id) when colKey passed as object" name="getColumn works correctly getColumn gets column object of correct column(id) when colKey passed as object" time="0.105">
+    </testcase>
+  </testsuite>
+  <testsuite name="framework components render correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:56" time="1.323" tests="2">
+    <testcase classname="framework components render correctly Page has framework checkbox components in all rows" name="framework components render correctly Page has framework checkbox components in all rows" time="0.18">
+    </testcase>
+    <testcase classname="framework components render correctly Page has framework button components in all rows" name="framework components render correctly Page has framework button components in all rows" time="0.093">
+    </testcase>
+  </testsuite>
+  <testsuite name="Display name column apis" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:56" time="1.523" tests="5">
+    <testcase classname="Display name column apis getDisplayNameForColumn works correctly" name="Display name column apis getDisplayNameForColumn works correctly" time="0.139">
+    </testcase>
+    <testcase classname="Display name column apis getDisplayedColAfter works correctly" name="Display name column apis getDisplayedColAfter works correctly" time="0.077">
+    </testcase>
+    <testcase classname="Display name column apis getDisplayedColBefore works correctly" name="Display name column apis getDisplayedColBefore works correctly" time="0.069">
+    </testcase>
+    <testcase classname="Display name column apis getAllDisplayedVirtualColumns works correctly" name="Display name column apis getAllDisplayedVirtualColumns works correctly" time="0.076">
+    </testcase>
+    <testcase classname="Display name column apis getAllDisplayedColumns works correctly" name="Display name column apis getAllDisplayedColumns works correctly" time="0.065">
+    </testcase>
+  </testsuite>
+  <testsuite name="SerialNumber Column Renders correctly" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:56" time="1.388" tests="2">
+    <testcase classname="SerialNumber Column Renders correctly Page has serial number column after passing serialNumber or serialNumber=true" name="SerialNumber Column Renders correctly Page has serial number column after passing serialNumber or serialNumber=true" time="0.251">
+    </testcase>
+    <testcase classname="SerialNumber Column Renders correctly Page doesnt serial number column serialNumber=false or prop is not passed" name="SerialNumber Column Renders correctly Page doesnt serial number column serialNumber=false or prop is not passed" time="0.113">
+    </testcase>
+  </testsuite>
+  <testsuite name="getSelectedRows" errors="0" failures="0" skipped="0" timestamp="2023-08-28T12:28:57" time="1.139" tests="1">
+    <testcase classname="getSelectedRows getSelectedRows correctly" name="getSelectedRows getSelectedRows correctly" time="0.18">
     </testcase>
   </testsuite>
 </testsuites>

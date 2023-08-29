@@ -1,5 +1,4 @@
 import React, { memo, useRef, useState } from "react";
-
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { PlusIcon, MinusIcon } from "../../assets/Icon";
@@ -85,7 +84,7 @@ function DetailsCell({
 
   function handleClick(e) {
     if (row.gridRowType !== "detailedRow") {
-      props.onRowClick?.({
+     if(!column.readOnly) {props.onRowClick?.({
         columnApi: props.columnApi,
         node: node,
         api: props.api,
@@ -93,7 +92,7 @@ function DetailsCell({
         type: "rowClicked",
         rowIndex: rowIndex,
         event: e,
-      });
+      })
       props.onCellClick?.({
         api: props.api,
         node: node,
@@ -109,7 +108,7 @@ function DetailsCell({
         rowIndex: rowIndex,
         value: row[column.field] ?? undefined,
         event: e,
-      });
+      })}
       selectCell(rowIndex, column.idx);
     }
   }
@@ -206,7 +205,7 @@ function DetailsCell({
                 )}
                 onClick={(e) => {
                   selectCell(row, column, id);
-                  props.onRowClick?.({
+                 if(!column.readOnly){ props.onRowClick?.({
                     api: apiObject,
                     data: row,
                     columnApi: props.columnApi,
@@ -214,7 +213,7 @@ function DetailsCell({
                     rowIndex: rowIndex,
                     type: "rowClicked",
                     event: e,
-                  });
+                  })
                   props.onCellClick?.({
                     api: apiObject,
                     colDef: {
@@ -230,7 +229,7 @@ function DetailsCell({
                     value: row[column.field] ?? undefined,
                     type: "cellClicked",
                     event: e,
-                  });
+                  })}
                 }}
               >
                 <div

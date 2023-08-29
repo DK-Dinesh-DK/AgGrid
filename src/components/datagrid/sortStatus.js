@@ -1,6 +1,5 @@
 import React from "react";
 
-
 export default function sortStatus({ sortDirection, priority }) {
   return (
     <>

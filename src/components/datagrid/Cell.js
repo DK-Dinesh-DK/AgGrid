@@ -1,11 +1,9 @@
 import React, { memo, useState, useRef } from "react";
 import { css } from "@linaria/core";
-
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { useDrag, useDrop } from "react-dnd";
 import alignmentUtils from "./utils/alignMentUtils";
-
 import {
   bottomRowIsSelectedClassName,
   rowIsSelectedClassName,
@@ -231,7 +229,7 @@ function Cell({
   });
   function handleDoubleClick(e) {
     e.stopPropagation();
-    onRowDoubleClick?.({
+    if(!column.readOnly){onRowDoubleClick?.({
       api: api,
       data: row,
       columnApi: columnApi,
@@ -239,7 +237,7 @@ function Cell({
       rowIndex: rowIndex,
       type: "rowDoubleClicked",
       event: e,
-    });
+    })
     onCellDoubleClick?.({
       api: api,
       data: row,
@@ -249,11 +247,11 @@ function Cell({
       value: row[column.key],
       type: "cellDoubleClicked",
       event: e,
-    });
+    })}
   }
   function handleClick(e) {
     e.stopPropagation();
-    onRowClick?.({
+    if(!column.readOnly){onRowClick?.({
       api: api,
       data: row,
       columnApi: columnApi,
@@ -261,7 +259,7 @@ function Cell({
       rowIndex: rowIndex,
       type: "rowClicked",
       event: e,
-    });
+    })
     onCellClick?.({
       api: api,
       data: row,
@@ -271,7 +269,7 @@ function Cell({
       value: row[column.key],
       type: "cellClicked",
       event: e,
-    });
+    })}
   }
   function handleToolTip(value) {
     setToolTip(value);
@@ -279,7 +277,6 @@ function Cell({
   function handleToolTipContent(value) {
     setToolTipContent(value);
   }
-
   let params = {
     column,
     colDef: column,

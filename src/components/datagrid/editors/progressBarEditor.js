@@ -1,4 +1,5 @@
 import { css } from "@linaria/core";
+import React from "react";
 
 const progressBar = css`
   @layer rdg.ProgressBar {

@@ -1,4 +1,5 @@
 import { css } from "@linaria/core";
+import React from "react";
 
 export default function RadioButtonEditor({ row, column, onRowChange }) {
   const options = column.options ? column.options : column.buttons;

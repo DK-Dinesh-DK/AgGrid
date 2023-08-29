@@ -133,15 +133,15 @@ export default function HeaderRenderer({
       selectCell(column.idx);
     }
     function onDoubleClick(event) {
-      const { right, left } = event.currentTarget.getBoundingClientRect();
-      const offset = isRtl ? event.clientX - left : right - event.clientX;
-
-      if (offset > 11) {
-        // +1px to account for the border size
-        return;
+      if (!column.readOnly) {
+        const { right, left } = event.currentTarget.getBoundingClientRect();
+        const offset = isRtl ? event.clientX - left : right - event.clientX;
+        if (offset > 11) {
+          // +1px to account for the border size
+          return;
+        }
+        onColumnResize(column, "max-content");
       }
-
-      onColumnResize(column, "max-content");
     }
 
     function handleFocus(event) {
@@ -165,8 +165,6 @@ export default function HeaderRenderer({
     }
     if (!(column.sortable || column.filter)) {
       return (
-        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-
         <div
           key={column.idx}
           style={style_1}
@@ -433,15 +431,15 @@ const RecursiveScan = (
     const isRtl = direction === "rtl";
 
     function onDoubleClick(event) {
+      if(!subData.readOnly){
       const { right, left } = event.currentTarget.getBoundingClientRect();
       const offset = isRtl ? event.clientX - left : right - event.clientX;
-
       if (offset > 11) {
         // +1px to account for the border size
         return;
       }
-
       onColumnResize(subData, "max-content");
+    }
     }
 
     if (!(subData.sortable || subData.filter)) {
