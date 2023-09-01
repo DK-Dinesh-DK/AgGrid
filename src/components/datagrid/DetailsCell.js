@@ -62,10 +62,11 @@ function DetailsCell({
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `mastercellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-        content;
+      document.getElementById(
+        `mastercellid-${column.idx}-${rowIndex}`
+      ).innerHTML = content;
     },
     onRowChange: handleRowChange,
     getValue: () => value,
@@ -84,31 +85,33 @@ function DetailsCell({
 
   function handleClick(e) {
     if (row.gridRowType !== "detailedRow") {
-     if(!column.readOnly) {props.onRowClick?.({
-        columnApi: props.columnApi,
-        node: node,
-        api: props.api,
-        data: row,
-        type: "rowClicked",
-        rowIndex: rowIndex,
-        event: e,
-      })
-      props.onCellClick?.({
-        api: props.api,
-        node: node,
-        data: row,
-        type: "cellClicked",
-        columnApi: props.columnApi,
-        colDef: {
-          field: column.field,
-          resizable: column.resizable,
-          sortable: column.sortable,
-          width: column.width,
-        },
-        rowIndex: rowIndex,
-        value: row[column.field] ?? undefined,
-        event: e,
-      })}
+      if (!column.readOnly) {
+        props.onRowClick?.({
+          columnApi: props.columnApi,
+          node: node,
+          api: props.api,
+          data: row,
+          type: "rowClicked",
+          rowIndex: rowIndex,
+          event: e,
+        });
+        props.onCellClick?.({
+          api: props.api,
+          node: node,
+          data: row,
+          type: "cellClicked",
+          columnApi: props.columnApi,
+          colDef: {
+            field: column.field,
+            resizable: column.resizable,
+            sortable: column.sortable,
+            width: column.width,
+          },
+          rowIndex: rowIndex,
+          value: row[column.field] ?? undefined,
+          event: e,
+        });
+      }
       selectCell(rowIndex, column.idx);
     }
   }
@@ -193,11 +196,11 @@ function DetailsCell({
       )}
       {row.gridRowType === "detailedRow" && (
         <div style={{ margin: "8px 5px" }} className="detailed-row-container">
-          {viewportColumns.map((column, index) => {
+          {viewportColumns.map((column,index) => {
             return (
               <div
                 aria-selected={selectedCellIdx - 1 === index}
-                key={`detailed-row-${rowIndex}-${index}`}
+                key={`detailed-row-${rowIndex}-${column.headerName}`}
                 className={clsx(
                   rowClassname,
                   `rdg-row-${index % 2 === 0 ? "even" : "odd"}`,
@@ -205,31 +208,33 @@ function DetailsCell({
                 )}
                 onClick={(e) => {
                   selectCell(row, column, id);
-                 if(!column.readOnly){ props.onRowClick?.({
-                    api: apiObject,
-                    data: row,
-                    columnApi: props.columnApi,
-                    node: node,
-                    rowIndex: rowIndex,
-                    type: "rowClicked",
-                    event: e,
-                  })
-                  props.onCellClick?.({
-                    api: apiObject,
-                    colDef: {
-                      field: column.field,
-                      resizable: column.resizable,
-                      sortable: column.sortable,
-                      width: column.width,
-                    },
-                    data: row,
-                    node: node,
-                    columnApi: props.columnApi,
-                    rowIndex: rowIndex,
-                    value: row[column.field] ?? undefined,
-                    type: "cellClicked",
-                    event: e,
-                  })}
+                  if (!column.readOnly) {
+                    props.onRowClick?.({
+                      api: apiObject,
+                      data: row,
+                      columnApi: props.columnApi,
+                      node: node,
+                      rowIndex: rowIndex,
+                      type: "rowClicked",
+                      event: e,
+                    });
+                    props.onCellClick?.({
+                      api: apiObject,
+                      colDef: {
+                        field: column.field,
+                        resizable: column.resizable,
+                        sortable: column.sortable,
+                        width: column.width,
+                      },
+                      data: row,
+                      node: node,
+                      columnApi: props.columnApi,
+                      rowIndex: rowIndex,
+                      value: row[column.field] ?? undefined,
+                      type: "cellClicked",
+                      event: e,
+                    });
+                  }
                 }}
               >
                 <div

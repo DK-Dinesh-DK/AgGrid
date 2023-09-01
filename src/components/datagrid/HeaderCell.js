@@ -49,6 +49,7 @@ export default function HeaderCell({
   handleReorderColumn,
   ChildColumnSetup,
   gridWidth,
+  handleDrag,
 }) {
   const isRtl = direction === "rtl";
   const { tabIndex } = useRovingCellRef(isCellSelected);
@@ -68,12 +69,11 @@ export default function HeaderCell({
       ? sortIndex + 1
       : undefined;
 
-  const ariaSort =
-    sortDirection && !priority
-      ? sortDirection === "ASC"
-        ? "ascending"
-        : "descending"
-      : undefined;
+  let ariaSort;
+  if (sortDirection && !priority) {
+    if (sortDirection === "ASC") ariaSort = "ascending";
+    else ariaSort = "descending";
+  } else ariaSort = undefined;
   let style = getCellStyle(column, colSpan);
 
   const className = getCellClassname(
@@ -193,7 +193,6 @@ export default function HeaderCell({
     }
   }
 
-
   function handleColumnsReorder(sourceKey, targetKey) {
     const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
     const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
@@ -209,8 +208,14 @@ export default function HeaderCell({
   const [{ isDragging }, drag] = useDrag({
     type: "COLUMN_DRAG",
     item: { key: column.key },
-    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
+
+  if (isDragging) {
+    handleDrag(true);
+  }
   const [{ isOver }, drop] = useDrop({
     accept: "COLUMN_DRAG",
     drop({ key }) {
@@ -221,9 +226,9 @@ export default function HeaderCell({
       canDrop: monitor.canDrop(),
     }),
   });
-
-
-
+  if (isOver) {
+    handleDrag(false);
+  }
   let headerStyle = {
     display: "flex",
     height: "100%",
@@ -242,7 +247,7 @@ export default function HeaderCell({
   }
   return (
     <div
-     role="parentcolumn"
+      role="parentcolumn"
       aria-colindex={column.idx + 1}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
@@ -282,6 +287,8 @@ export default function HeaderCell({
           //need to be chnaged
           shouldFocusGrid,
           onPointerDown,
+          onColumnResize,
+          direction,
         })}
       </div>
     </div>

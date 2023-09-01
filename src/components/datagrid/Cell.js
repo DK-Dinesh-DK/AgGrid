@@ -89,6 +89,7 @@ function Cell({
   setToolTip,
   setToolTipContent,
   Rowheight,
+  handleSetDragging,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -107,9 +108,9 @@ function Cell({
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `cellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+      document.getElementById(`cellid-${column.idx}-${rowIndex}`).innerHTML =
         content;
     },
     getValue: () => value,
@@ -210,8 +211,12 @@ function Cell({
     item: { index: rowIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
+  if (isDragging) {
+    handleSetDragging(true);
+  }
   function onRowReorder(fromIndex, toIndex) {
     const newRows = [...allrow];
     newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
@@ -227,49 +232,56 @@ function Cell({
       canDrop: monitor.canDrop(),
     }),
   });
+  if (isOver) {
+    handleSetDragging(false);
+  }
   function handleDoubleClick(e) {
     e.stopPropagation();
-    if(!column.readOnly){onRowDoubleClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      type: "rowDoubleClicked",
-      event: e,
-    })
-    onCellDoubleClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      value: row[column.key],
-      type: "cellDoubleClicked",
-      event: e,
-    })}
+    if (!column.readOnly) {
+      onRowDoubleClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        type: "rowDoubleClicked",
+        event: e,
+      });
+      onCellDoubleClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        value: row[column.key],
+        type: "cellDoubleClicked",
+        event: e,
+      });
+    }
   }
   function handleClick(e) {
     e.stopPropagation();
-    if(!column.readOnly){onRowClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      type: "rowClicked",
-      event: e,
-    })
-    onCellClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      value: row[column.key],
-      type: "cellClicked",
-      event: e,
-    })}
+    if (!column.readOnly) {
+      onRowClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        type: "rowClicked",
+        event: e,
+      });
+      onCellClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        value: row[column.key],
+        type: "cellClicked",
+        event: e,
+      });
+    }
   }
   function handleToolTip(value) {
     setToolTip(value);
@@ -307,9 +319,9 @@ function Cell({
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `cellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
+      document.getElementById(`cellid-${column.idx}-${rowIndex}`).innerHTML =
         content;
     },
     getValue: () => value,

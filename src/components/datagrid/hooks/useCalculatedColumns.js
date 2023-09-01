@@ -52,6 +52,7 @@ export function useCalculatedColumns({
               const rawChild2 = {
                 ...subChild2,
                 parent: subChild.field,
+                readOnly: subChild2.readOnly ?? false,
                 formatter: subChild2.cellRenderer
                   ? subChild2.cellRenderer
                   : subChild2.valueFormatter ?? defaultFormatter,
@@ -73,7 +74,7 @@ export function useCalculatedColumns({
 
         const column = {
           ...rawColumn,
-          readOnly:rawColumn.readOnly??false,
+          readOnly: rawColumn.readOnly ?? false,
           colId: rawColumn.field,
           key: rawColumn.field ?? rawColumn.key,
           userProvidedColDef: rawColumn,
@@ -112,6 +113,7 @@ export function useCalculatedColumns({
               const rawChild = {
                 ...child,
                 parent: rawColumn.field,
+                readOnly: child.readOnly ?? false,
                 key: child.field,
                 formatter: child.cellRenderer
                   ? child.cellRenderer
@@ -131,6 +133,7 @@ export function useCalculatedColumns({
                       ...subChild,
                       // topHeader: rawColumn.field,
                       parent: child.field,
+                      readOnly: subChild.readOnly ?? false,
                       formatter: subChild.cellRenderer
                         ? subChild.cellRenderer
                         : subChild.valueFormatter ?? defaultFormatter,

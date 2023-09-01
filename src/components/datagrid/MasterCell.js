@@ -37,47 +37,49 @@ function MasterCell({
   function toggleMaster() {
     toggleMasterWrapper(id);
   }
-  let style = getCellStyle(column, colSpan, row);
+
   const gridCell = useRef(null);
 
   const [value, setValue] = useState(
     column?.cellRendererParams?.value ?? row[column.key]
   );
+  let style = getCellStyle(column, colSpan, row);
   function handleToolTip(value) {
     setToolTip(value);
+  }
+  function handleRowChange(newRow) {
+    onRowChange(column, newRow);
   }
   function handleToolTipContent(value) {
     setToolTipContent(value);
   }
 
-  function handleRowChange(newRow) {
-    onRowChange(column, newRow);
-  }
-
   let cellParams = {
-    column: column,
-    data: row,
-    value: value,
-    node: node,
-    colDef: column,
     api: apiObject,
+    column: column,
+    colDef: column,
+    data: row,
     eGridCell: gridCell.current,
+    getValue: () => value,
+    handleToolTip,
+    handleToolTipContent,
+    onRowChange: handleRowChange,
+    node: node,
     rowArray,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `mastercellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-        content;
+      document.getElementById(
+        `mastercellid-${column.idx}-${rowIndex}`
+      ).innerHTML = content;
     },
-    getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
       row[column.key] = newValue;
     },
-    handleToolTip,
-    handleToolTipContent,
-    onRowChange: handleRowChange,
+
+    value: value,
   };
 
   const cellRendererParams =
@@ -88,30 +90,30 @@ function MasterCell({
   function handleClick(e) {
     e.stopPropagation();
     if (!column.readOnly) {
-      props.onRowClick?.({
-        event: e,
-        rowIndex: rowIndex,
-        api: props.api,
-        node: node,
-        data: row,
-        columnApi: props.columnApi,
-        type: "rowClicked",
-      });
       props.onCellClick?.({
         api: props.api,
-        rowIndex: rowIndex,
-        value: row[column.field] ?? undefined,
-        type: "cellClicked",
-        event: e,
         colDef: {
           field: column.field,
           resizable: column.resizable,
           sortable: column.sortable,
           width: column.width,
         },
-        data: row,
-        node: node,
         columnApi: props.columnApi,
+        data: row,
+        event: e,
+        node: node,
+        rowIndex: rowIndex,
+        type: "cellClicked",
+        value: row[column.field] ?? undefined,
+      });
+      props.onRowClick?.({
+        api: props.api,
+        columnApi: props.columnApi,
+        data: row,
+        event: e,
+        rowIndex: rowIndex,
+        node: node,
+        type: "rowClicked",
       });
     }
   }
@@ -119,23 +121,23 @@ function MasterCell({
   function handleDoubleClick(e) {
     e.stopPropagation();
     if (!column.readOnly) {
+      props.onCellDoubleClick?.({
+        api: api,
+        columnApi: columnApi,
+        data: row,
+        event: e,
+        node: node,
+        rowIndex: rowIndex,
+        type: "cellDoubleClicked",
+        value: row[column.key],
+      });
       props.onRowDoubleClick?.({
         api: api,
-        data: row,
         columnApi: columnApi,
+        data: row,
         node: node,
         rowIndex: rowIndex,
         type: "rowDoubleClicked",
-        event: e,
-      });
-      props.onCellDoubleClick?.({
-        api: api,
-        data: row,
-        columnApi: columnApi,
-        node: node,
-        rowIndex: rowIndex,
-        value: row[column.key],
-        type: "cellDoubleClicked",
         event: e,
       });
     }

@@ -40,7 +40,7 @@ export async function exportToPdf(fileData, columns, fileName) {
     }
   });
   let doc = new jsPDF("p", "pt", "letter");
-  const response = autoTable(doc, {
+  autoTable(doc, {
     margin: { top: 10 },
     styles: {
       cellWidth: "wrap",

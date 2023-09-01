@@ -49,6 +49,8 @@ export default function HeaderRenderer({
   arrayDepth,
   ChildColumnSetup,
   gridWidth,
+  direction,
+  onColumnResize,
 }) {
   let isCellSelected;
   if (selectedCellIdx === column.idx) {
@@ -102,7 +104,8 @@ export default function HeaderRenderer({
                   filterIcon,
                   setFilterType,
                   gridWidth,
-                  rows
+                  rows,
+                  onColumnResize
                 )}
               </div>
             );
@@ -132,6 +135,7 @@ export default function HeaderRenderer({
     function onClick() {
       selectCell(column.idx);
     }
+    const isRtl = direction === "rtl";
     function onDoubleClick(event) {
       if (!column.readOnly) {
         const { right, left } = event.currentTarget.getBoundingClientRect();
@@ -329,9 +333,11 @@ const RecursiveScan = (
   filterIcon,
   setFilterType,
   gridWidth,
-  direction
+  direction,
+  onColumnResize
 ) => {
-  var cellHeight = cellHeight - headerRowHeight;
+
+  let cellheight = cellHeight - headerRowHeight;
   ChildColumnSetup(subData);
   let isCellSelected;
   if (selectedCellIdx === subData.idx) {
@@ -389,7 +395,8 @@ const RecursiveScan = (
                   filterIcon,
                   setFilterType,
                   gridWidth,
-                  direction
+                  direction,
+                  onColumnResize
                 )}
               </div>
             );
@@ -406,7 +413,7 @@ const RecursiveScan = (
       borderInlineEnd: "1px solid var(--rdg-border-color)",
       width: subData.width,
       boxSizing: "border-box",
-      height: `${cellHeight}px`,
+      height: `${cellheight}px`,
       outline:
         selectedCellIdx === subData.idx
           ? "1px solid var(--rdg-selection-color)"
@@ -431,15 +438,15 @@ const RecursiveScan = (
     const isRtl = direction === "rtl";
 
     function onDoubleClick(event) {
-      if(!subData.readOnly){
-      const { right, left } = event.currentTarget.getBoundingClientRect();
-      const offset = isRtl ? event.clientX - left : right - event.clientX;
-      if (offset > 11) {
-        // +1px to account for the border size
-        return;
+      if (!subData.readOnly) {
+        const { right, left } = event.currentTarget.getBoundingClientRect();
+        const offset = isRtl ? event.clientX - left : right - event.clientX;
+        if (offset > 11) {
+          // +1px to account for the border size
+          return;
+        }
+        onColumnResize(subData, "max-content");
       }
-      onColumnResize(subData, "max-content");
-    }
     }
 
     if (!(subData.sortable || subData.filter)) {
@@ -456,7 +463,7 @@ const RecursiveScan = (
             style={{ ...style }}
             // onFocus={handleFocus}
             onClick={onClick}
-            onDoubleClick={column.resizable ? onDoubleClick : undefined}
+            onDoubleClick={subData.resizable ? onDoubleClick : undefined}
             // onPointerDown={column.resizable ? onPointerDown : undefined}
           >
             {subData.headerName ?? subData.field}

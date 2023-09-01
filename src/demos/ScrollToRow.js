@@ -1,97 +1,92 @@
 import { useState, useRef } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
 import "../App.css";
+import { getValue } from "@mui/system";
+import { TextEditor } from "../components/datagrid/editors";
 
 export default function ScrollToRow({ direction }) {
-  const [rows] = useState(() => {
+  function createRows() {
     const rows = [];
+    for (let i = 0; i < 10; i++) {
+      const price = Math.random() * 30;
+      const id = `row${i}`;
+      var row;
 
-    for (let i = 0; i < 1000; i++) {
-      rows.push({
-        id: i,
-        title: `Title ${i}`,
-        count: i * 1000,
-        fg: null,
-      });
+      row = {
+        id,
+        name: `supplier-${i}`,
+        format: `package-${i}`,
+        position: "Run of site",
+        price,
+      };
+
+      rows.push(row);
     }
-
     return rows;
-  });
-  const [value, setValue] = useState(10);
-  const gridRef = useRef(null);
-  const [gridApi, setGridApi] = useState(null);
-  const onGridReady = (params) => {
-    setGridApi(params.api);
+  }
+  const rowData = createRows();
+
+  function TextInput(params) {
+    return (
+      <input
+        data-testid={`text-input-${params.rowIndex}`}
+        value={params.getValue()}
+        onChange={(e) => {
+          params.setValue(e.target.value);
+          params.refreshCell();
+        }}
+      />
+    );
+  }
+  const frameworkComponents = {
+    btn: TextInput,
   };
-  const selectedCellHeaderStyle = {
-    backgroundColor: "red",
-    fontSize: "12px",
-  };
-  const [hide, setHide] = useState(true);
   const columns = [
-    { field: "id", headerName: "", sortable: true, hide: hide },
     {
-      field: "title",
-      headerName: "Title",
-      sortable: true,
-      filter: true,
-      editable: true,
-      readOnly: true,
+      field: "id",
+      headerName: "id",
+      frozen: true,
     },
     {
-      field: "count",
-      headerName: "Count",
+      field: "name",
+      headerName: "Name",
+      width: 400,
       filter: true,
-      // frozen: true,
-      rowSpan: (params) => {
-        if (params.rowIndex === 2) return 2;
+      cellRenderer: TextEditor,
+    },
+    {
+      field: "format",
+      headerName: "format",
+      width: 400,
+      cellRenderer: "btn",
+      cellRendererParams: (params) => {
+        return params;
       },
     },
     {
-      field: "count3",
-      headerName: "Count2",
-      hide: hide,
+      field: "position",
+      headerName: "position",
+      width: 400,
+    },
+    {
+      field: "price",
+      headerName: "price",
+      sortable: true,
+      width: 400,
     },
   ];
+
   return (
     <>
-      <div style={{ marginBlockEnd: 5 }}>
-        <span style={{ marginInlineEnd: 5 }}>Row index: </span>
-        <input
-          style={{ inlineSize: 50 }}
-          type="number"
-          value={value}
-          onChange={(event) => setValue(event.target.valueAsNumber)}
-        />
-        <button type="button" onClick={() => console.log(gridRef.current)}>
-          gridApi
-        </button>
-        <input
-          onChange={(e) => {
-            gridRef.current.api.setQuickFilter(e.target.value);
-          }}
-        />
-        <button
-          onClick={() => {
-            setHide(!hide);
-          }}
-        >
-          {!hide ? "Hide" : "Show"}
-        </button>
-      </div>
-
       <DataGrid
-        innerRef={gridRef}
         columnData={columns}
-        rowData={rows}
-        direction={direction}
-        // valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
-        serialNumber={true}
-        onGridReady={onGridReady}
-        // selectedCellHeaderStyle={selectedCellHeaderStyle}
-        // multilineHeaderEnable={true}
-        rowSelection={"multiple"}
-        onCellClicked={(params) => console.log("CellCleciked", params)}
+        testId={"laidatagrid"}
+        rowData={rowData}
+        headerRowHeight={24}
+        enableVirtualization={false}
+        className="fill-grid"
+        frameworkComponents={frameworkComponents}
+        valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
       />
     </>
   );

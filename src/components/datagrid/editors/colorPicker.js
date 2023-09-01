@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { css } from "@linaria/core";
 
 const colorInput = css`
@@ -11,12 +11,11 @@ const colorInput = css`
 
 export const colorInputClassname = `rdg-color-input ${colorInput}`;
 
-export default function ColorPicker({ row, column, onRowChange,...props }) {
+export default function ColorPicker({ row, column, onRowChange, ...props }) {
   let ref = useRef(null);
 
   const handleClick = () => {
     ref.current.click();
-    setClicked(true);
   };
 
   const checkbox = css`
@@ -41,19 +40,6 @@ export default function ColorPicker({ row, column, onRowChange,...props }) {
     background-size: 5px 5px, 5px 6px, 1.5em 1.5em;
     background-repeat: no-repeat;
   `;
-  const iconClassclicked = css`
-    width: 22px;
-    height: 100%;
-    background-image: linear-gradient(45deg, white 50%, transparent 50%),
-      linear-gradient(135deg, transparent 50%, white 50%),
-      radial-gradient(#95b3d7 100%, transparent 72%);
-    background-position: calc(100% - 5px) 8px, calc(100% - 9px) 8px,
-      calc(100% - 2px) 2px;
-    background-size: 5px 5px, 5px 5px, 1.5em 1.5em;
-    background-repeat: no-repeat;
-    background-repeat: no-repeat;
-  `;
-  const [clicked, setClicked] = useState(false);
   return (
     <div
       onClick={handleClick}
@@ -74,7 +60,6 @@ export default function ColorPicker({ row, column, onRowChange,...props }) {
         value={row[column.key]}
         onChange={(event) => {
           onRowChange({ ...row, [column.key]: event.target.value });
-          setClicked(false);
         }}
       />
       <div

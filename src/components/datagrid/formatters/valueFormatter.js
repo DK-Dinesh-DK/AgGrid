@@ -11,61 +11,65 @@ export function valueFormatter(props) {
   function handleClick(e) {
     selectCellWrapper(props.column.editorOptions?.editOnClick);
     e.stopPropagation();
-    if(!props.column.readOnly){props.onRowClick?.({
-      api: props.api,
-      data: props.row,
-      columnApi: props.columnApi,
-      node: props.node,
-      rowIndex: props.rowIndex,
-      type: "rowClicked",
-      event: e,
-    })
-    props.onCellClick?.({
-      api: props.api,
-      colDef: {
-        field: props.column.field,
-        resizable: props.column.resizable,
-        sortable: props.column.sortable,
-        width: props.column.width,
-      },
-      data: props.row,
-      node: props.node,
-      columnApi: props.columnApi,
-      rowIndex: props.rowIndex,
-      value: props.row[props.column.field],
-      type: "cellClicked",
-      event: e,
-    })}
+    if (!props.column.readOnly) {
+      props.onRowClick?.({
+        api: props.api,
+        data: props.row,
+        columnApi: props.columnApi,
+        node: props.node,
+        rowIndex: props.rowIndex,
+        type: "rowClicked",
+        event: e,
+      });
+      props.onCellClick?.({
+        api: props.api,
+        colDef: {
+          field: props.column.field,
+          resizable: props.column.resizable,
+          sortable: props.column.sortable,
+          width: props.column.width,
+        },
+        data: props.row,
+        node: props.node,
+        columnApi: props.columnApi,
+        rowIndex: props.rowIndex,
+        value: props.row[props.column.field],
+        type: "cellClicked",
+        event: e,
+      });
+    }
   }
 
   function handleDoubleClick(e) {
     selectCellWrapper(true);
     e.stopPropagation();
-    if(!props.column.readOnly){props.onRowDoubleClick?.({
-      api: props.api,
-      data: props.row,
-      columnApi: props.columnApi,
-      node: props.node,
-      rowIndex: props.rowIndex,
-      type: "rowDoubleClicked",
-      event: e,
-    })
-    props.onCellDoubleClick?.({
-      api: props.api,
-      colDef: {
-        field: props.column.field,
-        resizable: props.column.resizable,
-        sortable: props.column.sortable,
-        width: props.column.width,
-      },
-      data: props.row,
-      node: props.node,
-      columnApi: props.columnApi,
-      rowIndex: props.rowIndex,
-      value: props.row[props.column.field],
-      type: "cellDoubleClicked",
-      event: e,
-    })}
+    if (!props.column.readOnly) {
+      props.onRowDoubleClick?.({
+        api: props.api,
+        data: props.row,
+        columnApi: props.columnApi,
+        node: props.node,
+        rowIndex: props.rowIndex,
+        type: "rowDoubleClicked",
+        event: e,
+      });
+      props.onCellDoubleClick?.({
+        api: props.api,
+        colDef: {
+          field: props.column.field,
+          resizable: props.column.resizable,
+          sortable: props.column.sortable,
+          width: props.column.width,
+        },
+        data: props.row,
+        node: props.node,
+        columnApi: props.columnApi,
+        rowIndex: props.rowIndex,
+        value: props.row[props.column.field],
+        type: "cellDoubleClicked",
+        event: e,
+      });
+    }
   }
 
   function handleContextMenu() {
@@ -177,18 +181,19 @@ const childData = (subData, props) => {
   const rowCol = props.rowArray;
 
   return rowSubData.map((info1, index) => {
-    const func = (a, b) => {
-      if (a.field === b) {
-        return a.width;
-      } else {
-        return null;
-      }
-    };
-
-    const [cellValue, setCellValue] = useState(
-      info1.cellRendererParams?.value ?? props.row[info1.key]
-    );
-    const gridCell = useRef(null);
+    function getWidth() {
+      let width;
+      rowCol.forEach((info2) => {
+        if (info1.key === info2.field) {
+          width = info2.width;
+        }
+      });
+      return width;
+    }
+    // const [cellValue, setCellValue] = useState(
+    //   info1.cellRendererParams?.value ?? props.row[info1.key]
+    // );
+    // const gridCell = useRef(null);
 
     function selectSubCellWrapper(openEditor) {
       let sampleColumn = props.column;
@@ -201,62 +206,66 @@ const childData = (subData, props) => {
     }
     function handleClick(e) {
       selectSubCellWrapper(info1.editorOptions?.editOnClick);
-      if(!info1.readOnly){ props.onRowClick?.({
-        api: props.api,
-        data: props.row,
-        columnApi: props.columnApi,
-        node: props.node,
-        rowIndex: props.rowIndex,
-        type: "rowClicked",
-        event: e,
-      })
-      props.onCellClick?.({
-        api: props.api,
-        colDef: {
-          field: info1.field,
-          resizable: info1.resizable,
-          sortable: info1.sortable,
-          width: info1.width,
-        },
-        data: props.row,
-        node: props.node,
-        columnApi: props.columnApi,
-        rowIndex: props.rowIndex,
-        value: cellValue,
-        type: "cellClicked",
-        event: e,
-      })};
+      if (!info1.readOnly) {
+        props.onRowClick?.({
+          api: props.api,
+          data: props.row,
+          columnApi: props.columnApi,
+          node: props.node,
+          rowIndex: props.rowIndex,
+          type: "rowClicked",
+          event: e,
+        });
+        props.onCellClick?.({
+          api: props.api,
+          colDef: {
+            field: info1.field,
+            resizable: info1.resizable,
+            sortable: info1.sortable,
+            width: info1.width,
+          },
+          data: props.row,
+          node: props.node,
+          columnApi: props.columnApi,
+          rowIndex: props.rowIndex,
+          value: info1.cellRendererParams?.value ?? props.row[info1.key],
+          type: "cellClicked",
+          event: e,
+        });
+      }
     }
     function handleContextMenu() {
       selectSubCellWrapper();
     }
     function handleDoubleClick(e) {
       selectSubCellWrapper(true);
-     if(!info1.readOnly){ props.onRowDoubleClick?.({
-        api: props.api,
-        data: props.row,
-        columnApi: props.columnApi,
-        node: props.node,
-        rowIndex: props.rowIndex,
-        type: "rowDoubleClicked",
-        event: e,
-      });
-      props.onCellDoubleClick?.({
-        api: props.api,
-        colDef: {
-          field: info1.field,
-          resizable: info1.resizable,
-          sortable: info1.sortable,
-          width: info1.width,
-        },
-        data: props.row,
-        node: props.node,
-        columnApi: props.columnApi,
-        rowIndex: props.rowIndex,
-        value: cellValue,
-        type: "cellDoubleClicked",
-        event: e,
-      })};
+      if (!info1.readOnly) {
+        props.onRowDoubleClick?.({
+          api: props.api,
+          data: props.row,
+          columnApi: props.columnApi,
+          node: props.node,
+          rowIndex: props.rowIndex,
+          type: "rowDoubleClicked",
+          event: e,
+        });
+        props.onCellDoubleClick?.({
+          api: props.api,
+          colDef: {
+            field: info1.field,
+            resizable: info1.resizable,
+            sortable: info1.sortable,
+            width: info1.width,
+          },
+          data: props.row,
+          node: props.node,
+          columnApi: props.columnApi,
+          rowIndex: props.rowIndex,
+          value: info1.cellRendererParams?.value ?? props.row[info1.key],
+          type: "cellDoubleClicked",
+          event: e,
+        });
+      }
     }
 
     var isCellSelected;
@@ -296,9 +305,7 @@ const childData = (subData, props) => {
 
       paddingInline: isCellSelected && props.selectedCellEditor ? "0px" : "6px",
 
-      width: `${rowCol.map((info2) => {
-        return func(info2, info1.key);
-      })}px`.replace(/,/g, ""),
+      width: `${getWidth()}px`.replace(/,/g, ""),
     };
 
     if (info1.validation) {
@@ -360,16 +367,17 @@ const childData = (subData, props) => {
               api: props.api,
               columnApi: props.columnApi,
               row: props.row,
-              onRowChange: props.handleRowChange,
-              value: cellValue,
+              onRowChange: props.onRowChange,
+              value: info1.cellRendererParams?.value ?? props.row[info1.key],
               rowIndex: props.rowIndex,
               node: props.node,
               colDef: info1,
-              eGridCell: gridCell.current,
+              // eGridCell: gridCell.current,
               selectCell: props.selectCell,
               selectedCellIdx: props.selectedCellIdx,
-              getValue: () => cellValue,
-              setValue: (newValue) => setCellValue(newValue),
+              getValue: () =>
+                info1.cellRendererParams?.value ?? props.row[info1.key],
+              // setValue: (newValue) => setCellValue(newValue),
               expandedMasterIds: props.expandedMasterIds,
               onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
               fullWidth: info1.cellRendererParams?.fullWidth,

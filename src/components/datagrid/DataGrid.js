@@ -76,6 +76,24 @@ const initialPosition = {
   mode: "SELECT",
 };
 
+const PrevNextArrow = (current, type, originalElement) => {
+  if (type === "prev") {
+    return (
+      <button title="Previous" data-testid="pagination-prev">
+        Prev
+      </button>
+    );
+  }
+  if (type === "next") {
+    return (
+      <button title="Next" data-testid="pagination-next">
+        Next
+      </button>
+    );
+  }
+  return originalElement;
+};
+
 /**
  * Main API Component to render a data grid of rows and columns
  *
@@ -154,8 +172,14 @@ function DataGrid(props) {
    */
   // raawRows = Array.isArray(raawRows) ? raawRows : [];
   const deviceWidth = window.innerWidth;
-  let deviceType =
-    deviceWidth > 900 ? "deskTop" : deviceWidth >= 700 ? "tab" : "mobile";
+  let deviceType;
+  if (deviceWidth > 900) {
+    deviceType = "deskTop";
+  } else if (deviceWidth >= 700) {
+    deviceType = "tab";
+  } else {
+    deviceType = "mobile";
+  }
 
   const [selectedRows1, onSelectedRowsChange1] = useState();
   selectedRows = selectedRows ? selectedRows : [];
@@ -201,7 +225,7 @@ function DataGrid(props) {
       </ContextMenuTrigger>
     );
   }
-  const [headerHeightFromRef, setHeaderHeightFromRef] = useState();
+  const [headerHeightFromRef, setHeaderHeightFromRef] = useState(null);
   const depth = (d) => (o) => {
     o.depth = d;
     (o.children || []).forEach(depth(d + 1));
@@ -223,7 +247,14 @@ function DataGrid(props) {
   };
   const arrayDepth = getArrayDepth(cloneRaawColumns1);
 
-  let singleHeaderRowHeight = rawHeaderRowHeight ? rawHeaderRowHeight : 24;
+  let singleHeaderRowHeight;
+  if (rawHeaderRowHeight) {
+    singleHeaderRowHeight = rawHeaderRowHeight;
+  } else if (headerHeightFromRef) {
+    singleHeaderRowHeight = headerHeightFromRef;
+  } else {
+    singleHeaderRowHeight = 24;
+  }
 
   const headerheight = singleHeaderRowHeight * arrayDepth;
 
@@ -314,29 +345,14 @@ function DataGrid(props) {
     props.expandedMasterRowIds ? [props.expandedMasterRowIds[0]] : []
   );
   useUpdateEffect(() => {
-    setExpandedMasterIds([props.expandedMasterRowIds[0]]);
+    if (Array.isArray(props.expandedMasterRowIds)) {
+      setExpandedMasterIds([props.expandedMasterRowIds[0]]);
+    }
   }, [props.expandedMasterRowIds]);
 
   const PaginationChange = (page, pageSize) => {
     setCurrent(page);
     setSize(pageSize);
-  };
-  const PrevNextArrow = (current, type, originalElement) => {
-    if (type === "prev") {
-      return (
-        <button title="Previous" data-testid="pagination-prev">
-          Prev
-        </button>
-      );
-    }
-    if (type === "next") {
-      return (
-        <button title="Next" data-testid="pagination-next">
-          Next
-        </button>
-      );
-    }
-    return originalElement;
   };
 
   const onSortColumnsChange = (sortColumns) => {
@@ -546,9 +562,8 @@ function DataGrid(props) {
   );
 
   let arr2 = groupingViaCommonProperty.map((arr) =>
-    arr.reduce((sum, item) => (sum += item))
+    arr.reduce((sum, item) => sum + item)
   );
-
   const newData = rawColumns.slice().map((item1, index) => {
     let itemFromArr2 = arr2.find((item2, index2) => index === index2);
 
@@ -1270,7 +1285,11 @@ function DataGrid(props) {
       lastSelectedRowIdx.current = rowIdx;
       if (isShiftClick && previousRowIdx !== -1 && previousRowIdx !== rowIdx) {
         const step = sign(rowIdx - previousRowIdx);
-        for (let i = previousRowIdx + step; i !== rowIdx; i += step) {
+        for (
+          let i = previousRowIdx + step;
+          i < rowIdx && i > rowIdx;
+          i += step
+        ) {
           const row = rows[i];
           if (isGroupRow(row)) continue;
           newSelectedRows.add(rowKeyGetter(row));
@@ -1462,7 +1481,7 @@ function DataGrid(props) {
     const measuringCell = gridRef.current.querySelector(
       `[data-measuring-cell-key="${column.key}"]`
     );
-    const measuredWidth = measuringCell.getBoundingClientRect().width;
+    const measuredWidth = measuringCell?.getBoundingClientRect().width;
     const measuredWidthPx = `${measuredWidth}px`;
 
     if (newTemplateColumns[column.idx] !== measuredWidthPx) {
@@ -1760,6 +1779,7 @@ function DataGrid(props) {
   }, []);
 
   function updateRow(column, rowIdx, row, oldRow) {
+    if (column && column.readOnly) return;
     if (rest.detailedRow) {
       function updateSource() {
         let sample = [...raawRows];
@@ -2490,7 +2510,7 @@ function DataGrid(props) {
     let selectedRows = [];
     if (selectedRows1 === undefined) return selectedRows;
     const selectedRowsSet = Array.from(selectedRows1);
-    raawRows.forEach((row) => {
+    rawRows.forEach((row) => {
       const rowKey = rowKeyGetter?.(row);
       if (selectedRowsSet.includes(rowKey)) selectedRows.push(row);
     });
@@ -2825,6 +2845,54 @@ function DataGrid(props) {
     raawRows[rowIndex][colKey] = newValue;
     setRawRows([...raawRows]);
   }
+  function addRow(row, replace) {
+    let newReplace = replace ?? true;
+    if (row && !Array.isArray(row) && typeof row === "object") {
+      if (newReplace) {
+        let sample = rawRows.filter((obj) => {
+          if (JSON.stringify(obj) !== JSON.stringify(row)) return obj;
+        });
+        sample.push(row);
+        setRawRows([...sample]);
+      } else {
+        setRawRows([...rawRows, row]);
+      }
+    }
+  }
+  function addRows(rows, replace) {
+    let newReplace = replace ?? true;
+    if (rows && Array.isArray(rows)) {
+      if (newReplace) {
+        let sampleRows = rawRows.filter(
+          (itemA) =>
+            !rows.some(
+              (itemB) => JSON.stringify(itemB) === JSON.stringify(itemA)
+            )
+        );
+        setRawRows([...sampleRows, ...rows]);
+      } else {
+        setRawRows([...rawRows, ...rows]);
+      }
+    }
+  }
+  function deleteRow(row) {
+    if (row && !Array.isArray(row) && typeof row === "object") {
+      let sampleRows = rawRows.filter((obj) => {
+        if (JSON.stringify(obj) !== JSON.stringify(row)) return obj;
+      });
+      setRawRows([...sampleRows]);
+    }
+  }
+  function deleteRows(rows) {
+    let sampleRows;
+    if (rows && Array.isArray(rows)) {
+      sampleRows = rawRows.filter(
+        (itemA) =>
+          !rows.some((itemB) => JSON.stringify(itemB) === JSON.stringify(itemA))
+      );
+    }
+    setRawRows(sampleRows);
+  }
   var apiObject = {
     setCellValue: setCellValue,
     updateColumns: (newColumns) => {
@@ -2933,6 +3001,10 @@ function DataGrid(props) {
     getRows: () => rawRows,
     getRenderedrows: () => rows,
     setSuppressPagination: (val) => setSuppressPagination(),
+    addItem: addRow,
+    addItems: addRows,
+    removeItem: deleteRow,
+    removeItems: deleteRows,
   };
 
   ///////////  start
@@ -3301,6 +3373,7 @@ function DataGrid(props) {
           selectedCellIdx: selectedRowIdx === rowIdx ? selectedIdx : undefined,
           draggedOverCellIdx: getDraggedOverCellIdx(rowIdx),
           setDraggedOverRowIdx: isDragging ? setDraggedOverRowIdx : undefined,
+          setDragging: (val) => setDragging(val),
           lastFrozenColumnIndex,
           onRowChange: handleFormatterRowChangeLatest,
           selectCell: selectViewportCellLatest,
@@ -3507,6 +3580,7 @@ function DataGrid(props) {
               sortColumns={sortColumns}
               onSortColumnsChange={onSortColumnsChangeLatest}
               lastFrozenColumnIndex={lastFrozenColumnIndex}
+              setDragging={(val) => setDragging(val)}
               selectedCellIdx={
                 selectedPosition.rowIdx === minRowIdx
                   ? selectedPosition.idx
@@ -3537,7 +3611,7 @@ function DataGrid(props) {
                   return (
                     <SummaryRow
                       aria-rowindex={gridRowStart}
-                      key={`top-summary-row-${rowIdx}-${summaryRowIdx}`}
+                      key={`top-summary-row-${summaryRowIdx}`}
                       rowIdx={rowIdx}
                       gridRowStart={gridRowStart}
                       row={row}
@@ -3597,7 +3671,7 @@ function DataGrid(props) {
                         1
                       }
                       rowIdx={rowIdx}
-                      key={`bottom-summary-row-${rowIdx}-${summaryRowIdx}`}
+                      key={`bottom-summary-row-${summaryRowIdx}`}
                       gridRowStart={gridRowStart}
                       row={row}
                       top={top}

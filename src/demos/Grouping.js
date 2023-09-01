@@ -232,7 +232,6 @@ export default function Grouping({ direction }) {
       </button>
 
       <button
-        data-testId="getRowGroupColumnsBtn"
         onClick={() => {
           console.log(dataGridRef.current.columnApi.getRowGroupColumns());
           console.log(initialRowGroupColumns);

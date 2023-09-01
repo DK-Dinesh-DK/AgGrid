@@ -57,6 +57,7 @@ function Row(
     setToolTipContent,
     setMouseY,
     rowLevelToolTip,
+    setDragging,
     ...props
   },
   ref
@@ -145,6 +146,7 @@ function Row(
         setToolTip={handleToolTip}
         setToolTipContent={handleToolTipContent}
         Rowheight={height}
+        handleSetDragging={(val) => setDragging(val)}
       />
     );
   }

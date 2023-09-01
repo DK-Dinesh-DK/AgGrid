@@ -57,6 +57,7 @@ function HeaderRow({
   setFilterType,
   handleReorderColumn,
   gridWidth,
+  setDragging,
   ...props
 }) {
   const cells = [];
@@ -101,6 +102,7 @@ function HeaderRow({
         setFilterType={setFilterType}
         ChildColumnSetup={ChildColumnSetup}
         gridWidth={gridWidth}
+        handleDrag={(val) => setDragging(val)}
       />
     );
   }

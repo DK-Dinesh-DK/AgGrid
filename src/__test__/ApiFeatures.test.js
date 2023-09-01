@@ -76,7 +76,7 @@ function LaiDatagrid(props) {
       </button>
       <button
         type="button"
-        data-testid="forEachLeafNodeAfterFilter("
+        data-testid="forEachLeafNodeAfterFilter"
         onClick={() =>
           dataGridRef.current.api.forEachLeafNodeAfterFilter((params) =>
             console.log(params)
@@ -85,7 +85,79 @@ function LaiDatagrid(props) {
       >
         forEachLeafNodeAfterFilter
       </button>
+      <button
+        data-testid="addItem-false"
+        onClick={() => {
+          dataGridRef.current.api.addItem(
+            { id: 7, task: "Task #7", priority: "Critical" },
+            false
+          );
+        }}
+      >
+        AddItem
+      </button>
+      <button
+        data-testid="addItem-nothing"
+        onClick={() => {
+          dataGridRef.current.api.addItem({
+            id: 7,
+            task: "Task #7",
+            priority: "Critical",
+          });
+        }}
+      >
+        AddItem
+      </button>
+      <button
+        data-testid="addItems-false"
+        onClick={() => {
+          dataGridRef.current.api.addItems(
+            [
+              { id: 7, task: "Task #7", priority: "Critical" },
+              { id: 8, task: "Task #8", priority: "Critical" },
+            ],
+            false
+          );
+        }}
+      >
+        AddItems
+      </button>
+      <button
+        data-testid="addItems-nothing"
+        onClick={() => {
+          dataGridRef.current.api.addItems([
+            { id: 7, task: "Task #7", priority: "Critical" },
+            { id: 8, task: "Task #8", priority: "Critical" },
+          ]);
+        }}
+      >
+        AddItems
+      </button>
 
+      <button
+        data-testid="removeItem"
+        onClick={() => {
+          dataGridRef.current.api.removeItem({
+            id: 7,
+            task: "Task #7",
+            priority: "Critical",
+          });
+        }}
+      >
+        RemoveItem
+      </button>
+
+      <button
+        data-testid="removeItems"
+        onClick={() => {
+          dataGridRef.current.api.removeItems([
+            { id: 7, task: "Task #7", priority: "Critical" },
+            { id: 8, task: "Task #8", priority: "Critical" },
+          ]);
+        }}
+      >
+        AddItems
+      </button>
       <DataGrid
         columnData={columns}
         rowData={rows}
@@ -161,16 +233,62 @@ describe("GridAPI - Filtering APIs", () => {
     expect(forEachLeafNodeAfterFilterAndSortBtn).toBeInTheDocument();
     act(() => fireEvent.click(forEachLeafNodeAfterFilterAndSortBtn));
   });
-  test("forEachLeafNodeAfterFilter(", () => {
+  test("forEachLeafNodeAfterFilter", () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
     expect(datagrid).toBeInTheDocument();
 
     const forEachLeafNodeAfterFilterBtn = screen.getByTestId(
-      "forEachLeafNodeAfterFilter("
+      "forEachLeafNodeAfterFilter"
     );
     expect(forEachLeafNodeAfterFilterBtn).toBeInTheDocument();
     act(() => fireEvent.click(forEachLeafNodeAfterFilterBtn));
+  });
+  test("addItem(", () => {
+    render(<LaiDatagrid />);
+
+    const datagrid = screen.queryByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const addItemfalseBtn = screen.getByTestId("addItem-false");
+    expect(addItemfalseBtn).toBeInTheDocument();
+    act(() => fireEvent.click(addItemfalseBtn));
+    const addItemNtgBtn = screen.getByTestId("addItem-nothing");
+    expect(addItemNtgBtn).toBeInTheDocument();
+    act(() => fireEvent.click(addItemNtgBtn));
+  });
+  test("addItems(", () => {
+    render(<LaiDatagrid />);
+
+    const datagrid = screen.queryByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const addItemsfalseBtn = screen.getByTestId("addItems-false");
+    expect(addItemsfalseBtn).toBeInTheDocument();
+    act(() => fireEvent.click(addItemsfalseBtn));
+    const addItemsNtgBtn = screen.getByTestId("addItems-nothing");
+    expect(addItemsNtgBtn).toBeInTheDocument();
+    act(() => fireEvent.click(addItemsNtgBtn));
+  });
+  test("removeItem(", () => {
+    render(<LaiDatagrid />);
+
+    const datagrid = screen.queryByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const removeItemBtn = screen.getByTestId("removeItem");
+    expect(removeItemBtn).toBeInTheDocument();
+    act(() => fireEvent.click(removeItemBtn));
+  });
+  test("removeItems(", () => {
+    render(<LaiDatagrid />);
+
+    const datagrid = screen.queryByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const removeItemsBtn = screen.getByTestId("removeItems");
+    expect(removeItemsBtn).toBeInTheDocument();
+    act(() => fireEvent.click(removeItemsBtn));
   });
 });

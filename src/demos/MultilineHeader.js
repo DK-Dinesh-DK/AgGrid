@@ -1,22 +1,14 @@
-import { useState } from "react";
+import React, { useRef } from "react";
 
 import TextEditor from "../components/datagrid/editors/textEditor";
 
 import DataGrid from "../components/datagrid/DataGrid";
 
-const frameworkComponents = {
-  CheckBox: (props) => <button style={{ width: "100%" }}>Save</button>,
-};
-
-function rowKeyGetter(row) {
-  return row.id;
-}
-
 export default function MultilineHeader({ direction }) {
   function createRows() {
     const rows = [];
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 10; i++) {
       rows.push({
         id: `${i}`,
 
@@ -31,13 +23,12 @@ export default function MultilineHeader({ direction }) {
         eeee1: `name${i}`,
         rdrd: `words${i}`,
         pppp2: `sentence${i}`,
-        llll: `LLL-${i}`,
       });
     }
 
     return rows;
   }
-
+  const rowData = createRows();
   const summaryRowsTop = [
     {
       id: "id",
@@ -48,7 +39,16 @@ export default function MultilineHeader({ direction }) {
       cvcv: `lastName`,
     },
   ];
-
+  const summaryRowsBottom = [
+    {
+      id: "id-bottom",
+      erer: `email-bottom`,
+      title1: `title-1-bottom`,
+      title2: `title-2-bottom`,
+      ffff: `firstName-bottom`,
+      cvcv: `lastName-bottom`,
+    },
+  ];
   const columns = [
     {
       field: "id",
@@ -70,13 +70,14 @@ export default function MultilineHeader({ direction }) {
     {
       field: "rdrd",
       headerName: "AASS",
+      resizable: true,
       frozen: true,
       width: 60,
       cellRenderer: TextEditor,
     },
 
     {
-      field: "title",
+      headerName: "Title",
       frozen: true,
       haveChildren: true,
       children: [
@@ -85,6 +86,10 @@ export default function MultilineHeader({ direction }) {
           headerName: "Title1",
           filter: true,
           sortable: true,
+          alignment: true,
+          cellRenderer: (params) => {
+            return TextEditor(params);
+          },
           width: 150,
         },
         { field: "title2", headerName: "Title2", width: 150 },
@@ -161,7 +166,6 @@ export default function MultilineHeader({ direction }) {
                       width: 100,
                       alignment: true,
                       editable: true,
-                      resizable: true,
                     },
                     {
                       field: "pppp",
@@ -171,6 +175,7 @@ export default function MultilineHeader({ direction }) {
                         {
                           field: "eeee",
                           headerName: "EEEE",
+                          resizable: true,
                           width: 100,
                           alignment: true,
                           validation: {
@@ -187,13 +192,13 @@ export default function MultilineHeader({ direction }) {
                           field: "pppp1",
                           headerName: "PPPP1",
                           haveChildren: true,
-                          width: 100,
                           children: [
                             {
                               field: "eeee1",
                               headerName: "EEEE1",
                               alignment: { align: "end" },
                               editable: true,
+                              width: 100,
                               validation: {
                                 style: {
                                   backgroundColor: "red",
@@ -211,6 +216,7 @@ export default function MultilineHeader({ direction }) {
                               sortable: true,
                               filter: true,
                               alignment: true,
+                              width: 100,
                               validation: {
                                 method: (value) => {
                                   return typeof value === "string";
@@ -245,30 +251,31 @@ export default function MultilineHeader({ direction }) {
       ],
     },
   ];
-  const [rows, setRows] = useState(createRows);
+  const gridRef = useRef(null);
   const selectedCellHeaderStyle = {
     backgroundColor: "red",
     fontSize: "12px",
   };
-
+  const selectedCellRowStyle = {
+    backgroundColor: "yellow",
+  };
   return (
-    // <div style={{ width: "800px", height: "500px" }}>
-    <DataGrid
-      columnData={columns}
-      rowData={rows}
-      rowSelection={"multiple"}
-      rowKeyGetter={rowKeyGetter}
-      classheaderName="fill-grid"
-      selectedCellHeaderStyle={selectedCellHeaderStyle}
-      className="fill-grid"
-      onRowClicked={(props) => {
-        console.log("Data", props);
-      }}
-      topSummaryRows={summaryRowsTop}
-      // bottomSummaryRows={summaryRowsBottom}
-      multilineHeaderEnable={true}
-      serialNumber={true}
-    />
-    // </div>
+    <>
+      <DataGrid
+        columnData={columns}
+        testId={"laidatagrid"}
+        rowData={rowData}
+        headerRowHeight={24}
+        className="fill-grid"
+        innerRef={gridRef}
+        selectedCellHeaderStyle={selectedCellHeaderStyle}
+        selectedCellRowStyle={selectedCellRowStyle}
+        valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
+        onCellClicked={() => console.log("Cell Clciked")}
+        onCellDoubleClicked={() => console.log("Cell Double Clciked")}
+        topSummaryRows={summaryRowsTop}
+        bottomSummaryRows={summaryRowsBottom}
+      />
+    </>
   );
 }
