@@ -16,6 +16,7 @@ export function useCalculatedColumnswithIdx({ rowData1 }) {
                 <input
                   className={textEditorClassname}
                   data-testid={`gird-text-editor-${props.column.idx}-${props.rowIndex}`}
+                  style={{ width: "100%" }}
                   value={value}
                   onChange={(event) =>
                     props.onRowChange({

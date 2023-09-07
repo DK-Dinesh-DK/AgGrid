@@ -1,92 +1,156 @@
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
 import "../App.css";
-import { getValue } from "@mui/system";
+
 import { TextEditor } from "../components/datagrid/editors";
 
 export default function ScrollToRow({ direction }) {
   function createRows() {
     const rows = [];
-    for (let i = 0; i < 10; i++) {
-      const price = Math.random() * 30;
-      const id = `row${i}`;
-      var row;
 
-      row = {
-        id,
-        name: `supplier-${i}`,
-        format: `package-${i}`,
-        position: "Run of site",
-        price,
-      };
+    for (let i = 0; i < 2; i++) {
+      rows.push({
+        id: `${i}`,
 
-      rows.push(row);
+        erer: `email${i}`,
+        title1: `title-1-${i}`,
+        title2: `title-2-${i}`,
+        ffff: `firstName${i}`,
+        cvcv: `lastName${i}`,
+        qqqq: `qq${i}`,
+        oooo: `zipCode${i}`,
+        xxxx: `xxx${i}`,
+        eeee1: `name${i}`,
+        rdrd: `words${i}`,
+        pppp2: `sentence${i}`,
+      });
     }
+
     return rows;
   }
   const rowData = createRows();
 
-  function TextInput(params) {
-    return (
-      <input
-        data-testid={`text-input-${params.rowIndex}`}
-        value={params.getValue()}
-        onChange={(e) => {
-          params.setValue(e.target.value);
-          params.refreshCell();
-        }}
-      />
-    );
-  }
-  const frameworkComponents = {
-    btn: TextInput,
-  };
-  const columns = [
+  const gridRef = useRef(null);
+
+  const nonFlightColumnDefs = [
     {
-      field: "id",
-      headerName: "id",
-      frozen: true,
+      headerName: "Non Flight Details",
+      field: "nonFlightDetails",
+      haveChildren: true,
+      // width: 540,
+      children: [
+        { headerName: "Location(s)", field: "locations", width: 100 },
+        {
+          headerName: "+",
+          field: "+",
+          cellRenderer: (props) =>{console.log("Props",props); return <button>+</button>},
+          width: 40,
+        },
+        {
+          headerName: "Job Ref No",
+          field: "jobRefno",
+          cellRenderer: (props) => <input type="text" />,
+          width: 100,
+        },
+        {
+          headerName: "Job Date",
+          field: "jobDate",
+          cellRenderer: (props) => <input type="date" />,
+          width: 100,
+        },
+        {
+          headerName: "Start Time",
+          field: "startTime",
+          cellRenderer: (props) => <input type="datetime" />,
+          width: 100,
+        },
+        {
+          headerName: "End Time",
+          field: "endTime",
+          cellRenderer: (props) => <input type="datetime" />,
+          width: 100,
+        },
+      ],
     },
     {
-      field: "name",
-      headerName: "Name",
-      width: 400,
-      filter: true,
-      cellRenderer: TextEditor,
+      headerName: "Department (Division)",
+      field: "departmentDivision",
+      // width: 480,
+      haveChildren: true,
+      children: [
+        {
+          headerName: "RS",
+          field: "RS",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "BS",
+          field: "BS",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "CG",
+          field: "CG",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "CS",
+          field: "CS",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "CT",
+          field: "CT",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "LP",
+          field: "LP",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "CTOPS-DES",
+          field: "CTOPS-DES",
+          width: 60,
+          depth: 1,
+        },
+        {
+          headerName: "CTFP-CK",
+          field: "CTFP-CK",
+          width: 60,
+          depth: 1,
+        },
+      ],
     },
     {
-      field: "format",
-      headerName: "format",
-      width: 400,
-      cellRenderer: "btn",
-      cellRendererParams: (params) => {
-        return params;
-      },
+      headerName: "Parking Indicator",
+      field: "parkingIndicator",
+      width: 100,
+      cellRenderer: (props) => <input />,
     },
     {
-      field: "position",
-      headerName: "position",
-      width: 400,
-    },
-    {
-      field: "price",
-      headerName: "price",
-      sortable: true,
-      width: 400,
+      headerName: "Repeat",
+      field: "Repeat",
+      width: 100,
+      cellRenderer: (props) => <button>...</button>,
     },
   ];
-
   return (
     <>
       <DataGrid
-        columnData={columns}
+        columnData={nonFlightColumnDefs}
         testId={"laidatagrid"}
         rowData={rowData}
         headerRowHeight={24}
-        enableVirtualization={false}
         className="fill-grid"
-        frameworkComponents={frameworkComponents}
-        valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
+        innerRef={gridRef}
+        multilineHeader={true}
       />
     </>
   );

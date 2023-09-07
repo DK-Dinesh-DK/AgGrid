@@ -270,6 +270,7 @@ function LaiDataGrid() {
           className="fill-grid"
           columnData={columns4}
           rowData={rows}
+          multilineHeader={true}
           testId={"laidatagrid"}
         />
       )}
@@ -278,6 +279,7 @@ function LaiDataGrid() {
           className="fill-grid"
           columnData={columns5}
           rowData={rows}
+          multilineHeader={true}
           testId={"laidatagrid"}
         />
       )}

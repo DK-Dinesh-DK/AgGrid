@@ -1,9 +1,15 @@
-import React, { memo, useRef, useState } from "react";
+import React, {
+  createElement,
+  isValidElement,
+  memo,
+  useRef,
+  useState,
+} from "react";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { PlusIcon, MinusIcon } from "../../assets/Icon";
 import clsx from "clsx";
-import { rowClassname, rowSelectedClassname } from "./style";
+import { rowClassname } from "./style";
 
 function DetailsCell({
   id,
@@ -157,7 +163,33 @@ function DetailsCell({
     >
       {column.idx > 0 &&
         row.gridRowType !== "detailedRow" &&
+        typeof column.cellRenderer === "function" &&
         column.cellRenderer?.({
+          column,
+          row,
+          isExpanded,
+          isCellSelected,
+          toggleDetailedRow,
+          viewportColumns,
+          data: row,
+          allrow,
+          selectedCellIdx,
+          selectedCellEditor,
+          rowIndex,
+          selectCell,
+          onRowClick: props.onRowClick,
+          onRowDoubleClick: props.onRowDoubleClick,
+          valueFormatted: cellRendererParams?.valueFormatted,
+          fullWidth: cellRendererParams?.fullWidth,
+          ...cellParams,
+          ...cellRendererParams,
+          qwe: row,
+        })}
+      {column.idx > 0 &&
+        row.gridRowType !== "detailedRow" &&
+        typeof column.cellRenderer === "object" &&
+        isValidElement(column.cellRenderer) &&
+        createElement(column.cellRenderer, {
           column,
           row,
           isExpanded,
@@ -196,7 +228,7 @@ function DetailsCell({
       )}
       {row.gridRowType === "detailedRow" && (
         <div style={{ margin: "8px 5px" }} className="detailed-row-container">
-          {viewportColumns.map((column,index) => {
+          {viewportColumns.map((column, index) => {
             return (
               <div
                 aria-selected={selectedCellIdx - 1 === index}
@@ -249,17 +281,31 @@ function DetailsCell({
                   role={"gridcell"}
                   style={{ width: `${props.gridWidth * 0.7}px` }}
                 >
-                  {column.cellRenderer?.({
-                    column,
-                    row,
-                    viewportColumns,
-                    data: row,
-                    allrow,
-                    onRowChange: (newrow) => onRowChange(column, newrow),
-                    selectCell: () => {
-                      selectCell(row, column, id);
-                    },
-                  })}
+                  {typeof column.cellRenderer === "function" &&
+                    column.cellRenderer?.({
+                      column,
+                      row,
+                      viewportColumns,
+                      data: row,
+                      allrow,
+                      onRowChange: (newrow) => onRowChange(column, newrow),
+                      selectCell: () => {
+                        selectCell(row, column, id);
+                      },
+                    })}
+                  {typeof column.cellRenderer === "object" &&
+                    isValidElement(column.cellRenderer) &&
+                    createElement(column.cellRenderer, {
+                      column,
+                      row,
+                      viewportColumns,
+                      data: row,
+                      allrow,
+                      onRowChange: (newrow) => onRowChange(column, newrow),
+                      selectCell: () => {
+                        selectCell(row, column, id);
+                      },
+                    })}
                 </div>
               </div>
             );

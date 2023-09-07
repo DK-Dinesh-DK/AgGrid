@@ -26,7 +26,7 @@ export default {
   ],
 
   external: (id) =>
-    !id.startsWith(".") && !id.startsWith("@linaria:") && !isAbsolute(id),
+    !(id.startsWith(".") || id.startsWith("@linaria:") || isAbsolute(id)),
   plugins: [
     linaria({
       preprocessor: "none",

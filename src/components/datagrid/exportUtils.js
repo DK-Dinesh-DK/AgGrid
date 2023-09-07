@@ -1,7 +1,9 @@
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
+import { applyPlugin } from "jspdf-autotable";
+
+applyPlugin(jsPDF);
 
 export function CSVContent(fileData, columns) {
   const field = columns?.map((ele) => ele.field);
@@ -39,8 +41,8 @@ export async function exportToPdf(fileData, columns, fileName) {
       field.push({ dataKey: ele.field, header: ele.headerName });
     }
   });
-  let doc = new jsPDF("p", "pt", "letter");
-  autoTable(doc, {
+  let doc = new jsPDF();
+  doc.autoTable({
     margin: { top: 10 },
     styles: {
       cellWidth: "wrap",

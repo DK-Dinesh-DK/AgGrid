@@ -336,8 +336,6 @@ const RecursiveScan = (
   direction,
   onColumnResize
 ) => {
-
-  let cellheight = cellHeight - headerRowHeight;
   ChildColumnSetup(subData);
   let isCellSelected;
   if (selectedCellIdx === subData.idx) {
@@ -413,7 +411,7 @@ const RecursiveScan = (
       borderInlineEnd: "1px solid var(--rdg-border-color)",
       width: subData.width,
       boxSizing: "border-box",
-      height: `${cellheight}px`,
+      height: `${headerRowHeight}px`,
       outline:
         selectedCellIdx === subData.idx
           ? "1px solid var(--rdg-selection-color)"
@@ -503,7 +501,7 @@ const RecursiveScan = (
         justifyContent: "center",
         width: subData.width,
         alignItems: "center",
-        height: `${cellHeight}px`,
+        height: `${headerRowHeight}px`,
         boxSizing: "border-box",
         outline:
           selectedCellIdx === subData.idx
@@ -559,7 +557,7 @@ const RecursiveScan = (
         borderRight: "1px solid var(--rdg-border-color)",
         width: subData.width,
         alignItems: "center",
-        height: `${cellHeight}px`,
+        height: `${headerRowHeight}px`,
         boxSizing: "border-box",
         outline:
           selectedCellIdx === subData.idx

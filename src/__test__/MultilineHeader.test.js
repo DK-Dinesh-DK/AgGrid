@@ -276,6 +276,7 @@ function LaiDataGrid(props) {
         onCellDoubleClicked={() => console.log("Cell Double Clciked")}
         topSummaryRows={summaryRowsTop}
         bottomSummaryRows={summaryRowsBottom}
+        multilineHeader={true}
         {...props}
       />
     </>

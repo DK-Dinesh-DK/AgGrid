@@ -95,6 +95,7 @@ function LaiDataGrid() {
       onRowsChange={setRows}
       selection={true}
       rowKeyGetter={(data) => data.homenumber}
+      multilineHeader={true}
     />
   );
 }
@@ -110,7 +111,7 @@ describe("Datagrid Unit test", () => {
     expect(gridcell).toBeInTheDocument();
 
     await userEvent.dblClick(gridcell);
-    let input = screen.getByRole("gridcellTextbox");
+    let input = screen.getByTestId("gird-text-editor-1-1");
     expect(input).toBeInTheDocument();
     expect(input).toHaveClass("rdg-text-editor");
     fireEvent.change(input, { target: { value: "Sarthak" } });
@@ -128,8 +129,8 @@ describe("Datagrid Unit test", () => {
     const gridcell = screen.getByRole("gridcell", { name: "Pravalika" });
     expect(gridcell).toBeInTheDocument();
 
-    await userEvent.dblClick(gridcell);
-    let input = screen.getByRole("gridcellTextbox");
+    await fireEvent.doubleClick(gridcell);
+    let input = screen.getByTestId("gird-text-editor-1-3");
     expect(input).toBeInTheDocument();
     expect(input).toHaveClass("rdg-text-editor");
     fireEvent.keyDown(input, { key: "Tab" });
@@ -147,7 +148,7 @@ describe("Datagrid Unit test", () => {
     expect(gridcell).toBeInTheDocument();
 
     await userEvent.dblClick(gridcell);
-    let input = screen.getByRole("gridcellTextbox");
+    let input = screen.getByTestId("gird-text-editor-1-3");
     expect(input).toBeInTheDocument();
     expect(input).toHaveClass("rdg-text-editor");
     fireEvent.keyDown(input, { key: "Escape" });

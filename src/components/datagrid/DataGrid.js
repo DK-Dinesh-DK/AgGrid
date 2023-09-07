@@ -639,12 +639,14 @@ function DataGrid(props) {
   const regroupArray = (array) => {
     const map = {};
     array.forEach((item) => {
-      map[item.field] = item;
+      if (item.field) map[item.field] = item;
+      else if (item.headerName) map[item.headerName] = item;
+
       item.children = [];
     });
     array.forEach((item) => {
       if (item.parent !== null) {
-        map[item.parent].children.push(item);
+        if (item.parent) map[item.parent].children.push(item);
       }
     });
     return array.filter((item) => item.parent === null);
@@ -2714,13 +2716,15 @@ function DataGrid(props) {
   function getVerticalPixelRange() {
     return {
       top: scrollTop,
-      bottom: scrollTop + document.getElementById("DataGrid").offsetHeight,
+      bottom:
+        scrollTop + document.getElementById(rest.id ?? "DataGrid").offsetHeight,
     };
   }
   function getHorizontalPixelRange() {
     return {
       left: scrollLeft,
-      right: scrollLeft + document.getElementById("DataGrid").offsetWidth,
+      right:
+        scrollLeft + document.getElementById(rest.id ?? "DataGrid").offsetWidth,
     };
   }
   function isColumnFilterPresent() {
@@ -2763,7 +2767,7 @@ function DataGrid(props) {
   const [showHorizontalScroll, setShowHorizontalScroll] = useState(false);
   const [showVerticalScroll, setShowVerticalScroll] = useState(false);
   if (showHorizontalScroll || showVerticalScroll) {
-    let gridDiv = document.getElementById("DataGrid");
+    let gridDiv = document.getElementById(rest.id ?? "DataGrid");
     if (showHorizontalScroll && showVerticalScroll) {
       gridDiv.style.overflowX = "scroll";
       gridDiv.style.overflowY = "scroll";
@@ -2804,7 +2808,9 @@ function DataGrid(props) {
       });
     }
   }
-  const div_height = document.getElementById("DataGrid")?.clientHeight;
+  const div_height = document.getElementById(
+    rest.id ?? "DataGrid"
+  )?.clientHeight;
   const rowCount = Math.floor(div_height / rowHeight);
   function ensureIndexVisible(index, position) {
     const { current } = gridRef;
@@ -3072,7 +3078,9 @@ function DataGrid(props) {
             key={`${rowKeyGetter(row)}`}
             id={rowKeyGetter(row)}
             groupKey={row.groupKey}
-            viewportColumns={regroupArray(merged)}
+            viewportColumns={
+              rest.multilineHeader ? regroupArray(merged) : columns
+            }
             childRows={row.childRows}
             rowIdx={rowIdx}
             row={row}
@@ -3114,7 +3122,9 @@ function DataGrid(props) {
             aria-selected={isSelectable ? isTreeRowSelected : undefined}
             key={`${rowKeyGetter(row)}`}
             id={rowKeyGetter(row)}
-            viewportColumns={regroupArray(merged)}
+            viewportColumns={
+              rest.multilineHeader ? regroupArray(merged) : columns
+            }
             childRows={row.childRows}
             rowIdx={rowIdx}
             row={row}
@@ -3172,7 +3182,9 @@ function DataGrid(props) {
             "aria-selected": isSelectable ? isMasterRowSelected : undefined,
             key: `${rowKeyGetter(row)}`,
             id: rowKeyGetter(row),
-            viewportColumns: regroupArray(merged),
+            viewportColumns: rest.multilineHeader
+              ? regroupArray(merged)
+              : columns,
             childRows: row.childRows,
             rowIdx: rowIdx,
             row: row,
@@ -3355,7 +3367,9 @@ function DataGrid(props) {
           api: apiObject,
           columnApi: columnApiObject,
           node,
-          viewportColumns: regroupArray(merged),
+          viewportColumns: rest.multilineHeader
+            ? regroupArray(merged)
+            : columns,
           isRowSelected,
           onRowClick: onRowClick,
           onCellClick: onCellClickLatest,
@@ -3445,7 +3459,7 @@ function DataGrid(props) {
 
   if (toolTip && toolTipRef) {
     const toolTipWidth = toolTipRef.current?.scrollWidth + mouseX;
-    const gridElement = document.getElementById("DataGrid");
+    const gridElement = document.getElementById(rest.id ?? "DataGrid");
     const dimensions = gridElement?.getBoundingClientRect();
     let gridWidth = dimensions?.width + dimensions?.x;
 
@@ -3567,7 +3581,7 @@ function DataGrid(props) {
           <DataGridDefaultComponentsProvider value={defaultGridComponents}>
             <HeaderRow
               rows={rawRows}
-              columns={regroupArray(merged)}
+              columns={rest.multilineHeader ? regroupArray(merged) : columns}
               headerData={columns}
               sortCol={columns4}
               selectedPosition={selectedPosition}

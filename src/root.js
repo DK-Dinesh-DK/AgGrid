@@ -54,8 +54,9 @@ function Root() {
       }
 
       #root {
-        display: grid;
-        grid-template-columns: auto 1fr;
+        display: flex;
+        flex-direction: row;
+        /* grid-template-columns: auto 1fr; */
       }
 
       .rdg.fill-grid {
@@ -82,7 +83,7 @@ function Root() {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    block-size: 100vh;
+    /* block-size: 100vh; */
     padding: 8px;
     overflow: hidden;
   `;
@@ -168,11 +169,10 @@ function Root() {
             path="variable-row-height"
             element={<VariableRowHeight direction={direction} />}
           />
-           <Route
+          <Route
             path="multilineheader"
             element={<MultilineHeader direction={direction} />}
           />
-
 
           <Route
             path="animation"

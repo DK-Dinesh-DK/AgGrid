@@ -1,9 +1,9 @@
-import { act } from 'react-dom/test-utils';
-import { TextEncoder, TextDecoder } from 'util'
-global.TextEncoder = TextEncoder
-global.TextDecoder = TextDecoder
+import { act } from "react-dom/test-utils";
+import { TextEncoder, TextDecoder } from "util";
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   window.ResizeObserver ??= class {
     callback;
@@ -15,7 +15,10 @@ if (typeof window !== 'undefined') {
     observe() {
       // patch inlineSize/blockSize to pretend we're rendering DataGrid at 1920p/1080p
       // @ts-expect-error
-      this.callback([{ contentBoxSize: [{ inlineSize: 1920, blockSize: 1080 }] }], this);
+      this.callback(
+        [{ contentBoxSize: [{ inlineSize: 1920, blockSize: 1080 }] }],
+        this
+      );
     }
 
     unobserve() {}
@@ -29,14 +32,14 @@ if (typeof window !== 'undefined') {
   Object.defineProperties(HTMLDivElement.prototype, {
     clientWidth: {
       get() {
-        return this.classList.contains('rdg') ? 1920 : 0;
-      }
+        return this.classList.contains("rdg") ? 1920 : 0;
+      },
     },
     clientHeight: {
       get() {
-        return this.classList.contains('rdg') ? 1080 : 0;
-      }
-    }
+        return this.classList.contains("rdg") ? 1080 : 0;
+      },
+    },
   });
 
   // Basic scroll polyfill
@@ -59,9 +62,9 @@ if (typeof window !== 'undefined') {
       set(value) {
         getScrollState(this).scrollTop = value;
         act(() => {
-          this.dispatchEvent(new Event('scroll'));
+          this.dispatchEvent(new Event("scroll"));
         });
-      }
+      },
     },
     scrollLeft: {
       get() {
@@ -70,10 +73,10 @@ if (typeof window !== 'undefined') {
       set(value) {
         getScrollState(this).scrollLeft = value;
         act(() => {
-          this.dispatchEvent(new Event('scroll'));
+          this.dispatchEvent(new Event("scroll"));
         });
-      }
-    }
+      },
+    },
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition

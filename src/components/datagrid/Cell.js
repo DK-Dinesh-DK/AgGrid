@@ -1,4 +1,4 @@
-import React, { memo, useState, useRef } from "react";
+import React, { memo, useState, useRef, cloneElement, isValidElement } from "react";
 import { css } from "@linaria/core";
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -389,10 +389,21 @@ function Cell({
               >
                 &#9674;
               </span>
-              {column.cellRenderer(params)}
+
+              {typeof column.cellRenderer === "object" &&
+                isValidElement(column.cellRenderer) &&
+                cloneElement(column.cellRenderer, { ...params })}
+              {typeof column.cellRenderer === "function" &&
+                column.cellRenderer({ ...params })}
             </div>
           )}
-          {!column.rowDrag && column.cellRenderer(params)}
+          {!column.rowDrag &&
+            typeof column.cellRenderer === "object" &&
+            isValidElement(column.cellRenderer) &&
+            cloneElement(column.cellRenderer, { ...params })}
+          {!column.rowDrag &&
+            typeof column.cellRenderer === "function" &&
+            column.cellRenderer({ ...params })}
         </>
       )}
     </div>

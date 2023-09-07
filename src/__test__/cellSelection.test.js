@@ -88,6 +88,7 @@ function LaiDataGrid() {
       enableVirtualization={false}
       onRowsChange={setRows}
       selection={true}
+      multilineHeader={true}
     />
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, {  createElement, isValidElement } from "react";
 import alignmentUtils from "../utils/alignMentUtils";
 
 export function valueFormatter(props) {
@@ -362,6 +362,7 @@ const childData = (subData, props) => {
         {isCellSelected && props.selectedCellEditor
           ? props.selectedCellEditor
           : !info1.rowDrag &&
+            typeof info1.cellRenderer === "function" &&
             info1.cellRenderer({
               column: info1,
               api: props.api,
@@ -384,6 +385,31 @@ const childData = (subData, props) => {
               valueFormatted: info1.cellRendererParams?.valueFormatted,
               ...info1?.cellRendererParams,
             })}
+        {!info1.rowDrag &&
+          typeof info1.cellRenderer === "object" &&
+          isValidElement(info1.cellRenderer) &&
+          createElement(info1.cellRenderer, {
+            column: info1,
+            api: props.api,
+            columnApi: props.columnApi,
+            row: props.row,
+            onRowChange: props.onRowChange,
+            value: info1.cellRendererParams?.value ?? props.row[info1.key],
+            rowIndex: props.rowIndex,
+            node: props.node,
+            colDef: info1,
+            // eGridCell: gridCell.current,
+            selectCell: props.selectCell,
+            selectedCellIdx: props.selectedCellIdx,
+            getValue: () =>
+              info1.cellRendererParams?.value ?? props.row[info1.key],
+            // setValue: (newValue) => setCellValue(newValue),
+            expandedMasterIds: props.expandedMasterIds,
+            onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
+            fullWidth: info1.cellRendererParams?.fullWidth,
+            valueFormatted: info1.cellRendererParams?.valueFormatted,
+            ...info1?.cellRendererParams,
+          })}
       </div>
     );
   });

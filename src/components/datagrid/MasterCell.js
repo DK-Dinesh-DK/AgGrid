@@ -1,4 +1,10 @@
-import React, { memo, useRef, useState } from "react";
+import React, {
+  createElement,
+  isValidElement,
+  memo,
+  useRef,
+  useState,
+} from "react";
 
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -196,7 +202,35 @@ function MasterCell({
     >
       {column.idx > 0 &&
         row.gridRowType !== "Detail" &&
+        typeof column.cellRenderer === "function" &&
         column.cellRenderer?.({
+          column,
+          row,
+          isExpanded,
+          isCellSelected,
+          toggleMaster,
+          viewportColumns,
+          data: row,
+          allrow,
+          selectedCellIdx,
+          selectedCellEditor,
+          rowIndex,
+          selectCell,
+          onRowClick: props.onRowClick,
+          onRowDoubleClick: props.onRowDoubleClick,
+          onCellClick: props.onCellClick,
+          onCellDoubleClick: props.onCellDoubleClick,
+          valueFormatted: cellRendererParams?.valueFormatted,
+          fullWidth: cellRendererParams?.fullWidth,
+          eGridCell: gridCell.current,
+          ...cellParams,
+          ...cellRendererParams,
+        })}
+      {column.idx > 0 &&
+        row.gridRowType !== "Detail" &&
+        typeof column.cellRenderer === "object" &&
+        isValidElement(column.cellRenderer) &&
+        createElement(column.cellRenderer, {
           column,
           row,
           isExpanded,
