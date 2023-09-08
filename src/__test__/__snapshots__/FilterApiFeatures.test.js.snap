@@ -1,0 +1,221 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GridAPI - Filtering APIs selectAllFiltered and deselectAllFiltered work correctly 1`] = `
+<div
+  aria-colcount="3"
+  aria-rowcount="3"
+  class="rdg r1fgqq0p"
+  data-testid="laidatagrid"
+  dir="ltr"
+  id="DataGrid"
+  role="grid"
+  style="background: rgb(184, 204, 228); grid-template-rows: 24px repeat(2, 24px); --rdg-header-row-height: 24px; --rdg-summary-row-height: 24px; --rdg-sign: 1; grid-template-columns: 80px 40px 40px;"
+>
+  <div
+    aria-rowindex="1"
+    class="rdg-header-row h1w9imsy"
+    role="header-row"
+    style="--rdg-grid-row-start: 1;"
+  >
+    <div
+      aria-colindex="1"
+      class="rdg-cell c9tygie rdg-header-column-even"
+      draggable="true"
+      role="parentcolumn"
+      style="height: 100%; grid-column-start: 1;"
+      tabindex="0"
+    >
+      <div
+        style="display: flex; height: 100%; align-items: center; justify-content: center;"
+      >
+        <div
+          aria-selected="false"
+          role="columnheader"
+          style="height: 24px; display: flex; justify-content: center; width: 100%;"
+        >
+          <div
+            style="display: flex; justify-content: center; align-items: center; height: inherit; width: 80px; padding-left: 5px; padding-right: 5px;"
+          >
+            ID
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-colindex="2"
+      class="rdg-cell c9tygie rdg-header-column-odd"
+      draggable="true"
+      role="parentcolumn"
+      style="height: 100%; grid-column-start: 2;"
+      tabindex="-1"
+    >
+      <div
+        style="display: flex; height: 100%; align-items: center; justify-content: center;"
+      >
+        <div
+          aria-selected="false"
+          role="columnheader"
+          style="height: 24px; display: flex; justify-content: center; width: 100%;"
+        >
+          <div
+            style="display: flex; justify-content: center; align-items: center; height: inherit; width: auto; padding-left: 5px; padding-right: 5px;"
+          >
+            Title
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      aria-colindex="3"
+      class="rdg-cell c9tygie rdg-header-column-even"
+      draggable="true"
+      role="parentcolumn"
+      style="height: 100%; grid-column-start: 3;"
+      tabindex="-1"
+    >
+      <div
+        style="display: flex; height: 100%; align-items: center; justify-content: center;"
+      >
+        <div
+          aria-selected="false"
+          role="columnheader"
+          style="height: 24px; display: flex; justify-content: center; width: 100%;"
+        >
+          <div
+            style="display: flex; justify-content: center; align-items: center; height: inherit; width: auto; padding-left: 5px; padding-right: 5px;"
+          >
+            Priority
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    aria-rowindex="2"
+    class="rdg-row rsqlkts rdg-row-even"
+    id="3"
+    role="row"
+    style="--rdg-grid-row-start: 2; --rdg-row-height: 24px;"
+  >
+    <div
+      aria-colindex="1"
+      aria-readonly="true"
+      class="rdg-cell c9tygie rdg-cell-column-even"
+      data-testid="rowCell"
+      style="height: 100%; grid-column-start: 1; grid-row-end: span [object Object]; --rdg-summary-row-top: 24px;"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        role="gridcell"
+        style="width: 100%; text-align: center; text-overflow: ellipsis; overflow: hidden; height: inherit; padding-inline: 6px;"
+      >
+        3
+      </div>
+    </div>
+    <div
+      aria-colindex="2"
+      aria-readonly="true"
+      class="rdg-cell c9tygie rdg-cell-column-odd"
+      data-testid="rowCell"
+      style="height: 100%; grid-column-start: 2; grid-row-end: span [object Object]; --rdg-summary-row-top: 24px;"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        role="gridcell"
+        style="width: 100%; text-align: center; text-overflow: ellipsis; overflow: hidden; height: inherit; padding-inline: 6px;"
+      >
+        Task #3
+      </div>
+    </div>
+    <div
+      aria-colindex="3"
+      aria-readonly="true"
+      class="rdg-cell c9tygie rdg-cell-column-even"
+      data-testid="rowCell"
+      style="height: 100%; grid-column-start: 3; grid-row-end: span [object Object]; --rdg-summary-row-top: 24px;"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        role="gridcell"
+        style="width: 100%; text-align: center; text-overflow: ellipsis; overflow: hidden; height: inherit; padding-inline: 6px;"
+      >
+        High
+      </div>
+    </div>
+  </div>
+  <div
+    aria-rowindex="3"
+    class="rdg-row rsqlkts rdg-row-odd"
+    id="6"
+    role="row"
+    style="--rdg-grid-row-start: 3; --rdg-row-height: 24px;"
+  >
+    <div
+      aria-colindex="1"
+      aria-readonly="true"
+      class="rdg-cell c9tygie rdg-cell-column-even"
+      data-testid="rowCell"
+      style="height: 100%; grid-column-start: 1; grid-row-end: span [object Object]; --rdg-summary-row-top: 48px;"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        role="gridcell"
+        style="width: 100%; text-align: center; text-overflow: ellipsis; overflow: hidden; height: inherit; padding-inline: 6px;"
+      >
+        6
+      </div>
+    </div>
+    <div
+      aria-colindex="2"
+      aria-readonly="true"
+      class="rdg-cell c9tygie rdg-cell-column-odd"
+      data-testid="rowCell"
+      style="height: 100%; grid-column-start: 2; grid-row-end: span [object Object]; --rdg-summary-row-top: 48px;"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        role="gridcell"
+        style="width: 100%; text-align: center; text-overflow: ellipsis; overflow: hidden; height: inherit; padding-inline: 6px;"
+      >
+        Task #6
+      </div>
+    </div>
+    <div
+      aria-colindex="3"
+      aria-readonly="true"
+      class="rdg-cell c9tygie rdg-cell-column-even"
+      data-testid="rowCell"
+      style="height: 100%; grid-column-start: 3; grid-row-end: span [object Object]; --rdg-summary-row-top: 48px;"
+      tabindex="-1"
+    >
+      <div
+        aria-selected="false"
+        role="gridcell"
+        style="width: 100%; text-align: center; text-overflow: ellipsis; overflow: hidden; height: inherit; padding-inline: 6px;"
+      >
+        High
+      </div>
+    </div>
+  </div>
+  <div
+    class="m22dhxs"
+    data-measuring-cell-key="id"
+    style="grid-column-start: 1; min-width: 40px;"
+  />
+  <div
+    class="m22dhxs"
+    data-measuring-cell-key="task"
+    style="grid-column-start: 2; min-width: 40px;"
+  />
+  <div
+    class="m22dhxs"
+    data-measuring-cell-key="priority"
+    style="grid-column-start: 3; min-width: 40px;"
+  />
+</div>
+`;

@@ -1,0 +1,287 @@
+import { useState } from "react";
+import { faker } from "@faker-js/faker";
+
+import TextEditor from "../components/datagrid/editors/textEditor";
+
+import DataGrid from "../components/datagrid/DataGrid";
+
+function EmptyRowsRenderer() {
+  return (
+    <div style={{ textAlign: "center", gridColumn: "1/-1" }}>
+      Nothing to show{" "}
+      <span lang="ja" title="ショボーン">
+        (´・ω・`)
+      </span>
+    </div>
+  );
+}
+
+const selectedCellHeaderStyle = {
+  backgroundColor: "red",
+  fontSize: "12px",
+};
+const selectedCellRowStyle = {
+  backgroundColor: "yellow",
+};
+
+const frameworkComponents = {
+  CheckBox: (props) => <button style={{ width: "100%" }}>Save</button>,
+};
+
+function rowKeyGetter(row) {
+  return row.id;
+}
+
+const columns = [
+  // SerialNumberColumn,
+  {
+    field: "id",
+    headerName: "ID",
+    width: 50,
+    // haveChildren: false,
+    // topHeader: "id",
+    sortable: true,
+    frozen: true,
+    cellEditor: TextEditor,
+    // filter: true,
+    // cellRenderer: TextEditor,
+  },
+  {
+    field: "rdrd",
+    headerName: "AASS",
+    // haveChildren: false,
+    frozen: true,
+    // topHeader: "rdrd",
+    width: 60,
+    cellEditor: TextEditor,
+
+    // filter: true,
+
+    // cellRenderer: TextEditor,
+    // cellRenderer: TextEditor,
+  },
+
+  {
+    field: "title",
+    headerName: "Title",
+    // sortable: true,
+    // haveChildren: false,
+    cellEditor: TextEditor,
+    frozen: true,
+    // topHeader: "title",
+    width: 300,
+  },
+  {
+    field: "cvcv",
+    headerName: "FGHT",
+    // haveChildren: false,
+    frozen: true,
+    filter: true,
+    // topHeader: "cvcv",
+    cellEditor: TextEditor,
+    width: 80,
+  },
+  {
+    field: "erer",
+    headerName: "FGHT",
+    sortable: true,
+    filter: true,
+    width: 80,
+    frozen: true,
+  },
+  {
+    field: "count",
+    headerName: "Count",
+    haveChildren: true,
+    // frozen: true,
+    // topHeader: "count",
+    children: [
+      // SelectColumn,
+      {
+        field: "nnnn",
+        headerName: "NNNN",
+        haveChildren: true,
+        // topHeader: "count",
+        children: [
+          {
+            field: "xxxx",
+            headerName: "XXXX",
+            // haveChildren: false,
+            // topHeader: "count",
+            cellEditor: TextEditor,
+            width: 100,
+            // filter: true,
+            // sortable: true,
+          },
+
+          {
+            field: "jjjj",
+            headerName: "JJJJ",
+            haveChildren: true,
+            // topHeader: "count",
+            children: [
+              {
+                field: "ffff",
+                headerName: "FFFF",
+                // haveChildren: false,
+                width: 100,
+                // topHeader: "count",
+                // cellEditor: TextEditor,
+                editable: true,
+                // filter:true
+              },
+              {
+                field: "vvvv1",
+                headerName: "VVVV1",
+                haveChildren: true,
+                // topHeader: "count",
+                children: [
+                  {
+                    field: "llll",
+                    headerName: "LLLL",
+                    // haveChildren: false,
+                    width: 100,
+                    // topHeader: "count",
+                    // filter:true,
+                  },
+                  {
+                    field: "pppp",
+                    headerName: "PPPP",
+                    haveChildren: true,
+                    // topHeader: "count",
+                    children: [
+                      {
+                        field: "eeee",
+                        headerName: "EEEE",
+                        // haveChildren: false,
+                        width: 100,
+                        // topHeader: "count",
+                        // filter:true,
+                      },
+                      {
+                        field: "pppp1",
+                        headerName: "PPPP1",
+                        haveChildren: true,
+                        width: 100,
+                        // topHeader: "count",
+                        children: [
+                          {
+                            field: "eeee1",
+                            headerName: "EEEE1",
+                            // haveChildren: false,
+                            width: 100,
+                            // topHeader: "count",
+                            // sortable: true,
+                            // filter:true
+                            // children: [
+                            //   {
+                            //     field: "eeee11",
+                            //     headerName: "EEEE11",
+                            // haveChildren: false,
+                            //     width: 100,
+                            //     // topHeader: "count",
+                            //     // sortable: true,
+                            //     filter:true
+                            //   },
+                            //   {
+                            //     field: "pppp211",
+                            //     headerName: "PPPP211",
+                            // haveChildren: false,
+                            //     width: 100,
+                            //     // topHeader: "count",
+                            filter: true,
+                            //   },
+                            // ],
+                          },
+                          {
+                            field: "pppp2",
+                            headerName: "PPPP2",
+                            // haveChildren: false,
+                            width: 100,
+                            // topHeader: "count",
+                            sortable: true,
+                            filter: true,
+                            cellEditor: TextEditor,
+                          },
+                        ],
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        field: "oooo",
+        headerName: "OOOO",
+
+        width: 100,
+        // haveChildren: false,
+        topHeader: "count",
+        sortable: true,
+        // filter: true,
+      },
+      {
+        field: "qqqq",
+        headerName: "QQQQ",
+        width: 100,
+        // haveChildren: false,
+        // topHeader: "count",
+        sortable: true,
+
+        filter: true,
+      },
+    ],
+  },
+];
+
+function createRows() {
+  const rows = [];
+
+  for (let i = 0; i < 5000; i++) {
+    rows.push({
+      id: `${i}`,
+
+      erer: faker.internet.email(),
+      title: faker.person.prefix(),
+      ffff: faker.person.firstName(),
+      cvcv: faker.person.lastName(),
+      qqqq: faker.internet.email(),
+      oooo: faker.location.zipCode(),
+      // dffd: faker.date.past().toLocaleDateString(),
+      // pppp2: faker.company.bs(),
+      xxxx: faker.person.firstName(),
+      eeee1: faker.company.name(),
+      rdrd: faker.lorem.words(),
+      pppp2: faker.lorem.sentence(),
+    });
+  }
+
+  return rows;
+}
+
+export default function MultilineHeader({ direction }) {
+  const [rows, setRows] = useState(createRows);
+  const [selectedRows, setSelectedRows] = useState(() => new Set());
+
+  return (
+    // <FilterContext.Provider value={filters}>
+    <DataGrid
+      columnData={columns}
+      rowData={rows}
+      // onRowsChange={setRows}
+      rowSelection={"multiple"}
+      renderers={{ noRowsFallback: <EmptyRowsRenderer /> }}
+      rowKeyGetter={rowKeyGetter}
+      classheaderName="fill-grid"
+      className="fill-grid"
+      rowFreezLastIndex={3}
+      // direction={direction}
+      onRowClicked={(props) => {
+        console.log("Data", props);
+      }}
+    />
+  );
+}
