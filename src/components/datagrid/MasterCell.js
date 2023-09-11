@@ -1,6 +1,12 @@
-import React, { memo, useRef, useState } from "react";
+import React, {
+  createElement,
+  isValidElement,
+  memo,
+  useRef,
+  useState,
+} from "react";
 
-import { getCellStyle, getCellClassname } from "./utils";
+import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 
 function MasterCell({
@@ -25,40 +31,61 @@ function MasterCell({
   isRowSelected,
   selectCell,
   valueChangedCellStyle,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
+  rowArray,
+  totalColumns,
   ...props
 }) {
-  const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
   function toggleMaster() {
     toggleMasterWrapper(id);
   }
-  let style = getCellStyle(column, colSpan, row);
+
   const gridCell = useRef(null);
 
   const [value, setValue] = useState(
-    cellRendererParams?.value ?? row[column.key]
+    column?.cellRendererParams?.value ?? row[column.key]
   );
+  let style = getCellStyle(column, colSpan, row);
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleRowChange(newRow) {
+    onRowChange(column, newRow);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
 
   let cellParams = {
-    column: column,
-    data: row,
-    value: value,
-    node: node,
-    colDef: column,
     api: apiObject,
+    column: column,
+    colDef: column,
+    data: row,
     eGridCell: gridCell.current,
+    getValue: () => value,
+    handleToolTip,
+    handleToolTipContent,
+    onRowChange: handleRowChange,
+    node: node,
+    rowArray,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `mastercellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(`${rowIndex}${row[column.key]}`).innerHTML =
-        content;
+      document.getElementById(
+        `mastercellid-${column.idx}-${rowIndex}`
+      ).innerHTML = content;
     },
-    getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
       row[column.key] = newValue;
     },
+
+    value: value,
   };
 
   const cellRendererParams =
@@ -67,34 +94,60 @@ function MasterCell({
       : column?.cellRendererParams;
 
   function handleClick(e) {
-    selectCell(row, column);
-    props.onRowClick?.({
-      api: props.api,
-      data: row,
-      columnApi: props.columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      type: "rowClicked",
-      event: e,
-    });
-    props.onCellClick?.({
-      api: props.api,
-      colDef: {
-        field: column.field,
-        resizable: column.resizable,
-        sortable: column.sortable,
-        width: column.width,
-      },
-      data: row,
-      node: node,
-      columnApi: props.columnApi,
-      rowIndex: rowIndex,
-      value: row[column.field] ?? undefined,
-      type: "cellClicked",
-      event: e,
-    });
+    e.stopPropagation();
+    if (!column.readOnly) {
+      props.onCellClick?.({
+        api: props.api,
+        colDef: {
+          field: column.field,
+          resizable: column.resizable,
+          sortable: column.sortable,
+          width: column.width,
+        },
+        columnApi: props.columnApi,
+        data: row,
+        event: e,
+        node: node,
+        rowIndex: rowIndex,
+        type: "cellClicked",
+        value: row[column.field] ?? undefined,
+      });
+      props.onRowClick?.({
+        api: props.api,
+        columnApi: props.columnApi,
+        data: row,
+        event: e,
+        rowIndex: rowIndex,
+        node: node,
+        type: "rowClicked",
+      });
+    }
   }
 
+  function handleDoubleClick(e) {
+    e.stopPropagation();
+    if (!column.readOnly) {
+      props.onCellDoubleClick?.({
+        api: api,
+        columnApi: columnApi,
+        data: row,
+        event: e,
+        node: node,
+        rowIndex: rowIndex,
+        type: "cellDoubleClicked",
+        value: row[column.key],
+      });
+      props.onRowDoubleClick?.({
+        api: api,
+        columnApi: columnApi,
+        data: row,
+        node: node,
+        rowIndex: rowIndex,
+        type: "rowDoubleClicked",
+        event: e,
+      });
+    }
+  }
   const { cellClass } = column;
   const className = getCellClassname(
     column,
@@ -102,24 +155,54 @@ function MasterCell({
     typeof cellClass === "function" ? cellClass(row) : cellClass,
     row.gridRowType === "Detail" ? "rdg-cell-detail" : undefined
   );
-
+  style =
+    column.idx === 0 && isRowSelected
+      ? { ...style, ...{ borderInlineStart: "1px solid #9bbb59" } }
+      : { ...style };
+  style =
+    column.idx === totalColumns - 1 && isRowSelected
+      ? { ...style, ...{ borderInlineEnd: "1px solid #9bbb59" } }
+      : { ...style };
+  if (row.gridRowType === "Detail" && column.toolTip) {
+    let toolTipContent;
+    if (typeof column.toolTip === "function") {
+      toolTipContent = column.toolTip({
+        row,
+        rowIndex,
+      });
+    } else {
+      toolTipContent = `details-row-${row?.id ?? rowIndex}`;
+    }
+    handleToolTipContent(toolTipContent);
+    handleToolTip(true);
+  }
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
-      role="gridcell"
+      // role="gridcell"
+      id={`mastercellid-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
-      ref={ref}
+      aria-readonly={!isCellEditable(column, row) || undefined}
+      ref={gridCell}
       tabIndex={tabIndex}
       key={column.key}
       className={className}
       style={style}
       onClick={handleClick}
+      onDoubleClick={handleDoubleClick}
       onFocus={onFocus}
-      // onDoubleClick={toggleMaster}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          `mastercellid-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + props.Rowheight / 2);
+      }}
     >
       {column.idx > 0 &&
         row.gridRowType !== "Detail" &&
+        typeof column.cellRenderer === "function" &&
         column.cellRenderer?.({
           column,
           row,
@@ -135,8 +218,38 @@ function MasterCell({
           selectCell,
           onRowClick: props.onRowClick,
           onRowDoubleClick: props.onRowDoubleClick,
+          onCellClick: props.onCellClick,
+          onCellDoubleClick: props.onCellDoubleClick,
           valueFormatted: cellRendererParams?.valueFormatted,
           fullWidth: cellRendererParams?.fullWidth,
+          eGridCell: gridCell.current,
+          ...cellParams,
+          ...cellRendererParams,
+        })}
+      {column.idx > 0 &&
+        row.gridRowType !== "Detail" &&
+        typeof column.cellRenderer === "object" &&
+        isValidElement(column.cellRenderer) &&
+        createElement(column.cellRenderer, {
+          column,
+          row,
+          isExpanded,
+          isCellSelected,
+          toggleMaster,
+          viewportColumns,
+          data: row,
+          allrow,
+          selectedCellIdx,
+          selectedCellEditor,
+          rowIndex,
+          selectCell,
+          onRowClick: props.onRowClick,
+          onRowDoubleClick: props.onRowDoubleClick,
+          onCellClick: props.onCellClick,
+          onCellDoubleClick: props.onCellDoubleClick,
+          valueFormatted: cellRendererParams?.valueFormatted,
+          fullWidth: cellRendererParams?.fullWidth,
+          eGridCell: gridCell.current,
           ...cellParams,
           ...cellRendererParams,
         })}
@@ -160,6 +273,11 @@ function MasterCell({
       {row.gridRowType === "Detail" &&
         column.detailsGrid &&
         column.detailsGrid({
+          allrow,
+          selectedCellIdx,
+          selectedCellEditor,
+          api: apiObject,
+          node,
           row,
           rowIndex,
           column,
@@ -168,11 +286,6 @@ function MasterCell({
           toggleMaster,
           colDef: column,
           viewportColumns,
-          allrow,
-          selectedCellIdx,
-          selectedCellEditor,
-          api: apiObject,
-          node,
         })}
     </div>
   );

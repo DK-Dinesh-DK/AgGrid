@@ -327,54 +327,21 @@ export default function InfiniteScrolling({ direction }) {
   ];
   const [cellValue, setCellValue] = useState(null);
   return (
-    <>
-      <button
-        onClick={() => {
-          console.log("dataGridRef", dataGridRef.current.api.tabToNextCell());
-        }}
-      >
-        getFocusedCell
-      </button>
-      <button
-        data-testid={"ensureIndexVisible-scroll-top"}
-        onClick={() => {
-          dataGridRef.current.api.ensureIndexVisible(70, "top");
-        }}
-      >
-        ensureIndexVisible-scroll-top
-      </button>
-      {cellValue !== null && (
-        <button
-          data-testid={"cell-value"}
-          onClick={() => {
-            console.log(cellValue.getValue());
-          }}
-        >
-          Cell Data
-        </button>
-      )}
-      <DataGrid
-        columnData={columns}
-        rowData={rowData}
-        rowKeyGetter={rowKeyGetter}
-        onRowsChange={(data) => {
-          console.log("Data", data);
-        }}
-        rowHeight={25}
-        className="fill-grid"
-        innerRef={dataGridRef}
-        direction={direction}
-        selection={true}
-        enableVirtualization={false}
-        valueChangedCellStyle={{ backgroundColor: "Blue", color: "White" }}
-        onCellClicked={(params) => {
-          console.log("Params", params);
-          setCellValue(params);
-        }}
-      />
-      {isLoading && (
-        <div className={loadMoreRowsClassname}>Loading more rows...</div>
-      )}
-    </>
+    <div className="App">
+      <div className="sidebar"></div>
+      <div className="right">
+        <div className="header" />
+        <div className="conent">
+          <div className="submenu" />
+          <div className="main">
+            <div className="top"></div>
+            <div className="middle">
+              <DataGrid columnData={columns} rowData={rows} className="fill-grid" />
+            </div>
+            <div className="bottom"></div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

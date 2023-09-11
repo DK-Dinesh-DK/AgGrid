@@ -10,14 +10,11 @@ export function FilterRendererWithSvg(
 ) {
   const [isOpen, setIsOpen] = useState(false);
   const [buttonRect, setButtonRect] = useState(null);
-  const tooltipRef = useRef(null);
-
-
-
+  const tooltipRef = useRef(null)
   const handleButtonClick = (event) => {
     setButtonRect(event.target.getBoundingClientRect());
-    if (isOpen === false) {
-      setIsOpen(true);
+    if (isOpen === false && !column.readOnly) {
+      setIsOpen(true) ;
     } else if (isOpen === true) {
       setIsOpen(false);
     }
@@ -65,7 +62,7 @@ export function FilterRendererWithSvg(
   );
 
   return (
-    <div className={filterClassname}>
+    <div className={filterClassname} style={{cursor:column.readOnly?"default":"pointer"}}>
       {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <svg
        data-testid={`filterIcon_${column.headerName}`}

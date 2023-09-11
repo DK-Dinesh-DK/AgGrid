@@ -39,7 +39,6 @@ export function ToggleGroup({
 }) {
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-
   const d = isExpanded ? "M1 1 L 7 7 L 13 1" : "M1 7 L 7 1 L 13 7";
 
   return (
@@ -48,6 +47,27 @@ export function ToggleGroup({
       data-testid={`grid-group-toggle-${props.column.idx}-${props.rowIndex}`}
       className={groupCellContentClassname}
       tabIndex={tabIndex}
+      onMouseOver={(e) => {
+        if (props.column.toolTip) {
+          let toolTipContent;
+          if (typeof props.column.toolTip === "function") {
+            toolTipContent = props.column.toolTip({
+              row: props.row,
+              rowIndex: props.rowIndex,
+              column: props.column,
+            });
+          } else {
+            toolTipContent = groupKey;
+          }
+          props.handleToolTipContent(toolTipContent);
+          props.handleToolTip(true);
+        }
+      }}
+      onMouseOutCapture={() => {
+        if (props.column.haveChildren === false && props.column.toolTip) {
+          props.handleToolTip(false);
+        }
+      }}
     >
       {groupKey}
       <svg

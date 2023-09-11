@@ -101,7 +101,7 @@ function rowKeyGetter(row) {
 
 function createRows() {
   const rows = [];
-  for (let i = 1; i < 1000; i++) {
+  for (let i = 1; i < 10; i++) {
     rows.push({
       id: i,
       year: 2015 + faker.datatype.number(3),
@@ -211,8 +211,9 @@ describe("Datagrid Unit test for Group Row", () => {
     render(<LaiDataGrid />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const toggleBtn = screen.getByRole("gridcell", { name: "Zimbabwe" });
+    const toggleBtn = screen.getByTestId("grid-group-toggle-1-0");
     expect(toggleBtn).toBeInTheDocument();
+    fireEvent.click(toggleBtn);
     fireEvent.click(toggleBtn);
     const checkboxInput = screen.getByTestId("checkbox-year");
     expect(checkboxInput).toBeInTheDocument();

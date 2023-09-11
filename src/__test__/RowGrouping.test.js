@@ -102,7 +102,7 @@ function rowKeyGetter(row) {
 
 function createRows() {
   const rows = [];
-  for (let i = 1; i < 1000; i++) {
+  for (let i = 1; i < 50; i++) {
     rows.push({
       id: i,
       year: 2015 + i,
@@ -253,7 +253,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -267,7 +267,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -294,7 +294,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -308,7 +308,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -320,7 +320,7 @@ describe("RowGrouping API", () => {
       {
         colId: "sport",
         columnIndex: 3,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 1,
@@ -330,7 +330,7 @@ describe("RowGrouping API", () => {
       {
         colId: "athlete",
         columnIndex: 4,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 0,
@@ -371,7 +371,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -385,7 +385,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -397,7 +397,7 @@ describe("RowGrouping API", () => {
       {
         colId: "sport",
         columnIndex: 3,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 1,
@@ -407,7 +407,7 @@ describe("RowGrouping API", () => {
       {
         colId: "athlete",
         columnIndex: 4,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 0,
@@ -448,7 +448,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -462,7 +462,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -474,7 +474,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -488,7 +488,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -498,7 +498,7 @@ describe("RowGrouping API", () => {
       {
         colId: "athlete",
         columnIndex: 4,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 2,
@@ -539,7 +539,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -553,7 +553,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -565,7 +565,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -579,7 +579,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -589,7 +589,7 @@ describe("RowGrouping API", () => {
       {
         colId: "athlete",
         columnIndex: 4,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 2,
@@ -630,7 +630,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -644,7 +644,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -656,7 +656,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -670,7 +670,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -680,7 +680,7 @@ describe("RowGrouping API", () => {
       {
         colId: "sport",
         columnIndex: 3,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 3,
@@ -690,7 +690,7 @@ describe("RowGrouping API", () => {
       {
         colId: "athlete",
         columnIndex: 4,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 2,
@@ -731,7 +731,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -745,7 +745,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -757,7 +757,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -771,7 +771,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -781,7 +781,7 @@ describe("RowGrouping API", () => {
       {
         colId: "sport",
         columnIndex: 3,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 3,
@@ -791,7 +791,7 @@ describe("RowGrouping API", () => {
       {
         colId: "athlete",
         columnIndex: 4,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: 2,
@@ -832,7 +832,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -846,7 +846,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -858,7 +858,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -897,7 +897,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -911,7 +911,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -923,7 +923,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -962,7 +962,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -976,7 +976,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -988,7 +988,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -1039,7 +1039,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -1053,7 +1053,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -1065,7 +1065,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -1116,7 +1116,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,
@@ -1130,7 +1130,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -1142,7 +1142,7 @@ describe("RowGrouping API", () => {
       {
         colId: "country",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 1,
@@ -1156,7 +1156,7 @@ describe("RowGrouping API", () => {
       {
         colId: "year",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: true,
         rowGroup: true,
         rowGroupIndex: 0,

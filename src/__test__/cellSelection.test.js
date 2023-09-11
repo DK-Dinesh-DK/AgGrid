@@ -1,6 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import React, { useState } from "react";
 
 
@@ -86,6 +88,7 @@ function LaiDataGrid() {
       enableVirtualization={false}
       onRowsChange={setRows}
       selection={true}
+      multilineHeader={true}
     />
   );
 }

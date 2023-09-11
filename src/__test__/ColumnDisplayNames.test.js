@@ -107,7 +107,7 @@ describe('Display name column apis', () => {
         const expectedColAfterObject = {
             colId: 'priority',
             columnIndex: 2,
-            width: '40px',
+            width: 'auto',
             frozen: undefined,
             rowGroup: false,
             rowGroupIndex: null,

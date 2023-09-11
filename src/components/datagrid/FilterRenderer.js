@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { useContext } from "react";
 import { useFocusRef } from "./hooks";
 import FilterContext from "./filterContext";
 import alignmentUtils from "./utils/alignMentUtils";
@@ -11,14 +11,17 @@ export default function FilterRenderer({
   const filters = useContext(FilterContext);
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
-  var style = { padding: "2px 5px", display: "flex", justifyContent: "center" };
+  let style = {
+    padding: "6px",
+    display: "flex",
+    justifyContent: "center",
+    paddingLeft: !(column.sortable || column?.alignment ) ? "15px" : "6px",
+  };
 
- 
-  if (rowData && column.alignment) {
-    style = column.alignment.align
-      ? { ...style, justifyContent: column.alignment.align }
-      : alignmentUtils(column, rowData[0], style,"Header");
+  if (rowData && column?.alignment) {
+    style = alignmentUtils(column, rowData, style, "Header");
   }
+
   return (
     <>
       {!column.sortable && (

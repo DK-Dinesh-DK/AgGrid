@@ -9,7 +9,7 @@ function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
 
-    for (let i = 1; i < 500; i++) {
+    for (let i = 1; i < 10; i++) {
       rows.push({
         id: i,
         task: `Task ${i}`,
@@ -71,7 +71,6 @@ function LaiDataGrid(props) {
 
   return (
     <>
-      {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
         columnReordering={true}
@@ -79,7 +78,6 @@ function LaiDataGrid(props) {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
-        ref={gridRef}
         {...props}
       />
     </>

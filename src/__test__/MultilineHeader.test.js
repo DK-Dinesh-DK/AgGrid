@@ -9,7 +9,7 @@ function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 10; i++) {
       rows.push({
         id: `${i}`,
 
@@ -71,16 +71,16 @@ function LaiDataGrid(props) {
     {
       field: "rdrd",
       headerName: "AASS",
+      resizable: true,
       frozen: true,
       width: 60,
       cellRenderer: TextEditor,
     },
 
     {
-      field: "title",
-      cellEditor: TextEditor,
+      headerName: "Title",
       frozen: true,
-      width: 300,
+      haveChildren: true,
       children: [
         {
           field: "title1",
@@ -88,8 +88,12 @@ function LaiDataGrid(props) {
           filter: true,
           sortable: true,
           alignment: true,
+          cellRenderer: (params) => {
+            return TextEditor(params);
+          },
+          width: 150,
         },
-        { field: "title2", headerName: "Title2" },
+        { field: "title2", headerName: "Title2", width: 150 },
       ],
     },
     {
@@ -172,6 +176,7 @@ function LaiDataGrid(props) {
                         {
                           field: "eeee",
                           headerName: "EEEE",
+                          resizable: true,
                           width: 100,
                           alignment: true,
                           validation: {
@@ -188,13 +193,13 @@ function LaiDataGrid(props) {
                           field: "pppp1",
                           headerName: "PPPP1",
                           haveChildren: true,
-                          width: 100,
                           children: [
                             {
                               field: "eeee1",
                               headerName: "EEEE1",
                               alignment: { align: "end" },
                               editable: true,
+                              width: 100,
                               validation: {
                                 style: {
                                   backgroundColor: "red",
@@ -212,6 +217,7 @@ function LaiDataGrid(props) {
                               sortable: true,
                               filter: true,
                               alignment: true,
+                              width: 100,
                               validation: {
                                 method: (value) => {
                                   return typeof value === "string";
@@ -270,6 +276,7 @@ function LaiDataGrid(props) {
         onCellDoubleClicked={() => console.log("Cell Double Clciked")}
         topSummaryRows={summaryRowsTop}
         bottomSummaryRows={summaryRowsBottom}
+        multilineHeader={true}
         {...props}
       />
     </>
@@ -294,6 +301,10 @@ describe("Datagrid Unit test for MultiLine Header view", () => {
     expect(gridnamecell).toBeInTheDocument();
     fireEvent.click(gridnamecell);
     fireEvent.doubleClick(gridnamecell);
+    const inputEdit = screen.getByTestId("gird-text-editor-11-0");
+    expect(inputEdit).toBeInTheDocument();
+    fireEvent.change(inputEdit, { target: { value: "name000" } });
+    fireEvent.click(gridnamecell);
     const qqcell = screen.getByRole("gridcell", { name: "qq0" });
     expect(qqcell).toBeInTheDocument();
     fireEvent.click(qqcell);
@@ -305,7 +316,7 @@ describe("Datagrid Unit test for MultiLine Header view", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const gridcell = screen.getByTestId("gird-text-editor-11-0");
+    const gridcell = screen.getByTestId("gird-text-editor-13-0");
     expect(gridcell).toBeInTheDocument();
     fireEvent.click(gridcell);
     fireEvent.doubleClick(gridcell);
@@ -358,5 +369,17 @@ describe("Datagrid Unit test for MultiLine Header view", () => {
     expect(gridcell).toBeInTheDocument();
     fireEvent.click(gridcell);
     fireEvent.mouseDown(document);
+  });
+  test("Multiline header doubleClcik ", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const headerCellEE = screen.getByText("EEEE");
+    expect(headerCellEE).toBeInTheDocument();
+    fireEvent.doubleClick(headerCellEE);
+    const headerCell = screen.getByText("AASS");
+    expect(headerCell).toBeInTheDocument();
+    fireEvent.doubleClick(headerCell);
   });
 });

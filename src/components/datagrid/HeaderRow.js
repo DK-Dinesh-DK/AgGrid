@@ -36,7 +36,7 @@ const headerRowClassname = `rdg-header-row ${headerRow}`;
 function HeaderRow({
   columns,
   rows,
-  // arrayDepth,
+  arrayDepth,
   headerheight,
   cellHeight,
   headerData,
@@ -57,6 +57,7 @@ function HeaderRow({
   setFilterType,
   handleReorderColumn,
   gridWidth,
+  setDragging,
   ...props
 }) {
   const cells = [];
@@ -81,7 +82,7 @@ function HeaderRow({
         handleReorderColumn={handleReorderColumn}
         columns={columns}
         cellHeight={cellHeight}
-        // arrayDepth={arrayDepth}
+        arrayDepth={arrayDepth}
         headerRowHeight={headerRowHeight}
         cellData={headerData}
         colSpan={colSpan}
@@ -101,7 +102,7 @@ function HeaderRow({
         setFilterType={setFilterType}
         ChildColumnSetup={ChildColumnSetup}
         gridWidth={gridWidth}
-        multiLineHeader={props.multiLineHeader}
+        handleDrag={(val) => setDragging(val)}
       />
     );
   }

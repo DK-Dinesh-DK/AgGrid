@@ -1,16 +1,10 @@
 
-import React,{ useMemo } from "react";
-
-
+import { useMemo } from "react";
 export function useCalculatedColumnsWithTopHeader({
   raawColumns,
 }) {
- 
   const { columns3 } =
     useMemo(() => {
-     
-    
-
         const columns3 = raawColumns.map((raawColumn, pos) => {
             //need to be changed
             var recursiveChild = (subChild, raawColumn) => {
@@ -74,14 +68,7 @@ export function useCalculatedColumnsWithTopHeader({
     }, [
       raawColumns, //need to be changed
     ]);
-
-  
-
- 
-
-
   return {
     columns3,
-  
   };
 }

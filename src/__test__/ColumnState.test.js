@@ -406,7 +406,7 @@ describe('ColumnState API', () => {
                 colId: 'task',
                 columnIndex: 1,
                 frozen: false,
-                width: '40px',
+                width: '90px',
                 rowGroup: false,
                 rowGroupIndex: null,
                 sort: null
@@ -415,7 +415,7 @@ describe('ColumnState API', () => {
                 colId: 'priority',
                 columnIndex: 2,
                 frozen: false,
-                width: '40px',
+                width: '100px',
                 rowGroup: false,
                 rowGroupIndex: null,
                 sort: null

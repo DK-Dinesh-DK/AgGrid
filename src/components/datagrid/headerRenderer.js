@@ -49,7 +49,16 @@ export default function HeaderRenderer({
   arrayDepth,
   ChildColumnSetup,
   gridWidth,
+  direction,
+  onColumnResize,
 }) {
+  let isCellSelected;
+  if (selectedCellIdx === column.idx) {
+    isCellSelected = true;
+  } else {
+    isCellSelected = false;
+  }
+  const { onFocus } = useRovingCellRef(isCellSelected);
   if (column.haveChildren === true) {
     return (
       <div>
@@ -95,7 +104,8 @@ export default function HeaderRenderer({
                   filterIcon,
                   setFilterType,
                   gridWidth,
-                  rows
+                  rows,
+                  onColumnResize
                 )}
               </div>
             );
@@ -104,14 +114,6 @@ export default function HeaderRenderer({
       </div>
     );
   } else {
-    let isCellSelected;
-    if (selectedCellIdx === column.idx) {
-      isCellSelected = true;
-    } else {
-      isCellSelected = false;
-    }
-    const { onFocus } = useRovingCellRef(isCellSelected);
-
     ChildColumnSetup(column);
     let style = {
       display: "flex",
@@ -133,16 +135,17 @@ export default function HeaderRenderer({
     function onClick() {
       selectCell(column.idx);
     }
+    const isRtl = direction === "rtl";
     function onDoubleClick(event) {
-      const { right, left } = event.currentTarget.getBoundingClientRect();
-      const offset = isRtl ? event.clientX - left : right - event.clientX;
-
-      if (offset > 11) {
-        // +1px to account for the border size
-        return;
+      if (!column.readOnly) {
+        const { right, left } = event.currentTarget.getBoundingClientRect();
+        const offset = isRtl ? event.clientX - left : right - event.clientX;
+        if (offset > 11) {
+          // +1px to account for the border size
+          return;
+        }
+        onColumnResize(column, "max-content");
       }
-
-      onColumnResize(column, "max-content");
     }
 
     function handleFocus(event) {
@@ -166,8 +169,6 @@ export default function HeaderRenderer({
     }
     if (!(column.sortable || column.filter)) {
       return (
-        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-
         <div
           key={column.idx}
           style={style_1}
@@ -193,7 +194,7 @@ export default function HeaderRenderer({
           onClick={onClick}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
         >
-          <div style={{ ...style }}>
+          <div style={{ ...style, width: "100%" }}>
             <SortableHeaderCell
               onSort={onSort}
               sortDirection={sortDirection}
@@ -201,6 +202,7 @@ export default function HeaderRenderer({
               isCellSelected={isCellSelected}
               column={column}
               borderBottom={"none"}
+              rowData={rows[0]}
             >
               {column.headerName ?? column.field}
             </SortableHeaderCell>
@@ -236,6 +238,7 @@ export default function HeaderRenderer({
             column={column}
             onDoubleClick={column.resizable ? onDoubleClick : undefined}
             isCellSelected={isCellSelected}
+            rowData={rows[0]}
           >
             {({ filters, ...rest }) =>
               FilterRendererWithSvg(
@@ -277,12 +280,14 @@ export default function HeaderRenderer({
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
           style={{ ...styleSF }}
         >
-          <div style={{ width: "90%" }}>
+          <div style={{ width: "95%" }}>
             <SortableHeaderCell
               onSort={onSort}
               sortDirection={sortDirection}
               priority={priority}
               isCellSelected={isCellSelected}
+              column={column}
+              rowData={rows[0]}
             >
               {column.headerName ?? column.field}
             </SortableHeaderCell>
@@ -328,9 +333,9 @@ const RecursiveScan = (
   filterIcon,
   setFilterType,
   gridWidth,
-  direction
+  direction,
+  onColumnResize
 ) => {
-  var cellHeight = cellHeight - headerRowHeight;
   ChildColumnSetup(subData);
   let isCellSelected;
   if (selectedCellIdx === subData.idx) {
@@ -338,7 +343,7 @@ const RecursiveScan = (
   } else {
     isCellSelected = false;
   }
-  const { onFocus } = useRovingCellRef(isCellSelected);
+
   let rowData = direction;
   if (subData.haveChildren === true) {
     return (
@@ -388,7 +393,8 @@ const RecursiveScan = (
                   filterIcon,
                   setFilterType,
                   gridWidth,
-                  direction
+                  direction,
+                  onColumnResize
                 )}
               </div>
             );
@@ -405,7 +411,7 @@ const RecursiveScan = (
       borderInlineEnd: "1px solid var(--rdg-border-color)",
       width: subData.width,
       boxSizing: "border-box",
-      height: `${cellHeight}px`,
+      height: `${headerRowHeight}px`,
       outline:
         selectedCellIdx === subData.idx
           ? "1px solid var(--rdg-selection-color)"
@@ -430,18 +436,18 @@ const RecursiveScan = (
     const isRtl = direction === "rtl";
 
     function onDoubleClick(event) {
-      const { right, left } = event.currentTarget.getBoundingClientRect();
-      const offset = isRtl ? event.clientX - left : right - event.clientX;
-
-      if (offset > 11) {
-        // +1px to account for the border size
-        return;
+      if (!subData.readOnly) {
+        const { right, left } = event.currentTarget.getBoundingClientRect();
+        const offset = isRtl ? event.clientX - left : right - event.clientX;
+        if (offset > 11) {
+          // +1px to account for the border size
+          return;
+        }
+        onColumnResize(subData, "max-content");
       }
-
-      onColumnResize(subData, "max-content");
     }
 
-    if (!subData.sortable && !subData.filter) {
+    if (!(subData.sortable || subData.filter)) {
       return (
         // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <>
@@ -455,7 +461,7 @@ const RecursiveScan = (
             style={{ ...style }}
             // onFocus={handleFocus}
             onClick={onClick}
-            onDoubleClick={column.resizable ? onDoubleClick : undefined}
+            onDoubleClick={subData.resizable ? onDoubleClick : undefined}
             // onPointerDown={column.resizable ? onPointerDown : undefined}
           >
             {subData.headerName ?? subData.field}
@@ -483,6 +489,7 @@ const RecursiveScan = (
             sortDirection={sortDirection}
             priority={priority}
             isCellSelected={isCellSelected}
+            column={subData}
           >
             {subData.headerName ?? subData.field}
           </SortableHeaderCell>
@@ -494,7 +501,7 @@ const RecursiveScan = (
         justifyContent: "center",
         width: subData.width,
         alignItems: "center",
-        height: `${cellHeight}px`,
+        height: `${headerRowHeight}px`,
         boxSizing: "border-box",
         outline:
           selectedCellIdx === subData.idx
@@ -550,7 +557,7 @@ const RecursiveScan = (
         borderRight: "1px solid var(--rdg-border-color)",
         width: subData.width,
         alignItems: "center",
-        height: `${cellHeight}px`,
+        height: `${headerRowHeight}px`,
         boxSizing: "border-box",
         outline:
           selectedCellIdx === subData.idx
@@ -599,6 +606,7 @@ const RecursiveScan = (
               sortDirection={sortDirection}
               priority={priority}
               isCellSelected={isCellSelected}
+              column={subData}
             >
               {subData.headerName ?? subData.field}
             </SortableHeaderCell>

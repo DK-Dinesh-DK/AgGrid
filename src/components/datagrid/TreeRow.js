@@ -47,7 +47,6 @@ function TreeRow({
   childRows,
   treeData,
   apiObject,
-  selectTree,
   valueChangedCellStyle,
   onRowClick,
   onRowDoubleClick,
@@ -60,14 +59,27 @@ function TreeRow({
   selectedCellEditor,
   node,
   allrow,
+  setToolTip,
+  setToolTipContent,
+  setMouseY,
+  rowLevelToolTip,
+  previousData,
   ...props
 }) {
   // Select is always the first column
   const idx = viewportColumns[0].key === SELECT_COLUMN_KEY ? level + 1 : level;
   const [detectedLevel, setDetectedLevel] = useState();
-
+  function handleMouseY(y) {
+    setMouseY(y);
+  }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
+  }
   useEffect(() => {
-    var detectedLevel;
+    let detectedLevel;
     function recursiveChild(obj, level) {
       if (!obj.children) return;
       if (JSON.stringify(obj) === JSON.stringify(row)) {
@@ -99,10 +111,36 @@ function TreeRow({
       <div
         key={`${rowIdx}`}
         role="row"
-        id={row?.id ?? rowIdx}
+        id={
+          row.children
+            ? `tree-row-${row?.id ?? rowIdx}`
+            : `row-${row?.id ?? rowIdx}`
+        }
         ref={props.ref}
         aria-level={level}
         aria-expanded={isExpanded}
+        onMouseOver={() => {
+          if (rowLevelToolTip) {
+            let toolTipContent;
+            if (typeof rowLevelToolTip === "function") {
+              toolTipContent = rowLevelToolTip({
+                row,
+                rowIndex: rowIdx,
+              });
+            } else {
+              toolTipContent = row.children
+                ? `tree-row-${row?.id ?? rowIdx}`
+                : `row-index-${row?.id ?? rowIdx}`;
+            }
+            handleToolTipContent(toolTipContent);
+            handleToolTip(true);
+          }
+        }}
+        onMouseOutCapture={() => {
+          if (rowLevelToolTip) {
+            handleToolTip(false);
+          }
+        }}
         className={clsx(
           rowClassname,
           rowClass,
@@ -141,14 +179,17 @@ function TreeRow({
             onCellContextMenu={onCellContextMenu}
             onRowDoubleClick={onRowDoubleClick}
             columnApi={columnApi}
-            selectTree={selectTree}
             isRowSelected={isRowSelected}
             // isCopied={props.copiedCellIdx === idx}
             selectCell={selectCell}
             selectedCellEditor={selectedCellEditor}
             valueChangedCellStyle={valueChangedCellStyle}
             treeData={treeData}
-            previousData={props.previousData}
+            previousData={previousData}
+            setMouseY={handleMouseY}
+            setToolTip={handleToolTip}
+            setToolTipContent={handleToolTipContent}
+            Rowheight={height}
           />
         ))}
       </div>

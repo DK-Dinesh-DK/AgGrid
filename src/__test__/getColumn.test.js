@@ -56,7 +56,7 @@ describe("getColumn works correctly", () => {
     const expectedColumnObject = {
       colId: "priority",
       columnIndex: 2,
-      width: "40px",
+      width: "auto",
       frozen: undefined,
       rowGroup: false,
       rowGroupIndex: null,

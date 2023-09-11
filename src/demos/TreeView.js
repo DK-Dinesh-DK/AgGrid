@@ -8,7 +8,7 @@ export default function TreeView() {
     for (let i = 0; i < 10; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
-      var row;
+      let row;
       if (i < 1 || i == 3) {
         row = {
           id,
@@ -83,28 +83,49 @@ export default function TreeView() {
       field: "id",
       headerName: "id",
       frozen: true,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "name",
       headerName: "Name",
       width: 100,
       filter: true,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "format",
       headerName: "format",
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
     {
       field: "position",
       headerName: "position",
       cellRenderer: (params) => {
+        console.log(params.getValue());
         return TextEditor(params);
       },
+      cellClass: (props) => {
+        console.log("props++++", props);
+      },
+      // treeFormatter: TextEditor,
     },
     {
       field: "price",
       headerName: "price",
       sortable: true,
+      cellRenderer: (params) => {
+        console.log(params.getValue());
+        return TextEditor(params);
+      },
     },
   ];
   const gridRef = useRef(null);
@@ -117,14 +138,13 @@ export default function TreeView() {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
+        rowSelection={"single"}
         treeData={true}
         ref={gridRef}
         valueChangedCellStyle={{ backgroundColor: "red", color: "black" }}
         onRowsChange={(data) => {
           console.log("Data", data);
         }}
-        // selection={true}
-        serialNumber={true}
       />
     </>
   );

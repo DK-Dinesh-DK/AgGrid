@@ -1,6 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import userEvent from "@testing-library/user-event";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useRef } from "react";
 import { TextEditor } from "../components/datagrid/editors";
@@ -11,7 +10,7 @@ function LaiDataGrid(props) {
     for (let i = 0; i < 10; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
-      var row;
+      let row;
       if (i < 1 || i == 3) {
         row = {
           id,
@@ -159,7 +158,7 @@ function LaiDataGrid1(props) {
     for (let i = 0; i < 10; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
-      var row;
+      let row;
       if (i < 1 || i == 3) {
         row = {
           id,

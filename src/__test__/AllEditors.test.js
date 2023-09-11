@@ -53,7 +53,6 @@ function LaiDataGrid(props) {
       width: 80,
       resizable: true,
       cellEditor: (params) => {
-        console.log(params.getValue());
         return TextEditor(params);
       },
     },
@@ -248,7 +247,7 @@ function LaiDataGrid(props) {
             { label: "Male", value: "male" },
             { label: "FeMale", value: "female" },
             { label: "Others", value: "others" },
-            ,
+
           ],
         }}
         rowIndex={100}
@@ -264,7 +263,7 @@ function LaiDataGrid(props) {
             { label: "Option1", value: "option1" },
             { label: "Option2", value: "option2" },
             { label: "Option3", value: "option3" },
-            ,
+
           ],
         }}
         rowIndex={100}

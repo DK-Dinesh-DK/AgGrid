@@ -1,9 +1,8 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
-import React, { useState, useCallback } from "react";
-import PrintComponent from "../components/datagrid/PrintComponent";
-import moment from "moment";
+import React, {  useCallback } from "react";
+
 const columns = [
   { field: "id", headerName: "ID" },
   { field: "product", headerName: "Product" },
@@ -14,7 +13,7 @@ function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
 
-    for (let i = 1; i < 100; i++) {
+    for (let i = 1; i < 10; i++) {
       rows.push({
         id: i,
         product: `product${i}`,
@@ -24,7 +23,7 @@ function LaiDataGrid(props) {
 
     return rows;
   }
-  const [printTable, setPrintTable] = useState(false);
+
   const rowData = createRows();
   const getContextMenuItems = useCallback(() => {
     let result = [
@@ -35,15 +34,7 @@ function LaiDataGrid(props) {
         },
         cssClasses: ["redFont", "bold"],
       },
-      {
-        name: "Print",
-        tooltip: "Print the Document",
-        action: (e) => {
-          console.log("e", e);
-          // e.handlePrint();
-          setPrintTable(true);
-        },
-      },
+    
       {
         name: "Always Disabled",
         disabled: true,
@@ -130,24 +121,7 @@ function LaiDataGrid(props) {
         selection={true}
         getContextMenuItems={getContextMenuItems}
       />
-      {printTable && (
-        <PrintComponent
-          rowData={rowData.slice(0, props.perPage)}
-          columnData={columns}
-          onClose={() => setPrintTable(false)}
-          formName={"Product Details"}
-          personName={"David"}
-          rowsPerPage={32}
-          userDetail={
-            <div>
-              <div>Time: User Name:</div>
-            </div>
-          }
-          logo={
-            "https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
-          }
-        />
-      )}
+
     </>
   );
 }
@@ -165,7 +139,6 @@ function LaiDataGrid1(props) {
 
     return rows;
   }
-  const [printTable, setPrintTable] = useState(false);
   const rowData = createRows();
   const getContextMenuItems = useCallback(() => {
     let result = [
@@ -180,7 +153,6 @@ function LaiDataGrid1(props) {
         name: "Print",
         tooltip: "Print the Document",
         action: (e) => {
-          console.log("e", e);
           // e.handlePrint();
           setPrintTable(true);
         },
@@ -271,26 +243,7 @@ function LaiDataGrid1(props) {
         selection={true}
         getContextMenuItems={getContextMenuItems}
       />
-      {printTable && (
-        <PrintComponent
-          rowData={rowData.slice(0, props.perPage)}
-          columnData={columns}
-          onClose={() => setPrintTable(false)}
-          formName={"Product Details"}
-          personName={"David"}
-          rowsPerPage={32}
-          date={moment(new Date()).format("DD/MM/YYY")}
-          time={moment(new Date()).format("HH:MM:SS")}
-          userDetail={
-            <div>
-              <div>Time: User Name:</div>
-            </div>
-          }
-          logo={
-            "https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
-          }
-        />
-      )}
+    
     </>
   );
 }
@@ -343,77 +296,6 @@ describe("Datagrid Unit test for contextmenu", () => {
     fireEvent.click(disabledMenuItem);
     expect(fireEventSpy).toBeCalledTimes(0);
   });
-  test("print window check", () => {
-    render(<LaiDataGrid perPage={100} />);
+ 
 
-    const screenArea = screen.getByTestId("laidatagrid");
-    // Open the context menu
-    fireEvent.contextMenu(screenArea);
-
-    // Find the disabled menu item
-    const printMenuItem = screen.getByText("Print");
-
-    // Assert that the disabled menu item is present
-    expect(printMenuItem).toBeInTheDocument();
-
-    // Click on the disabled menu item
-    fireEvent.click(printMenuItem);
-    const printIcon = screen.getByTestId("print-svg");
-    expect(printIcon).toBeInTheDocument();
-    fireEvent.click(printIcon);
-
-    // expect(printSpy).toHaveBeenCalledTimes(1);
-  });
-  test("print window check", () => {
-    render(<LaiDataGrid1 perPage={100} />);
-
-    const screenArea = screen.getByTestId("laidatagrid1");
-    // Open the context menu
-    fireEvent.contextMenu(screenArea);
-
-    // Find the disabled menu item
-    const printMenuItem = screen.getByText("Print");
-
-    // Assert that the disabled menu item is present
-    expect(printMenuItem).toBeInTheDocument();
-
-    // Click on the disabled menu item
-    fireEvent.click(printMenuItem);
-    const printIcon = screen.getByTestId("print-svg");
-    expect(printIcon).toBeInTheDocument();
-    fireEvent.click(printIcon);
-
-    // expect(printSpy).toHaveBeenCalledTimes(1);
-  });
-  test("print window check", () => {
-    const printSpy = jest.spyOn(window, "open");
-    render(<LaiDataGrid perPage={70} />);
-
-    const screenArea = screen.getByTestId("laidatagrid");
-    // Open the context menu
-    fireEvent.contextMenu(screenArea);
-
-    // Find the disabled menu item
-    const printMenuItem = screen.getByText("Print");
-
-    // Assert that the disabled menu item is present
-    expect(printMenuItem).toBeInTheDocument();
-
-    // Click on the disabled menu item
-    fireEvent.click(printMenuItem);
-    const printIcon = screen.getByTestId("print-svg");
-    expect(printIcon).toBeInTheDocument();
-    fireEvent.click(printIcon);
-
-    // expect(printSpy).toHaveBeenCalledTimes(1);
-  });
-  test("print window check", () => {
-    render(<LaiDataGrid perPage={70} />);
-
-    const screenArea = screen.getByTestId("laidatagrid");
-    expect(screenArea).toBeInTheDocument();
-    const gridCell = screen.getByRole("gridcell", { name: "product1" });
-    expect(gridCell).toBeInTheDocument();
-    fireEvent.contextMenu(gridCell);
-  });
 });

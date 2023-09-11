@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { getRowStyle, getColSpan } from "./utils";
 import { rowClassname, rowSelectedClassname } from "./style";
 
-import { RowSelectionProvider } from "./hooks";
+import { RowSelectionProvider, useLatestFunc } from "./hooks";
 import MasterCell from "./MasterCell";
 
 const MasterRow = forwardRef(
@@ -28,9 +28,7 @@ const MasterRow = forwardRef(
       rowArray,
       sourceData,
       childRows,
-      treeData,
       apiObject,
-      selectTree,
       valueChangedCellStyle,
       onRowClick,
       onRowDoubleClick,
@@ -45,14 +43,28 @@ const MasterRow = forwardRef(
       allrow,
       lastFrozenColumnIndex,
       expandedMasterRowIds,
+      setToolTip,
+      rowLevelToolTip,
+      setMouseY,
+      setToolTipContent,
       ...props
     },
     ref
   ) => {
     // Select is always the first column
-
+    function handleMoseY(y) {
+      setMouseY(y);
+    }
+    function handleToolTip(value) {
+      setToolTip(value);
+    }
+    function handleToolTipContent(value) {
+      setToolTipContent(value);
+    }
     let style = getRowStyle(gridRowStart, height);
-
+    const onRowChange = useLatestFunc((column, newRow) => {
+      handleRowChange(column, rowIdx, newRow, row);
+    });
     const cells = [];
 
     for (let index = 0; index < viewportColumns.length; index++) {
@@ -75,6 +87,7 @@ const MasterRow = forwardRef(
           childRows={row.children}
           isExpanded={isExpanded}
           isCellSelected={selectedCellIdx === column.idx}
+          selectedCellIdx={selectedCellIdx}
           column={column}
           colSpan={colSpan}
           row={row}
@@ -88,18 +101,20 @@ const MasterRow = forwardRef(
           viewportColumns={viewportColumns}
           node={node}
           onRowClick={onRowClick}
-          onRowChange={handleRowChange}
+          onRowChange={onRowChange}
           onCellClick={onCellClick}
           onCellDoubleClick={onCellDoubleClick}
           onCellContextMenu={onCellContextMenu}
           onRowDoubleClick={onRowDoubleClick}
           columnApi={columnApi}
-          selectTree={selectTree}
+          setMouseY={handleMoseY}
           isRowSelected={isRowSelected}
           selectCell={selectCell}
+          setToolTip={handleToolTip}
           selectedCellEditor={selectedCellEditor}
           valueChangedCellStyle={valueChangedCellStyle}
-          treeData={treeData}
+          setToolTipContent={handleToolTipContent}
+          Rowheight={height}
         />
       );
     }
@@ -109,10 +124,37 @@ const MasterRow = forwardRef(
         <div
           key={`${rowIdx}`}
           role="row"
-          id={row?.id ?? rowIdx}
+          id={
+            row.gridRowType === "Detail"
+              ? `details-row-${row?.id ?? rowIdx}`
+              : `master-row-${row?.id ?? rowIdx}`
+          }
           ref={ref}
           aria-level={level}
           aria-expanded={isExpanded}
+          onMouseOver={() => {
+            if (rowLevelToolTip) {
+              let toolTipContent;
+              if (typeof rowLevelToolTip === "function") {
+                toolTipContent = rowLevelToolTip({
+                  row,
+                  rowIndex: rowIdx,
+                });
+              } else {
+                toolTipContent =
+                  row.gridRowType === "Detail"
+                    ? `details-row-${row?.id ?? rowIdx}`
+                    : `master-row-${row?.id ?? rowIdx}`;
+              }
+              handleToolTipContent(toolTipContent);
+              handleToolTip(true);
+            }
+          }}
+          onMouseOutCapture={() => {
+            if (rowLevelToolTip) {
+              handleToolTip(false);
+            }
+          }}
           className={clsx(
             rowClassname,
             `rdg-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,

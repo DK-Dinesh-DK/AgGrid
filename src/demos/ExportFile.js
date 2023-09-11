@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import TextEditor from "../components/datagrid/editors/textEditor";
@@ -106,8 +106,6 @@ export default function ExportFile({ direction }) {
     setRows([...rows, ...newRows]);
     setIsLoading(false);
   }
-  const dataGridRef = useRef(null);
-  const [selectedRows, setSelectedRows] = useState([]);
   return (
     <>
       <DataGrid
@@ -118,7 +116,6 @@ export default function ExportFile({ direction }) {
         rowHeight={25}
         rowSelection={"single"}
         className="fill-grid"
-        // userRef={dataGridRef}
         style={{
           "--rdg-color": " #000",
           "--rdg-border-color": "#FFFFFF",
@@ -148,7 +145,6 @@ export default function ExportFile({ direction }) {
           "--rdg-group-icon-color": "#000",
           "--rdg-group-icon-font-size": "12px",
         }}
-        ref={dataGridRef}
         direction={direction}
         export={{
           pdfFileName: "TableData",

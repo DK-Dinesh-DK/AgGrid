@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 export default function MasterDetail({ direction }) {
   function rowKeyGetter(row) {
@@ -9,35 +10,43 @@ export default function MasterDetail({ direction }) {
   }
 
   const productColumns = [
-    { field: "id", headerName: "ID", width: 35 },
-    { field: "product", headerName: "Product" },
+    { field: "id", headerName: "ID" },
+    {
+      field: "product",
+      headerName: "Product",
+      cellRenderer: (p) => {
+        console.log("Calalalallads");
+        return TextEditor(p);
+      },
+    },
     { field: "description", headerName: "Description" },
     { field: "price", headerName: "Price" },
   ];
   function createDepartments() {
     const departments = [];
-    for (let i = 1; i < 30; i++) {
+    for (let i = 1; i < 5; i++) {
       departments.push({
         id: i,
-        department: faker.commerce.department(),
+        department: `master-department-${i}`,
       });
     }
     return departments;
   }
 
   const productsMap = new Map();
-  function getProducts(parentId) {
-    if (productsMap.has(parentId)) return productsMap.get(parentId);
+  function getProducts(parentId, data) {
+    if (productsMap.has(data)) return productsMap.get(data);
     const products = [];
     for (let i = 0; i < 20; i++) {
       products.push({
-        id: `${parentId}-${i}`,
-        product: faker.commerce.productName(),
-        description: faker.commerce.productDescription(),
-        price: faker.commerce.price(),
+        id: `${data}-${i}`,
+        product: `productName-${i}`,
+        description: `productDescription-${i}`,
+        price: `price-${i}`,
       });
     }
     productsMap.set(parentId, products);
+    console.log("Callli");
     return products;
   }
 
@@ -56,18 +65,23 @@ export default function MasterDetail({ direction }) {
         cellClass(row) {
           return row.gridRowType === "DETAIL"
             ? css`
-                padding: 24px;
+                padding: 30px;
                 background-color: black;
               `
             : undefined;
         },
         detailsGrid: (props) => {
+          console.log("ParentPropss", props.row.masterRowData.department);
           return (
             <DataGrid
-              rowData={getProducts(props.row.parentId)}
+              id={`details-gird-${props.row.parentId}`}
+              rowData={getProducts(
+                props.row.parentId,
+                props.row.masterRowData.department
+              )}
               columnData={productColumns}
               rowKeyGetter={rowKeyGetter}
-              style={{ blockSize: 250, margin: "30px" }}
+              style={{ blockSize: 250 }}
             />
           );
         },
@@ -77,12 +91,17 @@ export default function MasterDetail({ direction }) {
         headerName: "ID",
         width: 35,
       },
-      { field: "department", headerName: "Department" },
+      {
+        field: "department",
+        headerName: "Department",
+        cellRenderer: TextEditor,
+        // editable: true,
+      },
     ];
   }, [direction]);
   const [rows, setRows] = useState(createDepartments());
 
-  const [expandedIds, setExpandedIds] = useState([]);
+  const [expandedIds, setExpandedIds] = useState([2, 3]);
   console.log("expandedIds", expandedIds);
   return (
     <>
@@ -96,13 +115,18 @@ export default function MasterDetail({ direction }) {
         rowSelection={"single"}
         rowHeight={(args) => {
           return args.type === "ROW" && args.row.gridRowType === "Detail"
-            ? 300
-            : 40;
+            ? 250
+            : 24;
         }}
-        expandedMasterRowIds={expandedIds}
-        onExpandedMasterIdsChange={(pro) => {
-          console.log("fvfvf", pro);
+        // expandedMasterRowIds={expandedIds}
+        // onExpandedMasterIdsChange={(pro) => {
+        //   setExpandedIds(pro);
+        // }}
+        onRowsChange={(r) => {
+          console.log("ONChange", r);
+          setRows(r);
         }}
+        // rowLevelToolTip={true}
         direction={direction}
       />
     </>

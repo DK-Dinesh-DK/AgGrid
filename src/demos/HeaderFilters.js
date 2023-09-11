@@ -190,12 +190,11 @@ export default function HeaderFilters({ direction }) {
         rowKeyGetter={rowKeyGetter}
         columnData={columns}
         rowData={rows}
-        headerRowHeight={70}
         direction={direction}
         selectedRows={selectedRows}
         onSelectedRowsChange
         showSelectedRows
-        ref={dataGridRef}
+        innerRef={dataGridRef}
       />
     </div>
   );

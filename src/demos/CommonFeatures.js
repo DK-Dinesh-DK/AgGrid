@@ -392,7 +392,7 @@ export default function CommonFeatures({ direction }) {
         columnData={columns}
         restriction={{
           copy: true,
-          paste: true,
+          paste: false,
         }}
         rowData={sortedRows}
         //  onRowsChange={setRows}
@@ -404,6 +404,7 @@ export default function CommonFeatures({ direction }) {
         className="fill-grid"
         direction={direction}
         selection={true}
+        serialNumber={true}
         onRowClicked={(props) => {
           console.log("Data", props);
         }}

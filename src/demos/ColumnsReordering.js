@@ -30,10 +30,11 @@ const columns = [
   {
     field: "task",
     headerName: "Title",
-    resizable: true,
+    // resizable: true,
     topHeader: "task",
-    haveChildren: false,
-    sortable: true,
+    // haveChildren: false,
+    // sortable: true,
+    editable: true,
   },
   {
     field: "priority",

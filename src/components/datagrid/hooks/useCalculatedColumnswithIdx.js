@@ -11,10 +11,12 @@ export function useCalculatedColumnswithIdx({ rowData1 }) {
         column.cellEditor = column.cellEditor
           ? column.cellEditor
           : (props) => {
-            let value = props.row[props.column.key];
+              let value = props.row[props.column.key];
               return (
                 <input
                   className={textEditorClassname}
+                  data-testid={`gird-text-editor-${props.column.idx}-${props.rowIndex}`}
+                  style={{ width: "100%" }}
                   value={value}
                   onChange={(event) =>
                     props.onRowChange({
@@ -32,9 +34,7 @@ export function useCalculatedColumnswithIdx({ rowData1 }) {
     return {
       columns4,
     };
-  }, [
-    rowData1
-  ]);
+  }, [rowData1]);
 
   return {
     columns4,

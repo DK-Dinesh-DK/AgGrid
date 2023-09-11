@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { css } from "@linaria/core";
-
 import defaultHeaderRenderer from "./headerRenderer";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -11,7 +10,6 @@ import alignmentUtils from "./utils/alignMentUtils";
 const cellResizable = css`
   @layer rdg.HeaderCell {
     touch-action: none;
-
     &::after {
       content: "";
       cursor: col-resize;
@@ -51,9 +49,10 @@ export default function HeaderCell({
   handleReorderColumn,
   ChildColumnSetup,
   gridWidth,
+  handleDrag,
 }) {
   const isRtl = direction === "rtl";
-  const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const { tabIndex } = useRovingCellRef(isCellSelected);
   const [sortableColumnKey, setSortableColumnKey] = useState();
   const sortIndex = sortColumns?.findIndex(
     (sort) => sort.columnKey === sortableColumnKey
@@ -70,16 +69,12 @@ export default function HeaderCell({
       ? sortIndex + 1
       : undefined;
 
-  const ariaSort =
-    sortDirection && !priority
-      ? sortDirection === "ASC"
-        ? "ascending"
-        : "descending"
-      : undefined;
+  let ariaSort;
+  if (sortDirection && !priority) {
+    if (sortDirection === "ASC") ariaSort = "ascending";
+    else ariaSort = "descending";
+  } else ariaSort = undefined;
   let style = getCellStyle(column, colSpan);
-  // selectedCellHeaderStyle && selectedPosition.idx === column.idx
-  //   ? (style = { ...style, ...selectedCellHeaderStyle })
-  //   : style;
 
   const className = getCellClassname(
     column,
@@ -198,7 +193,6 @@ export default function HeaderCell({
     }
   }
 
-
   function handleColumnsReorder(sourceKey, targetKey) {
     const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
     const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
@@ -214,8 +208,14 @@ export default function HeaderCell({
   const [{ isDragging }, drag] = useDrag({
     type: "COLUMN_DRAG",
     item: { key: column.key },
-    collect: (monitor) => ({ isDragging: monitor.isDragging() }),
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
+
+  if (isDragging) {
+    handleDrag(true);
+  }
   const [{ isOver }, drop] = useDrop({
     accept: "COLUMN_DRAG",
     drop({ key }) {
@@ -226,9 +226,9 @@ export default function HeaderCell({
       canDrop: monitor.canDrop(),
     }),
   });
-
-
-
+  if (isOver) {
+    handleDrag(false);
+  }
   let headerStyle = {
     display: "flex",
     height: "100%",
@@ -247,7 +247,7 @@ export default function HeaderCell({
   }
   return (
     <div
-     role="parentcolumn"
+      role="parentcolumn"
       aria-colindex={column.idx + 1}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
@@ -259,9 +259,6 @@ export default function HeaderCell({
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={style}
-      // onFocus={handleFocus}
-      // onClick={onClick}
-      // onDoubleClick={column.resizable ? onDoubleClick : undefined}
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       <div style={headerStyle}>
@@ -290,6 +287,8 @@ export default function HeaderCell({
           //need to be chnaged
           shouldFocusGrid,
           onPointerDown,
+          onColumnResize,
+          direction,
         })}
       </div>
     </div>

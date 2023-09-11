@@ -18,35 +18,44 @@ const columns = [
     field: "id",
     headerName: "ID",
     width: 80,
+    filter: true,
+    // sortable: true,
     alignment: { type: "number" },
   },
   {
     field: "firstName",
     headerName: "First Name",
-    width: 100,
+    width: 200,
     alignment: true,
+    filter: true,
+    sortable: true,
   },
   {
     headerName: "Money",
     field: "money",
     cellEditor: TextEditor,
     alignment: true,
-    width: 100,
-    validation: {
-      style: { backgroundColor: "red", color: "blue" },
-      method: (value) => value.slice(1) >= 100,
-    },
+    // filter: true,
+    // sortable: true,
+    width: 200,
+    // validation: {
+    //   style: { backgroundColor: "red", color: "blue" },
+    //   method: (value) => value.slice(1) >= 100,
+    // },
   },
   {
     field: "lastName",
     headerName: "Last Name",
-    width: 100,
+    width: 200,
     alignment: { type: "string" },
+    filter: true,
+    sortable: true,
   },
   {
     field: "email",
     headerName: "Email",
     width: "max-content",
+    alignment:true
   },
   {
     field: "date",
@@ -54,17 +63,23 @@ const columns = [
     alignment: { type: "DATe" },
     // width:200,
     resizable: true,
+    filter: true,
+    sortable: true,
   },
   {
     field: "time",
     headerName: "Time",
     // width: 150,
     alignment: { type: "Time" },
+    filter: true,
+    sortable: true,
   },
   {
     field: "datetime",
     headerName: "DateTime",
     alignment: { type: "datetime" },
+    filter: true,
+    sortable: true,
   },
 ];
 
@@ -81,7 +96,7 @@ function createRows() {
       date: moment(faker.date.past().toLocaleDateString()).format(
         "MMMM-DD-YYYY"
       ),
-      money: "₹101",
+      money: 101,
       time: new Date().toLocaleTimeString("en-IN"),
       datetime: moment(new Date()).format("MM-DD-YYYY h:mm:ss a"),
     });

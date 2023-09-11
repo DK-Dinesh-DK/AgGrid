@@ -9,7 +9,7 @@ export function SelectCellFormatter({
   onChange,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
-  ...props
+  rowIndex,
 }) {
   const { ref, tabIndex } = useFocusRef(isCellSelected)
   const checkboxFormatter = useDefaultComponents().checkboxFormatter
@@ -24,7 +24,7 @@ export function SelectCellFormatter({
           disabled,
           checked: value,
           onChange,
-          rowIndex: props.rowIndex
+          rowIndex: rowIndex
         },
         ref
       )}

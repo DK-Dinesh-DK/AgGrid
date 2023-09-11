@@ -1,4 +1,4 @@
-import React,{memo} from "react";
+import React, { memo } from "react";
 import { css } from "@linaria/core";
 
 import { getCellStyle, getCellClassname } from "./utils";
@@ -11,7 +11,19 @@ export const summaryCellClassname = css`
   }
 `;
 
-function SummaryCell({ column, colSpan, row, isCellSelected, selectCell }) {
+function SummaryCell({
+  column,
+  colSpan,
+  row,
+  isCellSelected,
+  selectCell,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
+  rowIndex,
+  rowHeight,
+  type,
+}) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
   const { summaryCellClass } = column;
   const className = getCellClassname(
@@ -31,6 +43,7 @@ function SummaryCell({ column, colSpan, row, isCellSelected, selectCell }) {
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
       role="gridcell"
+      id={`${type}-summarry-cell-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
       aria-colspan={colSpan}
       aria-selected={isCellSelected}
@@ -39,7 +52,37 @@ function SummaryCell({ column, colSpan, row, isCellSelected, selectCell }) {
       className={className}
       style={getCellStyle(column, colSpan)}
       onClick={onClick}
-      onFocus={onFocus}>
+      onFocus={onFocus}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          `${type}-summarry-cell-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + rowHeight / 2);
+      }}
+      onMouseOver={(e) => {
+        if (column.toolTip) {
+          let toolTipContent;
+          if (typeof column.toolTip === "function") {
+            toolTipContent = column.toolTip({
+              row,
+              rowIndex,
+              column,
+              summarryRowtype: type,
+            });
+          } else {
+            toolTipContent = row[column.field];
+          }
+          setToolTipContent(toolTipContent);
+          setToolTip(true);
+        }
+      }}
+      onMouseOutCapture={() => {
+        if (column.toolTip) {
+          setToolTip(false);
+        }
+      }}
+    >
       {column.summaryFormatter?.({ column, row, isCellSelected })}
     </div>
   );

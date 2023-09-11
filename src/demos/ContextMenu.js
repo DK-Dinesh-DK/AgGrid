@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
-import PrintComponent from "../components/datagrid/PrintComponent";
+
 import { Button } from "react-bootstrap";
 
 function createRows() {
@@ -29,7 +29,7 @@ function rowKeyGetter(row) {
 }
 
 export default function ContextMenuDemo({ direction }) {
-  const getContextMenuItems = useCallback(() => {
+  const getContextMenuItems = () => {
     let result = [
       {
         // custom item
@@ -158,7 +158,73 @@ export default function ContextMenuDemo({ direction }) {
       },
     ];
     return result;
-  }, []);
+  };
+  const getContextMenuItems1 = () => {
+    let result = [
+      {
+        // custom item
+        name: "NAme ",
+        action: () => {
+          window.alert("Alerting about ");
+        },
+        cssClasses: ["redFont", "bold"],
+      },
+      {
+        name: "Print",
+        action: (e) => {
+          console.log("e", e);
+          // e.handlePrint();
+          setPrintTable(true);
+        },
+      },
+      {
+        // custom item
+        name: "New Name",
+        disabled: true,
+        tooltip:
+          "Very long tooltip, did I mention that I am very long, well I am! Long!  Very Long!",
+      },
+      {
+        name: "Country",
+        divider: true,
+      },
+      {
+        // custom item
+        name: "Windows",
+        shortcut: "Alt + W",
+        action: () => {
+          console.log("Windows Item Selected");
+        },
+        icon: () => (
+          <img src="https://www.ag-grid.com/example-assets/skills/windows.png" />
+        ),
+      },
+      {
+        // custom item
+        name: "Mac",
+        shortcut: "Alt + M",
+        action: () => {
+          console.log("Mac Item Selected");
+        },
+        icon: () => (
+          <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
+        ),
+      },
+      {
+        // custom item
+        name: "Checked",
+        checked: true,
+        shortcut: "Alt+f",
+        action: (props) => {
+          console.log("Checked Selected", props);
+        },
+        icon: () => (
+          <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
+        ),
+      },
+    ];
+    return result;
+  };
 
   const rowData = createRows();
   const [printTable, setPrintTable] = useState(false);
@@ -174,28 +240,16 @@ export default function ContextMenuDemo({ direction }) {
         onCellClicked={(props) => console.log("Props", props)}
         getContextMenuItems={getContextMenuItems}
       />
-
-      {printTable && (
-        <PrintComponent
-          rowData={rowData.slice(0, 100)}
-          columnData={columns}
-          onClose={() => setPrintTable(false)}
-          formName={"Product Details"}
-          reportName={"Product Details Report"}
-          headerName={"Header Name"}
-          subHeaderName={"Sub Header Name"}
-          personName={"David"}
-          rowsPerPage={34}
-          userDetail={
-            <div>
-              <div>Time: User Name:</div>
-            </div>
-          }
-          logo={
-            "https://www.logodesign.net/logo/line-art-house-roof-and-buildings-4485ld.png"
-          }
-        />
-      )}
+      {/* <DataGrid
+        rowKeyGetter={rowKeyGetter}
+        columnData={columns}
+        rowData={rowData}
+        id={"SecondDiv"}
+        className="fill-grid"
+        direction={direction}
+        onCellClicked={(props) => console.log("Props", props)}
+        // getContextMenuItems={getContextMenuItems1}
+      /> */}
     </>
   );
 }

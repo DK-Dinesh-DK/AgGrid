@@ -65,7 +65,7 @@ describe("getColumns and getAllGridColumns work correctly", () => {
       {
         colId: "task",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: null,
@@ -75,7 +75,7 @@ describe("getColumns and getAllGridColumns work correctly", () => {
       {
         colId: "priority",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: null,
@@ -150,7 +150,7 @@ describe("getColumns and getAllGridColumns work correctly", () => {
       {
         colId: "task",
         columnIndex: 1,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: null,
@@ -160,7 +160,7 @@ describe("getColumns and getAllGridColumns work correctly", () => {
       {
         colId: "priority",
         columnIndex: 2,
-        width: "40px",
+        width: "auto",
         frozen: undefined,
         rowGroup: false,
         rowGroupIndex: null,

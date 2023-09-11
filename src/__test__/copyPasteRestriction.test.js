@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React, { useState } from "react";
-import { TextEditor } from "../components/datagrid/editors";
+import TextEditor from "../components/datagrid/editors/textEditor";
 
 function LaiDataGrid(props) {
   function createRows() {
@@ -98,6 +98,21 @@ describe("rowSelection event test", () => {
     fireEvent.click(cellEle);
     fireEvent.keyDown(cellEle, { key: "v", ctrlKey: true });
   });
+  test("Copy Paste event Checking ", async () => {
+    render(<LaiDataGrid restriction={{ copy: true, paste: true }} />);
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const cellbtn = screen.getByText("price-0");
+    expect(cellbtn).toBeInTheDocument();
+
+    fireEvent.copy(cellbtn);
+
+    fireEvent.doubleClick(cellbtn);
+    const datcell = screen.getByTestId("gird-text-editor-4-0");
+    expect(datcell).toBeInTheDocument();
+    fireEvent.paste(datcell);
+  });
+
   test("key down escape", async () => {
     render(<LaiDataGrid restriction={{ copy: false, paste: true }} />);
     const screenArea = screen.getByTestId("laidatagrid");

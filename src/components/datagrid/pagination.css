@@ -50,7 +50,7 @@ a:focus {
   vertical-align: middle;
   list-style: none;
   border-radius: 2px;
-  cursor: pointer;
+  cursor: pointer !important;
   transition: all 0.3s;
 }
 .rc-pagination-jump-next button,
@@ -85,8 +85,9 @@ a:focus {
 .rc-pagination-total-text a,
 .rc-pagination-total-text button {
   height: auto;
-  min-width: 20px;
-  min-height: 20px;
+  max-width: 38px;
+  max-height: 16px;
+  min-width: 16px;
   border-radius: var(--rc-pagination-button-border-radius);
   border: var(--rc-pagination-button-border) !important;
   background-color: var(--rc-pagination-button-background-color) !important;
@@ -101,6 +102,7 @@ a:focus {
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   -o-transition: 0.3s;
+  cursor: pointer;
 }
 .rc-pagination-item.rc-pagination-item-active a,
 .rc-pagination-item.rc-pagination-item-active a:hover,
@@ -113,7 +115,7 @@ a:focus {
   background-color: var(
     --rc-pagination-button-active-background-color
   ) !important;
-  border-color: var(--rc-pagination-button-active-border-color) !important;
+  border: 1px solid var(--rc-pagination-button-active-border-color) !important;
   color: var(--rc-pagination-button-active-color) !important;
 }
 .rc-pagination-item a:hover,
@@ -170,7 +172,7 @@ a:focus {
 .react-contextmenu-item.react-contextmenu-item--active,
 .react-contextmenu-item.react-contextmenu-item--selected {
   color: var(--activeMenuColor);
-  background-color:var(--hoverMenuBackgroundColor);
+  background-color: var(--hoverMenuBackgroundColor);
   border-color: #20a0ff;
   text-decoration: none;
 }
@@ -204,4 +206,30 @@ a:focus {
 .example-multiple-targets::after {
   content: attr(data-count);
   display: block;
+}
+@media screen and (max-width: 600px) {
+  .tooltiptext {
+    max-width: 200px !important;
+  }
+}
+.tooltiptext {
+  visibility: hidden;
+  word-wrap: break-word;
+  min-width: 75px;
+  max-width: 340px;
+  font-size: 11px;
+  background-color: #f5fbff;
+  color: #0f243e;
+  text-align: center;
+  padding: 5px;
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+  border: 1px solid #7c94b6;
+  z-index: 10;
+}
+.grid-wrapper {
+  height: inherit;
+  display: table;
 }

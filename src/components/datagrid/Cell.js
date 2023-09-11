@@ -1,11 +1,9 @@
-import React, { memo, useState, useRef } from "react";
+import React, { memo, useState, useRef, cloneElement, isValidElement } from "react";
 import { css } from "@linaria/core";
-
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { useDrag, useDrop } from "react-dnd";
 import alignmentUtils from "./utils/alignMentUtils";
-
 import {
   bottomRowIsSelectedClassName,
   rowIsSelectedClassName,
@@ -87,11 +85,16 @@ function Cell({
   summaryRowHeight,
   expandedMasterIds,
   onExpandedMasterIdsChange,
+  setMouseY,
+  setToolTip,
+  setToolTipContent,
+  Rowheight,
+  handleSetDragging,
   ...props
 }) {
   const gridCell = useRef(null);
   const [value, setValue] = useState(
-    cellRendererParams?.value ?? row[column.key]
+    column?.cellRendererParams?.value ?? row[column.key]
   );
 
   let cellParams = {
@@ -105,28 +108,26 @@ function Cell({
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `cellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(
-        `${rowIndex}${row[column.key]}`
-      ).innerHTML = content;
+      document.getElementById(`cellid-${column.idx}-${rowIndex}`).innerHTML =
+        content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue
-    }
-  }
-  
-  const cellRendererParams =
-  typeof column?.cellRendererParams === "function"
-    ? column?.cellRendererParams(cellParams)
-    : column?.cellRendererParams;
+      row[column.key] = newValue;
+    },
+  };
 
-  
+  const cellRendererParams =
+    typeof column?.cellRendererParams === "function"
+      ? column?.cellRendererParams(cellParams)
+      : column?.cellRendererParams;
+
   useUpdateEffect(() => {
-    setValue(cellRendererParams?.value ?? row[column.key])
-  }, [cellRendererParams?.value, row[column.key]])
+    setValue(column?.cellRendererParams?.value ?? row[column.key]);
+  }, [column?.cellRendererParams?.value, row[column.key]]);
 
   const { tabIndex, onFocus } = useRovingCellRef(isCellSelected);
 
@@ -156,11 +157,12 @@ function Cell({
   }
 
   // -----------
-
+  let rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
   let style = {
-    ...getCellStyle(column, colSpan, row),
-    "--rdg-summary-row-top": `${headerheight + summaryRowHeight + rowIndex * 24
-      }px`,
+    ...getCellStyle(column, colSpan, rowSpan),
+    "--rdg-summary-row-top": `${
+      headerheight + summaryRowHeight + rowIndex * 24
+    }px`,
   };
   style =
     column.haveChildren === true
@@ -174,7 +176,6 @@ function Cell({
     column.idx === totalColumns - 1 && isRowSelected
       ? { ...style, ...{ borderInlineEnd: "1px solid #9bbb59" } }
       : { ...style };
-  const rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
 
   if (column.validation) {
     const validationStyle = column.validation.style
@@ -191,7 +192,7 @@ function Cell({
   if (column.alignment) {
     style = column.alignment.align
       ? { ...style, textAlign: column.alignment.align }
-      : alignmentUtils(column, row, style,"Row");
+      : alignmentUtils(column, row, style, "Row");
   }
   /// -----------------------
   if (valueChangedCellStyle) {
@@ -210,8 +211,12 @@ function Cell({
     item: { index: rowIndex },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
+      opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
+  if (isDragging) {
+    handleSetDragging(true);
+  }
   function onRowReorder(fromIndex, toIndex) {
     const newRows = [...allrow];
     newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
@@ -227,49 +232,62 @@ function Cell({
       canDrop: monitor.canDrop(),
     }),
   });
+  if (isOver) {
+    handleSetDragging(false);
+  }
   function handleDoubleClick(e) {
-    e.stopPropagation()
-    onRowDoubleClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      type: "rowDoubleClicked",
-      event: e,
-    });
-    onCellDoubleClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      value: row[column.key],
-      type: "cellDoubleClicked",
-      event: e,
-    });
+    e.stopPropagation();
+    if (!column.readOnly) {
+      onRowDoubleClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        type: "rowDoubleClicked",
+        event: e,
+      });
+      onCellDoubleClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        value: row[column.key],
+        type: "cellDoubleClicked",
+        event: e,
+      });
+    }
   }
   function handleClick(e) {
-    e.stopPropagation()
-    onRowClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      type: "rowClicked",
-      event: e,
-    });
-    onCellClick?.({
-      api: api,
-      data: row,
-      columnApi: columnApi,
-      node: node,
-      rowIndex: rowIndex,
-      value: row[column.key],
-      type: "cellClicked",
-      event: e,
-    });
+    e.stopPropagation();
+    if (!column.readOnly) {
+      onRowClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        type: "rowClicked",
+        event: e,
+      });
+      onCellClick?.({
+        api: api,
+        data: row,
+        columnApi: columnApi,
+        node: node,
+        rowIndex: rowIndex,
+        value: row[column.key],
+        type: "cellClicked",
+        event: e,
+      });
+    }
+  }
+  function handleToolTip(value) {
+    setToolTip(value);
+  }
+  function handleToolTipContent(value) {
+    setToolTipContent(value);
   }
   let params = {
     column,
@@ -301,35 +319,37 @@ function Cell({
     eGridCell: gridCell.current,
     refreshCell: () => {
       const content = document.getElementById(
-        `${rowIndex}${row[column.key]}`
+        `cellid-${column.idx}-${rowIndex}`
       ).innerHTML;
-      document.getElementById(
-        `${rowIndex}${row[column.key]}`
-      ).innerHTML = content;
+      document.getElementById(`cellid-${column.idx}-${rowIndex}`).innerHTML =
+        content;
     },
     getValue: () => value,
     setValue: (newValue) => {
       setValue(newValue);
-      row[column.key] = newValue
+      row[column.key] = newValue;
     },
+    handleToolTip,
+    handleToolTipContent,
     ...cellRendererParams,
     expandedMasterIds,
     onExpandedMasterIdsChange,
-  }
+  };
 
   if (column.cellStyle) {
     let dynamicStyle;
     if (typeof column.cellStyle === "function")
       dynamicStyle = column.cellStyle(params);
-    else
-      dynamicStyle = column.cellStyle
-    style = { ...style, ...dynamicStyle }
+    else dynamicStyle = column.cellStyle;
+    style = { ...style, ...dynamicStyle };
   }
 
   return (
     <div
       data-testid="rowCell"
+      id={`cellid-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
+      aria-selected={isCellSelected}
       aria-colspan={colSpan}
       aria-rowspan={rowSpan}
       onClick={handleClick}
@@ -340,7 +360,15 @@ function Cell({
       className={className}
       style={style}
       onFocus={onFocus}
-      {...props}>
+      {...props}
+      onMouseMove={(e) => {
+        const element = document.getElementById(
+          `cellid-${column.idx}-${rowIndex}`
+        );
+        let y = element.getBoundingClientRect().y;
+        setMouseY(y + Rowheight / 2);
+      }}
+    >
       {!column.rowGroup && (
         <>
           {column.rowDrag && (
@@ -349,21 +377,33 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{ display: "flex" }}>
+              style={{ display: "flex" }}
+            >
               <span
                 data-testid={`drag-icon-${column.idx}-${rowIndex}`}
                 style={{
                   cursor: "grab",
                   marginLeft: "10px",
                   marginRight: "5px",
-                }}>
+                }}
+              >
                 &#9674;
               </span>
-              {column.cellRenderer(params)}
+
+              {typeof column.cellRenderer === "object" &&
+                isValidElement(column.cellRenderer) &&
+                cloneElement(column.cellRenderer, { ...params })}
+              {typeof column.cellRenderer === "function" &&
+                column.cellRenderer({ ...params })}
             </div>
           )}
           {!column.rowDrag &&
-            column.cellRenderer(params)}
+            typeof column.cellRenderer === "object" &&
+            isValidElement(column.cellRenderer) &&
+            cloneElement(column.cellRenderer, { ...params })}
+          {!column.rowDrag &&
+            typeof column.cellRenderer === "function" &&
+            column.cellRenderer({ ...params })}
         </>
       )}
     </div>

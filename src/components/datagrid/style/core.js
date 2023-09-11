@@ -1,4 +1,3 @@
-import React from "react";
 import { css } from "@linaria/core";
 import { row } from "./row";
 
@@ -29,6 +28,8 @@ const lightTheme = `
   --rdg-master-icon-font-size:12px;
   --rdg-group-icon-color:#000;
   --rdg-group-icon-font-size:12px;
+  --rdg-details-row-header-color: rgb(151, 164, 177);
+  --details-minus-icon-color:#000;
 `;
 
 const darkTheme = `
@@ -57,6 +58,8 @@ const darkTheme = `
   --rdg-master-icon-font-size:12px;
   --rdg-group-icon-color:#000;
   --rdg-group-icon-font-size:12px;
+  --rdg-details-row-header-color: rgb(151, 164, 177);
+  --details-minus-icon-color:#000;
 `;
 
 const root = css`
@@ -109,7 +112,54 @@ const root = css`
       color: var(--rdg-group-icon-color) !important;
       font-size: var(--rdg-group-icon-font-size) !important;
     }
-    
+    .rdg-cell-detail-header {
+      color: var(--rdg-details-row-header-color);
+      border-right: 1px solid white;
+      width: 30%;
+      height: 24px;
+      background-color: inherit;
+      text-align: start;
+      padding-left: 8px;
+      font-weight: bold;
+    }
+    .rdg-cell-detail-data {
+      width: 70%;
+      height: 24px;
+      background-color: inherit;
+      text-align: start;
+      padding-left: 8px;
+    }
+    .rdg-detailed-row {
+      height: 24px;
+      width: 100%;
+      display: flex;
+      line-height: 24px;
+      font-size: var(--rdg-font-size);
+      &[aria-selected="true"] {
+        outline: 1px solid var(--rdg-selection-color);
+        outline-offset: -2px;
+      }
+    }
+    .details-expand-icon {
+      font-size: 12px;
+      cursor: pointer;
+      text-align: center;
+      padding: 3px 10px;
+    }
+
+    .detailed-row-container {
+      margin-top: 8px 5px;
+    }
+    .details-minus-icon {
+      height: 12px;
+      width: 12px;
+      fill: #000;
+    }
+    .details-plus-icon {
+      height: 12px;
+      width: 12px;
+      fill: #000;
+    }
     @layer Root {
       ${lightTheme}
       --rdg-selection-color: #66afe9;
@@ -124,7 +174,7 @@ const root = css`
       contain: strict;
       content-visibility: auto;
       block-size: 350px;
-      border: 1px solid var(--rdg-border-color);
+      border: none;
       box-sizing: border-box;
       overflow: auto;
       background-color: var(--rdg-background-color);
@@ -185,7 +235,6 @@ export const filterColumnClassName = "filter-cell";
 
 export const filterContainerClassname = css`
   .${filterColumnClassName} {
-    line-height: 35px;
     padding: 0;
 
     > div {

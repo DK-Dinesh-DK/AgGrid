@@ -60,18 +60,22 @@ const columns = [
   {
     field: "country",
     headerName: "Country",
+    toolTip: true,
   },
   {
     field: "year",
     headerName: "Year",
+    toolTip: true,
   },
   {
     field: "sport",
     headerName: "Sport",
+    toolTip: true,
   },
   {
     field: "athlete",
     headerName: "Athlete",
+    toolTip: true,
   },
   {
     field: "gold",
@@ -97,7 +101,7 @@ const columns = [
   {
     field: "total",
     headerName: "Total",
-    formatter({ row }) {
+    valueFormatter({ row }) {
       return <>{row.gold + row.silver + row.bronze}</>;
     },
     groupFormatter({ childRows }) {
@@ -119,7 +123,7 @@ function rowKeyGetter(row) {
 
 function createRows() {
   const rows = [];
-  for (let i = 1; i < 1000; i++) {
+  for (let i = 1; i < 100; i++) {
     rows.push({
       id: i,
       year: 2015 + faker.datatype.number(3),
@@ -162,7 +166,32 @@ export default function Grouping({ direction }) {
     setExpandedGroupIds(new Set());
   }
   const dataGridRef = useRef(null);
-
+  const initialRowGroupColumns = [
+    {
+      colId: "country",
+      columnIndex: 1,
+      width: "40px",
+      frozen: true,
+      rowGroup: true,
+      rowGroupIndex: 0,
+      sort: null,
+      userProvidedColDef: {
+        field: "country",
+        headerName: "Country",
+        depth: 0,
+      },
+    },
+    {
+      colId: "year",
+      columnIndex: 2,
+      width: "40px",
+      frozen: true,
+      rowGroup: true,
+      rowGroupIndex: 1,
+      sort: null,
+      userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+    },
+  ];
   return (
     <div className={groupingClassname}>
       <b>Group by columns:</b>
@@ -201,6 +230,16 @@ export default function Grouping({ direction }) {
       >
         isExpandable
       </button>
+
+      <button
+        onClick={() => {
+          console.log(dataGridRef.current.columnApi.getRowGroupColumns());
+          console.log(initialRowGroupColumns);
+        }}
+      >
+        getRowGroupColumns
+      </button>
+
       <DataGrid
         columnData={columns}
         rowData={rows}
@@ -215,6 +254,7 @@ export default function Grouping({ direction }) {
         defaultColumnOptions={{ resizable: true }}
         direction={direction}
         innerRef={dataGridRef}
+        // rowLevelToolTip={true}
       />
     </div>
   );
