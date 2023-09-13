@@ -8,15 +8,11 @@ import React, {
 } from "react";
 import useUpdateEffect from "./hooks/useUpdateEffect";
 import TreeRowRenderer from "./TreeRow";
-import { flushSync, createPortal } from "react-dom";
+import { flushSync } from "react-dom";
 import { clsx } from "clsx";
 import { groupBy as rowGrouper, isString, _ } from "lodash";
-import {
-  ContextMenu,
-  MenuItem,
-  SubMenu,
-  ContextMenuTrigger,
-} from "react-contextmenu";
+
+import ContextMenuNew from "./ContextMenu";
 import { css } from "@linaria/core";
 import {
   rootClassname,
@@ -36,7 +32,7 @@ import {
   RowSelectionChangeProvider,
 } from "./hooks";
 import HeaderRow from "./HeaderRow";
-import RowComponent, { defaultRowRenderer } from "./Row";
+import  { defaultRowRenderer } from "./Row";
 import GroupRowRenderer from "./GroupRow";
 import SummaryRow from "./SummaryRow";
 import EditCell from "./EditCell";
@@ -185,8 +181,8 @@ function DataGrid(props) {
   selectedRows = selectedRows ? selectedRows : [];
   const selection = rest.selection && SelectColumn;
   if (rest.selection && serialNumber) {
-    raawColumns = [SerialNumberColumn, ...raawColumns];
     raawColumns = [selection, ...raawColumns];
+    raawColumns = [SerialNumberColumn, ...raawColumns];
   } else if (rest.selection && !serialNumber) {
     raawColumns = [selection, ...raawColumns];
   } else if (!rest.selection && serialNumber) {
@@ -209,22 +205,36 @@ function DataGrid(props) {
   const rowKeyGetter = props.rowKeyGetter
     ? props.rowKeyGetter
     : (row) => row.id;
-  const contextMenuItems =
-    getContextMenuItems !== undefined ? getContextMenuItems() : [];
+ 
+  const [contextMenuVisible, setContextMenuVisible] = useState(false);
+  const [contextSubMenuItems, setContextSubMenuItems] = useState([]);
+  const [contextSubMenuVisible, setContextSubMenuVisible] = useState(false);
+  const [contextMenuPosition, setContextMenuPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  const [contextSubMenuPosition, setContextSubMenuPosition] = useState({
+    top: 0,
+    left: 0,
+  });
   const [contextData, setContextData] = useState();
-  function contextMenuRowRenderer(key, props) {
-    return (
-      <ContextMenuTrigger
-        key={key}
-        id="grid-context-menu"
-        collect={() => {
-          setContextData(props);
-        }}
-      >
-        <RowComponent {...props} />
-      </ContextMenuTrigger>
-    );
-  }
+
+  const handleContextMenu = (e, data) => {
+    if (getContextMenuItems && getContextMenuItems.length > 0) {
+      e.preventDefault();
+      let position = { top: e.clientY, left: e.clientX };
+      setContextMenuPosition(position);
+      setContextMenuVisible(true);
+      setContextSubMenuVisible(false);
+      setContextData(data);
+    }
+  };
+
+  const closeContextMenu = () => {
+    setContextMenuVisible(false);
+    setContextSubMenuVisible(false);
+  };
+
   const [headerHeightFromRef, setHeaderHeightFromRef] = useState(null);
   const depth = (d) => (o) => {
     o.depth = d;
@@ -269,11 +279,9 @@ function DataGrid(props) {
   const summaryRowHeight =
     rawSummaryRowHeight ?? (typeof rowHeight === "number" ? rowHeight : 24);
   const rowRenderer =
-    contextMenuItems.length > 0
-      ? contextMenuRowRenderer
-      : renderers?.rowRenderer ??
-        defaultComponents?.rowRenderer ??
-        defaultRowRenderer;
+    renderers?.rowRenderer ??
+    defaultComponents?.rowRenderer ??
+    defaultRowRenderer;
   const sortStatus =
     renderers?.sortStatus ?? defaultComponents?.sortStatus ?? defaultSortStatus;
   const checkboxFormatter =
@@ -3375,6 +3383,7 @@ function DataGrid(props) {
           selectCell: selectViewportCellLatest,
           selectedCellEditor: getCellEditor(rowIdx),
           handleReorderRow: handleReorderRow,
+          handleContextMenu,
           selectedPosition,
           subColumn,
           summaryRowHeight: topSummaryRows !== undefined ? summaryRowHeight : 0,
@@ -3698,93 +3707,6 @@ function DataGrid(props) {
             {renderMeasuringCells(viewportColumns)}
           </DataGridDefaultComponentsProvider>
         </FilterContext.Provider>
-        {createPortal(
-          <div dir={direction}>
-            <ContextMenu
-              id="grid-context-menu"
-              rtl={direction === "rtl"}
-              style={{
-                "--menuBackgroundColor": "#FFFF",
-                "--menuColor": "#000",
-                "--activeMenuColor": "#000",
-                "--disabledMenuColor": "#878a8c",
-                "--menuBorderColor": "rgba(0,0,0,0.15)",
-                "--menuFontSize": "16px",
-                "--hoverMenuBackgroundColor": "#20a0ff",
-                ...props.contextmenuStyle,
-              }}
-            >
-              {contextMenuItems.map((item) =>
-                item.subMenu?.length > 0 ? (
-                  <SubMenu title={item.name} key={item.name}>
-                    {item.subMenu.map((subItem) => (
-                      <MenuItem
-                        onClick={(e) =>
-                          subItem.action({
-                            e,
-                            contextData,
-                            rowIndex: selectedPosition.rowIdx,
-                            columnIndex: selectedPosition.idx,
-                          })
-                        }
-                        key={subItem.name}
-                        disabled={subItem.disabled}
-                        divider={subItem.divider}
-                        className={`context-menu-Item ${subItem.cssClasses?.join(
-                          " "
-                        )}`}
-                      >
-                        <span
-                          className="context-menu-icon"
-                          title={subItem.tooltip}
-                        >
-                          {subItem.icon && (
-                            <subItem.icon
-                              style={{ marginRight: "5px", height: "10px" }}
-                            />
-                          )}
-                        </span>
-                        <span
-                          className="context-menu-name"
-                          title={subItem.tooltip}
-                        >
-                          {subItem.name}
-                        </span>
-                      </MenuItem>
-                    ))}
-                  </SubMenu>
-                ) : (
-                  <MenuItem
-                    onClick={(e) =>
-                      item.action({
-                        e,
-                        contextData,
-                        rowIndex: selectedPosition.rowIdx,
-                        columnIndex: selectedPosition.idx,
-                      })
-                    }
-                    disabled={item.disabled}
-                    key={item.name}
-                    divider={item.divider}
-                    className={`context-menu-Item ${item.cssClasses?.join(
-                      " "
-                    )}`}
-                  >
-                    <span className="context-menu-icon" title={item.tooltip}>
-                      {item.icon && (
-                        <item.icon style={{ marginRight: "5px" }} />
-                      )}
-                    </span>
-                    <span className="context-menu-name" title={item.tooltip}>
-                      {item.name}
-                    </span>
-                  </MenuItem>
-                )
-              )}
-            </ContextMenu>
-          </div>,
-          document.body
-        )}
       </div>
       {(pagination || showSelectedRows) && (
         <div
@@ -3850,6 +3772,33 @@ function DataGrid(props) {
             />
           )}
         </div>
+      )}
+      {contextMenuVisible && (
+        <ContextMenuNew
+          items={getContextMenuItems}
+          onClose={closeContextMenu}
+          position={contextMenuPosition}
+          setSubMenuPosition={(pos) => {
+            setContextSubMenuPosition({ ...pos });
+          }}
+          enableSubMenu={(val) => {
+            setContextSubMenuVisible(val);
+          }}
+          setSubMenuItems={(items) => {
+            setContextSubMenuItems(items);
+          }}
+          contextData={contextData}
+          id={`${rest.id ?? "DataGrid"}-main-context-menu`}
+        />
+      )}
+      {contextSubMenuVisible && (
+        <ContextMenuNew
+          items={contextSubMenuItems}
+          onClose={closeContextMenu}
+          position={contextSubMenuPosition}
+          contextData={contextData}
+          id={`${rest.id ?? "DataGrid"}-sub-context-menu`}
+        />
       )}
       <div
         ref={toolTipRef}

@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
-import React, {  useCallback } from "react";
+import React from "react";
 
 const columns = [
   { field: "id", headerName: "ID" },
@@ -13,7 +13,7 @@ function LaiDataGrid(props) {
   function createRows() {
     const rows = [];
 
-    for (let i = 1; i < 10; i++) {
+    for (let i = 1; i < 30; i++) {
       rows.push({
         id: i,
         product: `product${i}`,
@@ -25,91 +25,106 @@ function LaiDataGrid(props) {
   }
 
   const rowData = createRows();
-  const getContextMenuItems = useCallback(() => {
-    let result = [
-      {
-        name: "Alert ",
-        action: () => {
-          window.alert("Alerting about");
-        },
-        cssClasses: ["redFont", "bold"],
+  const getContextMenuItems = [
+    {
+      name: "Alert",
+      action: () => {
+        window.alert("Alerting about");
       },
-    
-      {
-        name: "Always Disabled",
-        disabled: true,
-        action: () => {
-          props.onClick();
-        },
-        tooltip:
-          "Very long tooltip, did I mention that I am very long, well I am! Long!  Very Long!",
+    },
+
+    {
+      name: "Always Disabled",
+      disabled: true,
+      action: () => {
+        props.onClick();
       },
-      {
-        name: "Country",
-        divider: true,
-      },
-      {
-        name: "Person",
-        subMenu: [
-          {
-            name: "Niall",
-            action: () => {
-              console.log("Niall was pressed");
-            },
+      tooltip:
+        "Very long tooltip, did I mention that I am very long, well I am! Long!  Very Long!",
+    },
+    {
+      name: "Country",
+      divider: true,
+      subMenu: [
+        {
+          name: "Will",
+          action: () => {
+            console.log("Will was pressed");
           },
-          {
-            name: "Sean",
-            action: () => {
-              console.log("Sean was pressed");
-            },
+        },
+        {
+          name: "Armaan",
+          action: () => {
+            console.log("Armaan was pressed");
           },
-          {
-            name: "Armaan",
-            action: () => {
-              console.log("Armaan was pressed");
-            },
-            icon: () => (
-              <>
-                <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
-              </>
-            ),
+          icon: () => (
+            <>
+              <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
+            </>
+          ),
+        },
+      ],
+    },
+    {
+      name: "Person",
+      subMenu: [
+        {
+          name: "Niall",
+          action: () => {
+            console.log("Niall was pressed");
           },
-        ],
-      },
-      {
-        name: "Windows",
-        shortcut: "Alt + W",
-        action: () => {
-          console.log("Windows Item Selected");
         },
-        icon: () => (
-          <img src="https://www.ag-grid.com/example-assets/skills/windows.png" />
-        ),
-      },
-      {
-        name: "Mac",
-        shortcut: "Alt + M",
-        action: () => {
-          console.log("Mac Item Selected");
+        {
+          name: "Sean",
+          action: () => {
+            console.log("Sean was pressed");
+          },
         },
-        icon: () => (
-          <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
-        ),
-      },
-      {
-        name: "Checked",
-        checked: true,
-        shortcut: "Alt+f",
-        action: (props) => {
-          console.log("Checked Selected", props);
+        {
+          name: "Armaan",
+          action: () => {
+            console.log("Armaan was pressed");
+          },
+          icon: () => (
+            <>
+              <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
+            </>
+          ),
         },
-        icon: () => (
-          <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
-        ),
+      ],
+    },
+    {
+      name: "Windows",
+      shortcut: "Alt + W",
+      action: () => {
+        console.log("Windows Item Selected");
       },
-    ];
-    return result;
-  }, []);
+      icon: () => (
+        <img src="https://www.ag-grid.com/example-assets/skills/windows.png" />
+      ),
+    },
+    {
+      name: "Mac",
+      shortcut: "Alt + M",
+      action: () => {
+        console.log("Mac Item Selected");
+      },
+      icon: () => (
+        <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
+      ),
+    },
+    {
+      name: "Checked",
+      checked: true,
+      shortcut: "Alt+f",
+      action: (props) => {
+        console.log("Checked Selected", props);
+      },
+      icon: () => (
+        <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
+      ),
+    },
+  ];
   return (
     <>
       <DataGrid
@@ -118,132 +133,8 @@ function LaiDataGrid(props) {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
-        selection={true}
         getContextMenuItems={getContextMenuItems}
       />
-
-    </>
-  );
-}
-function LaiDataGrid1(props) {
-  function createRows() {
-    const rows = [];
-
-    for (let i = 1; i < 100; i++) {
-      rows.push({
-        id: i,
-        product: `product${i}`,
-        price: `price${i}`,
-      });
-    }
-
-    return rows;
-  }
-  const rowData = createRows();
-  const getContextMenuItems = useCallback(() => {
-    let result = [
-      {
-        name: "Alert ",
-        action: () => {
-          window.alert("Alerting about");
-        },
-        cssClasses: ["redFont", "bold"],
-      },
-      {
-        name: "Print",
-        tooltip: "Print the Document",
-        action: (e) => {
-          // e.handlePrint();
-          setPrintTable(true);
-        },
-      },
-      {
-        name: "Always Disabled",
-        disabled: true,
-        action: () => {
-          props.onClick();
-        },
-        tooltip:
-          "Very long tooltip, did I mention that I am very long, well I am! Long!  Very Long!",
-      },
-      {
-        name: "Country",
-        divider: true,
-      },
-      {
-        name: "Person",
-        subMenu: [
-          {
-            name: "Niall",
-            action: () => {
-              console.log("Niall was pressed");
-            },
-          },
-          {
-            name: "Sean",
-            action: () => {
-              console.log("Sean was pressed");
-            },
-          },
-          {
-            name: "Armaan",
-            action: () => {
-              console.log("Armaan was pressed");
-            },
-            icon: () => (
-              <>
-                <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
-              </>
-            ),
-          },
-        ],
-      },
-      {
-        name: "Windows",
-        shortcut: "Alt + W",
-        action: () => {
-          console.log("Windows Item Selected");
-        },
-        icon: () => (
-          <img src="https://www.ag-grid.com/example-assets/skills/windows.png" />
-        ),
-      },
-      {
-        name: "Mac",
-        shortcut: "Alt + M",
-        action: () => {
-          console.log("Mac Item Selected");
-        },
-        icon: () => (
-          <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
-        ),
-      },
-      {
-        name: "Checked",
-        checked: true,
-        shortcut: "Alt+f",
-        action: (props) => {
-          console.log("Checked Selected", props);
-        },
-        icon: () => (
-          <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />
-        ),
-      },
-    ];
-    return result;
-  }, []);
-  return (
-    <>
-      <DataGrid
-        columnData={columns}
-        testId={"laidatagrid1"}
-        rowData={rowData}
-        headerRowHeight={24}
-        className="fill-grid"
-        selection={true}
-        getContextMenuItems={getContextMenuItems}
-      />
-    
     </>
   );
 }
@@ -255,8 +146,10 @@ describe("Datagrid Unit test for contextmenu", () => {
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    fireEvent.contextMenu(screenArea);
-    const alertArea = screen.getByText("Alert");
+    const row = screen.getByText("product3");
+    expect(row).toBeInTheDocument();
+    fireEvent.contextMenu(row);
+    const alertArea = screen.getByTestId("context-menu-option-Alert");
     expect(alertArea).toBeInTheDocument();
     fireEvent.click(alertArea);
     expect(alertMock).toHaveBeenCalledWith("Alerting about");
@@ -266,36 +159,32 @@ describe("Datagrid Unit test for contextmenu", () => {
     const consoleMock = jest.spyOn(console, "log");
 
     render(<LaiDataGrid />);
-
-    const screenArea = screen.getByTestId("laidatagrid");
-    fireEvent.contextMenu(screenArea);
-    const personMenu = screen.getByText("Person");
+    const row = screen.getByText("product3");
+    expect(row).toBeInTheDocument();
+    fireEvent.contextMenu(row);
+    const personMenu = screen.getByTestId("Person-sub-menu-icon");
+    const countryMenu = screen.getByTestId("Country-sub-menu-icon");
     expect(personMenu).toBeInTheDocument();
+    expect(countryMenu).toBeInTheDocument();
+    fireEvent.mouseEnter(personMenu);
+    fireEvent.mouseEnter(countryMenu);
     fireEvent.mouseEnter(personMenu);
     const subMenu = screen.getByText("Niall");
     expect(subMenu).toBeInTheDocument();
     fireEvent.click(subMenu);
     expect(consoleMock).toHaveBeenCalledWith("Niall was pressed");
+    //  fireEvent.contextMenu(row);
   });
 
   test("disabled menu onclick ", () => {
     const fireEventSpy = jest.fn();
     render(<LaiDataGrid onClick={fireEventSpy} />);
-
-    const screenArea = screen.getByTestId("laidatagrid");
-    // Open the context menu
-    fireEvent.contextMenu(screenArea);
-
-    // Find the disabled menu item
+    const row = screen.getByText("product3");
+    expect(row).toBeInTheDocument();
+    fireEvent.contextMenu(row);
     const disabledMenuItem = screen.getByText("Always Disabled");
-
-    // Assert that the disabled menu item is present
     expect(disabledMenuItem).toBeInTheDocument();
-
-    // Click on the disabled menu item
     fireEvent.click(disabledMenuItem);
     expect(fireEventSpy).toBeCalledTimes(0);
   });
- 
-
 });

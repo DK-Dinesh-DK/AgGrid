@@ -58,6 +58,7 @@ function Row(
     setMouseY,
     rowLevelToolTip,
     setDragging,
+    handleContextMenu,
     ...props
   },
   ref
@@ -186,6 +187,7 @@ function Row(
               handleToolTip(false);
             }
           }}
+          onContextMenu={(e) => handleContextMenu(e,row)}
           style={style}
           {...props}
         >

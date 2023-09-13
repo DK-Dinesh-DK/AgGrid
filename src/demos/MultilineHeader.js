@@ -264,20 +264,47 @@ export default function MultilineHeader({ direction }) {
       field: "name",
       headerName: "Name",
       haveChildren: true,
+      width: 600,
       children: [
         {
-          field: "firstname",
-          headerName: "First Name",
-          cellEditor: TextEditor,
-          width: 100,
-          cellClass: (props) => {
-            console.log("props");
-          },
+          headerName: "NEw One",
+          field: "new",
+          haveChildren: true,
+          width: 300,
+          children: [
+            {
+              field: "firstname",
+              headerName: "First Name",
+              width: 100,
+              cellClass: (props) => {
+                console.log("props");
+              },
+            },
+            {
+              field: "lastname",
+              headerName: "Last Name",
+              width: 100,
+            },
+            {
+              field: "lastname",
+              headerName: "Last Name",
+              width: 100,
+            },
+          ],
         },
         {
           field: "lastname",
           headerName: "Last Name",
-          cellEditor: TextEditor,
+          width: 100,
+        },
+        {
+          field: "lastname",
+          headerName: "Last Name",
+          width: 100,
+        },
+        {
+          field: "lastname",
+          headerName: "Last Name",
           width: 100,
         },
       ],
@@ -286,17 +313,31 @@ export default function MultilineHeader({ direction }) {
       field: "number",
       headerName: "Number",
       haveChildren: true,
+      width: 500,
       children: [
         {
           field: "homenumber",
-          headerName: "Home Numer",
-          cellEditor: TextEditor,
+          headerName: "Hme Numer",
+          width: 100,
+        },
+        {
+          field: "personalnumr",
+          headerName: "Personal Number",
           width: 100,
         },
         {
           field: "personalnumber",
           headerName: "Personal Number",
-          cellEditor: TextEditor,
+          width: 100,
+        },
+        {
+          field: "personalnumber",
+          headerName: "Personalumber",
+          width: 100,
+        },
+        {
+          field: "personalnumber",
+          headerName: "Personal Numb",
           width: 100,
         },
       ],
@@ -304,10 +345,10 @@ export default function MultilineHeader({ direction }) {
     {
       field: "address",
       headerName: "Address",
-      cellEditor: TextEditor,
+      width: 100,
     },
-    { field: "school", headerName: "School", cellEditor: TextEditor },
-    { field: "class", headerName: "Class", cellEditor: TextEditor },
+    { field: "school", headerName: "School", width: 100 },
+    { field: "class", headerName: "Class", width: 100 },
   ];
   const initialRows = [
     {
@@ -355,6 +396,7 @@ export default function MultilineHeader({ direction }) {
       headerRowHeight={24}
       className="fill-grid"
       //  onRowsChange={setRows}
+      // style={{ width: "max-content", overflowX: "auto" }}
       selection={true}
       rowKeyGetter={(data) => data.homenumber}
       multilineHeader={true}
