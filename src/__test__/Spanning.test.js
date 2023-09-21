@@ -77,7 +77,13 @@ function LaiDataGrid1(props) {
       },
     },
     { header: "Four", field: "four", width: 100 },
-    { header: "Five", field: "five" },
+    {
+      header: "Five",
+      field: "five",
+      rowSpan: (params) => {
+        if (params.rowIndex === 4) return 2;
+      },
+    },
   ];
   const summaryRowsTop = [
     {
@@ -126,7 +132,7 @@ function LaiDataGrid1(props) {
   );
 }
 describe("Datagrid Unit test for Column Span", () => {
-  test("editors for button", async () => {
+  test("key downs in column span area", async () => {
     render(<LaiDataGrid />);
 
     const screenArea = screen.getByTestId("laidatagrid");
@@ -156,7 +162,7 @@ describe("Datagrid Unit test for Column Span", () => {
       keyCode: 38,
     });
   });
-  test("editors for button", async () => {
+  test("key downs in column span area", async () => {
     render(<LaiDataGrid1 />);
 
     const screenArea = screen.getByTestId("laidatagrid1");

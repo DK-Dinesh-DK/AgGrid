@@ -71,6 +71,7 @@ export default function DropDownEditor({ row, onRowChange, column, ...props }) {
           inputRef.current.blur();
         }}
         className={dropDownEditorClassname}
+        {...props}
       >
         {options?.map((data, index) => {
           return (

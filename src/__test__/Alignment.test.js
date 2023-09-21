@@ -51,7 +51,7 @@ function LaiDataGrid(props) {
       resizable: true,
     },
     {
-      field: "date",
+      field: "date1",
       headerName: "DateWithAlign",
       alignment: { type: "DATe", align: "start" },
       // width:200,
@@ -79,7 +79,7 @@ function LaiDataGrid(props) {
       alignment: true,
     },
     {
-      field: "num",
+      field: "num1",
       headerName: "NumberWithAlign",
       alignment: { type: "number", align: "start" },
     },
@@ -100,14 +100,14 @@ function LaiDataGrid(props) {
         title: faker.name.prefix(),
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
-        date: moment(faker.date.past().toLocaleDateString()).format(
-          "MMMM-DD-YYYY"
-        ),
+        date: moment(faker.date.birthdate()).format("MMMM-DD-YYYY"),
+        date1: moment(faker.date.birthdate()).format("MMMM-DD-YYYY"),
         money: "₹101",
         time: new Date().toLocaleTimeString("en-IN"),
         datetime: moment(new Date()).format("MM-DD-YYYY h:mm:ss a"),
         newDatetime: moment(new Date()).format("MM/DD/YYYY h:mm:ss a"),
         num: i,
+        num1: i,
         // dateWithalign: moment(faker.date.past().toLocaleDateString()).format(
         //   "MMMM-DD-YYYY"
         // ),

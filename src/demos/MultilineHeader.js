@@ -259,96 +259,143 @@ export default function MultilineHeader({ direction }) {
   // const selectedCellRowStyle = {
   //   backgroundColor: "yellow",
   // };
-  const columns = [
+
+  const columnData = [
     {
-      field: "name",
-      headerName: "Name",
+      headerName: "Flight No",
+      field: "FlightNo",
+      width: 100,
+      filter: true,
+      sortable: true,
+    },
+    {
+      headerName: "From",
+      field: "FromCity",
+      width: 100,
+      filter: true,
+      sortable: true,
+    },
+
+    {
+      headerName: "To",
+
+      field: "ToCity",
+
+      width: 100,
+
+      filter: true,
+
+      sortable: true,
+    },
+
+    {
+      headerName: "Galley Details",
+
+      field: "CockPitCrewWeight",
+
       haveChildren: true,
-      width: 600,
+
+      width: 740,
+
       children: [
         {
-          headerName: "NEw One",
-          field: "new",
+          headerName: "Pantry FWD%",
+
+          field: "CockPitCrewMaleWeight",
+
           haveChildren: true,
-          width: 300,
+
+          width: 370,
+
           children: [
             {
-              field: "firstname",
-              headerName: "First Name",
-              width: 100,
-              cellClass: (props) => {
-                console.log("props");
-              },
+              headerName: "...",
+              field: "SOLMaleWeigw2ht",
+              width: 50,
+              // cellRenderer: gridCheckBOX,
             },
-            {
-              field: "lastname",
-              headerName: "Last Name",
-              width: 100,
-            },
-            {
-              field: "lastname",
-              headerName: "Last Name",
-              width: 100,
-            },
+
+            { headerName: "100%", field: "SOLFemalesdWeight", width: 80 },
+
+            { headerName: "80%", field: "SOLFemsaaleWeight", width: 80 },
+
+            { headerName: "60%", field: "SOLFsdemaleWeight", width: 80 },
+
+            { headerName: "0%", field: "SOLsFemaleWeight", width: 80 },
           ],
         },
+
         {
-          field: "lastname",
-          headerName: "Last Name",
-          width: 100,
-        },
-        {
-          field: "lastname",
-          headerName: "Last Name",
-          width: 100,
-        },
-        {
-          field: "lastname",
-          headerName: "Last Name",
-          width: 100,
-        },
-      ],
-    },
-    {
-      field: "number",
-      headerName: "Number",
-      haveChildren: true,
-      width: 500,
-      children: [
-        {
-          field: "homenumber",
-          headerName: "Hme Numer",
-          width: 100,
-        },
-        {
-          field: "personalnumr",
-          headerName: "Personal Number",
-          width: 100,
-        },
-        {
-          field: "personalnumber",
-          headerName: "Personal Number",
-          width: 100,
-        },
-        {
-          field: "personalnumber",
-          headerName: "Personalumber",
-          width: 100,
-        },
-        {
-          field: "personalnumber",
-          headerName: "Personal Numb",
-          width: 100,
+          headerName: "Pantry AFT%",
+
+          field: "CockPitCrewFemaleWeight",
+
+          haveChildren: true,
+
+          width: 370,
+
+          children: [
+            {
+              headerName: "...",
+              field: "SOLMaleWeigwht",
+              width: 50,
+              cellRenderer: (p) => {
+                console.log("Dcavfd", p);
+                return "Hello";
+              },
+            },
+
+            { headerName: "100%", field: "SOLFem3alesdWeight", width: 80 },
+
+            { headerName: "80%", field: "SOLFems1aaleWeight", width: 80 },
+
+            { headerName: "60%", field: "SOLFsde12maleWeight", width: 80 },
+
+            { headerName: "0%", field: "SOLsFem23aleWeight", width: 80 },
+          ],
         },
       ],
     },
+
     {
-      field: "address",
-      headerName: "Address",
+      headerName: "Unit",
+
+      field: "CabinCrewWeight",
+
       width: 100,
     },
-    { field: "school", headerName: "School", width: 100 },
-    { field: "class", headerName: "Class", width: 100 },
+
+    {
+      headerName: "Days of Operations",
+
+      field: "AMEWeight",
+
+      width: 150,
+    },
+
+    {
+      headerName: "Effective Form",
+
+      field: "DHCWeight",
+
+      width: 100,
+    },
+
+    {
+      headerName: "Effective To",
+
+      field: "ACMWeight",
+
+      width: 100,
+    },
+
+    {
+      headerName: "Updated At/User",
+
+      field: "SODWeight",
+
+      width: 100,
+    },
   ];
   const initialRows = [
     {
@@ -390,7 +437,7 @@ export default function MultilineHeader({ direction }) {
   ];
   return (
     <DataGrid
-      columnData={columns}
+      columnData={columnData}
       testId={"laidatagrid"}
       rowData={initialRows}
       headerRowHeight={24}

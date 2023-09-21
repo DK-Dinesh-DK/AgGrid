@@ -1,4 +1,4 @@
-import  { useMemo } from "react";
+import { useMemo } from "react";
 import { floor, max, min } from "../utils";
 
 // TODO: https://github.com/microsoft/TypeScript/issues/41808
@@ -139,14 +139,21 @@ export function useViewportRows({
         return (columns.length - 1) * height + 20;
       }
 
-      const currentRowHeight =
-        row.gridRowType === "detailedRow"
-          ? Cal()
-          : typeof rowHeight === "number"
-          ? rowHeight
-          : isGroupRow(row)
-          ? rowHeight({ type: "GROUP", row })
-          : rowHeight({ type: "ROW", row, expandedMasterIds, index });
+      let currentRowHeight;
+      if (row.gridRowType === "detailedRow") {
+        currentRowHeight = Cal();
+      } else if (typeof rowHeight === "number") {
+        currentRowHeight = rowHeight;
+      } else if (isGroupRow(row)) {
+        currentRowHeight = rowHeight({ type: "GROUP", row });
+      } else {
+        currentRowHeight = rowHeight({
+          type: "ROW",
+          row,
+          expandedMasterIds,
+          index,
+        });
+      }
       const position = { top: totalRowHeight, height: currentRowHeight };
       gridTemplateRows += `${currentRowHeight}px `;
       totalRowHeight += currentRowHeight;

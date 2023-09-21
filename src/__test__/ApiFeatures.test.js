@@ -21,13 +21,13 @@ const columns = [
   },
 ];
 const rows = [
-  { id: 1, task: "Task #1", priority: "Low" },
-  { id: 2, task: "Task #2", priority: "Medium" },
-  { id: 3, task: "Task #3", priority: "High" },
-  { id: 4, task: "Task #4", priority: "Medium" },
-  { id: 5, task: "Task #5", priority: "Low" },
-  { id: 6, task: "Task #6", priority: "High" },
-  { id: 7, task: "Task #7", priority: "Critical" },
+  { id: 1, task: "Task #1", priority: "Low", key: 1 },
+  { id: 2, task: "Task #2", priority: "Medium", key: 2 },
+  { id: 3, task: "Task #3", priority: "High", key: 3 },
+  { id: 4, task: "Task #4", priority: "Medium", key: 4 },
+  { id: 5, task: "Task #5", priority: "Low", key: 5 },
+  { id: 6, task: "Task #6", priority: "High", key: 6 },
+  { id: 7, task: "Task #7", priority: "Critical", key: 7 },
 ];
 function LaiDatagrid(props) {
   const dataGridRef = useRef(null);
@@ -89,7 +89,7 @@ function LaiDatagrid(props) {
         data-testid="addItem-false"
         onClick={() => {
           dataGridRef.current.api.addItem(
-            { id: 7, task: "Task #7", priority: "Critical" },
+            { id: 7, task: "Task #7", priority: "Critical", key: 8 },
             false
           );
         }}
@@ -103,6 +103,7 @@ function LaiDatagrid(props) {
             id: 7,
             task: "Task #7",
             priority: "Critical",
+            key: 8,
           });
         }}
       >
@@ -113,8 +114,8 @@ function LaiDatagrid(props) {
         onClick={() => {
           dataGridRef.current.api.addItems(
             [
-              { id: 7, task: "Task #7", priority: "Critical" },
-              { id: 8, task: "Task #8", priority: "Critical" },
+              { id: 7, task: "Task #7", priority: "Critical", key: 8 },
+              { id: 8, task: "Task #8", priority: "Critical", key: 9 },
             ],
             false
           );
@@ -126,8 +127,8 @@ function LaiDatagrid(props) {
         data-testid="addItems-nothing"
         onClick={() => {
           dataGridRef.current.api.addItems([
-            { id: 7, task: "Task #7", priority: "Critical" },
-            { id: 8, task: "Task #8", priority: "Critical" },
+            { id: 7, task: "Task #7", priority: "Critical", key: 8 },
+            { id: 8, task: "Task #8", priority: "Critical", key: 9 },
           ]);
         }}
       >
@@ -156,7 +157,7 @@ function LaiDatagrid(props) {
           ]);
         }}
       >
-        AddItems
+        RemoveItems
       </button>
       <DataGrid
         columnData={columns}
@@ -246,7 +247,7 @@ describe("GridAPI - Filtering APIs", () => {
     act(() => fireEvent.click(forEachLeafNodeAfterFilterBtn));
   });
   test("addItem(", () => {
-    render(<LaiDatagrid />);
+    render(<LaiDatagrid rowKeyGetter={(row) => row.key} />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
     expect(datagrid).toBeInTheDocument();
@@ -259,7 +260,7 @@ describe("GridAPI - Filtering APIs", () => {
     act(() => fireEvent.click(addItemNtgBtn));
   });
   test("addItems(", () => {
-    render(<LaiDatagrid />);
+    render(<LaiDatagrid rowKeyGetter={(row) => row.key} />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
     expect(datagrid).toBeInTheDocument();

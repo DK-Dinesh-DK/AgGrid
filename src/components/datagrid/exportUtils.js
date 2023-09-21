@@ -1,9 +1,7 @@
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
-import { applyPlugin } from "jspdf-autotable";
-
-applyPlugin(jsPDF);
+import "jspdf-autotable";
 
 export function CSVContent(fileData, columns) {
   const field = columns?.map((ele) => ele.field);
@@ -27,12 +25,13 @@ export function CSVContent(fileData, columns) {
   return content;
 }
 export async function exportToCsv(fileData, columns, fileName) {
-  downloadFile(
-    fileName,
-    new Blob([CSVContent(fileData, columns)], {
-      type: "text/csv;charset=utf-8;",
-    })
-  );
+  const fileType =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  const ws = XLSX.utils.json_to_sheet(fileData);
+  const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
+  const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
+  const data = new Blob([excelBuffer], { type: fileType });
+  FileSaver.saveAs(data, fileName);
 }
 export async function exportToPdf(fileData, columns, fileName) {
   let field = [];
@@ -71,12 +70,11 @@ export async function exportToPdf(fileData, columns, fileName) {
 export function exportToXlsx(fileData, columns, fileName) {
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-  const fileExtension = ".xlsx";
   const ws = XLSX.utils.json_to_sheet(fileData);
   const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
   const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });
-  FileSaver.saveAs(data, fileName + fileExtension);
+  FileSaver.saveAs(data, fileName);
 }
 function serialiseCellValue(value) {
   if (typeof value === "string") {
@@ -86,12 +84,4 @@ function serialiseCellValue(value) {
       : formattedValue;
   }
   return value;
-}
-function downloadFile(fileName, data) {
-  const downloadLink = document.createElement("a");
-  downloadLink.download = fileName;
-  const url = URL.createObjectURL(data);
-  downloadLink.href = url;
-  downloadLink.click();
-  URL.revokeObjectURL(url);
 }

@@ -20,13 +20,13 @@ const headerRow = css`
 
     & > .${cell} {
       /* Should have a higher value than 0 to show up above regular cells */
-      z-index: 1;
+      z-index: 5;
       position: sticky;
       inset-block-start: 0;
     }
 
     & > .${cellFrozen} {
-      z-index: 2;
+      z-index: 3;
     }
   }
 `;

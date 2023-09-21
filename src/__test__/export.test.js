@@ -2,12 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import DataGrid from "../components/datagrid/DataGrid";
 import React from "react";
-import {
-  CSVContent,
-  exportToCsv,
-  exportToPdf,
-  exportToXlsx,
-} from "../components/datagrid/exportUtils";
+import { CSVContent, exportToXlsx } from "../components/datagrid/exportUtils";
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
 
@@ -104,6 +99,7 @@ describe("Datagrid Unit test for Export", () => {
     expect(screenArea).toBeInTheDocument();
     const csvbtn = screen.getByTestId("Export to CSV");
     expect(csvbtn).toBeInTheDocument();
+    fireEvent.click(csvbtn);
     const csvContentbtn = screen.getByTestId("csv-content");
     expect(csvContentbtn).toBeInTheDocument();
     fireEvent.click(csvContentbtn);
@@ -158,7 +154,6 @@ describe("Datagrid Unit test for Export", () => {
 
     const expectedFileType =
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-    const expectedFileExtension = ".xlsx";
     const expectedSheetData = { data: "mockSheetData" };
     const expectedExcelBuffer = "mockExcelBuffer";
     const expectedBlob = { type: expectedFileType };
@@ -173,9 +168,6 @@ describe("Datagrid Unit test for Export", () => {
     // Check if the necessary functions were called with the correct arguments
     expect(XLSX.utils.json_to_sheet).toHaveBeenCalledWith(fileData);
     expect(XLSX.write).toHaveBeenCalledTimes(1);
-    expect(FileSaver.saveAs).toHaveBeenCalledWith(
-      expectedBlob,
-      fileName + expectedFileExtension
-    );
+    expect(FileSaver.saveAs).toHaveBeenCalledWith(expectedBlob, fileName);
   });
 });

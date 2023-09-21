@@ -1,4 +1,4 @@
-import React,{ useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 export function FilterRendererWithSvg(
   column,
@@ -10,16 +10,15 @@ export function FilterRendererWithSvg(
 ) {
   const [isOpen, setIsOpen] = useState(false);
   const [buttonRect, setButtonRect] = useState(null);
-  const tooltipRef = useRef(null)
+  const tooltipRef = useRef(null);
   const handleButtonClick = (event) => {
     setButtonRect(event.target.getBoundingClientRect());
     if (isOpen === false && !column.readOnly) {
-      setIsOpen(true) ;
+      setIsOpen(true);
     } else if (isOpen === true) {
       setIsOpen(false);
     }
   };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
@@ -62,10 +61,13 @@ export function FilterRendererWithSvg(
   );
 
   return (
-    <div className={filterClassname} style={{cursor:column.readOnly?"default":"pointer"}}>
+    <div
+      className={filterClassname}
+      style={{ cursor: column.readOnly ? "default" : "pointer" }}
+    >
       {/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
       <svg
-       data-testid={`filterIcon_${column.headerName}`}
+        data-testid={`filterIcon_${column.headerName}`}
         xmlns="http://www.w3.org/2000/svg"
         width="10px"
         height="10px"
@@ -86,12 +88,12 @@ export function FilterRendererWithSvg(
       {isOpen
         ? ReactDOM.createPortal(
             <div
-            data-testid="filterDropdown"
+              data-testid="filterDropdown"
               ref={tooltipRef}
               style={{
                 position: "absolute",
                 zIndex: 1300,
-                top: buttonRect.top + buttonRect.height,
+                top: buttonRect.top + buttonRect.height + window.scrollY,
                 left: tooltipLeft,
                 // background:"white",
                 // padding:"4px",
@@ -118,7 +120,7 @@ export function FilterRendererWithSvg(
                     height: "24px",
                     margin: 0,
                     outline: 0,
-                    border: '1px solid #b6b6b6',
+                    border: "1px solid #b6b6b6",
                     width: "100%",
                     backgroundColor: "#e8eeef",
                     color: "black",
@@ -143,8 +145,8 @@ export function FilterRendererWithSvg(
                     height: "24px",
                     margin: 0,
                     outline: 0,
-                    border: '1px solid #b6b6b6',
-                    boxSizing:"border-box",
+                    border: "1px solid #b6b6b6",
+                    boxSizing: "border-box",
                     width: "100%",
                     backgroundColor: "#e8eeef",
                     color: "black",

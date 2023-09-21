@@ -1,4 +1,10 @@
-import React, { memo, useState, useRef, cloneElement, isValidElement } from "react";
+import React, {
+  memo,
+  useState,
+  useRef,
+  cloneElement,
+  isValidElement,
+} from "react";
 import { css } from "@linaria/core";
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -343,7 +349,14 @@ function Cell({
     else dynamicStyle = column.cellStyle;
     style = { ...style, ...dynamicStyle };
   }
-
+  if (column.rowSpan && column.rowSpan(params)) {
+    style = {
+      ...style,
+      position: "absolute",
+      zIndex: 2,
+      width: column.width,
+    };
+  }
   return (
     <div
       data-testid="rowCell"

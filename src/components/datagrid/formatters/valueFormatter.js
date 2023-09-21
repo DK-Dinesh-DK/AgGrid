@@ -1,4 +1,4 @@
-import React, {  createElement, isValidElement } from "react";
+import React, { createElement, isValidElement } from "react";
 import alignmentUtils from "../utils/alignMentUtils";
 
 export function valueFormatter(props) {
@@ -332,7 +332,7 @@ const childData = (subData, props) => {
       // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
         onClick={handleClick}
-        key={info1.idx}
+        key={`${props.colDef.idx}-${props.row[info1.field]}`}
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
         style={childStyle}

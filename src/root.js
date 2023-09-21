@@ -82,7 +82,7 @@ function Root() {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    block-size: 100vh;
+    /* block-size: 100vh; */
     padding: 8px;
     overflow: hidden;
   `;

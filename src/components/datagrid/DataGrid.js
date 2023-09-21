@@ -32,7 +32,7 @@ import {
   RowSelectionChangeProvider,
 } from "./hooks";
 import HeaderRow from "./HeaderRow";
-import  { defaultRowRenderer } from "./Row";
+import { defaultRowRenderer } from "./Row";
 import GroupRowRenderer from "./GroupRow";
 import SummaryRow from "./SummaryRow";
 import EditCell from "./EditCell";
@@ -205,7 +205,7 @@ function DataGrid(props) {
   const rowKeyGetter = props.rowKeyGetter
     ? props.rowKeyGetter
     : (row) => row.id;
- 
+
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextSubMenuItems, setContextSubMenuItems] = useState([]);
   const [contextSubMenuVisible, setContextSubMenuVisible] = useState(false);
