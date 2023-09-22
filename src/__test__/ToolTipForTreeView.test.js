@@ -174,8 +174,9 @@ describe("ToolTip test for Tree view Row", () => {
         const price = Math.random() * 30;
         const id = `row${i}`;
         var row;
-        if (i < 1 || i == 3) {
+        if (i < 1 || i === 3) {
           row = {
+            id,
             name: `supplier ${i}`,
             format: `package-${i}`,
             position: "Run of site",
@@ -229,6 +230,7 @@ describe("ToolTip test for Tree view Row", () => {
           };
         } else {
           row = {
+            id,
             name: `supplier-${i}`,
             format: `package ${i}`,
             position: "Run of site",

@@ -253,7 +253,6 @@ function LaiDataGrid1(props) {
       sortable: true,
     },
   ];
-  const gridRef = useRef(null);
   return (
     <>
       <DataGrid
@@ -264,7 +263,6 @@ function LaiDataGrid1(props) {
         className="fill-grid"
         rowSelection={"multiple"}
         treeData={true}
-        ref={gridRef}
         {...props}
       />
     </>
