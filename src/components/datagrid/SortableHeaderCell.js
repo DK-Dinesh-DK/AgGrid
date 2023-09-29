@@ -61,7 +61,6 @@ export default function SortableHeaderCell({
       onKeyDown={handleKeyDown}
       style={{ cursor: column.readOnly ? "default" : "pointer" }}
     >
-      {/* <span className={headerSortNameClassname}>{children}</span> */}
       <div style={style}>{children}</div>
       {selectedPositionIdx === subCellIdx && (
         <div

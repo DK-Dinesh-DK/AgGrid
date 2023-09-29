@@ -1,4 +1,3 @@
-import React from "react";
 import { css } from "@linaria/core";
 
 export const cell = css`
@@ -17,10 +16,9 @@ export const cell = css`
     grid-row-start: var(--rdg-grid-row-start);
     background-color: inherit;
     text-align: center;
-
+    
     white-space: nowrap;
     overflow: visible;
-    /* overflow: clip; */
     text-overflow: ellipsis;
     outline: none;
 
@@ -28,6 +26,7 @@ export const cell = css`
       outline: 1px solid var(--rdg-selection-color);
       outline-offset: -2px;
     }
+   
   }
 `;
 
@@ -39,7 +38,8 @@ export const cellFrozen = css`
     /* Should have a higher value than 0 to show up above unfrozen cells */
     z-index: 1;
   }
-`;
+`
+
 
 export const cellFrozenClassname = `rdg-cell-frozen ${cellFrozen}`;
 

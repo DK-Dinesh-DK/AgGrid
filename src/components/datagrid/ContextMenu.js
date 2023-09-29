@@ -37,8 +37,8 @@ const ContextMenu = ({
   const handleItemClick = (item, e) => {
     if (item.action && !item.disabled) {
       item.action({ e, contextData });
+      onClose();
     }
-    if (!item.disabled) onClose();
   };
 
   useUpdateEffect(() => {

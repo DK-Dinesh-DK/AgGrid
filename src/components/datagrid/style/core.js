@@ -241,7 +241,6 @@ export const filterColumnClassName = "filter-cell";
 export const filterContainerClassname = css`
   .${filterColumnClassName} {
     padding: 0;
-
     > div {
       padding-block: 0;
     }

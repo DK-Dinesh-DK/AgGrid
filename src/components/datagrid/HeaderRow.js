@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import { clsx } from "clsx";
 import { css } from "@linaria/core";
-
 import HeaderCell from "./HeaderCell";
 import { getColSpan, getRowStyle } from "./utils";
 import { cell, cellFrozen } from "./style";
@@ -111,10 +110,8 @@ function HeaderRow({
     <DndProvider backend={HTML5Backend}>
       <div
         role="header-row"
-        // aria-rowindex is 1 based
         aria-rowindex={1}
         className={clsx(headerRowClassname, {
-          // [rowSelectedClassname]: selectedCellIdx === -1,
         })}
         style={getRowStyle(1)}
       >

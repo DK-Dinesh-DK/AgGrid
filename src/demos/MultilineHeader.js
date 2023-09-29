@@ -340,7 +340,6 @@ export default function MultilineHeader({ direction }) {
               field: "SOLMaleWeigwht",
               width: 50,
               cellRenderer: (p) => {
-                console.log("Dcavfd", p);
                 return "Hello";
               },
             },

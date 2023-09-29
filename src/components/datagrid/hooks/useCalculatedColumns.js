@@ -112,7 +112,7 @@ export function useCalculatedColumns({
                 indexOfComponent > -1 ? components[indexOfComponent] : null;
               const rawChild = {
                 ...child,
-                parent: rawColumn.field??rawColumn.headerName,
+                parent: rawColumn.field ?? rawColumn.headerName,
                 readOnly: child.readOnly ?? false,
                 key: child.field,
                 formatter: child.cellRenderer

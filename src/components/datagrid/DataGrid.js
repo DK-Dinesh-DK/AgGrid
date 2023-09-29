@@ -11,8 +11,7 @@ import TreeRowRenderer from "./TreeRow";
 import { flushSync } from "react-dom";
 import { clsx } from "clsx";
 import { groupBy as rowGrouper, isString, _ } from "lodash";
-
-import ContextMenuNew from "./ContextMenu";
+import ContextMenu from "./ContextMenu";
 import { css } from "@linaria/core";
 import {
   rootClassname,
@@ -32,7 +31,7 @@ import {
   RowSelectionChangeProvider,
 } from "./hooks";
 import HeaderRow from "./HeaderRow";
-import { defaultRowRenderer } from "./Row";
+import RowComponent, { defaultRowRenderer } from "./Row";
 import GroupRowRenderer from "./GroupRow";
 import SummaryRow from "./SummaryRow";
 import EditCell from "./EditCell";
@@ -71,12 +70,6 @@ import { useCalculatedColumnsWithTopHeader } from "./hooks/useCalculatedColumnsW
 import MasterRowRenderer from "./MasterRow";
 import DetailsRow from "./DetailsRow";
 
-const initialPosition = {
-  idx: -1,
-  rowIdx: -2,
-  mode: "SELECT",
-};
-
 const PrevNextArrow = (current, type, originalElement) => {
   if (type === "prev") {
     return (
@@ -93,6 +86,12 @@ const PrevNextArrow = (current, type, originalElement) => {
     );
   }
   return originalElement;
+};
+
+const initialPosition = {
+  idx: -1,
+  rowIdx: -2,
+  mode: "SELECT",
 };
 
 /**
@@ -171,7 +170,7 @@ function DataGrid(props) {
   /**
    * defaults
    */
-  // raawRows = Array.isArray(raawRows) ? raawRows : [];
+
   const deviceWidth = window.innerWidth;
   let deviceType;
   if (deviceWidth > 900) {
@@ -210,7 +209,6 @@ function DataGrid(props) {
   const rowKeyGetter = props.rowKeyGetter
     ? props.rowKeyGetter
     : (row) => row.id;
-
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
   const [contextSubMenuItems, setContextSubMenuItems] = useState([]);
   const [contextSubMenuVisible, setContextSubMenuVisible] = useState(false);
@@ -239,7 +237,6 @@ function DataGrid(props) {
     setContextMenuVisible(false);
     setContextSubMenuVisible(false);
   };
-
   const [headerHeightFromRef, setHeaderHeightFromRef] = useState(null);
   const depth = (d) => (o) => {
     o.depth = d;
@@ -566,6 +563,18 @@ function DataGrid(props) {
     }
   }
 
+  let groupingViaCommonProperty = Object.values(
+    rowArray1.reduce((acc, current) => {
+      acc[current.topHeader] = acc[current.topHeader] ?? [];
+      acc[current.topHeader].push(current.width);
+      return acc;
+    }, {})
+  );
+
+  let arr2 = groupingViaCommonProperty.map((arr) =>
+    arr.reduce((sum, item) => sum + item)
+  );
+
   const newData = rawColumns;
 
   let {
@@ -636,7 +645,6 @@ function DataGrid(props) {
     array.forEach((item) => {
       if (item.field) map[item.field] = item;
       else if (item.headerName) map[item.headerName] = item;
-
       item.children = [];
     });
     array.forEach((item) => {
@@ -2199,9 +2207,7 @@ function DataGrid(props) {
       row,
       expandedMasterRowIds,
     });
-    // if (rest.masterData && expandedMasterRowIds.length > 0) {
-    //   setExpandedMasterIds([]);
-    // }
+
     const closeEditor = () => {
       setSelectedPosition(({ idx, rowIdx }) => ({
         idx,
@@ -2547,6 +2553,7 @@ function DataGrid(props) {
       setCurrent(current + 1);
     }
   }
+
   function paginationGoToPreviousPage() {
     if (pagination && current - 1 > 0) {
       setCurrent(current - 1);
@@ -2560,6 +2567,7 @@ function DataGrid(props) {
         }
       : undefined;
   }
+
   function setFocusedCell(idx, key) {
     let index;
     columns.map((obj, position) => {
@@ -2855,6 +2863,7 @@ function DataGrid(props) {
     raawRows[rowIndex][colKey] = newValue;
     setRawRows([...raawRows]);
   }
+
   function addRow(row, replace) {
     let newReplace = replace ?? true;
     if (row && !Array.isArray(row) && typeof row === "object") {
@@ -2903,6 +2912,7 @@ function DataGrid(props) {
     }
     setRawRows(sampleRows);
   }
+
   var apiObject = {
     setCellValue: setCellValue,
     updateColumns: (newColumns) => {
@@ -3061,6 +3071,7 @@ function DataGrid(props) {
       const row = rows[rowIdx];
 
       const gridRowStart = headerRowsCount + topSummaryRowsCount + rowIdx + 1;
+
       node = {
         rowIndex: rowIdx,
         rowTop: rowHeight * rowIdx,
@@ -3103,7 +3114,7 @@ function DataGrid(props) {
           onExpandedGroupIdsChange(expandIds);
         },
       };
-      renderedRowNodes.push(node);
+
       if (isGroupRow(row)) {
         ({ startRowIndex } = row);
         const isGroupRowSelected =
@@ -3337,7 +3348,6 @@ function DataGrid(props) {
             deviceType,
           })
         );
-
         continue;
       }
 
@@ -3350,6 +3360,8 @@ function DataGrid(props) {
       } else {
         key = hasGroups ? startRowIndex : rowIdx;
       }
+
+      renderedRowNodes.push(node);
       rowElements.push(
         rowRenderer(key, {
           // aria-rowindex is 1 based
@@ -3362,6 +3374,7 @@ function DataGrid(props) {
           valueChangedCellStyle,
           previousData: changedList,
           totalColumns: columns.length,
+          setDragging: (val) => setDragging(val),
           rowIdx,
           rows,
           row,
@@ -3374,6 +3387,7 @@ function DataGrid(props) {
             ? regroupArray(merged)
             : columns,
           isRowSelected,
+          handleContextMenu,
           onRowClick: onRowClick,
           onCellClick: onCellClickLatest,
           onCellDoubleClick: onCellDoubleClickLatest,
@@ -3390,13 +3404,11 @@ function DataGrid(props) {
           selectedCellIdx: selectedRowIdx === rowIdx ? selectedIdx : undefined,
           draggedOverCellIdx: getDraggedOverCellIdx(rowIdx),
           setDraggedOverRowIdx: isDragging ? setDraggedOverRowIdx : undefined,
-          setDragging: (val) => setDragging(val),
           lastFrozenColumnIndex,
           onRowChange: handleFormatterRowChangeLatest,
           selectCell: selectViewportCellLatest,
           selectedCellEditor: getCellEditor(rowIdx),
           handleReorderRow: handleReorderRow,
-          handleContextMenu,
           selectedPosition,
           subColumn,
           summaryRowHeight: topSummaryRows !== undefined ? summaryRowHeight : 0,
@@ -3503,6 +3515,7 @@ function DataGrid(props) {
           )}
         </div>
       )}
+
       {rest.globalFilter && (
         <div
           role={"row"}
@@ -3552,6 +3565,7 @@ function DataGrid(props) {
           })}
         </div>
       )}
+
       <div
         id={rest.id ?? "DataGrid"}
         onMouseMove={(e) => {
@@ -3647,12 +3661,12 @@ function DataGrid(props) {
               sortColumns={sortColumns}
               onSortColumnsChange={onSortColumnsChangeLatest}
               lastFrozenColumnIndex={lastFrozenColumnIndex}
-              setDragging={(val) => setDragging(val)}
               selectedCellIdx={
                 selectedPosition.rowIdx === minRowIdx
                   ? selectedPosition.idx
                   : undefined
               }
+              setDragging={(val) => setDragging(val)}
               selectCell={selectHeaderCellLatest}
               shouldFocusGrid={!selectedCellIsWithinSelectionBounds}
               direction={direction}
@@ -3836,7 +3850,7 @@ function DataGrid(props) {
         </div>
       )}
       {contextMenuVisible && (
-        <ContextMenuNew
+        <ContextMenu
           items={getContextMenuItems}
           onClose={closeContextMenu}
           position={contextMenuPosition}
@@ -3854,7 +3868,7 @@ function DataGrid(props) {
         />
       )}
       {contextSubMenuVisible && (
-        <ContextMenuNew
+        <ContextMenu
           items={contextSubMenuItems}
           onClose={closeContextMenu}
           position={contextSubMenuPosition}

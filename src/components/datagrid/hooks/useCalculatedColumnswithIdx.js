@@ -1,8 +1,9 @@
 import React, { useMemo } from "react";
 import textEditorClassname from "../editors/textEditor";
+
 export function useCalculatedColumnswithIdx({ rowData1 }) {
   const { columns4 } = useMemo(() => {
-    var columns4 = rowData1.map((rawColumn, pos) => {
+    let columns4 = rowData1.map((rawColumn, pos) => {
       const column = {
         ...rawColumn,
       };
@@ -14,9 +15,9 @@ export function useCalculatedColumnswithIdx({ rowData1 }) {
               let value = props.row[props.column.key];
               return (
                 <input
+                  style={{ width: "100%" }}
                   className={textEditorClassname}
                   data-testid={`gird-text-editor-${props.column.idx}-${props.rowIndex}`}
-                  style={{ width: "100%" }}
                   value={value}
                   onChange={(event) =>
                     props.onRowChange({

@@ -1,10 +1,4 @@
-import React, {
-  createElement,
-  isValidElement,
-  memo,
-  useRef,
-  useState,
-} from "react";
+import React, { memo, useRef, useState, createElement, isValidElement} from "react";
 
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -177,9 +171,7 @@ function MasterCell({
     handleToolTip(true);
   }
   return (
-    // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
-      // role="gridcell"
       id={`mastercellid-${column.idx}-${rowIndex}`}
       aria-colindex={column.idx + 1}
       aria-selected={isCellSelected}
@@ -203,7 +195,7 @@ function MasterCell({
       {column.idx > 0 &&
         row.gridRowType !== "Detail" &&
         typeof column.cellRenderer === "function" &&
-        column.cellRenderer?.({
+         column.cellRenderer?.({
           column,
           row,
           isExpanded,
@@ -226,11 +218,12 @@ function MasterCell({
           ...cellParams,
           ...cellRendererParams,
         })}
-      {column.idx > 0 &&
+
+        {column.idx > 0 &&
         row.gridRowType !== "Detail" &&
         typeof column.cellRenderer === "object" &&
         isValidElement(column.cellRenderer) &&
-        createElement(column.cellRenderer, {
+        createElement (column.cellRenderer,{
           column,
           row,
           isExpanded,

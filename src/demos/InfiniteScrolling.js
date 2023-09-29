@@ -47,6 +47,7 @@ export default function InfiniteScrolling({ direction }) {
     return rows;
   }
   const rowData = createRows();
+ 
   const columns = [
     {
       field: "id",
@@ -65,24 +66,17 @@ export default function InfiniteScrolling({ direction }) {
       field: "firstName",
       filter: true,
       headerName: "First Name",
-      cellRenderer: (params) => {
-        let options = [
-          { label: "Task1", value: "Task1" },
-          { label: "Task2", value: "Task2" },
-        ];
-        let isInsideAgGrid = true;
-        return (
-          <ComboBox2
-            options={[
-              { label: "Task1", value: "Task1" },
-              { label: "Task2", value: "Task2" },
-            ]}
-            labelKey={"label"}
-            valueKey="value"
-            isInsideAgGrid
-          />
-        );
-      },
+      cellRenderer: (
+        <ComboBox2
+          options={[
+            { label: "Task1", value: "Task1" },
+            { label: "Task2", value: "Task2" },
+          ]}
+          labelKey={"label"}
+          valueKey="value"
+          isInsideAgGrid={true}
+        />
+      ),
     },
     {
       field: "lastName",
