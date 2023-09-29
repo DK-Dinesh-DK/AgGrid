@@ -26,7 +26,7 @@ const headerRow = css`
     }
 
     & > .${cellFrozen} {
-      z-index: 3;
+      z-index: 6;
     }
   }
 `;

@@ -52,7 +52,7 @@ function LaiDataGrid(props) {
       sortable: true,
     },
   ];
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([{ id: 7 }]);
   const gridRef = useRef(null);
   return (
     <>
@@ -76,7 +76,7 @@ function LaiDataGrid(props) {
   );
 }
 describe("rowSelection event test", () => {
-  test.only("Single row selection with onSelectedRow ", async () => {
+  test("Single row selection with onSelectedRow ", async () => {
     const mockOnSelect = jest.fn();
     render(
       <LaiDataGrid
@@ -95,7 +95,7 @@ describe("rowSelection event test", () => {
     fireEvent.click(gridcell2);
     expect(mockOnSelect).toBeCalled();
   });
-  test.only("Single row selection without onSelectedRow ", async () => {
+  test("Single row selection without onSelectedRow ", async () => {
     render(<LaiDataGrid rowSelection={"single"} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -107,7 +107,7 @@ describe("rowSelection event test", () => {
     expect(gridcell2).toBeInTheDocument();
     fireEvent.click(gridcell2);
   });
-  test.only("Multiple row selection with onSelectedRow ", async () => {
+  test("Multiple row selection with onSelectedRow ", async () => {
     const mockOnSelect = jest.fn();
     render(
       <LaiDataGrid
@@ -130,7 +130,7 @@ describe("rowSelection event test", () => {
     fireEvent.click(gridcell1);
     fireEvent.click(gridcell1);
   });
-  test.only("setSuppressRowClickSelection api  ", async () => {
+  test("setSuppressRowClickSelection api  ", async () => {
     render(<LaiDataGrid rowSelection={"multiple"} />);
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();

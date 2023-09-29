@@ -215,4 +215,41 @@ describe("Datagrid Unit test", () => {
     expect(destroyFilterBtn).toBeInTheDocument();
     fireEvent.click(destroyFilterBtn);
   });
+  test("global filter row", async () => {
+    const columns = [
+      {
+        field: "id",
+        headerName: "ID",
+        width: 80,
+        filterRenderer: () => {
+          return <div>Custom Filter Renderer</div>;
+        },
+      },
+      {
+        field: "task",
+        headerName: "Title",
+        filterType: "Ends With...",
+      },
+      {
+        field: "priority",
+        headerName: "Priority",
+      },
+    ];
+    const rows = [
+      { id: 1, task: "Task #1", priority: "Low" },
+      { id: 2, task: "Task #2", priority: "Medium" },
+      { id: 3, task: "Task #3", priority: "High" },
+      { id: 4, task: "Task #4", priority: "Medium" },
+      { id: 5, task: "Task #5", priority: "Low" },
+      { id: 6, task: "Task #6", priority: "High" },
+      { id: 7, task: "Task #7", priority: "Critical" },
+    ];
+    render(
+      <DataGrid columnData={columns} rowData={rows} globalFilter={true} />
+    );
+    const filterInput = screen.getByTestId("filter-row-Title");
+    fireEvent.change(filterInput, { target: { value: "2" } });
+    const filterInput1 = screen.getByTestId("filter-row-Priority");
+    fireEvent.change(filterInput1, { target: { value: "L" } });
+  });
 });

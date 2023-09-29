@@ -91,7 +91,6 @@ function Row(
   );
 
   const cells = [];
-
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = { ...viewportColumns[index], rowIndex: rowIdx };
     const { idx } = column;
@@ -187,7 +186,7 @@ function Row(
               handleToolTip(false);
             }
           }}
-          onContextMenu={(e) => handleContextMenu(e,row)}
+          onContextMenu={(e) => handleContextMenu(e, row)}
           style={style}
           {...props}
         >

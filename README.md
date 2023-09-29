@@ -1,6 +1,6 @@
 # Introduction
 
-DataGrid
+AgGrid
 
 # Getting Started
 
@@ -13,28 +13,29 @@ import {AgGrid} from “lai_webui”
 rowData and columnData are required props. Pass your defined rows and columns to Data grid as below:
 
 Example rows and columns:
-const columns = [
-{field: “id”},
-{field:” task”},
-{field: “priority”}
-];
 
-const rows = [
-{id: 1, task: “Task 1”, priority: “Low”},
-{id: 2, task: “Task 2”, priority: “High”},
-{id: 3, task: “Task 3”, priority: “Medium”},
-{id: 4, task: “Task 4”, priority: “Low”},
-]
+    const columns = [
+                    {field: “id”},
+                    {field:” task”},
+                    {field: “priority”}
+                    ];
+
+    const rows = [
+                {id: 1, task: “Task 1”, priority: “Low”},
+                {id: 2, task: “Task 2”, priority: “High”},
+                {id: 3, task: “Task 3”, priority: “Medium”},
+                {id: 4, task: “Task 4”, priority: “Low”},
+                ]
 
 Pass them to rowData and columnData like below:
 
-<AgGrid rowData={rows} columnData={columns} />
+    <AgGrid rowData={rows} columnData={columns} />
 
 # Props:
 
-rowData: used to pass rows to Datagrid
+rowData: used to pass rows to AgGrid
 
-columnData: used to pass columns to DataGrid
+columnData: used to pass columns to AgGrid
 
 defaultColumnOptions: used to define default column options, it will apply all properties defined in it to all columns in the grid
 
@@ -91,30 +92,33 @@ onColumnResize: A function receiving column resize updates
 
 restriction: Used to set restriction on copy and paste feature
 restriction prop to the AgGrid will allow you to enable or disable the copy/paste feature
+Example:
 
-restriction={{
-	copy: true,  // it should be not allowed table content copy
-	paste: false, // it should be allow paste
-}}
+    restriction={{
+        copy: true,  // it should be not allowed table content copy
+        paste: false, // it should be allow paste
+    }}
 
 rowKeyGetter: A function returning a unique key/identifier per row. rowKeyGetter is required for row selection to work.
 
 Example:
-function rowKeyGetter(row) {
-return row.id;
-}
-rowKeyGetter={rowKeyGetter}
+
+    function rowKeyGetter(row) {
+        return row.id;
+    }
+    rowKeyGetter={rowKeyGetter}
 
 onRowsChange: A function receiving row updates. The first parameter is a new rows array with both the updated rows and the other untouched rows. The second parameter is an object with an indexes array highlighting which rows have changed by their index, and the column where the change happened.
 
 Example:
-const [rows, setRows] = useState(initialRows);
 
-<AgGrid 
-	columns={columns} 
-	rows={rows} 
-	onRowsChange={setRows} 
-/>;
+    const [rows, setRows] = useState(initialRows);
+
+    <AgGrid
+        columns={columns}
+        rows={rows}
+        onRowsChange={setRows}
+    />;
 
 cellNavigationMode: Used to set the cell navigation mode
 It has folllowing options:
@@ -155,22 +159,43 @@ onCellClicked: Used to pass function to be performed on click of a cell
 Example: onCellClicked={(e)=> console.log(e)} // Will Print contents about the clicked cell and gridAPI and columnAPI actions to the console
 
 onCellDoubleClicked: Used to pass function to be performed on double click of a cell
-Example: onCellDoubleClicked={(e)=> console.log(e)} // Will Print contents about the double clicked cell and gridAPI and columnAPI actions to the console
+Example:
+
+    onCellDoubleClicked={(e)=> console.log(e)} // Will Print contents about the double clicked cell and gridAPI and columnAPI actions to the console
 
 onCellContextMenu: Used to pass function to be performed on right click of a cell
-Example: onCellContextMenu={(e)=> console.log(e)} // Will Print contents about the right clicked cell and gridAPI and columnAPI actions to the console
+Example:
+
+    onCellContextMenu={(e)=> console.log(e)} // Will Print contents about the right clicked cell and gridAPI and columnAPI actions to the console
 
 onRowClicked: Used to pass function to be performed on click of a row
-Example: onRowClicked={(e)=> console.log(e)} // Will Print contents about the clicked row and gridAPI and columnAPI actions to the console
+Example:
+
+    onRowClicked={(e)=> console.log(e)} // Will Print contents about the clicked row and gridAPI and columnAPI actions to the console
 
 onRowDoubleClicked: Used to pass function to be performed on double click of a row
-Example: onRowDoubleClicked={(e)=> console.log(e)} // Will Print contents about the clicked row and gridAPI and columnAPI actions to the console
+Example:
 
-onGridReady: Used to pass function to be performed when grid is ready
+    onRowDoubleClicked={(e)=> console.log(e)} // Will Print contents about the clicked row and gridAPI and columnAPI actions to the console
+
+onGridReady: Used to pass function to be performed when grid is ready and will get the grid details and datas like gridApi,columnApi etc..
+Example:
+
+    function gridReady(){
+        alert("Grid is Ready to Show Details")
+    }
+
+    ongridReady={(props)=>{
+        console.log(props);
+        // Will Print contents about grid
+        gridReady()
+        // then what ever functionalities we need to perform once grid
+        is ready those functionalities we need to pass here.
+    }}
 
 # Column Properties:
 
-DataGrid provides following functionalities for column definitions:
+AgGrid provides following functionalities for column definitions:
 
     const columns=[
     {headerName: "PAXType", field: "PAXType", width: 160 },
@@ -198,7 +223,35 @@ DataGrid provides following functionalities for column definitions:
 },
 ]
 
-# Features in datagrid:
+# Sample Declaration:
+
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        rowKeyGetter={rowKeyGetter}
+        onRowsChange={setRows}
+        onCopy={handleCopy}
+        onPaste={handlePaste}
+        rowHeight={30} //To pass custom rowHeight
+        serialNumber={true} // To display a serial number column in the grid
+        showSelectedRows={true} // To display the count of selected rows
+        selectedCellHeaderStyle={selectedCellHeaderStyle}
+        selectedCellRowStyle={selectedCellRowStyle}
+        selectedRows={selectedRows}
+        onSelectedRowsChange={setSelectedRows}
+        className="fill-grid"
+        rowClass={(row) => row.id.includes("7") ?
+            highlightClassname : undefined
+        }
+        direction={direction}
+        // To set the grid direction, default is ltr-left to right
+        restriction={{
+        copy: true,  // it should be not allowed table content copy
+        paste: false, // it should be allow paste
+        }}
+    />
+
+# Features in AgGrid:
 
 Default Column Options
 Can pass default column options using the defaultColumnOptions prop
@@ -217,7 +270,8 @@ We can be able to high light cell data is valid or not for column vise. For exam
     field:” age”,
     headerName:” Age”,
     validation: {
-            style: { backgroundColor: "red", color: "blue" },  // not valid cell style ,suppose not giving style it will set only default background color red.
+            style: { backgroundColor: "red", color: "blue" },
+            // not valid cell style ,suppose not giving style it will set only default background color red.
             method: (value) => value >= 18, // validation method
         },
     }]
@@ -228,7 +282,7 @@ Based on data type (number, text, date, time, datetime, money, etc.) column vise
 
 Auto detect data type and align
 
-    While setting alignment: true will detect automatically data type and alignment method.
+While setting alignment: true will detect automatically data type and alignment method.
 
     const columns= [{
         headerName:” Name”,
@@ -255,8 +309,7 @@ Manually set the Type and alignment method:
     To set the property like this alignment: {type:” text”, align:” end”}. Suppose not setting alignment method it will take default method.
 
 Framework Components:
-
-    You can also pass custom framework components to the cellRenderer in a column definition.
+You can also pass custom framework components to the cellRenderer in a column definition.
 
     const customComponents={
         Btn:() => <Button> Save </Button> // Return your required component in frameworkComponents definition
@@ -283,26 +336,21 @@ We can export the table data into file formats like pdf, csv and xlsx(excel), it
 
 Example:
 
-    	<AgGrid
-
-    	columnData={columns}
-    	rowData={rows}
-    	export= {{
-          pdfFileName: "TableData",
-    	   //  To export pdf file
-          csvFileName: "TableData",
-    	  // To export csv file
-          excelFileName:"TableData",
-    	  // To export excel or xlsx file
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        export= {{
+          pdfFileName: "TableData",  //  To export pdf file
+          csvFileName: "TableData", // To export csv file
+          excelFileName:"TableData", // To export excel or xlsx file
         }}
-
-/>
+    />
 
 Row selection using checkbox
-
 Pass selection, onSelecteRowsChange and rowKeyGetter function for multiple row selection using checkbox
 
-    Example:
+Example:
+
     const [selectedRows,setSelectedRows]=useState([]);
 
     function rowKeyGetter(row) {
@@ -316,30 +364,34 @@ Pass selection, onSelecteRowsChange and rowKeyGetter function for multiple row s
         rowKeyGetter={rowKeyGetter}
     />
 
-Row Selection without checkbox:
-
+Row Selection without checkbox
 Pass rowKeyGetter function, and rowSelection prop. There are two modes of row selection, "single" and "multiple".
 Single: Can only select one row
 Multiple: Can select multiple rows
 
-    Example:
+Example:
 
-        function rowKeyGetter(row) {
+    function rowKeyGetter(row) {
         return row.id;
-        }
-        <AgGrid
-            columnData={columns}
-            rowData={rows}
-            rowKeyGetter={rowKeyGetter}
-    	    rowSelection={"multiple"} //Can select multiple rows
-        />
+    }
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        rowKeyGetter={rowKeyGetter}
+    	rowSelection={"multiple"} //Can select multiple rows
+    />
 
 Status Bar:
-
 Shows selected row count. Pass prop showSelectedRows to view status bar
+Example:
+
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        showSelectedRows={true}
+    />
 
 Filtering:
-
 To enable filtering for any column, pass filter: true in that column's definition
 
     Example:
@@ -349,8 +401,7 @@ To enable filtering for any column, pass filter: true in that column's definitio
         filter: true //to enable filtering
     }]
 
-Sorting:
-
+Sorting
 To enable sorting for any column, pass sortable: true in that column's definition
 
     Example:
@@ -364,7 +415,8 @@ Column Spanning:
 
 To merge column vise two are more cells is possible to pass the function of colSpan in column defintion area. And also possible to Span particular rows only.
 
-    Example:
+Example:
+
       const columns= [{
         headerName:” Name”,
         field:” name”,
@@ -411,123 +463,353 @@ To merge row vise two are more cells is possible to pass the function of rowSpan
     ]
 
 Copy/Paste with or without restrictions :
-
-Some time table will contain sensitive data’s ,so need to stop easy cloning it should be possible to set restriction property. In that 
-case, passing the restriction prop to the AgGrid will allow you to enable or disable the copy/paste feature
+Some time table will contain sensitive data’s ,so need to stop easy cloning it should be possible to set restriction property. In that case, passing the restriction prop to the AgGrid will allow you to enable or disable the copy/paste feature
 
     restriction={{
         copy: true,  // it should be not allowed table content copy
         paste: false, // it should be allow paste
       }}
 
+
 DetailedRow/Responsive Row:
 
-Some time table will contain N  number columns, in that case scroll to see the out range columns will not feel better.So in that case particualr row or some row's data will show one by one is the better feel and accessiable.
+Some time table will contain N number columns, in that case scroll to see the out range columns will not feel better.So in that case particualr row or some row's data will show one by one is the better feel and accessiable.
 
     Example:
-        
+
        <AgGrid
             columnData={columns}
             rowData={rows}
             detailedRowIds={expandedId} // default detailed row ids
-            onDetailedRowIdsChange={(ids) => setExpandedId(ids)} 
+            onDetailedRowIdsChange={(ids) => setExpandedId(ids)}
             // which rows are showing detail
-            detailedRow={true}- 
+            detailedRow={true}-
             // To enable responsive Detailed Row for Mobile and Tab
         />
 
 above example will show the expand icon to open the detailed row in Mobile and Tab automatically.And thi smethod allow only one detailed row at the time.
 
-if Suppose need a multiple detailed row need to enable 
+if Suppose need a multiple detailed row need to enable
 detailedRowType={"multiple"}
 
-
-Context Menu :
-
-You can customise the context menu by providing a getContextMenuItems() callback. Each time the context menu is to be shown, the callback is called to retrieve the menu items.
-
-    Example:
-        const getContextMenuItems = useCallback(() => {
-        let menu = [
-                    {  
-                        name: "Alert ", // Option Name
-                        action: () => {window.alert("Alerting about ")                                     }, 
-                        // Option OnClick Function
-                        cssClasses: ["redFont", "bold"], 
-                        // css class for styling the option
-                    },
-                    {
-                        name: "Always Disabled",
-                        disabled: true, 
-                        // to disable the option by using boolean
-                        tooltip:" Always Disabled ",
-                        // to show tooltip
-                    },
-                    {
-                        name: "Country",
-                        divider: true, 
-                    // to show the separator line between two option
-                    },
-                    {
-                        name: "Person",
-                        subMenu: [ 
-                        // to add the submenu
-                            {
-                                name: "John",
-                                action: () => {
-                                console.log("John was pressed"); },
-                            },
-                            {
-                                name: "Tony",
-                                action: () => { 
-                                console.log("Tony was pressed"); },
-                            },
-                            {
-                                name: "Mac",
-                                action: () => { 
-                                console.log("Mac Item Selected"); },
-                                icon: () => {
-                                return <img src="https://www.ag-grid                                    .com/example-assets/skills/mac.png" />
-                            
-                            // to show the icon before option text
-                                },
-                            },
-                    ];
-                return menu;
-        }, []);
-
-        <AgGrid
-	        columnData={columns}
-	        rowData={rows}
-	        getContextMenuItems={getContextMenuItems}
-        />
-
-# Sample Declaration:
+Pagination:
+Pagination allows the grid to paginate rows, removing the need for a vertical scroll to view more data and pagination based better view and user experience.
+Example:
 
     <AgGrid
         columnData={columns}
         rowData={rows}
-        rowKeyGetter={rowKeyGetter}
-        onRowsChange={setRows}
-        onCopy={handleCopy}
-        onPaste={handlePaste}
-        rowHeight={30} //To pass custom rowHeight
-        serialNumber // To display a serial number column in the grid
-        showSelectedRows // To display the count of selected rows
-        selectedCellHeaderStyle={selectedCellHeaderStyle}
-        selectedCellRowStyle={selectedCellRowStyle}
-        selectedRows={selectedRows}
-        onSelectedRowsChange={setSelectedRows}
-        className="fill-grid"
-        rowClass={(row) => row.id.includes("7") ? 
-                    highlightClassname :undefined }
-        direction={direction} 
-        // To set the grid direction, default is ltr-left to right
-        restriction={{
-            copy: true,  // it should be not allowed table content copy
-            paste: false, // it should be allow paste
-        }}
+        pagination={true}
+        // used to enable Grid Pagination
+        defaultPage={3}
+        // used to set default showing page
+        paginationAutoPageSize={true}
+        // used to set  number of rows perpage to auto
+        paginationPageSize={20}
+        // used to set number of rows perpage
+        suppressPaginationPanel={true}
+        // used to hide the pagination panel but pagination was enabled and
+        will control some other way means with help of gridApi
     />
+
+Context Menu :
+You can customise the context menu by providing a getContextMenuItems() callback. Each time the context menu is to be shown, the callback is called to retrieve the menu items.
+
+Example:
+
+    const getContextMenuItems = useCallback(() => {
+    let menu = [
+    {
+        name: "Alert ", // Option Name
+        action: () => {window.alert("Alerting about ") }, // Option OnClick Function
+        cssClasses: ["redFont", "bold"], // css class for styling the option
+    },
+    {
+        name: "Always Disabled",
+        disabled: true, // to disable the option by using boolean
+        tooltip:" Always Disabled ", // to show tooltip
+    },
+    {
+        name: "Country",
+        divider: true, // to show the separator line between two option
+    },
+    {
+        name: "Person",
+        subMenu: [ // to add the submenu
+                {
+                    name: "John",
+                    action: () => {console.log("John was pressed"); },
+                },
+                {
+                    name: "Tony",
+                    action: () => { console.log("Tony was pressed"); },
+                },
+                {
+                    name: "Mac",
+                    action: () => { console.log("Mac Item Selected"); },
+                    icon: () => {
+                            return <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />},
+                            // to show the icon before option text
+                },
+                ];
+    }
+    return menu;
+    }, []);
+
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        getContextMenuItems={getContextMenuItems}
+    />
+
+ToolTip:
+A tooltip is a small pop-up box that appears when you hover over an element, providing brief contextual information or explanations about that element in user interfaces.And we can able to get row vise and cell vise tooltip.But possible to use tooltip any one in at the time.If suppose you are enable both means rowlevel tool tip only will work.
+
+    RowLevel Example:
+
+    Default Tooltip:
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        rowLevelToolTip={true}
+        // it will enable the row level tooltip and will show the rowIndex
+    />
+
+    Dynamic Tooltip:
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        rowLevelToolTip={(props)=>{
+            // props will give particular row data and row index with help of that you can able to set your tooltip dynamically
+            return `Dynamic Tool Tip-${props.rowIndex}`
+        }}
+        // it will enable the row level tooltip and will show the dynamic Tooltip
+    />
+
+
+    CellLevel Example:
+
+    const columns = [
+                    {
+                        field: "task",
+                        headerName: "Title",
+                        toolTip: true,
+                        // it will enable the cell vise tooltip for this column only.
+                        // setting true will enable default tooltip it will show the particular cell value only
+                    },
+                    {
+                        field: "priority",
+                        headerName: "Priority",
+                    },
+                    {
+                        field: "issueType",
+                        headerName: "Issue Type",
+                        toolTip: (params) => {
+                        return`Issue Type${params.row[params.column.field]}`
+                        },
+                        // params will give the particular row data and column etc.. with help of that we can able to set dynamic tooltip for cell vise
+                    },
+                    ];
+
+                 <AgGrid
+                    columnData={columns}
+                    rowData={rows}
+                />
+
+Master/Detail -Detail Grid:
+When a row in the Master Grid is expanded, a new Detail Grid appears underneath that row.
+Master row/grid readonly and detail grid will work usual aggrid.
+Example:
+
+    const columns =  [
+                    // this first colunm definition need to pass because its required
+                    {
+                        field: "expanded",
+                        headerName: "",
+                        width: 30,
+                        colSpan(args) {
+                                return args.type === "ROW" && args.row?.gridRowType === "Detail"
+                                ? 3: 1;
+                        },
+                        // with help of colspan we can able to set the how many column need to contain/will show detail grid
+                        cellClass(row) {
+                            return row.gridRowType === "DETAIL"
+                                ? css`
+                            padding: 30px;
+                            background-color: black;`
+                            : undefined;
+                        },
+                        // with the help of cellClass we can able to style detail grid like background-color,padding,margin etc..
+                    detailsGrid: (props) => {
+                    // props will provide particular rowdata and parentId (rowid or what ever we are setting in rowKeyGetter)
+                        return (
+                        <AgGrid
+                            rowData={rows}
+                            columnData={productColumns}
+                            style={{ blockSize: 250 }}
+                        />);
+                    },
+                    // detailsGrid is required property need to pass something.Basically here not only grid we can show some other things also like div elements.And props will give the particular row details so with the help of props will dynamic view in detail row area
+                },
+                {
+                    field: "id",
+                    headerName: "ID",
+                },
+                {
+                    field: "department",
+                    headerName: "Department,
+                },
+            ];
+
+
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        masterData={true} // need to set true to enable the master/detail grid
+        rowHeight={(args) => {
+          return args.type === "ROW" && args.row.gridRowType === "Detail"
+            ? 300
+            : 30;
+        }}
+        // to set the detail grid height dynamically
+        expandedMasterRowIds={masterIds}
+        // if suppose we need some default detail grid view means we need pass the particular rows id in array format
+        onExpandedMasterIdsChange={(ids)=>{
+        console.log(ids);
+        // it will print all expanded master ids
+        setMasterIds(ids);
+        }
+        // this property will return expanded/currently detail grid show master rows ids
+    />
+
+TreeView/Parent-Child relationship:
+
+A tree view is a hierarchical representation of data in a UI, often used to show relationships and structures through expandable/collapsible nodes.
+Example:
+
+    const rows=[{
+        name:"Dani",
+        sports:"Cricket",
+        child:[
+            {name:"Dani-45",
+            sports:"Cricket-Bowler"},
+            {name:"Daniel-67",
+            sprots:"Cricket-wicketkeeper"
+            }
+        ]
+        // if the rowData having child and enabled treeData in grid property, it will automatically go to the treeview format.And it will accept multilevel also.
+        },
+        {name:"John",
+        sports:"Football"
+        },
+        {name:"Victor",
+        sports:"Basketball"
+        }
+        ]
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        treeData={true}
+        // need to set true this proprty to enable tree view
+        expandedTreeIds={treeIds}
+        // if suppose we need some default detail expanded tree view/structure means we need to pass the particular rows id in array format
+    />
+
+Multiline Header:
+Some times our headerNames wants sub headername like consider Name is the headerName but it should have FirstName and LastName in these case we can use it.One main column no limit for many child columns and also child columns able to show grand child columns.
+when ever multiline header feature iniating in that time we need to give fixed width for children columns and no need to give parent column.
+
+Example:
+
+        const columns=[ {headerName:"ID",field:"id"},
+                    {headerName:"Name",
+                    haveChildren:true,
+                    // need to enable children column required
+                    children:[
+                        {headerName:"FirstName",field:"firstname"},
+                        {headerName:"LastName",
+                         field:"lastname",
+                         //  heaveChildren:true, need sub column
+                         //  children:[{}...]
+                        }]
+                    }
+                ]
+        <AgGrid
+            columnData={columns}
+            rowData={rows}
+        />
+
+
+Detail row/Responsive Row:
+When a grid having number of columns and there is chance to user can see the grid/website in mobile/tab we can use this detailed/responsive row method.Because most of the time screen width will not fit to content,so in that case visual vise not look better.In that case we need to enable to this feature.Automatically plus icon will come in first column
+
+Example:
+
+    <AgGrid
+        columnData={columns}
+        rowData={rows}
+        detailedRow={true}
+        // to enable the detailedRow will initiate the detailed row when ever the grid was working in mobile/tab
+         detailedRowType={"multiple"}
+         // at the time multiple rows can able show the detaily
+         default it will be single only.
+        desktopDetailedRowEnable={true}
+        // incase we want this option in desktop/laptop we need to enable seperately default is mobile/tab size screens only
+        detailedRowIds={expandedId}
+        // if suppose we need some default detailedrow view means we need to pass the particular rows id in array format
+        onDetailedRowIdsChange={(ids) =>{
+        console.log(ids)
+        // it will print when ever the detailed row ids
+        setExpandedId(ids)
+        }
+        }
+          // this property will return expanded/currently  showing detailed rows ids
+    />
+
+ReadOnly/Hide/show:
+To set the particular column will be only readable that means disabled all actions like click,doubleClick,filter and etc. to handle by set the readonly column property.
+To set some columns show/hide dynamically will be handled by hide column proprty.With help this property no need to recreate the columnData
+Example:
+
+        const columnData=[
+        {headerName:"Name",field:"name",readOnly:true},
+        // this column will not allow any action like click,filter and etc
+        {headerName:"FullName",field:"fullname",hide:true},
+        // this column will not come in visual
+        {headerName:"Department",field:"department"},
+        ]
+
+
+Global Filter Row:
+It will give one row for all the columns to write the filter contents in above the table.To activate this feature need to pass true for globalFilter property.And aprt from filter input you can able to renderer some other things what ever you want to show in that particular column area with help of filterRenderer. In this feature required static widths for all column.
+Example:
+
+         const columns = [
+      {
+        field: "id",
+        headerName: "ID",
+        width: 80,
+        filterRenderer: () => {
+          return <div>Custom Filter Renderer</div>;
+        },
+        // this for custom renderer
+      },
+      {
+        field: "task",
+        headerName: "Title",
+        width:100,
+        filterType: "Ends With...",
+        // default type Contain if you want jsu pass it
+        // filterType:"Ends With..." | filterType:"Starts With..."|
+        //  filterType: "Equals"|  filterType: "Not Equals"
+      },
+      {
+        field: "priority",
+        headerName: "Priority",
+        width:100,
+      },
+    ];
+    <AgGrid columnData={columns} rowData={rows} globalFilter={true} />
 
 # API FEATURES:
 
@@ -573,6 +855,19 @@ Editing:
     	returns  [{column: Columns //The Grid Column
     	rowIndex: number // Editing row index
     	}]
+    addItem:
+        When ever we need to add  row without modifying original passed data in that case will use this.
+        api.addItem(row:Object,replace:boolean)
+        // argu1 is data then argu2 is to tell if suppose same data already presented what will be the action.If not passing second argument it will take default value true that will replace if existing row presents
+    addItems:
+        this is same for addItem only difference we can able to add multiple rows same time
+        api.addItems(rows:arrayOfObjects,replace:boolean)
+    removeItem:
+        When ever we need to delete row without modifying original passed data in that case will use this.
+        api.removeItem(row:Object)
+    addItems:
+        this is same for removeItem only difference we can able to delete multiple rows same time
+        api.removeItems(rows:arrayOfObjects)
 
 Export:
 
@@ -765,21 +1060,20 @@ api.getRowCount(): number;
     	out, this still returns false. If it returns true, then the grid shows the 'no rows' overlay - but we
     	don't show that overlay if the rows are just filtered out.
 
-isRowsToRender(): boolean;
-Returns true if no rows (either no rows at all, or the rows are filtered out). This is what the grid
-uses to know if there are rows to render or not.
+    isRowsToRender(): boolean;
+        Returns true if no rows (either no rows at all, or the rows are filtered out). This is what the grid uses to know if there are rows to render or not.
 
-getNodesInRangeForSelection(first: RowNode, last: RowNode | null): RowNode[];
-Returns all rows in range that should be selected. If there is a gap in range (non ClientSideRowModel) then
-then no rows should be returned
+    getNodesInRangeForSelection(first: RowNode, last: RowNode | null): RowNode[];
+        Returns all rows in range that should be selected. If there is a gap in range (non ClientSideRowModel) then
+        then no rows should be returned
 
-     forEachNode(callback: (rowNode: RowNode, index: number) => void, includeFooterNodes?: boolean): void;
+    forEachNode(callback: (rowNode: RowNode, index: number) => void, includeFooterNodes?: boolean): void;
     	Iterate through each node. What this does depends on the model type. For clientSide, goes through
     	all nodes. For serverSide, goes through what's loaded in memory.
 
-getType(): RowModelType;
-The base class returns the type. We use this instead of 'instanceof' as the client might provide
-their own implementation of the models in the future.
+    getType(): RowModelType;
+        The base class returns the type. We use this instead of 'instanceof' as the client might provide
+        their own implementation of the models in the future.
 
     isLastRowIndexKnown(): boolean;
     	It tells us if this row model knows about the last row that it can produce. This is used by the

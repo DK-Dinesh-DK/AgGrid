@@ -24,7 +24,7 @@ const headerWrapperWithChildData = css`
   align-items: center;
   height: inherit;
   justify-content: center;
-  border-inline-end: 1px solid var(--rdg-border-color);
+  width: 100%;
 `;
 
 const headerWrapperWithcellData = css`
@@ -60,12 +60,24 @@ export default function HeaderRenderer({
   }
   const { onFocus } = useRovingCellRef(isCellSelected);
   if (column.haveChildren === true) {
+    const getArrayDepth = (arr) => {
+      if (Array.isArray(arr)) {
+        return 1 + Math.max(...arr.map(getArrayDepth));
+      }
+      if (arr.children?.length) {
+        return 1 + Math.max(...arr.children.map(getArrayDepth));
+      }
+      return 0;
+    };
+
+    const thisColumnDepth = getArrayDepth(column) + 1;
     return (
       <div>
         <div
           style={{
             borderBlockEnd: "1px solid var(--rdg-border-color)",
-            height: `${headerRowHeight}px`,
+            height: `${(headerRowHeight * arrayDepth) / thisColumnDepth - 1}px`,
+            width: `${column.width}px`,
           }}
         >
           <div className={headerWrapperWithChildData}>
@@ -79,6 +91,10 @@ export default function HeaderRenderer({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              borderRight:
+                column.children.length - 1 === index
+                  ? "none"
+                  : "1px solid var(--rdg-border-color)",
             };
 
             return (
@@ -105,7 +121,8 @@ export default function HeaderRenderer({
                   setFilterType,
                   gridWidth,
                   rows,
-                  onColumnResize
+                  onColumnResize,
+                  thisColumnDepth
                 )}
               </div>
             );
@@ -121,8 +138,8 @@ export default function HeaderRenderer({
       alignItems: "center",
       height: "inherit",
       width: column.width ?? "100%",
-      paddingLeft: "5px",
-      paddingRight: "5px",
+      paddingLeft: "6px",
+      paddingRight: "6px",
     };
     if (column.alignment) {
       style = column.alignment.align
@@ -161,6 +178,8 @@ export default function HeaderRenderer({
       display: "flex",
       justifyContent: "center",
       width: "100%",
+      paddingLeft: "5px",
+      paddingRight: "5px",
     };
     if (column.alignment) {
       style_1 = column.alignment.align
@@ -217,6 +236,8 @@ export default function HeaderRenderer({
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
+        paddingLeft: "5px",
+        paddingRight: "5px",
       };
       if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
         style11 = { ...style11, ...selectedCellHeaderStyle };
@@ -261,6 +282,8 @@ export default function HeaderRenderer({
         alignItems: "center",
         justifyContent: "center",
         height: "100%",
+        paddingLeft: "5px",
+        paddingRight: "5px",
       };
       if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
         styleSF = { ...styleSF, ...selectedCellHeaderStyle };
@@ -334,7 +357,8 @@ const RecursiveScan = (
   setFilterType,
   gridWidth,
   direction,
-  onColumnResize
+  onColumnResize,
+  thisColumnDepth
 ) => {
   ChildColumnSetup(subData);
   let isCellSelected;
@@ -343,7 +367,6 @@ const RecursiveScan = (
   } else {
     isCellSelected = false;
   }
-
   let rowData = direction;
   if (subData.haveChildren === true) {
     return (
@@ -352,7 +375,8 @@ const RecursiveScan = (
           <div
             style={{
               borderBlockEnd: "1px solid var(--rdg-border-color)",
-              height: `${headerRowHeight}px`,
+              height: `${(headerRowHeight * arrayDepth) / thisColumnDepth}px`,
+              width: `${subData.width}px`,
             }}
           >
             <div className={headerWrapperWithChildData}>
@@ -367,7 +391,11 @@ const RecursiveScan = (
               alignItems: "center",
               justifyContent: "center",
               boxSizing: "border-box",
-              borderInlineEnd: "1px solid var(--rdg-border-color)",
+              borderInlineEnd:
+                subData.children.length - 1 > index
+                  ? "1px solid var(--rdg-border-color)"
+                  : "none",
+              width: `${subInfo.width}px`,
             };
 
             return (
@@ -394,7 +422,8 @@ const RecursiveScan = (
                   setFilterType,
                   gridWidth,
                   direction,
-                  onColumnResize
+                  onColumnResize,
+                  thisColumnDepth
                 )}
               </div>
             );
@@ -404,16 +433,17 @@ const RecursiveScan = (
     );
   } else {
     if (!columnsList.includes(subData.name)) columnsList.push(subData.name);
+
     let style = {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      borderInlineEnd: "1px solid var(--rdg-border-color)",
-      width: subData.width,
+      width:
+        masterData.length - 1 === index ? subData.width : subData.width - 1,
       boxSizing: "border-box",
-      height: `${headerRowHeight}px`,
+      height: `${(headerRowHeight * arrayDepth) / thisColumnDepth}px`,
       outline:
-        selectedCellIdx === subData.idx
+        subData.idx && selectedCellIdx === subData.idx
           ? "1px solid var(--rdg-selection-color)"
           : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
@@ -449,7 +479,6 @@ const RecursiveScan = (
 
     if (!(subData.sortable || subData.filter)) {
       return (
-        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <>
           <div
             key={subData.idx}
@@ -462,25 +491,21 @@ const RecursiveScan = (
             // onFocus={handleFocus}
             onClick={onClick}
             onDoubleClick={subData.resizable ? onDoubleClick : undefined}
-            // onPointerDown={column.resizable ? onPointerDown : undefined}
           >
             {subData.headerName ?? subData.field}
           </div>
         </>
       );
     }
-    if (subData.sortable && !subData.filter)
+    if (subData.sortable && !subData.filter) {
       return (
-        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
           key={subData.idx}
           style={{ ...style }}
-          // onFocus={handleFocus}
           aria-selected={isCellSelected}
           role="columnheader"
           onClick={onClick}
           onDoubleClick={subData.resizable ? onDoubleClick : undefined}
-          // onPointerDown={column.resizable ? onPointerDown : undefined}
         >
           <SortableHeaderCell
             onSort={onSort}
@@ -495,19 +520,23 @@ const RecursiveScan = (
           </SortableHeaderCell>
         </div>
       );
+    }
     if (subData.filter && !subData.sortable) {
       let style1 = {
         display: "flex",
         justifyContent: "center",
-        width: subData.width,
+        width:
+          masterData.length - 1 === index ? subData.width : subData.width - 1,
         alignItems: "center",
-        height: `${headerRowHeight}px`,
+        height: `${(headerRowHeight * arrayDepth) / thisColumnDepth}px`,
         boxSizing: "border-box",
         outline:
           selectedCellIdx === subData.idx
             ? "1px solid var(--rdg-selection-color)"
             : "none",
         outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
+        paddingLeft: "5px",
+        paddingRight: "5px",
       };
 
       if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx) {
@@ -554,16 +583,22 @@ const RecursiveScan = (
       let style1 = {
         display: "flex",
         justifyContent: "center",
-        borderRight: "1px solid var(--rdg-border-color)",
-        width: subData.width,
+        borderRight:
+          masterData.length - 1 === index
+            ? "none"
+            : "1px solid var(--rdg-border-color)",
+        width:
+          masterData.length - 1 === index ? subData.width : subData.width - 1,
         alignItems: "center",
-        height: `${headerRowHeight}px`,
+        height: `${(headerRowHeight * arrayDepth) / thisColumnDepth}px`,
         boxSizing: "border-box",
         outline:
           selectedCellIdx === subData.idx
             ? "1px solid var(--rdg-selection-color)"
             : "none",
         outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
+        paddingLeft: "5px",
+        paddingRight: "5px",
       };
 
       if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx)
@@ -580,7 +615,6 @@ const RecursiveScan = (
       }
 
       return (
-        // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
           key={subData.idx}
           style={{ ...style1 }}
@@ -589,7 +623,6 @@ const RecursiveScan = (
           role="columnheader"
           onClick={onClickFilter}
           onDoubleClick={column.resizable ? onDoubleClick : undefined}
-          // onPointerDown={column.resizable ? onPointerDown : undefined}
         >
           <div
             style={{

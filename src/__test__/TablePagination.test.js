@@ -5,9 +5,9 @@ import React, { useRef, useState } from "react";
 import { TextEditor } from "../components/datagrid/editors";
 
 function LaiDataGrid(props) {
-  function createRows() {
+  function createRows(count) {
     const rows = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < count; i++) {
       const price = Math.random() * 30;
       const id = `row${i}`;
       var row;
@@ -24,7 +24,7 @@ function LaiDataGrid(props) {
     }
     return rows;
   }
-  const [rowData, setRowData] = useState(createRows());
+  const [rowData, setRowData] = useState(createRows(10));
 
   const columns = [
     {
@@ -172,7 +172,7 @@ function LaiDataGrid(props) {
       <button
         data-testid="rowDataSlice0"
         onClick={() => {
-          setRowData(rowData.slice(0, 1100));
+          setRowData(createRows(1100));
         }}
       >
         rowDataSlice0
@@ -180,7 +180,7 @@ function LaiDataGrid(props) {
       <button
         data-testid="rowDataSlice1000"
         onClick={() => {
-          setRowData(rowData.slice(0, 1000));
+          setRowData(createRows(1000));
         }}
       >
         rowDataSlice1000
@@ -188,7 +188,7 @@ function LaiDataGrid(props) {
       <button
         data-testid="rowDataSlice500"
         onClick={() => {
-          setRowData(rowData.slice(0, 500));
+          setRowData(createRows(500));
         }}
       >
         rowDataSlice500
@@ -208,8 +208,16 @@ function LaiDataGrid(props) {
 }
 
 describe("Datagrid Unit test for Table Pagination", () => {
-  test("table pagination", () => {
-    render(<LaiDataGrid pagination={true} defaultPage={3} />);
+  test("table pagination", async () => {
+    render(
+      <LaiDataGrid
+        pagination={true}
+        defaultPage={3}
+        showTotal={(total, range) =>
+          `Showing ${range[0]}-${range[1]} of ${total}`
+        }
+      />
+    );
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -269,8 +277,14 @@ describe("Datagrid Unit test for Table Pagination", () => {
     fireEvent.click(gotoPreviousPagebtn);
   });
 
-  test("table pagination with selected", () => {
-    render(<LaiDataGrid pagination={true} paginationAutoPageSize={true} />);
+  test("table pagination with selected", async () => {
+    render(
+      <LaiDataGrid
+        pagination={true}
+        paginationAutoPageSize={true}
+        showTotal={true}
+      />
+    );
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();

@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 
 import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
@@ -31,17 +31,17 @@ function createRows() {
 }
 
 const columns = [
-  {
-    headerName: "trial",
-    field: "",
-    width: 45,
-    cellRenderer: "abc",
-  },
+  // {
+  //   headerName: "trial",
+  //   field: "",
+  //   width: 45,
+  //   cellRenderer: "abc",
+  // },
   {
     field: "id",
     headerName: "ID",
     width: 80,
-    rowDrag:true,
+    rowDrag: true,
   },
   {
     field: "task",
@@ -67,7 +67,7 @@ function rowKeyGetter(row) {
 
 export default function RowsReordering({ direction }) {
   const [rows, setRows] = useState(createRows);
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRows, setSelectedRows] = useState([{ id: 2 }]);
 
   return (
     <DataGrid
@@ -75,8 +75,13 @@ export default function RowsReordering({ direction }) {
       rowData={rows}
       rowKeyGetter={rowKeyGetter}
       selectedRows={selectedRows}
-      onSelectedRowsChange={setSelectedRows}
+      onSelectedRowsChange={(rows) => {
+        console.log("OnselectedRows", rows);
+        setSelectedRows(rows);
+      }}
       // serialNumber={true}
+      selection={true}
+      rowSelection="multiple"
       onRowsChange={setRows}
       direction={direction}
       frameworkComponents={frameworkComponents}

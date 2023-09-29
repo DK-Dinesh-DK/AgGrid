@@ -30,6 +30,7 @@ const lightTheme = `
   --rdg-group-icon-font-size:12px;
   --rdg-details-row-header-color: rgb(151, 164, 177);
   --details-minus-icon-color:#000;
+  --rdg-filter-icon-color:#FFFF;
 `;
 
 const darkTheme = `
@@ -60,6 +61,7 @@ const darkTheme = `
   --rdg-group-icon-font-size:12px;
   --rdg-details-row-header-color: rgb(151, 164, 177);
   --details-minus-icon-color:#000;
+  --rdg-filter-icon-color:#FFFF;
 `;
 
 const root = css`
@@ -107,6 +109,9 @@ const root = css`
     .master-expand-icon {
       color: var(--rdg-master-icon-color) !important;
       font-size: var(--rdg-master-icon-font-size) !important;
+    }
+    .AgGrid-Filter-Icon {
+      fill: var(--rdg-filter-icon-color) !important;
     }
     .rdg-caret {
       color: var(--rdg-group-icon-color) !important;

@@ -4,38 +4,38 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
   let symbol = ["£", "$", "₹", "€", "¥", "₣", "¢"];
   let alignment;
   if (
-    column.alignment.type?.toLowerCase() === "date" ||
-    (column.alignment.type?.toLowerCase() !== "datetime" &&
-      typeof row === "object" &&
-      (moment(row[column.field], "YYYY-MM-DD", true).isValid() ||
-        moment(row[column.field], "YYYY/MM/DD", true).isValid() ||
-        moment(row[column.field], "YYYY-DD-MM", true).isValid() ||
-        moment(row[column.field], "YYYY/DD/MM", true).isValid() ||
-        moment(row[column.field], "MM-DD-YYYY", true).isValid() ||
-        moment(row[column.field], "MM/DD/YYYY", true).isValid() ||
-        moment(row[column.field], "MM-YYYY-DD", true).isValid() ||
-        moment(row[column.field], "MM/YYYY/DD", true).isValid() ||
-        moment(row[column.field], "DD-MM-YYYY", true).isValid() ||
-        moment(row[column.field], "DD/MM/YYYY", true).isValid() ||
-        moment(row[column.field], "DD-YYYY-MM", true).isValid() ||
-        moment(row[column.field], "DD/YYYY/MM", true).isValid() ||
-        moment(row[column.field], "DD-MMM-YYYY", true).isValid() ||
-        moment(row[column.field], "DD/MMM/YYYY", true).isValid() ||
-        moment(row[column.field], "DD-YYYY-MMM", true).isValid() ||
-        moment(row[column.field], "DD/YYYY/MMM", true).isValid() ||
-        moment(row[column.field], "MMM-DD-YYYY", true).isValid() ||
-        moment(row[column.field], "MMM/DD/YYYY", true).isValid() ||
-        moment(row[column.field], "MMM-YYYY-DD", true).isValid() ||
-        moment(row[column.field], "MMM/YYYY/DD", true).isValid() ||
-        moment(row[column.field], "YYYY-MMM-DD", true).isValid() ||
-        moment(row[column.field], "YYYY/MMM/DD", true).isValid() ||
-        moment(row[column.field], "YYYY-DD-MMM", true).isValid() ||
-        moment(row[column.field], "YYYY/DD/MMM", true).isValid())) ||
-    (typeof row === "object" &&
-      row[column.field] &&
-      column.alignment.type?.toLowerCase() !== "datetime" &&
-      (JSON.stringify(row[column.field]).split("/").length === 3 ||
-        JSON.stringify(row[column.field]).split("-").length === 3))
+    !(
+      column.alignment.type?.toLowerCase() === "string" ||
+      column.alignment.type?.toLowerCase() === "number" ||
+      column.alignment.type?.toLowerCase() === "money"
+    ) &&
+    (column.alignment.type?.toLowerCase() === "date" ||
+      (column.alignment.type?.toLowerCase() !== "datetime" &&
+        typeof row === "object" &&
+        (moment(row[column.field], "YYYY-MM-DD", true).isValid() ||
+          moment(row[column.field], "YYYY/MM/DD", true).isValid() ||
+          moment(row[column.field], "YYYY-DD-MM", true).isValid() ||
+          moment(row[column.field], "YYYY/DD/MM", true).isValid() ||
+          moment(row[column.field], "MM-DD-YYYY", true).isValid() ||
+          moment(row[column.field], "MM/DD/YYYY", true).isValid() ||
+          moment(row[column.field], "MM-YYYY-DD", true).isValid() ||
+          moment(row[column.field], "MM/YYYY/DD", true).isValid() ||
+          moment(row[column.field], "DD-MM-YYYY", true).isValid() ||
+          moment(row[column.field], "DD/MM/YYYY", true).isValid() ||
+          moment(row[column.field], "DD-YYYY-MM", true).isValid() ||
+          moment(row[column.field], "DD/YYYY/MM", true).isValid() ||
+          moment(row[column.field], "DD-MMM-YYYY", true).isValid() ||
+          moment(row[column.field], "DD/MMM/YYYY", true).isValid() ||
+          moment(row[column.field], "DD-YYYY-MMM", true).isValid() ||
+          moment(row[column.field], "DD/YYYY/MMM", true).isValid() ||
+          moment(row[column.field], "MMM-DD-YYYY", true).isValid() ||
+          moment(row[column.field], "MMM/DD/YYYY", true).isValid() ||
+          moment(row[column.field], "MMM-YYYY-DD", true).isValid() ||
+          moment(row[column.field], "MMM/YYYY/DD", true).isValid() ||
+          moment(row[column.field], "YYYY-MMM-DD", true).isValid() ||
+          moment(row[column.field], "YYYY/MMM/DD", true).isValid() ||
+          moment(row[column.field], "YYYY-DD-MMM", true).isValid() ||
+          moment(row[column.field], "YYYY/DD/MMM", true).isValid())))
   ) {
     if (alignType === "Header") {
       alignment = column.alignment.align
@@ -58,17 +58,18 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
     };
     return styles;
   } else if (
-    column.alignment.type?.toLowerCase() === "time" ||
-    (typeof row === "object" &&
-      column.alignment.type?.toLowerCase() !== "datetime" &&
-      (moment(row[column.field], "hh:mm", true).isValid() ||
-        moment(row[column.field], "hh:mm:ss", true).isValid() ||
-        moment(row[column.field], "hh:mm:ss a", true).isValid() ||
-        moment(row[column.field], "hh:mm a", true).isValid())) ||
-    (typeof row === "object" &&
-      row[column.field] &&
-      column.alignment.type?.toLowerCase() !== "datetime" &&
-      JSON.stringify(row[column.field]).split(":").length > 1)
+    !(
+      column.alignment.type?.toLowerCase() === "string" ||
+      column.alignment.type?.toLowerCase() === "number" ||
+      column.alignment.type?.toLowerCase() === "money"
+    ) &&
+    (column.alignment.type?.toLowerCase() === "time" ||
+      (typeof row === "object" &&
+        column.alignment.type?.toLowerCase() !== "datetime" &&
+        (moment(row[column.field], "hh:mm", true).isValid() ||
+          moment(row[column.field], "hh:mm:ss", true).isValid() ||
+          moment(row[column.field], "hh:mm:ss a", true).isValid() ||
+          moment(row[column.field], "hh:mm a", true).isValid())))
   ) {
     if (alignType === "Header") {
       alignment = column.alignment.align
@@ -85,12 +86,17 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
     };
     return styles;
   } else if (
-    column.alignment.type?.toLowerCase() === "datetime" ||
-    (typeof row === "object" &&
-      row[column.field] &&
-      JSON.stringify(row[column.field]).split(":").length > 1 &&
-      (JSON.stringify(row[column.field]).split("/").length === 3 ||
-        JSON.stringify(row[column.field]).split("-").length === 3))
+    !(
+      column.alignment.type?.toLowerCase() === "string" ||
+      column.alignment.type?.toLowerCase() === "number" ||
+      column.alignment.type?.toLowerCase() === "money"
+    ) &&
+    (column.alignment.type?.toLowerCase() === "datetime" ||
+      (typeof row === "object" &&
+        row[column.field] &&
+        JSON.stringify(row[column.field]).split(":").length > 1 &&
+        (JSON.stringify(row[column.field]).split("/").length === 3 ||
+          JSON.stringify(row[column.field]).split("-").length === 3)))
   ) {
     if (alignType === "Header") {
       alignment = column.alignment.align

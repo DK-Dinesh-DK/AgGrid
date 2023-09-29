@@ -86,6 +86,7 @@ export function valueFormatter(props) {
             height: "100%",
             justifyContent: "center",
             alignItems: "center",
+            width: `${props.column.width}px`,
           }}
         >
           {childData(props.column.children, props)}
@@ -105,7 +106,8 @@ export function valueFormatter(props) {
       textOverflow: "ellipsis",
       overflow: "hidden",
       height: "inherit",
-      paddingInline: isCellSelected && props.selectedCellEditor ? "0px" : "6px",
+      paddingInline:
+        isCellSelected && props.selectedCellEditor ? "0px" : "12px",
     };
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align
@@ -177,27 +179,17 @@ const childData = (subData, props) => {
       i--;
     }
   }
-
   const rowCol = props.rowArray;
-
   return rowSubData.map((info1, index) => {
-    function getWidth() {
-      let width;
-      rowCol.forEach((info2) => {
-        if (info1.key === info2.field) {
-          width = info2.width;
-        }
-      });
-      return width;
-    }
+
     // const [cellValue, setCellValue] = useState(
     //   info1.cellRendererParams?.value ?? props.row[info1.key]
     // );
     // const gridCell = useRef(null);
 
     function selectSubCellWrapper(openEditor) {
-      let sampleColumn = props.column;
-      props.subColumn?.map((obj) => {
+      let sampleColumn;
+      rowCol?.map((obj) => {
         if (obj.field === info1.key) {
           sampleColumn = obj;
         }
@@ -275,7 +267,6 @@ const childData = (subData, props) => {
     } else {
       isCellSelected = false;
     }
-
     let childStyle = {
       display: "flex",
       justifyContent: "center",
@@ -296,7 +287,9 @@ const childData = (subData, props) => {
       height: "inherit",
 
       outline:
-        props.selectedCellIdx === info1.idx && isCellSelected
+        props.selectedCellIdx &&
+        props.selectedCellIdx === info1.idx &&
+        isCellSelected
           ? "1px solid var(--rdg-selection-color)"
           : "none",
 
@@ -305,7 +298,7 @@ const childData = (subData, props) => {
 
       paddingInline: isCellSelected && props.selectedCellEditor ? "0px" : "6px",
 
-      width: `${getWidth()}px`.replace(/,/g, ""),
+      width: `${info1.width}px`,
     };
 
     if (info1.validation) {
@@ -329,7 +322,6 @@ const childData = (subData, props) => {
     }
     let toolTipContent;
     return (
-      // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
       <div
         onClick={handleClick}
         key={`${props.colDef.idx}-${props.row[info1.field]}`}

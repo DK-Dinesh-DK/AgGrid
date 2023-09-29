@@ -233,3 +233,14 @@ a:focus {
   height: inherit;
   display: table;
 }
+.filter-input {
+  width: 98% !important;
+  border: none;
+  background: none;
+  height: 22px !important;
+}
+.filter-input:focus-visible {
+  outline: none;
+  background-color: #e5edf8;
+}
+

@@ -90,7 +90,7 @@ function LaiDataGrid() {
   );
 }
 describe("rowSingleClick event test", () => {
-  test.only("Row Single Click event works properly", async () => {
+  test("Row Single Click event works properly", async () => {
     render(<LaiDataGrid />);
     const rowElements = queryRows();
     userEvent.setup();

@@ -86,6 +86,18 @@ function LaiDatagrid(props) {
         forEachLeafNodeAfterFilter
       </button>
       <button
+        type="button"
+        data-testid="setRowData"
+        onClick={() =>
+          dataGridRef.current.api.setRowData([
+            ...rows,
+            { id: 17, task: "Task #17", priority: "Critical", key: 17 },
+          ])
+        }
+      >
+        setRowData
+      </button>
+      <button
         data-testid="addItem-false"
         onClick={() => {
           dataGridRef.current.api.addItem(
@@ -172,7 +184,7 @@ function LaiDatagrid(props) {
   );
 }
 describe("GridAPI - Filtering APIs", () => {
-  test("selectAllFiltered and deselectAllFiltered", () => {
+  test("selectAllFiltered and deselectAllFiltered", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -185,7 +197,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(deselectAllFilteredBtn).toBeInTheDocument();
     act(() => fireEvent.click(deselectAllFilteredBtn));
   });
-  test("selectAllFiltered and deselectAllFiltered with onSelectedRowsChange", () => {
+  test("selectAllFiltered and deselectAllFiltered with onSelectedRowsChange", async () => {
     render(
       <LaiDatagrid onSelectedRowsChange={(params) => console.log(params)} />
     );
@@ -200,7 +212,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(deselectAllFilteredBtn).toBeInTheDocument();
     act(() => fireEvent.click(deselectAllFilteredBtn));
   });
-  test("setSuppressPagination", () => {
+  test("setSuppressPagination", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -212,7 +224,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(setSuppressPaginationBtn).toBeInTheDocument();
     act(() => fireEvent.click(setSuppressPaginationBtn));
   });
-  test("setHeaderHeight", () => {
+  test("setHeaderHeight", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -222,7 +234,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(setHeaderHeightBtn).toBeInTheDocument();
     act(() => fireEvent.click(setHeaderHeightBtn));
   });
-  test("forEachLeafNodeAfterFilterAndSort(", () => {
+  test("forEachLeafNodeAfterFilterAndSort", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -234,7 +246,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(forEachLeafNodeAfterFilterAndSortBtn).toBeInTheDocument();
     act(() => fireEvent.click(forEachLeafNodeAfterFilterAndSortBtn));
   });
-  test("forEachLeafNodeAfterFilter", () => {
+  test("forEachLeafNodeAfterFilter", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -246,7 +258,17 @@ describe("GridAPI - Filtering APIs", () => {
     expect(forEachLeafNodeAfterFilterBtn).toBeInTheDocument();
     act(() => fireEvent.click(forEachLeafNodeAfterFilterBtn));
   });
-  test("addItem(", () => {
+  test("setRowData", async () => {
+    render(<LaiDatagrid />);
+
+    const datagrid = screen.queryByTestId("laidatagrid");
+    expect(datagrid).toBeInTheDocument();
+
+    const setRowDataBtn = screen.getByTestId("setRowData");
+    expect(setRowDataBtn).toBeInTheDocument();
+    act(() => fireEvent.click(setRowDataBtn));
+  });
+  test("addItem", async () => {
     render(<LaiDatagrid rowKeyGetter={(row) => row.key} />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -259,7 +281,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(addItemNtgBtn).toBeInTheDocument();
     act(() => fireEvent.click(addItemNtgBtn));
   });
-  test("addItems(", () => {
+  test("addItems", async () => {
     render(<LaiDatagrid rowKeyGetter={(row) => row.key} />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -272,7 +294,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(addItemsNtgBtn).toBeInTheDocument();
     act(() => fireEvent.click(addItemsNtgBtn));
   });
-  test("removeItem(", () => {
+  test("removeItem", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");
@@ -282,7 +304,7 @@ describe("GridAPI - Filtering APIs", () => {
     expect(removeItemBtn).toBeInTheDocument();
     act(() => fireEvent.click(removeItemBtn));
   });
-  test("removeItems(", () => {
+  test("removeItems", async () => {
     render(<LaiDatagrid />);
 
     const datagrid = screen.queryByTestId("laidatagrid");

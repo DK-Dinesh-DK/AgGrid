@@ -56,7 +56,12 @@ import {
   scrollIntoView,
 } from "./utils";
 import FilterContext from "./filterContext";
-import { SelectColumn, SerialNumberColumn } from "./Columns";
+import {
+  SelectColumn,
+  SELECT_COLUMN_KEY,
+  SerialNumberColumn,
+  SERIAL_NUMBER_COLUMN_KEY,
+} from "./Columns";
 import { exportToCsv, exportToPdf, exportToXlsx } from "./exportUtils";
 import Pagination from "rc-pagination";
 import "./pagination.css";
@@ -1760,6 +1765,15 @@ function DataGrid(props) {
   }, [raawRows]);
 
   useEffect(() => {
+    if (selectedRows.length > 0) {
+      let sample = new Set(selectedRows1);
+      selectedRows.forEach((r) => {
+        if (!sample.has(rowKeyGetter(r))) {
+          sample.add(rowKeyGetter(r));
+        }
+      });
+      onSelectedRowsChange1(sample);
+    }
     if (onGridReady) {
       onGridReady({
         api: apiObject,
@@ -3047,6 +3061,49 @@ function DataGrid(props) {
       const row = rows[rowIdx];
 
       const gridRowStart = headerRowsCount + topSummaryRowsCount + rowIdx + 1;
+      node = {
+        rowIndex: rowIdx,
+        rowTop: rowHeight * rowIdx,
+        childIndex: rowIdx + 1,
+        data: row,
+        rowHeight: rowHeight,
+        lastChild: raawRows.length === rowIdx + 1,
+        firstChild: rowIdx === 0,
+        id: row?.id ?? String(rowIdx),
+        selected: selectedRowIdx === rowIdx,
+        setDataValue: (key, newValue) =>
+          setDataValue(key, newValue, row, rowIdx),
+        setData: (val) => setData(val, rowIdx),
+        parent: {
+          allLeafChildren: RowNodes,
+          childrenAfterFilter: afterFilter,
+          childrenAfterSort: afterSort,
+        },
+        updateData: (val) => setData(val, rowIdx),
+        expanded: rows[rowIdx]?.isExpanded,
+        isSelected: () => selectedRowIdx === rowIdx,
+        setSelected: () => {
+          selectRow({
+            row,
+            checked: !selectedRows.includes(rowKeyGetter(row)),
+            isShiftClick: false,
+          });
+        },
+        isExpandable: () => {
+          return rows[rowIdx]?.isExpanded;
+        },
+        setExpanded: (value) => {
+          let expandIds = new Set(expandedGroupIds);
+          let rowKey = rowKeyGetter(rows[rowIdx]);
+          if (value) {
+            expandIds.add(rowKey);
+          } else {
+            expandIds.delete(rowKey);
+          }
+          onExpandedGroupIdsChange(expandIds);
+        },
+      };
+      renderedRowNodes.push(node);
       if (isGroupRow(row)) {
         ({ startRowIndex } = row);
         const isGroupRowSelected =
@@ -3293,50 +3350,6 @@ function DataGrid(props) {
       } else {
         key = hasGroups ? startRowIndex : rowIdx;
       }
-
-      node = {
-        rowIndex: rowIdx,
-        rowTop: rowHeight * rowIdx,
-        childIndex: rowIdx + 1,
-        data: row,
-        rowHeight: rowHeight,
-        lastChild: raawRows.length === rowIdx + 1,
-        firstChild: rowIdx === 0,
-        id: row?.id ?? String(rowIdx),
-        selected: selectedRowIdx === rowIdx,
-        setDataValue: (key, newValue) =>
-          setDataValue(key, newValue, row, rowIdx),
-        setData: (val) => setData(val, rowIdx),
-        parent: {
-          allLeafChildren: RowNodes,
-          childrenAfterFilter: afterFilter,
-          childrenAfterSort: afterSort,
-        },
-        updateData: (val) => setData(val, rowIdx),
-        expanded: rows[rowIdx]?.isExpanded,
-        isSelected: () => selectedRowIdx === rowIdx,
-        setSelected: () => {
-          selectRow({
-            row,
-            checked: !selectedRows.includes(rowKeyGetter(row)),
-            isShiftClick: false,
-          });
-        },
-        isExpandable: () => {
-          return rows[rowIdx]?.isExpanded;
-        },
-        setExpanded: (value) => {
-          let expandIds = new Set(expandedGroupIds);
-          let rowKey = rowKeyGetter(rows[rowIdx]);
-          if (value) {
-            expandIds.add(rowKey);
-          } else {
-            expandIds.delete(rowKey);
-          }
-          onExpandedGroupIdsChange(expandIds);
-        },
-      };
-      renderedRowNodes.push(node);
       rowElements.push(
         rowRenderer(key, {
           // aria-rowindex is 1 based
@@ -3488,6 +3501,55 @@ function DataGrid(props) {
               Export to PDF
             </button>
           )}
+        </div>
+      )}
+      {rest.globalFilter && (
+        <div
+          role={"row"}
+          className="filter-row"
+          style={{
+            height: rowHeight,
+            display: "flex",
+            marginBlockEnd: "8px",
+            width: gridWidth,
+          }}
+        >
+          {columns.map((col, index) => {
+            let width =
+              gridViewportTemplateColumns?.gridTemplateColumns.split(" ")[
+                index
+              ];
+            return (
+              <div
+                role={"gridcell"}
+                style={{
+                  height: headerRowHeight,
+                  width: width,
+                  backgroundColor: "#D7E3BC",
+                  borderRight: "1px solid white",
+                }}
+                key={`fiter-row-${col.headerName}`}
+              >
+                {!col.filterRenderer &&
+                  col.key !== SERIAL_NUMBER_COLUMN_KEY &&
+                  col.key !== SELECT_COLUMN_KEY && (
+                    <input
+                      className="filter-input"
+                      data-testid={`filter-row-${col.headerName}`}
+                      value={filters[col.field]}
+                      onChange={(e) => {
+                        if (col.filterType) {
+                          setFilterType(col.filterType);
+                        }
+                        setFilters({ ...filters, [col.field]: e.target.value });
+                      }}
+                    />
+                  )}
+
+                {col.filterRenderer && col.filterRenderer()}
+              </div>
+            );
+          })}
         </div>
       )}
       <div
@@ -3743,8 +3805,8 @@ function DataGrid(props) {
               showTotal={(total, range) => {
                 let content = "";
                 if (rest.showTotal) {
-                  if (typeof rest.showtotal === "function") {
-                    content = rest.showtotal(total, range);
+                  if (typeof rest.showTotal === "function") {
+                    content = rest.showTotal(total, range);
                   } else {
                     content = `Showing ${range[0]}-${range[1]} of ${total}`;
                   }

@@ -150,9 +150,18 @@ function ComboBox(props) {
   };
   const comboBoxPosiRef = useRef(null);
 
-  useEffect(() => {
-    console.log("YEss", comboBoxPosiRef);
-  }, [comboBoxPosiRef]);
+  // useEffect(() => {
+  //   console.log("YEss", comboBoxPosiRef);
+  // }, [comboBoxPosiRef]);
+  if (isOpen) {
+    console.log(
+      "Nooo",
+      value1.top,
+      options.length,
+      value1.top + options.length * 22,
+      window.innerHeight
+    );
+  }
   const handleSelectAll = (e) => {
     const allValues = options?.map((item) => item[valueKey]);
     delete e.target.value;

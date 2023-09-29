@@ -25,7 +25,7 @@ export default function InfiniteScrolling({ direction }) {
   function createRows() {
     const rows = [];
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
       rows.push({
         id: `id_${i}`,
         avatar: faker.image.avatar(),
@@ -65,13 +65,29 @@ export default function InfiniteScrolling({ direction }) {
       field: "firstName",
       filter: true,
       headerName: "First Name",
-      editable: true,
+      cellRenderer: (params) => {
+        let options = [
+          { label: "Task1", value: "Task1" },
+          { label: "Task2", value: "Task2" },
+        ];
+        let isInsideAgGrid = true;
+        return (
+          <ComboBox2
+            options={[
+              { label: "Task1", value: "Task1" },
+              { label: "Task2", value: "Task2" },
+            ]}
+            labelKey={"label"}
+            valueKey="value"
+            isInsideAgGrid
+          />
+        );
+      },
     },
     {
       field: "lastName",
       headerName: "Last Name",
       width: 200,
-      cellStyle: { backgroundColor: "blue", color: "White" },
     },
   ];
 
@@ -83,8 +99,6 @@ export default function InfiniteScrolling({ direction }) {
         rowData={rowData}
         headerRowHeight={24}
         className="fill-grid"
-        selection={true}
-        valueChangedCellstyle={{ backgroundColor: "red", color: "black" }}
       />
     </>
   );

@@ -102,7 +102,21 @@ function LaiDataGrid() {
       >
         setDataValue
       </button>
-
+      <button
+        data-testid={"updateData"}
+        onClick={() => {
+          let nodes = gridlocalRef.current.api.getRenderedNodes();
+          nodes[2].updateData({
+            id: 4,
+            name: `supplier-4-0-1`,
+            format: `package-4-0`,
+            position: "Run of site",
+            price: "Price-4-0",
+          });
+        }}
+      >
+        updateData
+      </button>
       <DataGrid
         columnData={columns}
         innerRef={gridlocalRef}
@@ -272,7 +286,7 @@ function LaiDataGrid1() {
         data-testid={"isExpandable"}
         onClick={() => {
           let nodes = dataGridRef.current.api.getRenderedNodes();
-          //   nodes[2].isExpandable();
+          nodes[2].isExpandable();
         }}
       >
         isExpandable
@@ -281,8 +295,8 @@ function LaiDataGrid1() {
         data-testid={"setExpanded"}
         onClick={() => {
           let nodes = dataGridRef.current.api.getRenderedNodes();
-          //   nodes[3].setExpanded(expand);
-          //   setExpand(!expand);
+          nodes[3].setExpanded(!expand);
+          setExpand(!expand);
         }}
       >
         setExpanded
@@ -305,7 +319,7 @@ function LaiDataGrid1() {
 }
 
 describe("Datagrid Unit test for rowNode", () => {
-  test("Datagrid Unit test for rownode isSelected,setSelected", () => {
+  test("Datagrid Unit test for rownode isSelected,setSelected", async () => {
     render(<LaiDataGrid />);
 
     const screenArea = screen.getByTestId("laidatagrid");
@@ -324,8 +338,11 @@ describe("Datagrid Unit test for rowNode", () => {
     const setDataValueBtn = screen.getByTestId("setDataValue");
     expect(setDataValueBtn).toBeInTheDocument();
     fireEvent.click(setDataValueBtn);
+    const updateDataBtn = screen.getByTestId("updateData");
+    expect(updateDataBtn).toBeInTheDocument();
+    fireEvent.click(updateDataBtn);
   });
-  test("Datagrid Unit test for rownode isExpanded", () => {
+  test("Datagrid Unit test for rownode isExpanded", async () => {
     render(<LaiDataGrid1 />);
 
     const screenArea = screen.getByTestId("laidatagrid1");
