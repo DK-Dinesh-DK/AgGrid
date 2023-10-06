@@ -67,6 +67,10 @@ css`
     .rdg.small-grid {
       block-size: 300px;
     }
+    .Id-Column {
+      color: white;
+      background-color: red;
+    }
   }
 `;
 

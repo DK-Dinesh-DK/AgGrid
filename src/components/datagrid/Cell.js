@@ -1,4 +1,10 @@
-import React, { memo, useState, useRef , cloneElement, isValidElement} from "react";
+import React, {
+  memo,
+  useState,
+  useRef,
+  cloneElement,
+  isValidElement,
+} from "react";
 import { css } from "@linaria/core";
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -214,9 +220,7 @@ function Cell({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
-  if (isDragging) {
-    handleSetDragging(true);
-  }
+
   function onRowReorder(fromIndex, toIndex) {
     const newRows = [...allrow];
     newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
@@ -236,51 +240,60 @@ function Cell({
     handleSetDragging(false);
   }
   function handleDoubleClick(e) {
-    e.stopPropagation();
-    if (!column.readOnly) {
-      onRowDoubleClick?.({
-        api: api,
-        data: row,
-        columnApi: columnApi,
-        node: node,
-        rowIndex: rowIndex,
-        type: "rowDoubleClicked",
-        event: e,
-      });
-      onCellDoubleClick?.({
-        api: api,
-        data: row,
-        columnApi: columnApi,
-        node: node,
-        rowIndex: rowIndex,
-        value: row[column.key],
-        type: "cellDoubleClicked",
-        event: e,
-      });
+   
+    if (!column.haveChildren) {
+      e.stopPropagation();
+      if (!column.readOnly) {
+        onRowDoubleClick?.({
+          api: api,
+          data: row,
+          colDef: column,
+          columnApi: columnApi,
+          node: node,
+          rowIndex: rowIndex,
+          type: "rowDoubleClicked",
+          event: e,
+        });
+        onCellDoubleClick?.({
+          api: api,
+          data: row,
+          colDef: column,
+          columnApi: columnApi,
+          node: node,
+          rowIndex: rowIndex,
+          value: row[column.key],
+          type: "cellDoubleClicked",
+          event: e,
+        });
+      }
     }
   }
   function handleClick(e) {
-    e.stopPropagation();
-    if (!column.readOnly) {
-      onRowClick?.({
-        api: api,
-        data: row,
-        columnApi: columnApi,
-        node: node,
-        rowIndex: rowIndex,
-        type: "rowClicked",
-        event: e,
-      });
-      onCellClick?.({
-        api: api,
-        data: row,
-        columnApi: columnApi,
-        node: node,
-        rowIndex: rowIndex,
-        value: row[column.key],
-        type: "cellClicked",
-        event: e,
-      });
+    if (!column.haveChildren) {
+      e.stopPropagation();
+      if (!column.readOnly) {
+        onRowClick?.({
+          api: api,
+          data: row,
+          colDef: column,
+          columnApi: columnApi,
+          node: node,
+          rowIndex: rowIndex,
+          type: "rowClicked",
+          event: e,
+        });
+        onCellClick?.({
+          api: api,
+          data: row,
+          colDef: column,
+          columnApi: columnApi,
+          node: node,
+          rowIndex: rowIndex,
+          value: row[column.key],
+          type: "cellClicked",
+          event: e,
+        });
+      }
     }
   }
   function handleToolTip(value) {
@@ -352,7 +365,7 @@ function Cell({
       width: column.width,
     };
   }
-  
+
   return (
     <div
       data-testid="rowCell"

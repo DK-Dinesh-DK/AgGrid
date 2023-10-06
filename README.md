@@ -309,6 +309,7 @@ Manually set the Type and alignment method:
     To set the property like this alignment: {type:” text”, align:” end”}. Suppose not setting alignment method it will take default method.
 
 Framework Components:
+
 You can also pass custom framework components to the cellRenderer in a column definition.
 
     const customComponents={
@@ -346,7 +347,8 @@ Example:
         }}
     />
 
-Row selection using checkbox
+Row selection using checkbox:
+
 Pass selection, onSelecteRowsChange and rowKeyGetter function for multiple row selection using checkbox
 
 Example:
@@ -364,7 +366,8 @@ Example:
         rowKeyGetter={rowKeyGetter}
     />
 
-Row Selection without checkbox
+Row Selection without checkbox:
+
 Pass rowKeyGetter function, and rowSelection prop. There are two modes of row selection, "single" and "multiple".
 Single: Can only select one row
 Multiple: Can select multiple rows
@@ -382,6 +385,7 @@ Example:
     />
 
 Status Bar:
+
 Shows selected row count. Pass prop showSelectedRows to view status bar
 Example:
 
@@ -392,6 +396,7 @@ Example:
     />
 
 Filtering:
+
 To enable filtering for any column, pass filter: true in that column's definition
 
     Example:
@@ -402,6 +407,7 @@ To enable filtering for any column, pass filter: true in that column's definitio
     }]
 
 Sorting
+
 To enable sorting for any column, pass sortable: true in that column's definition
 
     Example:
@@ -463,6 +469,7 @@ To merge row vise two are more cells is possible to pass the function of rowSpan
     ]
 
 Copy/Paste with or without restrictions :
+
 Some time table will contain sensitive data’s ,so need to stop easy cloning it should be possible to set restriction property. In that case, passing the restriction prop to the AgGrid will allow you to enable or disable the copy/paste feature
 
     restriction={{
@@ -493,6 +500,7 @@ if Suppose need a multiple detailed row need to enable
 detailedRowType={"multiple"}
 
 Pagination:
+
 Pagination allows the grid to paginate rows, removing the need for a vertical scroll to view more data and pagination based better view and user experience.
 Example:
 
@@ -513,12 +521,12 @@ Example:
     />
 
 Context Menu :
-You can customise the context menu by providing a getContextMenuItems() callback. Each time the context menu is to be shown, the callback is called to retrieve the menu items.
 
+You can customise the context menu by providing a getContextMenuItems() callback. Each time the context menu is to be shown, the callback is called to retrieve the menu items.
+    If suppose Same Screen having two AgGrid and contextmenu , you need to pass unique id for both AgGrid.
 Example:
 
-    const getContextMenuItems = useCallback(() => {
-    let menu = [
+    const getContextMenuItems = [
     {
         name: "Alert ", // Option Name
         action: () => {window.alert("Alerting about ") }, // Option OnClick Function
@@ -553,8 +561,7 @@ Example:
                 },
                 ];
     }
-    return menu;
-    }, []);
+   ]
 
     <AgGrid
         columnData={columns}
@@ -563,6 +570,7 @@ Example:
     />
 
 ToolTip:
+
 A tooltip is a small pop-up box that appears when you hover over an element, providing brief contextual information or explanations about that element in user interfaces.And we can able to get row vise and cell vise tooltip.But possible to use tooltip any one in at the time.If suppose you are enable both means rowlevel tool tip only will work.
 
     RowLevel Example:
@@ -716,6 +724,7 @@ Example:
     />
 
 Multiline Header:
+
 Some times our headerNames wants sub headername like consider Name is the headerName but it should have FirstName and LastName in these case we can use it.One main column no limit for many child columns and also child columns able to show grand child columns.
 when ever multiline header feature iniating in that time we need to give fixed width for children columns and no need to give parent column.
 
@@ -741,6 +750,7 @@ Example:
 
 
 Detail row/Responsive Row:
+
 When a grid having number of columns and there is chance to user can see the grid/website in mobile/tab we can use this detailed/responsive row method.Because most of the time screen width will not fit to content,so in that case visual vise not look better.In that case we need to enable to this feature.Automatically plus icon will come in first column
 
 Example:
@@ -767,6 +777,7 @@ Example:
     />
 
 ReadOnly/Hide/show:
+
 To set the particular column will be only readable that means disabled all actions like click,doubleClick,filter and etc. to handle by set the readonly column property.
 To set some columns show/hide dynamically will be handled by hide column proprty.With help this property no need to recreate the columnData
 Example:
@@ -781,6 +792,7 @@ Example:
 
 
 Global Filter Row:
+
 It will give one row for all the columns to write the filter contents in above the table.To activate this feature need to pass true for globalFilter property.And aprt from filter input you can able to renderer some other things what ever you want to show in that particular column area with help of filterRenderer. In this feature required static widths for all column.
 Example:
 
@@ -810,6 +822,27 @@ Example:
       },
     ];
     <AgGrid columnData={columns} rowData={rows} globalFilter={true} />
+
+Serial Column Style:
+
+Normally Serial column styles are default but while passing the styles in serialColumnStyle you can able to change it , it will work like normal column cellStyle.
+
+    
+    Example:
+    
+    <AgGrid
+        columnData={columns}
+        rowData={rowData}
+        serialNumber={true}
+        serialColumnStyle={(params) => {
+        // params will give details and data
+          return { backgroundColor: "blue" };
+        }}
+        // serialColumnStyle={{backgroundColor:"blue"}}
+      />
+
+        
+
 
 # API FEATURES:
 

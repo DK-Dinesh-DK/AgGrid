@@ -236,18 +236,20 @@ export default function ContextMenuDemo({ direction }) {
         rowKeyGetter={rowKeyGetter}
         columnData={columns}
         rowData={rowData}
+        id={"First-Table"}
         className="fill-grid"
         direction={direction}
         onCellClicked={(props) => console.log("Props", props)}
         getContextMenuItems={getContextMenuItems}
       />
+      <div style={{ minHeight: "100px" }}></div>
       <DataGrid
         rowKeyGetter={rowKeyGetter}
         columnData={columns}
         rowData={rowData}
+        id={"Second-Table"}
         className="fill-grid"
         direction={direction}
-        onCellClicked={(props) => console.log("Props", props)}
         getContextMenuItems={getContextMenuItems1}
       />
     </>

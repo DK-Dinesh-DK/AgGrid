@@ -82,6 +82,9 @@ export default function MasterDetail({ direction }) {
               columnData={productColumns}
               rowKeyGetter={rowKeyGetter}
               style={{ blockSize: 250 }}
+              onRowClicked={() => {
+                console.log("Child Rowclciked");
+              }}
             />
           );
         },
@@ -127,6 +130,9 @@ export default function MasterDetail({ direction }) {
           setRows(r);
         }}
         // rowLevelToolTip={true}
+        onRowClicked={(params) => {
+          console.log("Parent Rowclciked", params);
+        }}
         direction={direction}
       />
     </>

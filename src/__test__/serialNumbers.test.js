@@ -38,7 +38,35 @@ describe("SerialNumber Column Renders correctly", () => {
         serialNumber={true}
       />
     );
-    const serialNumberColumn = screen.getByText(/sr\. no\./i)
+    const serialNumberColumn = screen.getByText(/sr\. no\./i);
+    expect(serialNumberColumn).toBeInTheDocument();
+  });
+  test("Page has serial number column after passing serialNumber or serialNumber=true", () => {
+    render(
+      <DataGrid
+        columnData={columns}
+        rowData={rows}
+        enableVirtualization={false}
+        serialNumber={true}
+        serialColumnStyle={{ backgroundColor: "red" }}
+      />
+    );
+    const serialNumberColumn = screen.getByText(/sr\. no\./i);
+    expect(serialNumberColumn).toBeInTheDocument();
+  });
+  test("Page has serial number column after passing serialNumber or serialNumber=true", () => {
+    render(
+      <DataGrid
+        columnData={columns}
+        rowData={rows}
+        enableVirtualization={false}
+        serialNumber={true}
+        serialColumnStyle={() => {
+          return { backgroundColor: "red" };
+        }}
+      />
+    );
+    const serialNumberColumn = screen.getByText(/sr\. no\./i);
     expect(serialNumberColumn).toBeInTheDocument();
   });
   test("Page doesnt serial number column serialNumber=false or prop is not passed", () => {
@@ -49,7 +77,7 @@ describe("SerialNumber Column Renders correctly", () => {
         enableVirtualization={false}
       />
     );
-    const serialNumberColumn = screen.queryByText(/sr\. no\./i)
+    const serialNumberColumn = screen.queryByText(/sr\. no\./i);
     expect(serialNumberColumn).not.toBeInTheDocument();
   });
 });

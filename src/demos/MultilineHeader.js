@@ -339,9 +339,6 @@ export default function MultilineHeader({ direction }) {
               headerName: "...",
               field: "SOLMaleWeigwht",
               width: 50,
-              cellRenderer: (p) => {
-                return "Hello";
-              },
             },
 
             { headerName: "100%", field: "SOLFem3alesdWeight", width: 80 },
@@ -405,6 +402,7 @@ export default function MultilineHeader({ direction }) {
       address: "Marathahali",
       school: "DAV",
       class: "10th",
+      SOLMaleWeigwht: "hello",
     },
     {
       firstname: "Suvendu",
@@ -446,8 +444,7 @@ export default function MultilineHeader({ direction }) {
       selection={true}
       rowKeyGetter={(data) => data.homenumber}
       multilineHeader={true}
-      onCellClicked={() => console.log("CellClciked")}
-      onCellDoubleClicked={() => console.log("onCellDoubleClicked")}
+      onCellClicked={(params) => console.log("onCellClicked", params)}
     />
   );
 }

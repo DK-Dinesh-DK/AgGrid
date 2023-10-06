@@ -129,6 +129,10 @@ export default function ScrollToRow({ direction }) {
         headerRowHeight={24}
         enableVirtualization={false}
         className="fill-grid"
+        serialNumber={true}
+        serialColumnStyle={(props) => {
+          return { backgroundColor: "blue" };
+        }}
       />
     </>
   );

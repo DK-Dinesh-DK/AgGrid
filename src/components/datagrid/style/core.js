@@ -136,7 +136,6 @@ const root = css`
     }
     .rdg-detailed-row {
       height: 24px;
-      width: 100%;
       display: flex;
       line-height: 24px;
       font-size: var(--rdg-font-size);
@@ -153,7 +152,7 @@ const root = css`
     }
 
     .detailed-row-container {
-      margin-top: 8px 5px;
+      padding: 8px 5px;
     }
     .details-minus-icon {
       height: 12px;

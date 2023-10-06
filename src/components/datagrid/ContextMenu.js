@@ -69,6 +69,16 @@ const ContextMenu = ({
       setLocalPosition({ ...post });
     }
   }, [contextMenuRef]);
+  function handleClick() {
+    onClose();
+  }
+  useEffect(() => {
+    window.addEventListener("click", handleClick);
+    return () => {
+      window.removeEventListener("click", handleClick);
+    };
+  }, []);
+
   return (
     <div
       id={id}
@@ -79,11 +89,11 @@ const ContextMenu = ({
         zIndex: 1000,
         border: "1px solid #ccc",
         backgroundColor: "white",
+        color: "#000",
         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
       }}
       className="context-menu-container"
       ref={contextMenuRef}
-      // onClick={handleContextMenuClick}
     >
       {items?.map((item) => (
         <>

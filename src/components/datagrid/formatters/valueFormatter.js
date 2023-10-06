@@ -15,6 +15,7 @@ export function valueFormatter(props) {
       props.onRowClick?.({
         api: props.api,
         data: props.row,
+        colDef: props.column,
         columnApi: props.columnApi,
         node: props.node,
         rowIndex: props.rowIndex,
@@ -23,12 +24,7 @@ export function valueFormatter(props) {
       });
       props.onCellClick?.({
         api: props.api,
-        colDef: {
-          field: props.column.field,
-          resizable: props.column.resizable,
-          sortable: props.column.sortable,
-          width: props.column.width,
-        },
+        colDef: props.column,
         data: props.row,
         node: props.node,
         columnApi: props.columnApi,
@@ -181,7 +177,6 @@ const childData = (subData, props) => {
   }
   const rowCol = props.rowArray;
   return rowSubData.map((info1, index) => {
-
     // const [cellValue, setCellValue] = useState(
     //   info1.cellRendererParams?.value ?? props.row[info1.key]
     // );
@@ -202,6 +197,7 @@ const childData = (subData, props) => {
         props.onRowClick?.({
           api: props.api,
           data: props.row,
+          colDef: info1,
           columnApi: props.columnApi,
           node: props.node,
           rowIndex: props.rowIndex,
@@ -210,12 +206,7 @@ const childData = (subData, props) => {
         });
         props.onCellClick?.({
           api: props.api,
-          colDef: {
-            field: info1.field,
-            resizable: info1.resizable,
-            sortable: info1.sortable,
-            width: info1.width,
-          },
+          colDef: info1,
           data: props.row,
           node: props.node,
           columnApi: props.columnApi,
@@ -229,12 +220,15 @@ const childData = (subData, props) => {
     function handleContextMenu() {
       selectSubCellWrapper();
     }
+
     function handleDoubleClick(e) {
       selectSubCellWrapper(true);
       if (!info1.readOnly) {
+        console.log("Calling");
         props.onRowDoubleClick?.({
           api: props.api,
           data: props.row,
+          colDef: info1,
           columnApi: props.columnApi,
           node: props.node,
           rowIndex: props.rowIndex,
@@ -243,12 +237,7 @@ const childData = (subData, props) => {
         });
         props.onCellDoubleClick?.({
           api: props.api,
-          colDef: {
-            field: info1.field,
-            resizable: info1.resizable,
-            sortable: info1.sortable,
-            width: info1.width,
-          },
+          colDef: info1,
           data: props.row,
           node: props.node,
           columnApi: props.columnApi,
@@ -324,7 +313,7 @@ const childData = (subData, props) => {
     return (
       <div
         onClick={handleClick}
-        key={`${props.colDef.idx}-${props.row[info1.field]}`}
+        key={`${info1.idx}-${props.rowIndex}-${info1.field}`}
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
         style={childStyle}
@@ -375,6 +364,8 @@ const childData = (subData, props) => {
               onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
               fullWidth: info1.cellRendererParams?.fullWidth,
               valueFormatted: info1.cellRendererParams?.valueFormatted,
+              onRowClick: handleClick,
+              onRowCellClick: handleDoubleClick,
               ...info1?.cellRendererParams,
             })}
         {!info1.rowDrag &&
@@ -400,6 +391,8 @@ const childData = (subData, props) => {
             onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
             fullWidth: info1.cellRendererParams?.fullWidth,
             valueFormatted: info1.cellRendererParams?.valueFormatted,
+            onRowClick: handleClick,
+            onRowCellClick: handleDoubleClick,
             ...info1?.cellRendererParams,
           })}
       </div>

@@ -1,4 +1,10 @@
-import React, { memo, useRef, useState, createElement, isValidElement } from "react";
+import React, {
+  memo,
+  useRef,
+  useState,
+  createElement,
+  isValidElement,
+} from "react";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
 import { PlusIcon, MinusIcon } from "../../assets/Icon";
@@ -132,7 +138,9 @@ function DetailsCell({
       border: "1px solid #97A4B1",
     };
   }
-
+  if (row.gridRowType === "detailedRow") {
+    style = { ...style, width: `${props.gridWidth}px` };
+  }
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -184,8 +192,7 @@ function DetailsCell({
         row.gridRowType !== "detailedRow" &&
         typeof column.cellRenderer === "object" &&
         isValidElement(column.cellRenderer) &&
-        createElement(
-        column.cellRenderer,{
+        createElement(column.cellRenderer, {
           column,
           row,
           isExpanded,
@@ -222,8 +229,8 @@ function DetailsCell({
         </>
       )}
       {row.gridRowType === "detailedRow" && (
-        <div style={{ margin: "8px 5px" }} className="detailed-row-container">
-          {viewportColumns.map((column,index) => {
+        <div className="detailed-row-container">
+          {viewportColumns.map((column, index) => {
             return (
               <div
                 aria-selected={selectedCellIdx - 1 === index}
@@ -276,31 +283,31 @@ function DetailsCell({
                   role={"gridcell"}
                   style={{ width: `${props.gridWidth * 0.7}px` }}
                 >
-                  {typeof column.cellRenderer ==="function" &&
-                     column.cellRenderer?.({
-                    column,
-                    row,
-                    viewportColumns,
-                    data: row,
-                    allrow,
-                    onRowChange: (newrow) => onRowChange(column, newrow),
-                    selectCell: () => {
-                      selectCell(row, column, id);
-                    },
-                  })}
-                  {typeof column.cellRenderer ==="object" &&
+                  {typeof column.cellRenderer === "function" &&
+                    column.cellRenderer?.({
+                      column,
+                      row,
+                      viewportColumns,
+                      data: row,
+                      allrow,
+                      onRowChange: (newrow) => onRowChange(column, newrow),
+                      selectCell: () => {
+                        selectCell(row, column, id);
+                      },
+                    })}
+                  {typeof column.cellRenderer === "object" &&
                     isValidElement(column.cellRenderer) &&
-                    createElement(column.cellRenderer,{
-                    column,
-                    row,
-                    viewportColumns,
-                    data: row,
-                    allrow,
-                    onRowChange: (newrow) => onRowChange(column, newrow),
-                    selectCell: () => {
-                      selectCell(row, column, id);
-                    },
-                  })}
+                    createElement(column.cellRenderer, {
+                      column,
+                      row,
+                      viewportColumns,
+                      data: row,
+                      allrow,
+                      onRowChange: (newrow) => onRowChange(column, newrow),
+                      selectCell: () => {
+                        selectCell(row, column, id);
+                      },
+                    })}
                 </div>
               </div>
             );

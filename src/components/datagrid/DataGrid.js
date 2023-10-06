@@ -184,13 +184,30 @@ function DataGrid(props) {
   const [selectedRows1, onSelectedRowsChange1] = useState();
   selectedRows = selectedRows ? selectedRows : [];
   const selection = rest.selection && SelectColumn;
+  let sam;
+  if (rest.serialColumnStyle) {
+    if (typeof rest.serialColumnStyle === "function") {
+      sam = {
+        ...SerialNumberColumn,
+        cellStyle: (props) => rest.serialColumnStyle(props),
+      };
+    } else {
+      sam = {
+        ...SerialNumberColumn,
+        cellStyle: rest.serialColumnStyle,
+      };
+    }
+  } else {
+    sam = SerialNumberColumn;
+  }
   if (rest.selection && serialNumber) {
     raawColumns = [selection, ...raawColumns];
-    raawColumns = [SerialNumberColumn, ...raawColumns];
+
+    raawColumns = [sam, ...raawColumns];
   } else if (rest.selection && !serialNumber) {
     raawColumns = [selection, ...raawColumns];
   } else if (!rest.selection && serialNumber) {
-    raawColumns = [SerialNumberColumn, ...raawColumns];
+    raawColumns = [sam, ...raawColumns];
   }
   raawColumns = raawColumns.filter((col) => {
     if (!col.hide) return col;
@@ -225,7 +242,7 @@ function DataGrid(props) {
   const handleContextMenu = (e, data) => {
     if (getContextMenuItems && getContextMenuItems.length > 0) {
       e.preventDefault();
-      let position = { top: e.clientY, left: e.clientX };
+      let position = { top: e.clientY + window.scrollY, left: e.clientX };
       setContextMenuPosition(position);
       setContextMenuVisible(true);
       setContextSubMenuVisible(false);
@@ -3597,6 +3614,7 @@ function DataGrid(props) {
             [viewportDraggingClassname]: isDragging,
           },
           className,
+          "AgGrid-scroll-bar",
           enableFilter && filterContainerClassname
         )}
         style={{
@@ -3615,7 +3633,7 @@ function DataGrid(props) {
                   headerRowHeight + topSummaryRowsCount * summaryRowHeight
                 }px ${bottomSummaryRowsCount * summaryRowHeight}px`
               : undefined,
-
+          overflowX: rest.detailedRow ? "hidden" : "auto",
           gridTemplateRows: templateRows,
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
