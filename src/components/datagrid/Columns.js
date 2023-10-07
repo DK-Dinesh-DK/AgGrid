@@ -9,9 +9,9 @@ const headerCellClassName = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #16365d;
-  color: white;
-  font-weight: bold;
+  background-color: var(--rdg-serial-cell-background-color);
+  color: var(--rdg-serial-cell-color);
+  font-weight: var(--rdg-serial-cell-font-weight);
 `;
 
 function SelectFormatter(props) {
@@ -34,7 +34,7 @@ function SelectGroupFormatter(props) {
 
   return (
     <SelectCellFormatter
-    rowIndex={props.rowIndex}
+      rowIndex={props.rowIndex}
       aria-label="Select Group"
       isCellSelected={props.isCellSelected}
       value={isRowSelected}
@@ -56,7 +56,7 @@ export const SelectColumn = {
   sortable: false,
   frozen: true,
   filter: false,
-  haveChildren:false,
+  haveChildren: false,
   headerRenderer(props) {
     return (
       <SelectCellFormatter
@@ -80,14 +80,14 @@ export const SerialNumberColumn = {
   name: "Sr. No.",
   field: "Sr. No.",
   width: 50,
-  maxWidth:50,
+  maxWidth: 50,
   resizable: false,
   sortable: false,
   frozen: true,
   filter: false,
-  haveChildren:false,
+  haveChildren: false,
   headerRenderer: () => {
-    return SerialNumberColumn.name
+    return SerialNumberColumn.name;
   },
   cellClass: headerCellClassName,
   cellRenderer: (props) => {

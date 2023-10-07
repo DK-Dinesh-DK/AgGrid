@@ -31,6 +31,11 @@ const lightTheme = `
   --rdg-details-row-header-color: rgb(151, 164, 177);
   --details-minus-icon-color:#000;
   --rdg-filter-icon-color:#FFFF;
+  --rdg-serial-cell-background-color:#16365d;
+  --rdg-serial-cell-color:#FFFF;
+  --rdg-serial-cell-font-weight:bold;
+  --rdg-selection-color: #66afe9;
+  --rdg-font-size: 11px;
 `;
 
 const darkTheme = `
@@ -62,6 +67,11 @@ const darkTheme = `
   --rdg-details-row-header-color: rgb(151, 164, 177);
   --details-minus-icon-color:#000;
   --rdg-filter-icon-color:#FFFF;
+  --rdg-serial-cell-background-color:#16365d;
+  --rdg-serial-cell-color:#FFFF;
+  --rdg-serial-cell-font-weight:bold;
+  --rdg-selection-color: #66afe9;
+  --rdg-font-size: 11px;
 `;
 
 const root = css`
@@ -166,8 +176,6 @@ const root = css`
     }
     @layer Root {
       ${lightTheme}
-      --rdg-selection-color: #66afe9;
-      --rdg-font-size: 11px;
 
       display: grid;
 

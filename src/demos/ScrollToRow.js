@@ -130,8 +130,32 @@ export default function ScrollToRow({ direction }) {
         enableVirtualization={false}
         className="fill-grid"
         serialNumber={true}
-        serialColumnStyle={(props) => {
-          return { backgroundColor: "blue" };
+        style={{
+          fontColor: "#000",
+          borderColor: "#D9E1E6",
+          summaryBorderColor: "#555",
+          backgroundColor: "#000000",
+          headerBackgroundColor: "#97A4B1",
+          headerRowColor: "#FFFFFF",
+          hoverBackgroundColor: "#D7E3BC",
+          hoverColor: "#000",
+          selectedHoverBackgroundColor: "#7C94B6",
+          checkboxColor: "#97A4B1",
+          checkboxFocusColor: "#A9B7C6",
+          disabledBorderColor: "#A9B7C6",
+          disabledBackgroundColor: "#ddd",
+          textEditorFontColor: "#000000",
+          rowEvenBackgroundColor: "#EBF0F5",
+          rowOddBackgroundColor: "#FFFF",
+          selectedBackgroundColor: "#ebf1dd",
+          fontFamily: "Segoe UI",
+          headerFontSize: "12px",
+          treeIconColor: "#FFFF",
+          treeIconFontSize: "12px",
+          masterIconColor: "#FFFF",
+          masterIconFontSize: "12px",
+          groupIconColor: "#FFFF",
+          groupIconFontSize: "12px",
         }}
       />
     </>
