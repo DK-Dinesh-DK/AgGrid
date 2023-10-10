@@ -3852,15 +3852,18 @@ function DataGrid(props) {
               showSizeChanger={false}
               itemRender={PrevNextArrow}
               style={{
-                "--rc-pagination-button-active-background-color": "#fff",
+                "--rc-pagination-button-active-background-color": "#000",
                 "--rc-pagination-button-active-border-color": "#A9B7C6",
-                "--rc-pagination-button-active-color": "#A9B7C6",
+                "--rc-pagination-button-active-color": "#fff",
                 "--rc-pagination-button-font-family":
                   '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
                 "--rc-pagination-button-color": "#fff",
-                "--rc-pagination-button-background-color": "#A9B7C6",
+                "--rc-pagination-button-background-color": "#4F81BD",
                 "--rc-pagination-button-font-size": "10px",
                 "--rc-pagination-button-border-radius": "0",
+                "--rc-pagination-button-border": "#fff",
+                "--rc-pagination-button-hover-border-color": "#B7D7A8",
+                "--rc-pagination-button-hover-color": "#B7D7A8",
                 ...props.paginationStyle,
               }}
             />

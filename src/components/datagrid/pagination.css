@@ -89,7 +89,7 @@ a:focus {
   max-height: 16px;
   min-width: 16px;
   border-radius: var(--rc-pagination-button-border-radius);
-  border: var(--rc-pagination-button-border) !important;
+  border: 1px solid var(--rc-pagination-button-border) !important;
   background-color: var(--rc-pagination-button-background-color) !important;
   display: flex;
   align-items: center;
@@ -98,6 +98,7 @@ a:focus {
   font-family: var(--rc-pagination-button-font-family) !important;
   font-weight: 500;
   color: var(--rc-pagination-button-color) !important;
+  text-decoration: underline;
   transition: 0.3s;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
@@ -115,8 +116,8 @@ a:focus {
   background-color: var(
     --rc-pagination-button-active-background-color
   ) !important;
-  border: 1px solid var(--rc-pagination-button-active-border-color) !important;
   color: var(--rc-pagination-button-active-color) !important;
+  text-decoration: none;
 }
 .rc-pagination-item a:hover,
 .rc-pagination-item button:hover,
@@ -127,7 +128,8 @@ a:focus {
 .rc-pagination-total-text a:hover,
 .rc-pagination-total-text button:hover {
   background-color: #eceff5;
-  border-color: #eceff5;
+  border: 1px solid var(--rc-pagination-button-hover-border-color) !important;
+  color: var(--rc-pagination-button-hover-color) !important;
 }
 
 .react-contextmenu-wrapper {
@@ -244,66 +246,3 @@ a:focus {
   background-color: #e5edf8;
 }
 
-.AgGrid-scroll-bar::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-.AgGrid-scroll-bar::-webkit-scrollbar-track:horizontal {
-  background-color: #dbe5f1;
-  border-top: solid 0.5px #fff !important;
-  border-bottom: solid 0.5px #fff !important;
-}
-.AgGrid-scroll-bar::-webkit-scrollbar-track:vertical {
-  background-color: #dbe5f1;
-  border-left: solid 0.5px #fff !important;
-  border-right: solid 0.5px #fff !important;
-}
-.AgGrid-scroll-bar::-webkit-scrollbar-thumb {
-  background-color: #95b3d7;
-  border: solid 0.5px #ffff !important;
-  width: 9px;
-}
-
-/* .AgGrid-scroll-bar::-webkit-scrollbar-button:single-button {
-  background-color: #dbe5f1;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  height: 9px;
-  width: 8px;
-  position: relative;
-} */
-.AgGrid-scroll-bar::-webkit-scrollbar-button:vertical:end:increment {
-  width: 9px;
-  height: 9px;
-  background-color: #95b3d7;
-  border-left: solid 0.5px #fff !important;
-  border-right: solid 0.5px #fff !important;
-  background-image: url("./../../assets/DownArrow.svg");
-}
-
-.AgGrid-scroll-bar::-webkit-scrollbar-button:start:decrement {
-  width: 9px;
-  height: 9px;
-  background-color: #95b3d7;
-  border-left: solid 0.5px #fff !important;
-  border-right: solid 0.5px #fff !important;
-  background-image: url("./../../assets/UpArrow.svg");
-}
-
-.AgGrid-scroll-bar::-webkit-scrollbar-button:horizontal:end:increment {
-  width: 9px;
-  height: 9px;
-  background-color: #95b3d7;
-  border-top: solid 0.5px #fff !important;
-  border-bottom: solid 0.5px #fff !important;
-  background-image: url("./../../assets/RightArrow.svg");
-}
-.AgGrid-scroll-bar::-webkit-scrollbar-button:horizontal:start:decrement {
-  width: 9px;
-  height: 9px;
-  background-color: #95b3d7;
-  border-top: solid 0.5px #fff !important;
-  border-bottom: solid 0.5px #fff !important;
-  background-image: url("./../../assets/LeftArrow.svg");
-}
