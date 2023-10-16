@@ -82,6 +82,7 @@ export default function MasterDetail({ direction }) {
               columnData={productColumns}
               rowKeyGetter={rowKeyGetter}
               style={{ blockSize: 250 }}
+              // onRowsChange={(pr) => console.log("PR", pr)}
               onRowClicked={() => {
                 console.log("Child Rowclciked");
               }}

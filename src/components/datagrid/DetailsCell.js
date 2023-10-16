@@ -2,7 +2,7 @@ import React, {
   memo,
   useRef,
   useState,
-  createElement,
+  cloneElement,
   isValidElement,
 } from "react";
 import { getCellStyle, getCellClassname } from "./utils";
@@ -192,7 +192,7 @@ function DetailsCell({
         row.gridRowType !== "detailedRow" &&
         typeof column.cellRenderer === "object" &&
         isValidElement(column.cellRenderer) &&
-        createElement(column.cellRenderer, {
+        cloneElement(column.cellRenderer, {
           column,
           row,
           isExpanded,
@@ -297,7 +297,7 @@ function DetailsCell({
                     })}
                   {typeof column.cellRenderer === "object" &&
                     isValidElement(column.cellRenderer) &&
-                    createElement(column.cellRenderer, {
+                    cloneElement(column.cellRenderer, {
                       column,
                       row,
                       viewportColumns,

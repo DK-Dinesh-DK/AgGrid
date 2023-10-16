@@ -23,7 +23,6 @@ const columns = [
   {
     field: "id",
     headerName: "ID",
-    topHeader: "id",
     haveChildren: false,
     width: 80,
   },
@@ -31,7 +30,6 @@ const columns = [
     field: "task",
     headerName: "Title",
     // resizable: true,
-    topHeader: "task",
     // haveChildren: false,
     // sortable: true,
     editable: true,
@@ -39,7 +37,6 @@ const columns = [
   {
     field: "priority",
     headerName: "Priority",
-    topHeader: "priority",
     haveChildren: false,
     resizable: true,
     sortable: true,
@@ -48,14 +45,12 @@ const columns = [
     field: "issueType",
     headerName: "Issue Type",
     resizable: true,
-    topHeader: "issueType",
     haveChildren: false,
     sortable: true,
   },
   {
     field: "complete",
     headerName: "% Complete",
-    topHeader: "complete",
     haveChildren: false,
     resizable: true,
     sortable: true,
@@ -88,21 +83,18 @@ export default function ColumnsReordering({ direction }) {
     {
       field: "id",
       headerName: "ID",
-      topHeader: "id",
       width: 80,
     },
     {
       field: "task",
       headerName: "Title",
       resizable: true,
-      topHeader: "task",
       sortable: true,
       cellEditor: TextEditor,
     },
     {
       field: "priority",
       headerName: "Priority",
-      topHeader: "priority",
       resizable: true,
       sortable: true,
     },
@@ -110,16 +102,11 @@ export default function ColumnsReordering({ direction }) {
       field: "issueType",
       headerName: "Issue Type",
       resizable: true,
-      topHeader: "issueType",
       sortable: true,
     },
     {
       field: "complete",
       headerName: "% Complete",
-      topHeader: "complete",
-      headerRenderer: () => {
-        return <span>% Complete</span>;
-      },
       resizable: true,
       sortable: true,
     },
@@ -127,14 +114,10 @@ export default function ColumnsReordering({ direction }) {
 
   return (
     <>
-      {/* <button onClick={()=>{gridRef.current.api}}>GetValue</button> */}
       <DataGrid
         columnData={columns}
         columnReordering={true}
-        testId={"laidatagrid"}
         rowData={rowData}
-        headerRowHeight={24}
-        className="fill-grid"
       />
     </>
   );

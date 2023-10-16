@@ -11,12 +11,11 @@ export const cell = css`
     position: relative; /* needed for absolute positioning to work */
     padding-block: 0;
     padding-inline: 0px;
-    border-inline-end: 1px solid var(--rdg-border-color);
-    border-block-end: 1px solid var(--rdg-border-color);
+    border-inline-end: var(--rdg-cell-border-vertical);
+    border-block-end: var(--rdg-cell-border-horizontal);
     grid-row-start: var(--rdg-grid-row-start);
     background-color: inherit;
     text-align: center;
-    
     white-space: nowrap;
     overflow: visible;
     text-overflow: ellipsis;
@@ -26,7 +25,6 @@ export const cell = css`
       outline: 1px solid var(--rdg-selection-color);
       outline-offset: -2px;
     }
-   
   }
 `;
 
@@ -38,8 +36,7 @@ export const cellFrozen = css`
     /* Should have a higher value than 0 to show up above unfrozen cells */
     z-index: 1;
   }
-`
-
+`;
 
 export const cellFrozenClassname = `rdg-cell-frozen ${cellFrozen}`;
 

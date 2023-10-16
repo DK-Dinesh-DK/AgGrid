@@ -3619,7 +3619,7 @@ function DataGrid(props) {
         )}
         style={{
           ...style,
-          background: "#B8CCE4",
+          backgroundColor: style?.gridBackgroundColor ?? "#B8CCE4",
           // set scrollPadding to correctly position non-sticky cells after scrolling
           scrollPaddingInlineStart:
             selectedPosition.idx > lastFrozenColumnIndex

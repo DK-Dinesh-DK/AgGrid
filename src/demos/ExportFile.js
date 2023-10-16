@@ -118,7 +118,7 @@ export default function ExportFile({ direction }) {
         className="fill-grid"
         style={{
           "--rdg-color": " #000",
-          "--rdg-border-color": "#FFFFFF",
+          "--rdg-cell-border-color": "1px solid #FFFFFF",
           "--rdg-summary-border-color": "#aaa",
           "--rdg-background-color": "hsl(0deg 0% 100%)",
           "--rdg-header-background-color": "#16365D",

@@ -12,14 +12,12 @@ export default function FilterRenderer({
   const { ref, tabIndex } = useFocusRef(isCellSelected);
 
   let style = {
-    padding: "6px",
     display: "flex",
-    justifyContent: "center",
-    paddingLeft: !(column.sortable || column?.alignment ) ? "15px" : "6px",
+    justifyContent: "var(--rdg-cell-align)",
   };
 
   if (rowData && column?.alignment) {
-    style = alignmentUtils(column, rowData, style, "Header");
+    style = alignmentUtils(column, rowData, style);
   }
 
   return (

@@ -1,5 +1,5 @@
 import moment from "moment";
-export default function alignmentUtils(column, row, childStyle, alignType) {
+export default function alignmentUtils(column, row, childStyle) {
   let styles = childStyle;
   let symbol = ["£", "$", "₹", "€", "¥", "₣", "¢"];
   let alignment;
@@ -37,21 +37,12 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
           moment(row[column.field], "YYYY-DD-MMM", true).isValid() ||
           moment(row[column.field], "YYYY/DD/MMM", true).isValid())))
   ) {
-    if (alignType === "Header") {
       alignment = column.alignment.align
         ? { justifyContent: column.alignment.align }
         : {
-            justifyContent: "center",
+            justifyContent: "var(--rdg-cell-align-date)",
           };
-    } else if (alignType === "Row") {
-      alignment = column.alignment.align
-        ? { textAlign: column.alignment.align }
-        : {
-            textAlign: "center",
-            paddingRight: "6px",
-            paddingLeft: "6px",
-          };
-    }
+   
     styles = {
       ...styles,
       ...alignment,
@@ -71,15 +62,10 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
           moment(row[column.field], "hh:mm:ss a", true).isValid() ||
           moment(row[column.field], "hh:mm a", true).isValid())))
   ) {
-    if (alignType === "Header") {
-      alignment = column.alignment.align
-        ? { justifyContent: column.alignment.align }
-        : { justifyContent: "center" };
-    } else if (alignType === "Row") {
-      alignment = column.alignment.align
-        ? { textAlign: column.alignment.align }
-        : { textAlign: "center", paddingRight: "6px", paddingLeft: "6px" };
-    }
+    alignment = column.alignment.align
+      ? { justifyContent: column.alignment.align }
+      : { justifyContent: "var(--rdg-cell-align-time)" };
+
     styles = {
       ...styles,
       ...alignment,
@@ -98,21 +84,12 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
         (JSON.stringify(row[column.field]).split("/").length === 3 ||
           JSON.stringify(row[column.field]).split("-").length === 3)))
   ) {
-    if (alignType === "Header") {
-      alignment = column.alignment.align
-        ? {
-            justifyContent: column.alignment.align,
-          }
-        : { justifyContent: "center" };
-    } else if (alignType === "Row") {
-      alignment = column.alignment.align
-        ? {
-            textAlign: column.alignment.align,
-            paddingRight: "6px",
-            paddingLeft: "6px",
-          }
-        : { textAlign: "center", paddingRight: "6px", paddingLeft: "6px" };
-    }
+    alignment = column.alignment.align
+      ? {
+          justifyContent: column.alignment.align,
+        }
+      : { justifyContent: "var(--rdg-cell-align-datetime)" };
+
     styles = {
       ...styles,
       ...alignment,
@@ -124,15 +101,10 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
       typeof row[column.field] === "number" &&
       column.alignment.type !== "currency")
   ) {
-    if (alignType === "Header") {
-      alignment = column.alignment.align
-        ? { justifyContent: column.alignment.align }
-        : { justifyContent: "end" };
-    } else if (alignType === "Row") {
-      alignment = column.alignment.align
-        ? { textAlign: column.alignment.align }
-        : { textAlign: "end" };
-    }
+    alignment = column.alignment.align
+      ? { justifyContent: column.alignment.align }
+      : { justifyContent: "var(--rdg-cell-align-number)" };
+
     styles = {
       ...styles,
       ...alignment,
@@ -147,15 +119,10 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
           JSON.stringify(row[column.field])[row[column.field].length]
         )))
   ) {
-    if (alignType === "Header") {
-      alignment = column.alignment.align
-        ? { justifyContent: column.alignment.align }
-        : { justifyContent: "center" };
-    } else if (alignType === "Row") {
-      alignment = column.alignment.align
-        ? { textAlign: column.alignment.align }
-        : { textAlign: "center" };
-    }
+    alignment = column.alignment.align
+      ? { justifyContent: column.alignment.align }
+      : { justifyContent: "var(--rdg-cell-align-currency)" };
+
     styles = {
       ...styles,
       ...alignment,
@@ -167,15 +134,10 @@ export default function alignmentUtils(column, row, childStyle, alignType) {
     column.alignment.type?.toLowerCase() === "text" ||
     (typeof row === "object" && typeof row[column.field] === "string")
   ) {
-    if (alignType === "Header") {
-      alignment = column.alignment.align
-        ? { justifyContent: column.alignment.align }
-        : { justifyContent: "start" };
-    } else if (alignType === "Row") {
-      alignment = column.alignment.align
-        ? { textAlign: column.alignment.align }
-        : { textAlign: "start" };
-    }
+    alignment = column.alignment.align
+      ? { justifyContent: column.alignment.align }
+      : { justifyContent: "var(--rdg-cell-align-string)" };
+
     styles = {
       ...styles,
       ...alignment,

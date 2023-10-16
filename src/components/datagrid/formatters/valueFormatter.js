@@ -1,4 +1,4 @@
-import React, { createElement, isValidElement } from "react";
+import React, { cloneElement, isValidElement } from "react";
 import alignmentUtils from "../utils/alignMentUtils";
 
 export function valueFormatter(props) {
@@ -98,17 +98,21 @@ export function valueFormatter(props) {
     }
     let cellStyle = {
       width: "100%",
-      textAlign: "center",
+      display: "flex",
+      justifyContent: "var(--rdg-cell-align)",
+      alignItems: "center",
       textOverflow: "ellipsis",
       overflow: "hidden",
       height: "inherit",
       paddingInline:
-        isCellSelected && props.selectedCellEditor ? "0px" : "12px",
+        isCellSelected && props.selectedCellEditor
+          ? "0px"
+          : "var(--rdg-cell-padding)",
     };
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align
         ? { ...cellStyle, textAlign: props.column.alignment.align }
-        : alignmentUtils(props.column, props.row, cellStyle, "Row");
+        : alignmentUtils(props.column, props.row, cellStyle);
     }
     if (props.row.gridRowType === "detailedRow") {
       cellStyle = { ...cellStyle, textAlign: "start" };
@@ -224,7 +228,6 @@ const childData = (subData, props) => {
     function handleDoubleClick(e) {
       selectSubCellWrapper(true);
       if (!info1.readOnly) {
-        console.log("Calling");
         props.onRowDoubleClick?.({
           api: props.api,
           data: props.row,
@@ -248,6 +251,11 @@ const childData = (subData, props) => {
         });
       }
     }
+    function handleChange(newValue) {
+      let sample = props.row;
+      sample[info1.field] = newValue;
+      props.onRowChange(sample);
+    }
 
     var isCellSelected;
 
@@ -265,7 +273,7 @@ const childData = (subData, props) => {
       borderInlineEnd:
         isCellSelected && props.selectedCellEditor
           ? "none"
-          : "1px solid var(--rdg-border-color)",
+          : "var(--rdg-cell-border-vertical)",
 
       textAlign: "center",
 
@@ -307,7 +315,7 @@ const childData = (subData, props) => {
     if (info1.alignment) {
       childStyle = info1.alignment.align
         ? { ...childStyle, textAlign: info1.alignment.align }
-        : alignmentUtils(info1, props.row, childStyle, "Row");
+        : alignmentUtils(info1, props.row, childStyle);
     }
     let toolTipContent;
     return (
@@ -359,19 +367,19 @@ const childData = (subData, props) => {
               selectedCellIdx: props.selectedCellIdx,
               getValue: () =>
                 info1.cellRendererParams?.value ?? props.row[info1.key],
-              // setValue: (newValue) => setCellValue(newValue),
+              setValue: (newValue) => handleChange(newValue),
               expandedMasterIds: props.expandedMasterIds,
               onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
               fullWidth: info1.cellRendererParams?.fullWidth,
               valueFormatted: info1.cellRendererParams?.valueFormatted,
               onRowClick: handleClick,
-              onRowCellClick: handleDoubleClick,
+              onRowDoubleClick: handleDoubleClick,
               ...info1?.cellRendererParams,
             })}
         {!info1.rowDrag &&
           typeof info1.cellRenderer === "object" &&
           isValidElement(info1.cellRenderer) &&
-          createElement(info1.cellRenderer, {
+          cloneElement(info1.cellRenderer, {
             column: info1,
             api: props.api,
             columnApi: props.columnApi,
@@ -386,13 +394,13 @@ const childData = (subData, props) => {
             selectedCellIdx: props.selectedCellIdx,
             getValue: () =>
               info1.cellRendererParams?.value ?? props.row[info1.key],
-            // setValue: (newValue) => setCellValue(newValue),
+            setValue: (newValue) => handleChange(newValue),
             expandedMasterIds: props.expandedMasterIds,
             onExpandedMasterIdsChange: props.onExpandedMasterIdsChange,
             fullWidth: info1.cellRendererParams?.fullWidth,
             valueFormatted: info1.cellRendererParams?.valueFormatted,
             onRowClick: handleClick,
-            onRowCellClick: handleDoubleClick,
+            onRowDoubleClick: handleDoubleClick,
             ...info1?.cellRendererParams,
           })}
       </div>

@@ -3,7 +3,8 @@ import { row } from "./row";
 
 const lightTheme = `
   --rdg-color: #000;
-  --rdg-border-color: #FFFFFF;
+  --rdg-cell-border-vertical: 1px solid #FFFFFF;
+  --rdg-cell-border-horizontal: 1px solid #FFFFFF;
   --rdg-summary-border-color: #aaa;
   --rdg-background-color: hsl(0deg 0% 100%);
   --rdg-header-background-color:  #16365D;
@@ -29,18 +30,27 @@ const lightTheme = `
   --rdg-group-icon-color:#000;
   --rdg-group-icon-font-size:12px;
   --rdg-details-row-header-color: rgb(151, 164, 177);
-  --details-minus-icon-color:#000;
+  --rdg-details-minus-icon-color:#000;
+  --rdg-details-plus-icon-color:#000;
   --rdg-filter-icon-color:#FFFF;
   --rdg-serial-cell-background-color:#16365d;
   --rdg-serial-cell-color:#FFFF;
   --rdg-serial-cell-font-weight:bold;
   --rdg-selection-color: #66afe9;
   --rdg-font-size: 11px;
+  --rdg-cell-padding:12px;
+  --rdg-cell-align:start;
+  --rdg-cell-align-string:start;
+  --rdg-cell-align-currency:center;
+  --rdg-cell-align-number:end;
+  --rdg-cell-align-datetime:center;
+  --rdg-cell-align-time:center;
+  --rdg-cell-align-date:center;
 `;
 
 const darkTheme = `
   --rdg-color: #000;
-  --rdg-border-color: #FFFFFF;
+  --rdg-cell-border-color: 1px solid #FFFFFF;
   --rdg-summary-border-color: #555;
   --rdg-background-color: hsl(0deg 0% 13%);
   --rdg-header-background-color:  #16365D;
@@ -65,13 +75,16 @@ const darkTheme = `
   --rdg-group-icon-color:#000;
   --rdg-group-icon-font-size:12px;
   --rdg-details-row-header-color: rgb(151, 164, 177);
-  --details-minus-icon-color:#000;
+  --rdg-details-minus-icon-color:#000;
+  --rdg-details-plus-icon-color:#000;
   --rdg-filter-icon-color:#FFFF;
   --rdg-serial-cell-background-color:#16365d;
   --rdg-serial-cell-color:#FFFF;
   --rdg-serial-cell-font-weight:bold;
   --rdg-selection-color: #66afe9;
   --rdg-font-size: 11px;
+  --rdg-cell-padding:12px;
+  --rdg-cell-align:start;
 `;
 
 const root = css`
@@ -167,12 +180,12 @@ const root = css`
     .details-minus-icon {
       height: 12px;
       width: 12px;
-      fill: #000;
+      fill: var(--rdg-details-minus-icon-color);
     }
     .details-plus-icon {
       height: 12px;
       width: 12px;
-      fill: #000;
+      fill: var(--rdg-details-plus-icon-color);
     }
     @layer Root {
       ${lightTheme}

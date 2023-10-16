@@ -24,6 +24,7 @@ function LaiDataGrid(props) {
         eeee1: `name${i}`,
         rdrd: `words${i}`,
         pppp2: `sentence${i}`,
+        DFSDF: `DFSDF${i}`,
       });
     }
 
@@ -140,20 +141,23 @@ function LaiDataGrid(props) {
                   headerName: "FFFF",
                   width: 100,
                   alignment: true,
-                  cellEditor: (params) => {
-                    console.log(params.getValue());
-                    TextEditor(params);
-                  },
                 },
                 {
-                  field: "qweasd",
+                  field: "DFSDF",
                   headerName: "DFSDF",
                   width: 100,
                   alignment: true,
                   sortable: true,
-                  cellRenderer: (params) => {
-                    console.log(params.getValue());
-                    TextEditor(params);
+                  cellRenderer: (props) => {
+                    return (
+                      <input
+                        data-testid={`text-input-${props.column.headerName}-${props.rowIndex}`}
+                        value={props.getValue()}
+                        onChange={(e) => {
+                          props.setValue(e.target.value);
+                        }}
+                      />
+                    );
                   },
                 },
                 {
@@ -381,5 +385,13 @@ describe("Datagrid Unit test for MultiLine Header view", () => {
     const headerCell = screen.getByText("AASS");
     expect(headerCell).toBeInTheDocument();
     fireEvent.doubleClick(headerCell);
+  });
+  test("Multiline header edit ", async () => {
+    render(<LaiDataGrid />);
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const textInput = screen.getByTestId("text-input-DFSDF-0");
+    expect(textInput).toBeInTheDocument();
+    fireEvent.change(textInput, { target: { value: "hn" } });
   });
 });

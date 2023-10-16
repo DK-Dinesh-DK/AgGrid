@@ -5,7 +5,6 @@ import { css } from "@linaria/core";
 import alignmentUtils from "./utils/alignMentUtils";
 const headerSortCell = css`
   @layer rdg.SortableHeaderCell {
-    padding: 2px;
     display: flex;
     width: 100%;
     justify-content: space-between;
@@ -45,11 +44,10 @@ export default function SortableHeaderCell({
   let style = {
     width: "90%",
     display: "flex",
-    justifyContent: "center",
-    paddingLeft: column?.filter && !column?.alignment ? "15px" : "6px",
+    justifyContent: "var(--rdg-cell-align)",
   };
   if (column?.alignment) {
-    style = alignmentUtils(column, rowData, style, "Header");
+    style = alignmentUtils(column, rowData, style);
   }
   return (
     <div

@@ -233,17 +233,17 @@ export default function HeaderCell({
     display: "flex",
     height: "100%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "var(--rdg-cell-align)",
   };
   if (column.alignment) {
     headerStyle = column.alignment.align
       ? { ...headerStyle, justifyContent: column.alignment.align }
-      : alignmentUtils(column, rows[0], headerStyle, "Header");
+      : alignmentUtils(column, rows[0], headerStyle);
   }
   if (column.alignment) {
     style = column.alignment.align
       ? { ...style, justifyContent: column.alignment.align }
-      : alignmentUtils(column, rows[0], style, "Header");
+      : alignmentUtils(column, rows[0], style);
   }
   return (
     <div

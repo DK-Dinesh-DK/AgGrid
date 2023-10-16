@@ -435,16 +435,18 @@ export default function MultilineHeader({ direction }) {
   return (
     <DataGrid
       columnData={columnData}
-      testId={"laidatagrid"}
       rowData={initialRows}
-      headerRowHeight={24}
       className="fill-grid"
-      //  onRowsChange={setRows}
-      // style={{ width: "max-content", overflowX: "auto" }}
       selection={true}
       rowKeyGetter={(data) => data.homenumber}
       multilineHeader={true}
-      onCellClicked={(params) => console.log("onCellClicked", params)}
+      onRowClicked={(props) => {
+        console.log("onRowClicked", props);
+      }}
+      onCellDoubleClicked={(props) => {
+        console.log("onCellDoubleClicked", props);
+      }}
+      style={{ borderRight: "1px solid blue" }}
     />
   );
 }

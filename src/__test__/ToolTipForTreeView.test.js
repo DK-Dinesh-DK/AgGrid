@@ -325,4 +325,77 @@ describe("ToolTip test for Tree view Row", () => {
     fireEvent.mouseMove(content);
     fireEvent.mouseOut(content);
   });
+   test("Tree view Default Row without id", async () => {
+     function createRows() {
+       const rows = [];
+       for (let i = 0; i < 10; i++) {
+         const price = Math.random() * 30;
+         const id = `row${i}`;
+         var row;
+         if (i < 1 || i === 3) {
+           row = {
+             name: `supplier ${i}`,
+             format: `package-${i}`,
+             position: "Run of site",
+             price,
+             children: [
+               {
+                 name: `supplier ${id}-0`,
+                 format: "728x90",
+                 position: "run of site",
+                 price: price / 2,
+               },
+               {
+                 name: `supplier ${id}-1`,
+                 format: "480x600",
+                 position: "run of site",
+                 price: price * 0.25,
+                 children: [
+                   {
+                     name: `supplier ${id}-1-1`,
+                     format: "728x90",
+                     position: "run of site",
+                     price: price / 2,
+                     children: [
+                       {
+                         name: `supplier ${id}-1-1-0`,
+                         format: "728x90",
+                         position: "run of site",
+                         price: price / 2,
+                       },
+                     ],
+                   },
+                 ],
+               },
+               {
+                 parentId: id,
+                 name: `supplier${id}-2`,
+                 format: "328x70",
+                 position: "run of site",
+                 price: price * 0.25,
+               },
+             ],
+           };
+         } else {
+           row = {
+             name: `supplier-${i}`,
+             format: `package ${i}`,
+             position: "Run of site",
+             price,
+           };
+         }
+         rows.push(row);
+       }
+       return rows;
+     }
+     const rowDataTree = createRows();
+     render(<LaiDataGridTree rowLevelToolTip={true} rowData={rowDataTree} />);
+
+     const screenArea = screen.getByTestId("laidatagridTree");
+     expect(screenArea).toBeInTheDocument();
+     const content = screen.getByText("supplier 0");
+     expect(content).toBeInTheDocument();
+     fireEvent.mouseOver(content);
+     fireEvent.mouseOut(content);
+   });
 });

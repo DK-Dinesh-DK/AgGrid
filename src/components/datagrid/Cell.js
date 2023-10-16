@@ -198,7 +198,7 @@ function Cell({
   if (column.alignment) {
     style = column.alignment.align
       ? { ...style, textAlign: column.alignment.align }
-      : alignmentUtils(column, row, style, "Row");
+      : alignmentUtils(column, row, style);
   }
   /// -----------------------
   if (valueChangedCellStyle) {
