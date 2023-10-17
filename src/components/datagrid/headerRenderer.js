@@ -176,8 +176,8 @@ export default function HeaderRenderer({
       display: "flex",
       justifyContent: "var(--rdg-cell-align)",
       width: "100%",
-      paddingLeft: "var(--rdg-cell-padding)",
-      paddingRight: "var(--rdg-cell-padding)",
+      paddingLeft: "var(--rdg-cell-padding-left)",
+      paddingRight: "var(--rdg-cell-padding-right)",
     };
     if (column.alignment) {
       style_1 = column.alignment.align
@@ -234,8 +234,8 @@ export default function HeaderRenderer({
         alignItems: "center",
         justifyContent: "var(--rdg-cell-align)",
         height: "100%",
-        paddingLeft: "var(--rdg-cell-padding)",
-        paddingRight: "var(--rdg-cell-padding)",
+        paddingLeft: "var(--rdg-cell-padding-left)",
+        paddingRight: "var(--rdg-cell-padding-right)",
       };
       if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
         style11 = { ...style11, ...selectedCellHeaderStyle };
@@ -280,8 +280,8 @@ export default function HeaderRenderer({
         alignItems: "center",
         justifyContent: "var(--rdg-cell-align)",
         height: "100%",
-        paddingLeft: "var(--rdg-cell-padding)",
-        paddingRight: "var(--rdg-cell-padding)",
+        paddingLeft: "var(--rdg-cell-padding-left)",
+        paddingRight: "var(--rdg-cell-padding-right)",
       };
       if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
         styleSF = { ...styleSF, ...selectedCellHeaderStyle };
@@ -384,7 +384,7 @@ const RecursiveScan = (
         }
         <div className={headerWrapperWithcellData}>
           {subData.children.map((subInfo, index) => {
-            var style = {
+            let style = {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -445,8 +445,8 @@ const RecursiveScan = (
       //     ? "1px solid var(--rdg-selection-color)"
       //     : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
-      paddingLeft: "var(--rdg-cell-padding)",
-      paddingRight: "var(--rdg-cell-padding)",
+      paddingLeft: "var(--rdg-cell-padding-left)",
+      paddingRight: "var(--rdg-cell-padding-right)",
     };
     if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx) {
       style = { ...style, ...selectedCellHeaderStyle };
@@ -533,8 +533,8 @@ const RecursiveScan = (
         //     ? "1px solid var(--rdg-selection-color)"
         //     : "none",
         outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
-        paddingLeft: "var(--rdg-cell-padding)",
-        paddingRight: "var(--rdg-cell-padding)",
+        paddingLeft: "var(--rdg-cell-padding-left)",
+        paddingRight: "var(--rdg-cell-padding-right)",
       };
 
       if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx) {
@@ -595,8 +595,8 @@ const RecursiveScan = (
         //     ? "1px solid var(--rdg-selection-color)"
         //     : "none",
         outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
-        paddingLeft: "var(--rdg-cell-padding)",
-        paddingRight: "var(--rdg-cell-padding)",
+        paddingLeft: "var(--rdg-cell-padding-left)",
+        paddingRight: "var(--rdg-cell-padding-right)",
       };
 
       if (selectedCellHeaderStyle && selectedPosition.idx === subData.idx)

@@ -28,7 +28,7 @@ const cellDraggedOver = css`
   @layer rdg.Cell {
     background-color: #ccccff;
 
-    &.${cellCopied} {
+    &.${String(cellCopied)} {
       background-color: #9999ff;
     }
   }
@@ -220,7 +220,6 @@ function Cell({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
-
   function onRowReorder(fromIndex, toIndex) {
     const newRows = [...allrow];
     newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
@@ -240,14 +239,12 @@ function Cell({
     handleSetDragging(false);
   }
   function handleDoubleClick(e) {
-   
     if (!column.haveChildren) {
       e.stopPropagation();
       if (!column.readOnly) {
         onRowDoubleClick?.({
           api: api,
           data: row,
-          colDef: column,
           columnApi: columnApi,
           node: node,
           rowIndex: rowIndex,
@@ -257,7 +254,6 @@ function Cell({
         onCellDoubleClick?.({
           api: api,
           data: row,
-          colDef: column,
           columnApi: columnApi,
           node: node,
           rowIndex: rowIndex,
@@ -275,7 +271,6 @@ function Cell({
         onRowClick?.({
           api: api,
           data: row,
-          colDef: column,
           columnApi: columnApi,
           node: node,
           rowIndex: rowIndex,
@@ -285,7 +280,6 @@ function Cell({
         onCellClick?.({
           api: api,
           data: row,
-          colDef: column,
           columnApi: columnApi,
           node: node,
           rowIndex: rowIndex,
@@ -389,8 +383,7 @@ function Cell({
         );
         let y = element.getBoundingClientRect().y;
         setMouseY(y + Rowheight / 2);
-      }}
-    >
+      }}>
       {!column.rowGroup && (
         <>
           {column.rowDrag && (
@@ -399,16 +392,14 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{ display: "flex" }}
-            >
+              style={{ display: "flex" }}>
               <span
                 data-testid={`drag-icon-${column.idx}-${rowIndex}`}
                 style={{
                   cursor: "grab",
                   marginLeft: "10px",
                   marginRight: "5px",
-                }}
-              >
+                }}>
                 &#9674;
               </span>
               {typeof column.cellRenderer === "object" &&

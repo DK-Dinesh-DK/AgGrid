@@ -71,7 +71,22 @@ function LaiDataGrid(props) {
 
 describe("Datagrid Unit test for NoRows", () => {
   test("no rows", () => {
-    render(<LaiDataGrid />);
+    render(
+      <LaiDataGrid
+        style={{
+          borderWidth: 2,
+          headerFontSize: 10,
+          cellFontSize: 10,
+          cellPaddingRight: 10,
+          cellPaddingLeft: 10,
+          treeIconFontSize: 13,
+          masterIconFontSize: 13,
+          groupIconFontSize: 13,
+          cellHorizontalBorderWidth: 2,
+          cellVerticalBorderWidth: 2,
+        }}
+      />
+    );
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
@@ -80,7 +95,40 @@ describe("Datagrid Unit test for NoRows", () => {
     fireEvent.click(setBtn);
   });
   test("keyGetter", () => {
-    render(<LaiDataGrid rowKeyGetter={"id"} />);
+    render(
+      <LaiDataGrid
+        rowKeyGetter={"id"}
+        style={{
+          headerFontSize: 10,
+          cellFontSize: 10,
+          cellPaddingRight: 0,
+          cellPaddingLeft: 0,
+          treeIconFontSize: 13,
+          masterIconFontSize: 13,
+          groupIconFontSize: 13,
+          borderStyle: "solid",
+          borderColor: "red",
+          cellHorizontalBorderStyle: "dotted",
+          cellHorizontalBorderColor: "yellow",
+          cellVerticalBorderStyle: "dotted",
+          cellVerticalBorderColor: "yellow",
+        }}
+      />
+    );
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+  });
+  test("keyGetter", () => {
+    render(
+      <LaiDataGrid
+        rowKeyGetter={"id"}
+        style={{
+          cellHorizontalBorderWidth: 0,
+          cellVerticalBorderWidth: 0,
+        }}
+      />
+    );
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();

@@ -42,7 +42,7 @@ const checkbox = css`
       width: 7px;
     }
 
-    .${checkboxInput}:checked + & > div {
+    .${String(checkboxInput)}:checked + & > div {
       background-color: var(--rdg-checkbox-color);
 
       /* outline: 3px solid var(--rdg-background-color);
@@ -50,7 +50,7 @@ const checkbox = css`
       width: 8px; */
     }
 
-    .${checkboxInput}:focus + & {
+    .${String(checkboxInput)}:focus + & {
       border-color: var(--rdg-checkbox-focus-color);
     }
   }
@@ -62,7 +62,7 @@ const checkboxLabelDisabled = css`
   @layer rdg.CheckboxLabel {
     cursor: default;
 
-    .${checkbox} {
+    .${String(checkbox)} {
       border-color: var(--rdg-checkbox-disabled-border-color);
       background-color: var(--rdg-checkbox-disabled-background-color);
     }

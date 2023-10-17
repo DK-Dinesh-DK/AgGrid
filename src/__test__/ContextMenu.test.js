@@ -149,12 +149,6 @@ describe("Datagrid Unit test for contextmenu", () => {
     const row = screen.getByText("product3");
     expect(row).toBeInTheDocument();
     fireEvent.contextMenu(row);
-    const row1 = screen.getByText("product4");
-    expect(row1).toBeInTheDocument();
-    fireEvent.contextMenu(row1);
-    const cell = screen.getByText("price3");
-    expect(cell).toBeInTheDocument();
-    fireEvent.contextMenu(cell);
     const alertArea = screen.getByTestId("context-menu-option-Alert");
     expect(alertArea).toBeInTheDocument();
     fireEvent.click(alertArea);

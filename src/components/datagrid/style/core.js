@@ -38,9 +38,10 @@ const lightTheme = `
   --rdg-serial-cell-font-weight:bold;
   --rdg-selection-color: #66afe9;
   --rdg-font-size: 11px;
-  --rdg-cell-padding:12px;
+  --rdg-cell-padding-left:12px;
+  --rdg-cell-padding-right:12px;
   --rdg-cell-align:start;
-  --rdg-cell-align-string:start;
+  --rdg-cell-align-string:center;
   --rdg-cell-align-currency:center;
   --rdg-cell-align-number:end;
   --rdg-cell-align-datetime:center;
@@ -84,7 +85,15 @@ const darkTheme = `
   --rdg-selection-color: #66afe9;
   --rdg-font-size: 11px;
   --rdg-cell-padding:12px;
-  --rdg-cell-align:start;
+  --rdg-cell-padding-left:12px;
+  --rdg-cell-padding-right:12px;
+  --rdg-cell-align:center;
+  --rdg-cell-align-string:center;
+  --rdg-cell-align-currency:center;
+  --rdg-cell-align-number:end;
+  --rdg-cell-align-datetime:center;
+  --rdg-cell-align-time:center;
+  --rdg-cell-align-date:center;
 `;
 
 const root = css`

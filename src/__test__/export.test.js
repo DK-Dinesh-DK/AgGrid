@@ -167,7 +167,7 @@ describe("Datagrid Unit test for Export", () => {
 
     // Check if the necessary functions were called with the correct arguments
     expect(XLSX.utils.json_to_sheet).toHaveBeenCalledWith(fileData);
-    expect(XLSX.write).toHaveBeenCalled();
+    expect(XLSX.write).toHaveBeenCalled()
     expect(FileSaver.saveAs).toHaveBeenCalledWith(expectedBlob, fileName);
   });
 });

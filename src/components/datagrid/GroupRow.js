@@ -19,7 +19,7 @@ const groupRow = css`
       background-color: var(--rdg-header-background-color);
     }
 
-    > .${cell}:not(:last-child):not(.${cellFrozenLast}) {
+    > .${String(cell)}:not(:last-child):not(.${String(cellFrozenLast)}) {
       border-inline-end: none;
     }
   }

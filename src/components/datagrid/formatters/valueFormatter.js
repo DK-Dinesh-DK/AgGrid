@@ -104,10 +104,14 @@ export function valueFormatter(props) {
       textOverflow: "ellipsis",
       overflow: "hidden",
       height: "inherit",
-      paddingInline:
+      paddingRight:
         isCellSelected && props.selectedCellEditor
           ? "0px"
-          : "var(--rdg-cell-padding)",
+          : "var(--rdg-cell-padding-right)",
+      paddingLeft:
+        isCellSelected && props.selectedCellEditor
+          ? "0px"
+          : "var(--rdg-cell-padding-left)",
     };
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align
@@ -181,11 +185,6 @@ const childData = (subData, props) => {
   }
   const rowCol = props.rowArray;
   return rowSubData.map((info1, index) => {
-    // const [cellValue, setCellValue] = useState(
-    //   info1.cellRendererParams?.value ?? props.row[info1.key]
-    // );
-    // const gridCell = useRef(null);
-
     function selectSubCellWrapper(openEditor) {
       let sampleColumn;
       rowCol?.map((obj) => {

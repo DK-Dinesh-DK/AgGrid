@@ -1,7 +1,5 @@
 import { useMemo } from "react";
 import { floor, max, min } from "../utils";
-
-// TODO: https://github.com/microsoft/TypeScript/issues/41808
 function isReadonlyArray(arr) {
   return Array.isArray(arr);
 }
@@ -72,7 +70,6 @@ export function useViewportRows({
         return;
       }
       Object.keys(rows).forEach((groupKey, posInSet, keys) => {
-        // TODO: should users have control over the generated key?
         const id =
           parentId !== undefined ? `${parentId}__${groupKey}` : groupKey;
         const isExpanded =
@@ -127,9 +124,6 @@ export function useViewportRows({
 
     let totalRowHeight = 0;
     let gridTemplateRows = " ";
-    // Calcule the height of all the rows upfront. This can cause performance issues
-    // and we can consider using a similar approach as react-window
-    // https://github.com/bvaughn/react-window/blob/b0a470cc264e9100afcaa1b78ed59d88f7914ad4/src/VariableSizeList.js#L68
     const rowPositions = rows.map((row, index) => {
       let height =
         typeof rowHeight === "number"

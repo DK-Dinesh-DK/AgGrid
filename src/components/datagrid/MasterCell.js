@@ -1,4 +1,4 @@
-import React, { memo, useRef, useState,  isValidElement, cloneElement} from "react";
+import React, { memo, useRef, useState, cloneElement, isValidElement} from "react";
 
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks/useRovingCellRef";
@@ -223,7 +223,7 @@ function MasterCell({
         row.gridRowType !== "Detail" &&
         typeof column.cellRenderer === "object" &&
         isValidElement(column.cellRenderer) &&
-        cloneElement (column.cellRenderer,{
+        cloneElement(column.cellRenderer,{
           column,
           row,
           isExpanded,

@@ -78,7 +78,6 @@ const ContextMenu = ({
       window.removeEventListener("click", handleClick);
     };
   }, []);
-
   return (
     <div
       id={id}
@@ -89,11 +88,12 @@ const ContextMenu = ({
         zIndex: 1000,
         border: "1px solid #ccc",
         backgroundColor: "white",
-        color: "#000",
         boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.5)",
+        color:"#000"
       }}
       className="context-menu-container"
       ref={contextMenuRef}
+      // onClick={handleContextMenuClick}
     >
       {items?.map((item) => (
         <>
@@ -116,8 +116,7 @@ const ContextMenu = ({
                 [contextMenuOptionDisabled]: item.disabled,
               }
             )}
-            title={item.tooltip ?? ""}
-          >
+            title={item.tooltip ?? ""}>
             <div className="context-menu-icon" style={{ maxWidth: "10%" }}>
               {item.icon && item.icon()}
             </div>
@@ -137,8 +136,7 @@ const ContextMenu = ({
                   setSubMenuItems(item.subMenu);
                   enableSubMenu(true);
                 }
-              }}
-            >
+              }}>
               {item.subMenu && "\u25B6"}
             </div>
           </div>

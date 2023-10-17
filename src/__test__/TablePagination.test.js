@@ -216,6 +216,7 @@ describe("Datagrid Unit test for Table Pagination", () => {
         showTotal={(total, range) =>
           `Showing ${range[0]}-${range[1]} of ${total}`
         }
+        style={{paginationButtonFontSize: 20}}
       />
     );
 

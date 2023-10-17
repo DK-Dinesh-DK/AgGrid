@@ -8,7 +8,7 @@ import React, {
 } from "react";
 import useUpdateEffect from "./hooks/useUpdateEffect";
 import TreeRowRenderer from "./TreeRow";
-import { flushSync } from "react-dom";
+import ReactDOM, { flushSync } from "react-dom";
 import { clsx } from "clsx";
 import { groupBy as rowGrouper, isString, _ } from "lodash";
 import ContextMenu from "./ContextMenu";
@@ -242,7 +242,7 @@ function DataGrid(props) {
   const handleContextMenu = (e, data) => {
     if (getContextMenuItems && getContextMenuItems.length > 0) {
       e.preventDefault();
-      let position = { top: e.clientY + window.scrollY, left: e.clientX };
+      let position = { top: e.clientY, left: e.clientX };
       setContextMenuPosition(position);
       setContextMenuVisible(true);
       setContextSubMenuVisible(false);
@@ -579,18 +579,6 @@ function DataGrid(props) {
       i--;
     }
   }
-
-  let groupingViaCommonProperty = Object.values(
-    rowArray1.reduce((acc, current) => {
-      acc[current.topHeader] = acc[current.topHeader] ?? [];
-      acc[current.topHeader].push(current.width);
-      return acc;
-    }, {})
-  );
-
-  let arr2 = groupingViaCommonProperty.map((arr) =>
-    arr.reduce((sum, item) => sum + item)
-  );
 
   const newData = rawColumns;
 
@@ -3501,7 +3489,83 @@ function DataGrid(props) {
       setMouseX(mouseX - changeWidth);
     }
   }
-
+  const checkData = [null, undefined];
+  const cellStyles = {
+    ...(!checkData.includes(style?.borderWidth) ||
+    !checkData.includes(style?.borderColor) ||
+    !checkData.includes(style?.borderStyle)
+      ? {
+          border: `${style?.borderWidth ?? 1}px ${
+            style?.borderStyle ?? "solid"
+          } ${style?.borderColor ?? "#000"}`,
+        }
+      : {}),
+    ...(!checkData.includes(style?.cellVerticalBorderWidth) ||
+    !checkData.includes(style?.cellVerticalBorderColor) ||
+    !checkData.includes(style?.cellVerticalBorderStyle)
+      ? {
+          "--rdg-cell-border-vertical":
+            String(style?.cellVerticalBorderWidth) === "0"
+              ? "none"
+              : `${style?.cellVerticalBorderWidth ?? 1}px ${
+                  style?.cellVerticalBorderStyle ?? "solid"
+                } ${style?.cellVerticalBorderColor ?? "#fff"}`,
+        }
+      : {}),
+    ...(!checkData.includes(style?.cellHorizontalBorderWidth) ||
+    !checkData.includes(style?.cellHorizontalBorderColor) ||
+    !checkData.includes(style?.cellHorizontalBorderStyle)
+      ? {
+          "--rdg-cell-border-horizontal":
+            String(style?.cellHorizontalBorderWidth) === "0"
+              ? "none"
+              : `${style?.cellHorizontalBorderWidth ?? 1}px ${
+                  style?.cellHorizontalBorderStyle ?? "solid"
+                } ${style?.cellHorizontalBorderColor ?? "#fff"}`,
+        }
+      : {}),
+    ...(checkData.includes(style?.cellPaddingLeft)
+      ? {}
+      : {
+          "--rdg-cell-padding-left":
+            String(style?.cellPaddingLeft) !== "0"
+              ? `${style?.cellPaddingLeft}px`
+              : "0",
+        }),
+    ...(checkData.includes(style?.cellPaddingRight)
+      ? {}
+      : {
+          "--rdg-cell-padding-right":
+            String(style?.cellPaddingRight) !== "0"
+              ? `${style?.cellPaddingRight}px`
+              : "0",
+        }),
+    ...(style?.cellFontSize
+      ? {
+          "--rdg-font-size": `${style?.cellFontSize}px`,
+        }
+      : {}),
+    ...(style?.groupIconFontSize
+      ? {
+          "--rdg-group-icon-font-size": `${style?.groupIconFontSize}px`,
+        }
+      : {}),
+    ...(style?.masterIconFontSize
+      ? {
+          "--rdg-master-icon-font-size": `${style?.masterIconFontSize}px`,
+        }
+      : {}),
+    ...(style?.treeIconFontSize
+      ? {
+          "--rdg-tree-icon-font-size": `${style?.treeIconFontSize}px`,
+        }
+      : {}),
+    ...(style?.headerFontSize
+      ? {
+          "--rdg-header-font-size": `${style?.headerFontSize}px`,
+        }
+      : {}),
+  };
   return (
     <>
       {props.export && (
@@ -3614,8 +3678,8 @@ function DataGrid(props) {
             [viewportDraggingClassname]: isDragging,
           },
           className,
-          "AgGrid-scroll-bar",
-          enableFilter && filterContainerClassname
+          enableFilter && filterContainerClassname,
+          "AgGrid-scroll-bar"
         )}
         style={{
           ...style,
@@ -3633,12 +3697,13 @@ function DataGrid(props) {
                   headerRowHeight + topSummaryRowsCount * summaryRowHeight
                 }px ${bottomSummaryRowsCount * summaryRowHeight}px`
               : undefined,
-          overflowX: rest.detailedRow ? "hidden" : "auto",
+
           gridTemplateRows: templateRows,
           "--rdg-header-row-height": `${rowHeight}px`,
           "--rdg-summary-row-height": `${summaryRowHeight}px`,
           "--rdg-sign": isRtl ? -1 : 1,
           ...gridViewportTemplateColumns,
+          ...cellStyles,
         }}
         dir={direction}
         ref={gridRef}
@@ -3859,7 +3924,10 @@ function DataGrid(props) {
                   '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
                 "--rc-pagination-button-color": "#fff",
                 "--rc-pagination-button-background-color": "#4F81BD",
-                "--rc-pagination-button-font-size": "10px",
+                "--rc-pagination-button-font-size":
+                  style?.paginationButtonFontSize
+                    ? `${style?.paginationButtonFontSize}px`
+                    : "11px",
                 "--rc-pagination-button-border-radius": "0",
                 "--rc-pagination-button-border": "#fff",
                 "--rc-pagination-button-hover-border-color": "#B7D7A8",
@@ -3870,33 +3938,37 @@ function DataGrid(props) {
           )}
         </div>
       )}
-      {contextMenuVisible && (
-        <ContextMenu
-          items={getContextMenuItems}
-          onClose={closeContextMenu}
-          position={contextMenuPosition}
-          setSubMenuPosition={(pos) => {
-            setContextSubMenuPosition({ ...pos });
-          }}
-          enableSubMenu={(val) => {
-            setContextSubMenuVisible(val);
-          }}
-          setSubMenuItems={(items) => {
-            setContextSubMenuItems(items);
-          }}
-          contextData={contextData}
-          id={`${rest.id ?? "DataGrid"}-main-context-menu`}
-        />
-      )}
-      {contextSubMenuVisible && (
-        <ContextMenu
-          items={contextSubMenuItems}
-          onClose={closeContextMenu}
-          position={contextSubMenuPosition}
-          contextData={contextData}
-          id={`${rest.id ?? "DataGrid"}-sub-context-menu`}
-        />
-      )}
+      {contextMenuVisible &&
+        ReactDOM.createPortal(
+          <ContextMenu
+            items={getContextMenuItems}
+            onClose={closeContextMenu}
+            position={contextMenuPosition}
+            setSubMenuPosition={(pos) => {
+              setContextSubMenuPosition({ ...pos });
+            }}
+            enableSubMenu={(val) => {
+              setContextSubMenuVisible(val);
+            }}
+            setSubMenuItems={(items) => {
+              setContextSubMenuItems(items);
+            }}
+            contextData={contextData}
+            id={`${rest.id ?? "DataGrid"}-main-context-menu`}
+          />,
+          document.body
+        )}
+      {contextSubMenuVisible &&
+        ReactDOM.createPortal(
+          <ContextMenu
+            items={contextSubMenuItems}
+            onClose={closeContextMenu}
+            position={contextSubMenuPosition}
+            contextData={contextData}
+            id={`${rest.id ?? "DataGrid"}-sub-context-menu`}
+          />,
+          document.body
+        )}
       <div
         ref={toolTipRef}
         id="tool-tip-span"

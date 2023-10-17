@@ -17,14 +17,14 @@ const headerRow = css`
     font-size: var(--rdg-header-font-size) !important;
     text-align: center;
 
-    & > .${cell} {
+    & > .${String(cell)} {
       /* Should have a higher value than 0 to show up above regular cells */
       z-index: 5;
       position: sticky;
       inset-block-start: 0;
     }
 
-    & > .${cellFrozen} {
+    & > .${String(cellFrozen)} {
       z-index: 6;
     }
   }
