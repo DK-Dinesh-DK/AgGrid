@@ -70,7 +70,8 @@ import { useCalculatedColumnsWithTopHeader } from "./hooks/useCalculatedColumnsW
 import MasterRowRenderer from "./MasterRow";
 import DetailsRow from "./DetailsRow";
 
-const PrevNextArrow = (current, type, originalElement) => {
+const PrevNextArrow = (type, originalElement, rowsLength, size) => {
+  if (rowsLength < size && (type === "prev" || type === "next")) return null;
   if (type === "prev") {
     return (
       <button title="Previous" data-testid="pagination-prev">
@@ -1792,17 +1793,13 @@ function DataGrid(props) {
   }, [raawRows]);
 
   useUpdateEffect(() => {
-    let sample = new Set(selectedRows1);
+    let newSample = new Set();
     if (selectedRows.length > 0) {
       selectedRows.forEach((r) => {
-        if (!sample.has(rowKeyGetter(r))) {
-          sample.add(rowKeyGetter(r));
-        }
+        newSample.add(rowKeyGetter(r));
       });
-    } else {
-      sample.clear();
     }
-    onSelectedRowsChange1(sample);
+    onSelectedRowsChange1(newSample);
   }, [props.selectedRows]);
   useEffect(() => {
     if (selectedRows.length > 0) {
@@ -3926,7 +3923,7 @@ function DataGrid(props) {
               } out of ${raawRows.length} selected`}
             </div>
           )}
-          {pagination && !suppressPagination && (
+          {pagination && !suppressPagination && rawRows.length > 0 && (
             <Pagination
               className="pagination-data"
               showTotal={(total, range) => {
@@ -3945,7 +3942,9 @@ function DataGrid(props) {
               current={current}
               pageSize={size}
               showSizeChanger={false}
-              itemRender={PrevNextArrow}
+              itemRender={(current, type, originalElement) =>
+                PrevNextArrow(type, originalElement, rawRows.length, size)
+              }
               style={{
                 "--rc-pagination-button-active-background-color": "#000",
                 "--rc-pagination-button-active-border-color": "#A9B7C6",
@@ -3963,6 +3962,7 @@ function DataGrid(props) {
                 "--rc-pagination-button-hover-border-color": "#B7D7A8",
                 "--rc-pagination-button-hover-color": "#B7D7A8",
                 ...style,
+                height: "max-content",
               }}
             />
           )}

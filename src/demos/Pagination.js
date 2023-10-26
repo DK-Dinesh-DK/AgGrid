@@ -24,7 +24,7 @@ const sortPriorityClassname = css`
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 500; i++) {
+  for (let i = 0; i < 50; i++) {
     rows.push({
       id: i,
       task: `Task ${i}`,
@@ -82,45 +82,22 @@ export default function Pagination({ direction }) {
   const [sortColumns, setSortColumns] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const sortedRows = useMemo(() => {
-    if (sortColumns.length === 0) return rows;
-
-    return [...rows].sort((a, b) => {
-      for (const sort of sortColumns) {
-        const comparator = getComparator(sort.columnKey);
-        const compResult = comparator(a, b);
-        if (compResult !== 0) {
-          return sort.direction === "ASC" ? compResult : -compResult;
-        }
-      }
-      return 0;
-    });
-  }, [rows, sortColumns]);
-  const [paginationPageSize, setPaginationPageSize] = useState(39);
   return (
     <>
       <button onClick={() => setRows(rows.slice(0, 40))}>Clcik</button>
       <DataGrid
         // className="fill-grid"
         columnData={columns}
-        rowData={sortedRows}
+        rowData={rows}
         rowKeyGetter={rowKeyGetter}
         onRowsChange={setRows}
-        sortColumns={sortColumns}
-        onSortColumnsChange={setSortColumns}
         selectedRows={selectedRows}
         onSelectedRowsChange={setSelectedRows}
-        renderers={{ sortStatus, checkboxFormatter }}
-        direction={direction}
         pagination={true}
-        defaultPage={3}
-        // paginationAutoPageSize={true}
-        paginationPageSize={39}
-        // showTotal={true}
-        // suppressPaginationPanel={true}
         allRowSelectedChange={(p) => {
           console.log("All Selected", p);
         }}
+        style={{ height: "30vh", maxHieght: "inherit" }}
         serialNumber={true}
         paginationStyle={{
           "--rc-pagination-button-active-background-color": "red",
@@ -130,43 +107,6 @@ export default function Pagination({ direction }) {
   );
 }
 
-function checkboxFormatter({ onChange, ...props }, ref) {
-  function handleChange(e) {
-    onChange(e.target.checked, e.nativeEvent.shiftKey);
-  }
-
-  return <input type="checkbox" ref={ref} {...props} onChange={handleChange} />;
-}
-
-function sortStatus({ sortDirection, priority }) {
-  return (
-    <>
-      {sortDirection !== undefined
-        ? sortDirection === "ASC"
-          ? "\u2B9D"
-          : "\u2B9F"
-        : null}
-      <span className={sortPriorityClassname}>{priority}</span>
-    </>
-  );
-}
 function rowKeyGetter(row) {
   return row?.id;
-}
-
-function getComparator(sortColumn) {
-  switch (sortColumn) {
-    case "task":
-    case "priority":
-    case "issueType":
-      return (a, b) => {
-        return a[sortColumn].localeCompare(b[sortColumn]);
-      };
-    case "complete":
-      return (a, b) => {
-        return a[sortColumn] - b[sortColumn];
-      };
-    default:
-      throw new Error(`unsupported sortColumn: "${sortColumn}"`);
-  }
 }
