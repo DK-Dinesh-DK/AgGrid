@@ -440,10 +440,6 @@ const RecursiveScan = (
         masterData.length - 1 === index ? subData.width : subData.width - 1,
       boxSizing: "border-box",
       height: `${(headerRowHeight * arrayDepth) / thisColumnDepth}px`,
-      // outline:
-      //   subData.idx && selectedCellIdx === subData.idx
-      //     ? "1px solid var(--rdg-selection-color)"
-      //     : "none",
       outlineOffset: selectedCellIdx === subData.idx ? "-1px" : "0px",
       paddingLeft: "var(--rdg-cell-padding-left)",
       paddingRight: "var(--rdg-cell-padding-right)",
@@ -474,7 +470,9 @@ const RecursiveScan = (
         onColumnResize(subData, "max-content");
       }
     }
-
+    if (subData.headerStyle) {
+      style = { ...style, ...subData.headerStyle };
+    }
     if (!(subData.sortable || subData.filter)) {
       return (
         <>
@@ -611,7 +609,9 @@ const RecursiveScan = (
       function onClickFilter() {
         selectCell(subData.idx);
       }
-
+      if (subData.headerStyle) {
+        style1 = { ...style1, ...subData.headerStyle };
+      }
       return (
         <div
           key={subData.idx}

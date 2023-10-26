@@ -146,6 +146,7 @@ const columns = [
     field: "valid",
     headerName: "Vaild",
     cellRenderer: CheckBoxEditor,
+    sortable: true,
   },
   {
     field: "favcolor",

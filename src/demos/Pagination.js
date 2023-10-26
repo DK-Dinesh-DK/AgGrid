@@ -24,7 +24,7 @@ const sortPriorityClassname = css`
 function createRows() {
   const rows = [];
 
-  for (let i = 1; i <= 500; i++) {
+  for (let i = 0; i < 500; i++) {
     rows.push({
       id: i,
       task: `Task ${i}`,
@@ -118,6 +118,13 @@ export default function Pagination({ direction }) {
         paginationPageSize={39}
         // showTotal={true}
         // suppressPaginationPanel={true}
+        allRowSelectedChange={(p) => {
+          console.log("All Selected", p);
+        }}
+        serialNumber={true}
+        paginationStyle={{
+          "--rc-pagination-button-active-background-color": "red",
+        }}
       />
     </>
   );

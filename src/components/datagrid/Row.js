@@ -58,6 +58,9 @@ function Row(
     setMouseY,
     rowLevelToolTip,
     setDragging,
+    paginationPageSize,
+    currentPage,
+    pagination,
     ...props
   },
   ref
@@ -147,6 +150,9 @@ function Row(
         setToolTipContent={handleToolTipContent}
         Rowheight={height}
         handleSetDragging={(val) => setDragging(val)}
+        paginationPageSize={paginationPageSize}
+        currentPage={currentPage}
+        pagination={pagination}
       />
     );
   }
@@ -186,7 +192,9 @@ function Row(
               handleToolTip(false);
             }
           }}
-          onContextMenu={(e) => {handleContextMenu(e,row);}}
+          onContextMenu={(e) => {
+            handleContextMenu(e, row);
+          }}
           style={style}
           {...props}
         >

@@ -91,6 +91,10 @@ export const SerialNumberColumn = {
   },
   cellClass: headerCellClassName,
   cellRenderer: (props) => {
-    return <>{props.column.rowIndex + 1} </>;
+    let serialNumber = props?.pagination
+      ? props.paginationPageSize * (props.currentPage - 1)
+      : 0;
+
+    return <>{props.column.rowIndex + 1 + serialNumber} </>;
   },
 };

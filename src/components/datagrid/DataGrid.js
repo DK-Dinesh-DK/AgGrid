@@ -491,11 +491,24 @@ function DataGrid(props) {
     if (sortColumns.length === 0) return filteredRows;
     const { columnKey, direction } = sortColumns[0];
     let sortedRows = filteredRows;
-    sortedRows = sortedRows?.sort((a, b) =>
-      typeof a[columnKey] === "number"
-        ? a[columnKey] - b[columnKey]
-        : a[columnKey]?.localeCompare(b[columnKey])
-    );
+    sortedRows = sortedRows?.sort((a, b) => {
+      const aValue = a[columnKey];
+      const bValue = b[columnKey];
+      if (typeof aValue === "boolean" && typeof bValue === "boolean") {
+        if (aValue === bValue) {
+          return 0;
+        } else {
+          return aValue ? 1 : -1;
+        }
+      }
+      if (typeof aValue === "number" && typeof bValue === "number") {
+        return aValue - bValue;
+      }
+      if (typeof aValue === "string" && typeof bValue === "string") {
+        return aValue.localeCompare(bValue);
+      }
+      return 0;
+    });
     return direction === "DESC" ? sortedRows.reverse() : sortedRows;
   }, [raawRows, sortColumns, filters]);
 
@@ -1523,6 +1536,7 @@ function DataGrid(props) {
     }
     if (onSelectedRowsChange) onSelectedRowsChange(newSelectedRows1);
     onSelectedRowsChange1(newSelectedRows);
+    if (rest?.allRowSelectedChange) rest?.allRowSelectedChange(checked);
   }
 
   function toggleGroup(expandedGroupId) {
@@ -1777,6 +1791,19 @@ function DataGrid(props) {
     setPreviousData([...raawRows]);
   }, [raawRows]);
 
+  useUpdateEffect(() => {
+    let sample = new Set(selectedRows1);
+    if (selectedRows.length > 0) {
+      selectedRows.forEach((r) => {
+        if (!sample.has(rowKeyGetter(r))) {
+          sample.add(rowKeyGetter(r));
+        }
+      });
+    } else {
+      sample.clear();
+    }
+    onSelectedRowsChange1(sample);
+  }, [props.selectedRows]);
   useEffect(() => {
     if (selectedRows.length > 0) {
       let sample = new Set(selectedRows1);
@@ -3424,6 +3451,9 @@ function DataGrid(props) {
           setMouseY: (y) => {
             if (toolTip) setMouseY(y);
           },
+          paginationPageSize: size,
+          currentPage: current,
+          pagination,
         })
       );
     }
@@ -3491,13 +3521,13 @@ function DataGrid(props) {
   }
   const checkData = [null, undefined];
   const cellStyles = {
-    ...(!checkData.includes(style?.borderWidth) ||
-    !checkData.includes(style?.borderColor) ||
-    !checkData.includes(style?.borderStyle)
+    ...(!checkData.includes(style?.gridBorderWidth) ||
+    !checkData.includes(style?.gridBorderColor) ||
+    !checkData.includes(style?.gridBorderStyle)
       ? {
-          border: `${style?.borderWidth ?? 1}px ${
-            style?.borderStyle ?? "solid"
-          } ${style?.borderColor ?? "#000"}`,
+          border: `${style?.gridBorderWidth ?? 1}px ${
+            style?.gridBorderStyle ?? "solid"
+          } ${style?.gridBorderColor ?? "#000"}`,
         }
       : {}),
     ...(!checkData.includes(style?.cellVerticalBorderWidth) ||
@@ -3932,7 +3962,7 @@ function DataGrid(props) {
                 "--rc-pagination-button-border": "#fff",
                 "--rc-pagination-button-hover-border-color": "#B7D7A8",
                 "--rc-pagination-button-hover-color": "#B7D7A8",
-                ...props.paginationStyle,
+                ...style,
               }}
             />
           )}

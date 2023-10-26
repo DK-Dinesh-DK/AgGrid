@@ -245,6 +245,9 @@ export default function HeaderCell({
       ? { ...style, justifyContent: column.alignment.align }
       : alignmentUtils(column, rows[0], style);
   }
+  if (!column?.haveChildren && column.headerStyle) {
+    style = { ...style, ...column.headerStyle };
+  }
   return (
     <div
       role="parentcolumn"

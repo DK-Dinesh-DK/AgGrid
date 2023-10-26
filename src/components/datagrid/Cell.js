@@ -96,6 +96,9 @@ function Cell({
   setToolTipContent,
   Rowheight,
   handleSetDragging,
+  paginationPageSize,
+  currentPage,
+  pagination,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -338,6 +341,9 @@ function Cell({
     },
     handleToolTip,
     handleToolTipContent,
+    paginationPageSize,
+    currentPage,
+    pagination,
     ...cellRendererParams,
     expandedMasterIds,
     onExpandedMasterIdsChange,
@@ -383,7 +389,8 @@ function Cell({
         );
         let y = element.getBoundingClientRect().y;
         setMouseY(y + Rowheight / 2);
-      }}>
+      }}
+    >
       {!column.rowGroup && (
         <>
           {column.rowDrag && (
@@ -392,14 +399,16 @@ function Cell({
                 drag(ele);
                 drop(ele);
               }}
-              style={{ display: "flex" }}>
+              style={{ display: "flex" }}
+            >
               <span
                 data-testid={`drag-icon-${column.idx}-${rowIndex}`}
                 style={{
                   cursor: "grab",
                   marginLeft: "10px",
                   marginRight: "5px",
-                }}>
+                }}
+              >
                 &#9674;
               </span>
               {typeof column.cellRenderer === "object" &&

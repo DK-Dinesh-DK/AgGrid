@@ -116,6 +116,7 @@ a:focus {
     --rc-pagination-button-active-background-color
   ) !important;
   color: var(--rc-pagination-button-active-color) !important;
+  border: 1px solid var(--rc-pagination-button-active-border-color) !important;
   text-decoration: none;
 }
 .rc-pagination-item a:hover,
@@ -244,4 +245,3 @@ a:focus {
   outline: none;
   background-color: #e5edf8;
 }
-
