@@ -117,7 +117,7 @@ function DataGrid(props) {
     // Feature props
     selectedRows,
     onSelectedRowsChange,
-    defaultColumnOptions,
+    defaultColumnDef: defaultColumnOptions,
     groupBy: raawGroupBy,
     expandedGroupIds,
     onExpandedGroupIdsChange,
@@ -356,10 +356,7 @@ function DataGrid(props) {
   const [draggedOverRowIdx, setOverRowIdx] = useState(undefined);
   const [sortColumns, setSortColumns] = useState([]);
   const [rawRows, setRawRows] = useState(raawRows);
-  const [rawColumns, setRawColumns] = useState(
-    // serialNumber ? [SerialNumberColumn, ...raawColumns] : columns3
-    columns3
-  );
+  const [rawColumns, setRawColumns] = useState(columns3);
   const [pagination, setPagination] = useState(tablePagination);
   const [suppressPagination, setSuppressPagination] = useState(
     suppressPaginationPanel ?? false
@@ -514,6 +511,9 @@ function DataGrid(props) {
   }, [raawRows, sortColumns, filters]);
 
   useUpdateEffect(() => {
+    if (rest.tableRenderingRows) {
+      rest.tableRenderingRows(sortedRows);
+    }
     return setRawRows(sortedRows);
   }, [sortedRows]);
 
@@ -612,7 +612,7 @@ function DataGrid(props) {
     columnWidths,
     scrollLeft,
     viewportWidth: gridWidth,
-    defaultColumnDef,
+    defaultColumnOptions: defaultColumnDef,
     rawGroupBy: rowGrouper ? rawGroupBy : undefined,
     enableVirtualization,
     frameworkComponents,
@@ -1799,9 +1799,15 @@ function DataGrid(props) {
         newSample.add(rowKeyGetter(r));
       });
     }
-    onSelectedRowsChange1(newSample);
+    let aa = Object.values(selectedRows1);
+    if (!aa.every((val) => newSample.has(val))) {
+      onSelectedRowsChange1(newSample);
+    }
   }, [props.selectedRows]);
   useEffect(() => {
+    if (rest.tableRenderingRows) {
+      rest.tableRenderingRows(raawRows);
+    }
     if (selectedRows.length > 0) {
       let sample = new Set(selectedRows1);
       selectedRows.forEach((r) => {
@@ -3898,74 +3904,108 @@ function DataGrid(props) {
         <div
           style={{
             display: "flex",
+            alignItems: "center",
             justifyContent: "space-between",
-            paddingTop: "12px",
+            flexWrap: "wrap",
+            margingTop: "12px",
+            columnGap: "10px",
+            width: "100%",
           }}
         >
-          {showSelectedRows && (
-            <div
-              className="footer-bottom"
-              style={{
-                width: "25%",
-                height: 25,
-                backgroundColor: "#f8f8f8",
-                color: "black",
-                fontSize: 12,
-                paddingRight: 15,
-                fontWeight: "bold",
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-              }}
-            >
-              {`${
-                selectedRows1?.size === undefined ? 0 : selectedRows1?.size
-              } out of ${raawRows.length} selected`}
-            </div>
-          )}
-          {pagination && !suppressPagination && rawRows.length > 0 && (
-            <Pagination
-              className="pagination-data"
-              showTotal={(total, range) => {
-                let content = "";
-                if (rest.showTotal) {
-                  if (typeof rest.showTotal === "function") {
-                    content = rest.showTotal(total, range);
-                  } else {
-                    content = `Showing ${range[0]}-${range[1]} of ${total}`;
+          <div style={{ width: "30%" }}>
+            {showSelectedRows && (
+              <div
+                className="footer-bottom"
+                style={{
+                  width: style?.selectedStatusWidth ?? "max-content",
+                  height: style?.selectedStatusheight ?? "16px",
+                  paddingLeft: "5px",
+                  paddingRight: "5px",
+                  backgroundColor: style?.selectedStatusbgColor ?? "#CCDCF0",
+                  color: style?.selectedStatusColor ?? "black",
+                  fontSize: style?.selectedStatusColor ?? 10,
+                  fontWeight: style?.selectedStatusFontWeight ?? "bold",
+                  display: "flex",
+                  justifyContent: style?.selectedStatusAlignment ?? "center",
+                  alignItems: "center",
+                }}
+              >
+                {rest.selectedStatus &&
+                  rest.selectedStatus({
+                    selectedRowsLength: selectedRows1?.length ?? 0,
+                    allrowLength: raawRows?.length,
+                  })}
+                {!rest.selectedStatus &&
+                  `selected: ${
+                    selectedRows1?.size === undefined ? 0 : selectedRows1?.size
+                  } of ${raawRows.length} `}
+              </div>
+            )}
+          </div>
+
+          <div
+            style={{
+              width: "30%",
+              display: "flex",
+              justifyContent: "center",
+              minWidth: "185px",
+            }}
+          >
+            {pagination && !suppressPagination && rawRows.length > 0 && (
+              <Pagination
+                className="pagination-data"
+                showTotal={(total, range) => {
+                  let content = "";
+                  if (rest.showTotal) {
+                    if (typeof rest.showTotal === "function") {
+                      content = rest.showTotal(total, range);
+                    } else {
+                      content = `Showing ${range[0]}-${range[1]} of ${total}`;
+                    }
                   }
+                  return content;
+                }}
+                onChange={PaginationChange}
+                total={rawRows.length}
+                current={current}
+                pageSize={size}
+                showSizeChanger={false}
+                itemRender={(current, type, originalElement) =>
+                  PrevNextArrow(type, originalElement, rawRows.length, size)
                 }
-                return content;
-              }}
-              onChange={PaginationChange}
-              total={rawRows.length}
-              current={current}
-              pageSize={size}
-              showSizeChanger={false}
-              itemRender={(current, type, originalElement) =>
-                PrevNextArrow(type, originalElement, rawRows.length, size)
-              }
-              style={{
-                "--rc-pagination-button-active-background-color": "#000",
-                "--rc-pagination-button-active-border-color": "#A9B7C6",
-                "--rc-pagination-button-active-color": "#fff",
-                "--rc-pagination-button-font-family":
-                  '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-                "--rc-pagination-button-color": "#fff",
-                "--rc-pagination-button-background-color": "#4F81BD",
-                "--rc-pagination-button-font-size":
-                  style?.paginationButtonFontSize
-                    ? `${style?.paginationButtonFontSize}px`
-                    : "11px",
-                "--rc-pagination-button-border-radius": "0",
-                "--rc-pagination-button-border": "#fff",
-                "--rc-pagination-button-hover-border-color": "#B7D7A8",
-                "--rc-pagination-button-hover-color": "#B7D7A8",
-                ...style,
-                height: "max-content",
-              }}
-            />
-          )}
+                style={{
+                  "--rc-pagination-button-active-background-color":
+                    style?.paginationActiveButtonbgColor ?? "#000",
+                  "--rc-pagination-button-active-border-color":
+                    style?.paginationActiveButtonBorderColor ?? "#A9B7C6",
+                  "--rc-pagination-button-active-color":
+                    style?.paginationActiveButtonColor ?? "#fff",
+                  "--rc-pagination-button-font-family":
+                    style?.paginationFontFamily ??
+                    '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
+                  "--rc-pagination-button-color":
+                    style?.paginationButtonColor ?? "#fff",
+                  "--rc-pagination-button-background-color":
+                    style?.paginationButtonbgColor ?? "#4F81BD",
+                  "--rc-pagination-button-font-size":
+                    style?.paginationButtonFontSize
+                      ? `${style?.paginationButtonFontSize}px`
+                      : "11px",
+                  "--rc-pagination-button-border-radius":
+                    String(style?.paginationButtonBorderRadius) !== "0"
+                      ? `${style?.paginationButtonBorderRadius}px`
+                      : "0",
+                  "--rc-pagination-button-border":
+                    style?.paginationButtonBorder ?? "#fff",
+                  "--rc-pagination-button-hover-border-color":
+                    style?.paginationButtonHoverBorder ?? "#B7D7A8",
+                  "--rc-pagination-button-hover-color":
+                    style?.paginationButtonHoverColor ?? "#B7D7A8",
+                }}
+              />
+            )}
+          </div>
+          <div style={{ width: "30%" }}></div>
         </div>
       )}
       {contextMenuVisible &&

@@ -197,13 +197,16 @@ export default function HeaderCell({
     const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
     const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
     const reorderedColumns = [...columns];
-
-    reorderedColumns.splice(
-      targetColumnIndex,
-      0,
-      reorderedColumns.splice(sourceColumnIndex, 1)[0]
-    );
-    handleReorderColumn([...reorderedColumns]);
+    if (
+      columns[targetColumnIndex].frozen === columns[sourceColumnIndex].frozen
+    ) {
+      reorderedColumns.splice(
+        targetColumnIndex,
+        0,
+        reorderedColumns.splice(sourceColumnIndex, 1)[0]
+      );
+      handleReorderColumn([...reorderedColumns]);
+    }
   }
   const [{ isDragging }, drag] = useDrag({
     type: "COLUMN_DRAG",

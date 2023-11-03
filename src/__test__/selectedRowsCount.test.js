@@ -6,13 +6,13 @@ import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 beforeAll(() => {
   userEvent.setup();
-  window.HTMLElement.prototype.scrollIntoView = function () { };
+  window.HTMLElement.prototype.scrollIntoView = function () {};
 });
 
 const columns = [
   {
     field: "id",
-    headerName: "ID"
+    headerName: "ID",
   },
   {
     field: "name",
@@ -32,7 +32,6 @@ const columns = [
       {
         field: "personalnumber",
         headerName: "Personal Number",
-
       },
     ],
   },
@@ -83,7 +82,6 @@ const initialRows = [
   },
 ];
 
-
 function LaiDataGrid(props) {
   const [rows, setRows] = useState(initialRows);
   return (
@@ -101,42 +99,30 @@ function LaiDataGrid(props) {
   );
 }
 
-
 describe("Show selected rows prop works correctly", () => {
   test("Show selected rows is rendered when showSelectedRows prop is passed", () => {
-    render(
-      <LaiDataGrid
-        showSelectedRows={true}
-      />
-    );
+    render(<LaiDataGrid showSelectedRows={true} />);
     const selectedRowsCount = screen.getByText(
-      `0 out of ${initialRows.length} selected`
+      `selected: 0 of ${initialRows.length}`
     );
 
     expect(selectedRowsCount).toBeInTheDocument();
   });
   test("Show selected rows is rendered when showSelectedRows=false or prop is not passed", () => {
-    render(
-      <LaiDataGrid
-        showSelectedRows={false}
-      />
-    );
+    render(<LaiDataGrid showSelectedRows={false} />);
     const selectedRowsCount = screen.queryByText(
-      `0 out of ${initialRows.length} selected`
+      `selected: 0 of ${initialRows.length}`
     );
     expect(selectedRowsCount).not.toBeInTheDocument();
   });
 
   test("Show selected rows shows correct number of rows when row is selected", async () => {
-    render(<LaiDataGrid
-      selection={true}
-      showSelectedRows={true}
-    />);
+    render(<LaiDataGrid selection={true} showSelectedRows={true} />);
 
     const selectedCheckBoxes = [];
 
     let selectedRowsCount = screen.getByText(
-      `0 out of ${initialRows.length} selected`
+      `selected: 0 of ${initialRows.length}`
     );
     expect(selectedRowsCount).toBeInTheDocument();
 
@@ -150,7 +136,7 @@ describe("Show selected rows prop works correctly", () => {
     expect(selectedCheckBoxes[0]).toBeChecked();
 
     selectedRowsCount = screen.getByText(
-      `${selectedCheckBoxes.length} out of ${initialRows.length} selected`
+      `selected: ${selectedCheckBoxes.length} of ${initialRows.length}`
     );
     expect(selectedRowsCount).toBeInTheDocument();
 
@@ -163,18 +149,15 @@ describe("Show selected rows prop works correctly", () => {
     expect(selectedCheckBoxes[1]).toBeChecked();
 
     selectedRowsCount = screen.getByText(
-      `${selectedCheckBoxes.length} out of ${initialRows.length} selected`
+      `selected: ${selectedCheckBoxes.length} of ${initialRows.length}`
     );
     expect(selectedRowsCount).toBeInTheDocument();
   });
   test("Show selected rows shows correct number of rows when all rows are selected", async () => {
-    render(<LaiDataGrid
-      selection={true}
-      showSelectedRows={true}
-    />);
+    render(<LaiDataGrid selection={true} showSelectedRows={true} />);
 
     let selectedRowsCount = screen.getByText(
-      `0 out of ${initialRows.length} selected`
+      `selected: 0 of ${initialRows.length}`
     );
     expect(selectedRowsCount).toBeInTheDocument();
 
@@ -195,7 +178,7 @@ describe("Show selected rows prop works correctly", () => {
 
     //checking selected row count
     selectedRowsCount = screen.queryByText(
-      `${initialRows.length} out of ${initialRows.length} selected`
+      `selected: ${initialRows.length} of ${initialRows.length}`
     );
     expect(selectedRowsCount).toBeInTheDocument();
 
@@ -209,7 +192,7 @@ describe("Show selected rows prop works correctly", () => {
 
     //checking selected row count
     selectedRowsCount = screen.queryByText(
-      `${initialRows.length - 1} out of ${initialRows.length} selected`
+      `selected: ${initialRows.length - 1} of ${initialRows.length}`
     );
     expect(selectedRowsCount).toBeInTheDocument();
   });

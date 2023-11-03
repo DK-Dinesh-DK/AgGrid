@@ -70,7 +70,7 @@ function getColumns(countries, direction) {
       field: "title",
       headerName: "Task",
       topHeader: "title",
-      width: 120,
+      // width: 120,
       haveChildren: false,
       frozen: true,
       sortable: true,

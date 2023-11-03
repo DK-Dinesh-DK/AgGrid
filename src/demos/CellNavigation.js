@@ -5,33 +5,33 @@ import DataGrid from "../components/datagrid/DataGrid";
 const columns = [
   {
     field: "id",
-    headerName: "ID",topHeader:"task",haveChildren:false,
+    headerName: "ID",
     width: 80,
   },
   {
     field: "task",
-    headerName: "Title",topHeader:"task",haveChildren:false,
-    editable:true,
+    headerName: "Title",
+    editable: true,
   },
   {
     field: "priority",
-    headerName: "Priority",topHeader:"priority",haveChildren:false,
+    headerName: "Priority",
   },
   {
     field: "issueType",
-    headerName: "Issue Type",topHeader:"issueType",haveChildren:false,
+    headerName: "Issue Type",
   },
   {
     field: "complete",
-    headerName: "% Complete",topHeader:"complete",haveChildren:false,
+    headerName: "% Complete",
   },
   {
     field: "startDate",
-    headerName: "Start Date",topHeader:"startDate",haveChildren:false,
+    headerName: "Start Date",
   },
   {
     field: "completeDate",
-    headerName: "Expected Complete",topHeader:"completeDate",haveChildren:false,
+    headerName: "Expected Complete",
     width: 200,
   },
 ];

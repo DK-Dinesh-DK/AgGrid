@@ -363,6 +363,7 @@ function Cell({
       position: "absolute",
       zIndex: 2,
       width: column.width,
+      height: `${Rowheight * column.rowSpan?.(params)}px`,
     };
   }
 

@@ -1,21 +1,30 @@
-import { useMemo, useState } from "react";
-import TextEditor from "../components/datagrid/editors/textEditor";
+import React, { useState } from "react";
+
+import { faker } from "@faker-js/faker";
 import DataGrid from "../components/datagrid/DataGrid";
+import { ButtonEditor } from "../components/datagrid/editors";
 
 function createRows() {
+  const now = Date.now();
   const rows = [];
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 1000; i++) {
     rows.push({
       id: i,
-      task: `Task ${i}`,
-      complete: Math.min(100, Math.round(Math.random() * 110)),
-      priority: ["Critical", "High", "Medium", "Low"][
-        Math.round(Math.random() * 3)
-      ],
-      issueType: ["Bug", "Improvement", "Epic", "Story"][
-        Math.round(Math.random() * 3)
-      ],
+      title: `Task #${i + 1}`,
+      client: faker.company.name(),
+      area: faker.name.jobArea(),
+      country: faker.address.country(),
+      contact: faker.internet.exampleEmail(),
+      assignee: faker.name.fullName(),
+      progress: Math.random() * 100,
+      startTimestamp: now - Math.round(Math.random() * 1e10),
+      endTimestamp: now + Math.round(Math.random() * 1e10),
+      budget: 500 + Math.random() * 10500,
+      transaction: faker.finance.transactionType(),
+      account: faker.finance.iban(),
+      version: faker.system.semver(),
+      available: Math.random() > 0.5,
     });
   }
 
@@ -24,66 +33,82 @@ function createRows() {
 
 export default function Demo({ direction }) {
   const [rows, setRows] = useState(createRows);
-  const [selectedRows, setSelectedRows] = useState([]);
-  console.log("selectedRows", selectedRows);
-  const columns = [
+
+  const [columns, setColumns] = useState([
     {
       field: "id",
       headerName: "ID",
-      width: 80,
+      frozen: true,
+      width: 60,
     },
     {
-      field: "task",
-      headerName: "Title",
-      cellEditor: (props) => {
-        return TextEditor(props);
+      field: "title",
+      headerName: "Task",
+      frozen: true,
+      width: 100,
+    },
+    {
+      field: "area",
+      headerName: "Area",
+      width:200,
+      rowSpan: (params) => {
+        if (params.rowIndex === 1) return 2;
       },
-      sortable: true,
+      // frozen: true,
+      // width: 100,
     },
-    {
-      field: "priority",
-      headerName: "Priority",
-      sortable: true,
-    },
-    {
-      field: "issueType",
-      headerName: "Issue Type",
-      sortable: true,
-    },
-    {
-      field: "complete",
-      headerName: "% Complete",
-      sortable: true,
-    },
-    {
-      headerName: "Delete",
-      cellRenderer: (props) => {
-        return (
-          <button
-            onClick={() => {
-              console.log("Props", props);
-              setRows(rows.filter((p) => p.id !== props.row.id));
-              setSelectedRows(
-                selectedRows.filter((p) => p.id !== props.row.id)
-              );
-            }}
-          >
-            Delete
-          </button>
-        );
-      },
-    },
-  ];
+  ]);
+
   return (
     <>
+      <button
+        onClick={() => {
+          setColumns([
+            ...columns,
+
+            {
+              field: "contact",
+              headerName: "Contact",
+            },
+            {
+              field: "assignee",
+              headerName: "Assignee",
+            },
+
+            {
+              field: "startTimestamp",
+              headerName: "Start date",
+            },
+            {
+              field: "endTimestamp",
+              headerName: "Deadline",
+            },
+            {
+              field: "budget",
+              headerName: "Budget",
+            },
+            {
+              field: "transaction",
+              headerName: "Transaction type",
+            },
+            {
+              field: "account",
+              headerName: "Account",
+            },
+            {
+              field: "version",
+              headerName: "Version",
+            },
+          ]);
+        }}
+      >
+        Add Columns
+      </button>
       <DataGrid
-        // className="fill-grid"
         columnData={columns}
         rowData={rows}
-        onRowsChange={setRows}
-        selectedRows={selectedRows}
-        selection={true}
-        onSelectedRowsChange={(p) => setSelectedRows([...p])}
+        columnReordering={true}
+        // defaultColumnDef={{ filter: true, sortable: true }}
       />
     </>
   );

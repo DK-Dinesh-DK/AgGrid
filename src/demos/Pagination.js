@@ -24,7 +24,7 @@ const sortPriorityClassname = css`
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 1000; i++) {
     rows.push({
       id: i,
       task: `Task ${i}`,

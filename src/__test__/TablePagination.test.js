@@ -216,15 +216,13 @@ describe("Datagrid Unit test for Table Pagination", () => {
         showTotal={(total, range) =>
           `Showing ${range[0]}-${range[1]} of ${total}`
         }
-        style={{paginationButtonFontSize: 20}}
+        style={{ paginationButtonFontSize: 20 }}
       />
     );
 
     const screenArea = screen.getByTestId("laidatagrid");
     expect(screenArea).toBeInTheDocument();
-    const nxtbtn = screen.getByTestId("pagination-prev");
-    expect(nxtbtn).toBeInTheDocument();
-    fireEvent.click(nxtbtn);
+
     const setpagebtn = screen.getByTestId("setPagination");
     expect(setpagebtn).toBeInTheDocument();
     fireEvent.click(setpagebtn);
@@ -298,6 +296,9 @@ describe("Datagrid Unit test for Table Pagination", () => {
     const slicebtn1 = screen.getByTestId("rowDataSlice500");
     expect(slicebtn1).toBeInTheDocument();
     fireEvent.click(slicebtn1);
+    const nxtbtn = screen.getByTestId("pagination-prev");
+    expect(nxtbtn).toBeInTheDocument();
+    fireEvent.click(nxtbtn);
   });
 });
 

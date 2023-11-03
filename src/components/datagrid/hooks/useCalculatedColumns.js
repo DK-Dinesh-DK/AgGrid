@@ -23,7 +23,7 @@ export function useCalculatedColumns({
   const defaultFormatter = defaultColumnOptions?.formatter ?? valueFormatter;
   const defaultSortable = defaultColumnOptions?.sortable ?? false;
   const defaultResizable = defaultColumnOptions?.resizable ?? false;
-  const defaultFilter = defaultColumnOptions?.dilter ?? false;
+  const defaultFilter = defaultColumnOptions?.filter ?? false;
 
   const { columns, colSpanColumns, lastFrozenColumnIndex, groupBy } =
     useMemo(() => {
