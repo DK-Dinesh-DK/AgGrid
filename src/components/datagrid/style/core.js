@@ -40,6 +40,8 @@ const lightTheme = `
   --rdg-font-size: 11px;
   --rdg-cell-padding-left:12px;
   --rdg-cell-padding-right:12px;
+  --rdg-cell-padding-top:0;
+  --rdg-cell-padding-bottom:0;
   --rdg-cell-align:start;
   --rdg-cell-align-string:center;
   --rdg-cell-align-currency:center;
@@ -87,6 +89,8 @@ const darkTheme = `
   --rdg-cell-padding:12px;
   --rdg-cell-padding-left:12px;
   --rdg-cell-padding-right:12px;
+    --rdg-cell-padding-top:0;
+  --rdg-cell-padding-bottom:0;
   --rdg-cell-align:center;
   --rdg-cell-align-string:center;
   --rdg-cell-align-currency:center;

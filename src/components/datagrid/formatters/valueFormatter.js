@@ -112,6 +112,14 @@ export function valueFormatter(props) {
         isCellSelected && props.selectedCellEditor
           ? "0px"
           : "var(--rdg-cell-padding-left)",
+      paddingTop:
+        isCellSelected && props.selectedCellEditor
+          ? "0px"
+          : "var(--rdg-cell-padding-top)",
+      paddingBottom:
+        isCellSelected && props.selectedCellEditor
+          ? "0px"
+          : "var(--rdg-cell-padding-bottom)",
     };
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align

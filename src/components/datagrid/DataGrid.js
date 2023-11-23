@@ -3573,6 +3573,22 @@ function DataGrid(props) {
               ? `${style?.cellPaddingRight}px`
               : "0",
         }),
+    ...(checkData.includes(style?.cellPaddingTop)
+      ? {}
+      : {
+          "--rdg-cell-padding-top":
+            String(style?.cellPaddingTop) !== "0"
+              ? `${style?.cellPaddingTop}px`
+              : "0",
+        }),
+    ...(checkData.includes(style?.cellPaddingBottom)
+      ? {}
+      : {
+          "--rdg-cell-padding-bottom":
+            String(style?.cellPaddingBottom) !== "0"
+              ? `${style?.cellPaddingBottom}px`
+              : "0",
+        }),
     ...(style?.cellFontSize
       ? {
           "--rdg-font-size": `${style?.cellFontSize}px`,

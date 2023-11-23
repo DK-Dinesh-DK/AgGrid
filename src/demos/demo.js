@@ -50,10 +50,7 @@ export default function Demo({ direction }) {
     {
       field: "area",
       headerName: "Area",
-      width:200,
-      rowSpan: (params) => {
-        if (params.rowIndex === 1) return 2;
-      },
+      width: 200,
       // frozen: true,
       // width: 100,
     },
@@ -109,6 +106,7 @@ export default function Demo({ direction }) {
         rowData={rows}
         columnReordering={true}
         // defaultColumnDef={{ filter: true, sortable: true }}
+        style={{ cellPaddingBottom: "5" }}
       />
     </>
   );
