@@ -3,6 +3,18 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
+ const filterData = (data, columns) => {
+   return data.map((item) => {
+     const filteredItem = {};
+     columns.forEach((column) => {
+       if (item.hasOwnProperty(column.field)) {
+         filteredItem[column.field] = item[column.field];
+       }
+     });
+     return filteredItem;
+   });
+ };
+
 export function CSVContent(fileData, columns) {
   const field = columns?.map((ele) => ele.field);
   const header = columns?.map((ele) => ele.headerName);
@@ -25,9 +37,10 @@ export function CSVContent(fileData, columns) {
   return content;
 }
 export async function exportToCsv(fileData, columns, fileName) {
+  const filteredData = filterData(fileData, columns);
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-  const ws = XLSX.utils.json_to_sheet(fileData);
+  const ws = XLSX.utils.json_to_sheet(filteredData);
   const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
   const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });
@@ -50,7 +63,7 @@ export async function exportToPdf(
   let doc = new jsPDF({
     orientation: mode,
     unit: "mm",
-    format: exportStyle, 
+    format: exportStyle,
   });
 
   doc.autoTable({
@@ -80,9 +93,11 @@ export async function exportToPdf(
   doc.save(fileName);
 }
 export function exportToXlsx(fileData, columns, fileName) {
+ 
+  const filteredData = filterData(fileData, columns);
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
-  const ws = XLSX.utils.json_to_sheet(fileData);
+  const ws = XLSX.utils.json_to_sheet(filteredData);
   const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
   const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });

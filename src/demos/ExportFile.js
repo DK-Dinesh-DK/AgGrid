@@ -74,79 +74,15 @@ function createRows(numberOfRows) {
   return rows;
 }
 
-function isAtBottom({ currentTarget }) {
-  return (
-    currentTarget.scrollTop + 10 >=
-    currentTarget.scrollHeight - currentTarget.clientHeight
-  );
-}
-
-function loadMoreRows(newRowsCount, length) {
-  return new Promise((resolve) => {
-    const newRows = [];
-
-    for (let i = 0; i < newRowsCount; i++) {
-      newRows[i] = createFakeRowObjectData(i + length);
-    }
-
-    setTimeout(() => resolve(newRows), 1000);
-  });
-}
-
 export default function ExportFile({ direction }) {
   const [rows, setRows] = useState(() => createRows(100));
-  const [isLoading, setIsLoading] = useState(false);
 
-  async function handleScroll(event) {
-    if (isLoading || !isAtBottom(event)) return;
-
-    setIsLoading(true);
-
-    const newRows = await loadMoreRows(50, rows.length);
-
-    setRows([...rows, ...newRows]);
-    setIsLoading(false);
-  }
   return (
     <>
       <DataGrid
         columnData={columns}
         rowData={rows}
         rowKeyGetter={rowKeyGetter}
-        onRowsChange={setRows}
-        rowHeight={25}
-        rowSelection={"single"}
-        className="fill-grid"
-        style={{
-          "--rdg-color": " #000",
-          "--rdg-cell-border-color": "1px solid #FFFFFF",
-          "--rdg-summary-border-color": "#aaa",
-          "--rdg-background-color": "hsl(0deg 0% 100%)",
-          "--rdg-header-background-color": "#16365D",
-          "--rdg-header-row-color": "#FFFFFF",
-          "--rdg-row-hover-background-color": "#D7E3BC",
-          "--rdg-row-hover-color": "#000",
-          "--rdg-row-selected-background-color": "hsl(207deg 76% 92%)",
-          "--rdg-row-selected-hover-background-color": "hsl(207deg 76% 88%)",
-          "--rdg-checkbox-color": "hsl(207deg 100% 29%)",
-          "--rdg-checkbox-focus-color": "hsl(207deg 100% 69%)",
-          "--rdg-checkbox-disabled-border-color": " #ccc",
-          "--rdg-checkbox-disabled-background-color": "#ddd",
-          "--rdg-textEditor-text-color": "#000000",
-          "--rdg-row-even-background-color": "#E5EDF8",
-          "--rdg-row-odd-background-color": "#f3f8fc",
-          "--rdg-row-selected-background-color": "#ebf1dd",
-          "--rdg-font-family":
-            '"Segoe UI", Tahoma, Geneva, Verdana, sans-serif',
-          "--rdg-header-font-size": "11px",
-          "--rdg-tree-icon-color": "#000",
-          "--rdg-tree-icon-font-size": "12px",
-          "--rdg-master-icon-color": "#000",
-          "--rdg-master-icon-font-size": "12px",
-          "--rdg-group-icon-color": "#000",
-          "--rdg-group-icon-font-size": "12px",
-        }}
-        direction={direction}
         importExcel={true}
         export={{
           pdfFileName: "TableData",
@@ -155,9 +91,6 @@ export default function ExportFile({ direction }) {
         }}
         exportPdfStyle={{ width: 400, height: 900 }}
       />
-      {isLoading && (
-        <div className={loadMoreRowsClassname}>Loading more rows...</div>
-      )}
     </>
   );
 }
