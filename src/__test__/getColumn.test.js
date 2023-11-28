@@ -5,7 +5,7 @@ import { useRef } from "react";
 import "@testing-library/jest-dom";
 beforeAll(() => {
   userEvent.setup();
-  window.HTMLElement.prototype.scrollIntoView = function () { };
+  window.HTMLElement.prototype.scrollIntoView = function () {};
 });
 let getColumnOutput;
 const columns = [
@@ -35,9 +35,11 @@ function TestComponent(props) {
       <button
         type="button"
         onClick={() =>
-        (getColumnOutput =
-          dataGridRef.current.columnApi.getColumn(props.column))
-        }>
+          (getColumnOutput = dataGridRef.current.columnApi.getColumn(
+            props.column
+          ))
+        }
+      >
         getColumn
       </button>
       <DataGrid
@@ -51,17 +53,21 @@ function TestComponent(props) {
 }
 describe("getColumn works correctly", () => {
   test("getColumn gets column object of correct column(priority) when colKey passed as string", async () => {
-
     render(<TestComponent column={"priority"} />);
     const expectedColumnObject = {
       colId: "priority",
       columnIndex: 2,
       width: "auto",
-      frozen: undefined,
+      frozen: false,
       rowGroup: false,
       rowGroupIndex: null,
       sort: null,
-      userProvidedColDef: { field: "priority", headerName: "Priority", depth: 0 },
+      userProvidedColDef: {
+        field: "priority",
+        headerName: "Priority",
+        depth: 0,
+        frozen: false,
+      },
     };
 
     const getColumnBtn = screen.getByRole("button", {
@@ -81,11 +87,17 @@ describe("getColumn works correctly", () => {
       colId: "id",
       columnIndex: 0,
       width: "80px",
-      frozen: undefined,
+      frozen: false,
       rowGroup: false,
       rowGroupIndex: null,
       sort: null,
-      userProvidedColDef: { depth: 0, field: "id", headerName: "ID", width: 80 },
+      userProvidedColDef: {
+        depth: 0,
+        field: "id",
+        headerName: "ID",
+        width: 80,
+        frozen: false,
+      },
     };
 
     const getColumnBtn = screen.getByRole("button", {

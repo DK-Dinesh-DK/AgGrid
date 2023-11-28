@@ -33,6 +33,7 @@ import AlignmentDataTypes from "./demos/AlignmentDataTypes";
 import MultilineHeader from "./demos/MultilineHeader";
 import ToolTip from "./demos/ToolTip";
 import DetailedRow from "./demos/DetailedRow";
+import ColumnToolPanel from "./demos/ColumnToolPanel";
 css`
   @at-root {
     :root,
@@ -171,6 +172,10 @@ function App() {
           <Route
             path="details-row"
             element={<DetailedRow direction={direction} />}
+          />
+          <Route
+            path="column-tool-panel"
+            element={<ColumnToolPanel direction={direction} />}
           />
 
           <Route path="*" element="Nothing to see here" />

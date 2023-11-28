@@ -31,7 +31,7 @@ import {
   RowSelectionChangeProvider,
 } from "./hooks";
 import HeaderRow from "./HeaderRow";
-import RowComponent, { defaultRowRenderer } from "./Row";
+import { defaultRowRenderer } from "./Row";
 import GroupRowRenderer from "./GroupRow";
 import SummaryRow from "./SummaryRow";
 import EditCell from "./EditCell";
@@ -69,6 +69,9 @@ import { useCalculatedRowColumns } from "./hooks/useCalculatedRowColumns";
 import { useCalculatedColumnsWithTopHeader } from "./hooks/useCalculatedColumnsWithTopHeader";
 import MasterRowRenderer from "./MasterRow";
 import DetailsRow from "./DetailsRow";
+import ColumnToolPanel from "./ColumnToolPanel";
+import { ColumnToolPanelIcon } from "../../assets/Icon";
+import * as XLSX from "xlsx";
 
 const PrevNextArrow = (type, originalElement, rowsLength, size) => {
   if (rowsLength < size && (type === "prev" || type === "next")) return null;
@@ -183,9 +186,54 @@ function DataGrid(props) {
   }
 
   const [selectedRows1, onSelectedRowsChange1] = useState();
+  const [resetColumnWidths, setResetColumnWidths] = useState(false);
+  const [columnWidthsToFit, setColumnWidthsToFit] = useState(false);
+
   selectedRows = selectedRows ? selectedRows : [];
   const selection = rest.selection && SelectColumn;
   let sam;
+  let panelHeaderRenderer = () => {
+    return (
+      <div
+        // ref={ToolPanelPositionRef}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          width: "50px",
+        }}
+      >
+        <ColumnToolPanelIcon
+          data-testid="column-tool-panel-icon"
+          onClick={(e) => {
+            setColumnToolPanel(!columnToolPanel);
+            let pos = e.target.getBoundingClientRect();
+            setColumnToolPosition({
+              top: pos.bottom,
+              left: pos.left + pos.width,
+            });
+          }}
+        />
+      </div>
+    );
+  };
+  let panel = {
+    headerName: "Panel",
+    frozen: true,
+    width: 50,
+    headerRenderer: panelHeaderRenderer,
+    cellRenderer: (props) => (
+      <div
+        style={{
+          backgroundColor:
+            style?.["--rdg-header-background-color"] ?? "#16365D",
+          height: rowHeight,
+          width: "50px",
+          borderBottom: "1px solid #FFF",
+        }}
+      ></div>
+    ),
+  };
+
   if (rest.serialColumnStyle) {
     if (typeof rest.serialColumnStyle === "function") {
       sam = {
@@ -201,17 +249,108 @@ function DataGrid(props) {
   } else {
     sam = SerialNumberColumn;
   }
-  if (rest.selection && serialNumber) {
+
+  if (rest.selection && serialNumber && !rest.columnPanel) {
     raawColumns = [selection, ...raawColumns];
 
     raawColumns = [sam, ...raawColumns];
+  } else if (rest.selection && serialNumber && rest.columnPanel) {
+    raawColumns = [selection, ...raawColumns];
+
+    raawColumns = [
+      {
+        ...sam,
+        headerName: "Panel",
+        headerRenderer: panelHeaderRenderer,
+      },
+      ...raawColumns,
+    ];
   } else if (rest.selection && !serialNumber) {
     raawColumns = [selection, ...raawColumns];
-  } else if (!rest.selection && serialNumber) {
+  } else if (!rest.selection && serialNumber && !rest.columnPanel) {
     raawColumns = [sam, ...raawColumns];
+  } else if (!rest.selection && serialNumber && rest.columnPanel) {
+    raawColumns = [
+      {
+        ...sam,
+        headerName: "Panel",
+        headerRenderer: panelHeaderRenderer,
+      },
+      ...raawColumns,
+    ];
+  }
+
+  if (rest.columnPanel && !serialNumber) {
+    raawColumns = [panel, ...raawColumns];
+  }
+  function HideList() {
+    let list = [];
+    raawColumns.forEach((col) => {
+      if (col.hide) list.push(col.headerName);
+    });
+    return list;
+  }
+  function FrozenList() {
+    let list = [];
+    raawColumns.forEach((col) => {
+      if (col.frozen) list.push(col.headerName);
+    });
+    return list;
+  }
+  const [hideColumn, setHideColumn] = useState(HideList());
+  const [frozenColumn, setFrozenColumn] = useState(FrozenList());
+  const [changedColumnWidth, setcChangedColumnWidth] = useState({});
+  const [changedColumnOrder, setChangedColumnOrder] = useState([]);
+
+  raawColumns = raawColumns.map((col) => {
+    if (changedColumnWidth?.[col.headerName] && !resetColumnWidths)
+      return { ...col, width: Number(changedColumnWidth[col.headerName]) };
+    else if (columnWidthsToFit) return { ...col, width: "max-content" };
+    else return { ...col };
+  });
+
+  if (changedColumnOrder.length > 0) {
+    let changed = false;
+    changedColumnOrder.forEach((name, index) => {
+      if (raawColumns[index]?.headerName !== name) {
+        changed = true;
+      }
+    });
+
+    if (changed) {
+      let sampleRawColumn = changedColumnOrder.map((name) => {
+        let filterdColumn;
+        raawColumns.forEach((col) => {
+          if (col.headerName === name) {
+            filterdColumn = col;
+          }
+        });
+        return filterdColumn;
+      });
+      if (rest.columnPanel && !serialNumber) {
+        sampleRawColumn = [panel, ...sampleRawColumn];
+      } else if (rest.columnPanel && serialNumber) {
+        sampleRawColumn = [
+          {
+            ...sam,
+            headerName: "Panel",
+            headerRenderer: panelHeaderRenderer,
+          },
+          ...sampleRawColumn,
+        ];
+      }
+      raawColumns = [...sampleRawColumn];
+    }
   }
   raawColumns = raawColumns.filter((col) => {
-    if (!col.hide) return col;
+    if (!hideColumn.includes(col.headerName)) return col;
+  });
+
+  raawColumns = raawColumns.map((col) => {
+    if (col.headerName === "Panel") return col;
+    else if (frozenColumn.includes(col.headerName)) {
+      return { ...col, frozen: true };
+    } else return { ...col, frozen: false };
   });
   if (
     rest.detailedRow &&
@@ -341,6 +480,16 @@ function DataGrid(props) {
   const { columns3 } = useCalculatedColumnsWithTopHeader({
     raawColumns, //need to be added
   });
+
+  const [columnToolPanel, setColumnToolPanel] = useState(
+    rest.columnToolPanel ?? false
+  );
+  const [columnToolPostion, setColumnToolPosition] = useState({
+    top: 0,
+    left: 0,
+  });
+  // const ToolPanelPositionRef = useRef(null);
+
   const [toolTip, setToolTip] = useState(false);
   const [toolTipContent, setToolTipContent] = useState("");
   const [mouseX, setMouseX] = useState();
@@ -375,6 +524,9 @@ function DataGrid(props) {
     }
   }, [props.expandedMasterRowIds]);
 
+  if (JSON.stringify(rawColumns) !== JSON.stringify(columns3)) {
+    setRawColumns([...columns3]);
+  }
   const PaginationChange = (page, pageSize) => {
     setCurrent(page);
     setSize(pageSize);
@@ -617,6 +769,7 @@ function DataGrid(props) {
     enableVirtualization,
     frameworkComponents,
     treeData: rest.treeData,
+    columnPanel: rest.columnPanel,
   });
 
   let rowData = flatten([], columns);
@@ -2657,7 +2810,13 @@ function DataGrid(props) {
   }
   function exportDataAsPdf(fileName) {
     let name = fileName ?? "ExportToPdf";
-    exportToPdf(rawRows, rawColumns, name);
+    exportToPdf(
+      rawRows,
+      rawColumns,
+      name,
+      [rest?.exportPdfStyle?.width ?? 210, rest?.exportPdfStyle?.height ?? 297],
+      rest?.exportPdfStyle?.mode ?? "p"
+    );
   }
   function isAnyFilterPresent() {
     let filterPresent = false;
@@ -3500,7 +3659,6 @@ function DataGrid(props) {
     display: flex;
     justify-content: flex-end;
     gap: 8px;
-    margin-block-end: 8px;
   `;
   const jumpnext = document.getElementsByClassName("rc-pagination-jump-next");
   if (jumpnext) {
@@ -3615,34 +3773,99 @@ function DataGrid(props) {
         }
       : {}),
   };
+  const buttonStyle = css`
+    border: 1px solid #fff;
+    background-color: #4f81bd;
+    color: #fff;
+    height: 22px;
+    font-size: 12px;
+    &:active {
+      background-color: #446ea1;
+    }
+  `;
+  const fileInput = css`
+    border: 1px solid #fff;
+    background-color: #4f81bd;
+    color: #fff;
+    height: 22px;
+    font-size: 12px;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: flex;
+    align-items: center;
+    &:active {
+      background-color: #446ea1;
+    }
+  `;
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const workbook = XLSX.read(e.target.result, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const excelData = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+        setRawRows(excelData);
+      };
+      reader.readAsBinaryString(file);
+    }
+  };
+
   return (
     <>
-      {props.export && (
-        <div className={toolbarClassname}>
-          {props.export.csvFileName && (
-            <button
-              data-testid={"Export to CSV"}
-              onClick={() => exportDataAsCsv(props.export.csvFileName)}
-            >
-              Export to CSV
-            </button>
-          )}
-          {props.export.excelFileName && (
-            <button
-              data-testid={"Export to XSLX"}
-              onClick={() => exportDataAsExcel(props.export.excelFileName)}
-            >
-              Export to XSLX
-            </button>
-          )}
-          {props.export.pdfFileName && (
-            <button
-              data-testid={"Export to PDF"}
-              onClick={() => exportDataAsPdf(props.export.pdfFileName)}
-            >
-              Export to PDF
-            </button>
-          )}
+      {(props.export || props.importExcel) && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "6px",
+          }}
+        >
+          <div>
+            {props.importExcel && (
+              <div className={fileInput}>
+                <input
+                  style={{ display: "none" }}
+                  type={"file"}
+                  id="fileInput"
+                  data-testid={"Import-Excel"}
+                  onChange={handleFileUpload}
+                  accept=".xlsx, .xls"
+                />
+                <label htmlFor="fileInput">Import Excel</label>
+              </div>
+            )}
+          </div>
+          <div className={toolbarClassname}>
+            {props.export?.csvFileName && (
+              <button
+                className={buttonStyle}
+                data-testid={"Export to CSV"}
+                onClick={() => exportDataAsCsv(props.export.csvFileName)}
+              >
+                Export to CSV
+              </button>
+            )}
+            {props.export?.excelFileName && (
+              <button
+                className={buttonStyle}
+                data-testid={"Export to XSLX"}
+                onClick={() => exportDataAsExcel(props.export.excelFileName)}
+              >
+                Export to XSLX
+              </button>
+            )}
+            {props.export?.pdfFileName && (
+              <button
+                className={buttonStyle}
+                data-testid={"Export to PDF"}
+                onClick={() => exportDataAsPdf(props.export.pdfFileName)}
+              >
+                Export to PDF
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -4023,6 +4246,43 @@ function DataGrid(props) {
           </div>
           <div style={{ width: "30%" }}></div>
         </div>
+      )}
+      {columnToolPanel && (
+        <ColumnToolPanel
+          isOpen={columnToolPanel}
+          style={{
+            top: columnToolPostion.top,
+            left: columnToolPostion.left,
+            border: "0.3px solid #0F243E",
+            borderRadius: "none",
+          }}
+          stylingThings={{
+            headerBackgroundColor:
+              style?.["--rdg-header-background-color"] ?? "#16365D",
+          }}
+          onClose={() => {
+            setColumnToolPanel(false);
+          }}
+          ChangeHide={(list) => {
+            setHideColumn(list);
+          }}
+          hideColumn={hideColumn}
+          hanldeChangedColumnWidth={(width) => setcChangedColumnWidth(width)}
+          hanldeChangedOrder={(order) => setChangedColumnOrder(order)}
+          changedColumnWidth={changedColumnWidth}
+          ChangeFreeze={(list) => {
+            setFrozenColumn([...list]);
+          }}
+          freezeColumn={frozenColumn}
+          resetColumn={() => {
+            setColumnWidthsToFit(false);
+            setResetColumnWidths(true);
+          }}
+          sizeColumnToFit={() => {
+            setColumnWidthsToFit(true);
+          }}
+          raawColumns={props.columnData}
+        />
       )}
       {contextMenuVisible &&
         ReactDOM.createPortal(

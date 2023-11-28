@@ -1,112 +1,71 @@
-import React, { useState } from "react";
-
+import { useRef, useState } from "react";
+import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
+import TextEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
-import { ButtonEditor } from "../components/datagrid/editors";
 
-function createRows() {
-  const now = Date.now();
+const columns = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 80,
+  },
+  {
+    field: "title",
+    headerName: "Title",
+  },
+  {
+    field: "firstName",
+    headerName: "First Name",
+  },
+  {
+    field: "lastName",
+    headerName: "Last Name",
+  },
+  {
+    field: "email",
+    headerName: "Email",
+  },
+];
+
+function createRows(numberOfRows) {
   const rows = [];
 
-  for (let i = 0; i < 1000; i++) {
-    rows.push({
-      id: i,
-      title: `Task #${i + 1}`,
-      client: faker.company.name(),
-      area: faker.name.jobArea(),
-      country: faker.address.country(),
-      contact: faker.internet.exampleEmail(),
-      assignee: faker.name.fullName(),
-      progress: Math.random() * 100,
-      startTimestamp: now - Math.round(Math.random() * 1e10),
-      endTimestamp: now + Math.round(Math.random() * 1e10),
-      budget: 500 + Math.random() * 10500,
-      transaction: faker.finance.transactionType(),
-      account: faker.finance.iban(),
-      version: faker.system.semver(),
-      available: Math.random() > 0.5,
-    });
+  for (let i = 0; i < numberOfRows; i++) {
+    rows[i] = {
+      id: `id_${i}`,
+      title: faker.name.prefix(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.firstName(),
+      email: faker.internet.email(),
+      phone: faker.phone.number(),
+    };
   }
 
   return rows;
 }
 
 export default function Demo({ direction }) {
-  const [rows, setRows] = useState(createRows);
-
-  const [columns, setColumns] = useState([
-    {
-      field: "id",
-      headerName: "ID",
-      frozen: true,
-      width: 60,
-    },
-    {
-      field: "title",
-      headerName: "Task",
-      frozen: true,
-      width: 100,
-    },
-    {
-      field: "area",
-      headerName: "Area",
-      width: 200,
-      // frozen: true,
-      // width: 100,
-    },
-  ]);
-
+  const [rows, setRows] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const gridRef = useRef(null);
   return (
     <>
       <button
         onClick={() => {
-          setColumns([
-            ...columns,
-
-            {
-              field: "contact",
-              headerName: "Contact",
-            },
-            {
-              field: "assignee",
-              headerName: "Assignee",
-            },
-
-            {
-              field: "startTimestamp",
-              headerName: "Start date",
-            },
-            {
-              field: "endTimestamp",
-              headerName: "Deadline",
-            },
-            {
-              field: "budget",
-              headerName: "Budget",
-            },
-            {
-              field: "transaction",
-              headerName: "Transaction type",
-            },
-            {
-              field: "account",
-              headerName: "Account",
-            },
-            {
-              field: "version",
-              headerName: "Version",
-            },
-          ]);
+          console.log(gridRef.current.api.getRows());
         }}
       >
-        Add Columns
+        Data
       </button>
       <DataGrid
         columnData={columns}
         rowData={rows}
-        columnReordering={true}
-        // defaultColumnDef={{ filter: true, sortable: true }}
-        style={{ cellPaddingBottom: "5" }}
+        importExcel={true}
+        innerRef={gridRef}
+        export={{
+          pdfFileName: "NewTableData",
+        }}
       />
     </>
   );

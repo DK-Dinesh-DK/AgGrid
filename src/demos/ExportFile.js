@@ -48,6 +48,7 @@ const columns = [
   {
     field: "email",
     headerName: "Email",
+    hide: true,
     valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
   },
 ];
@@ -146,11 +147,13 @@ export default function ExportFile({ direction }) {
           "--rdg-group-icon-font-size": "12px",
         }}
         direction={direction}
+        importExcel={true}
         export={{
           pdfFileName: "TableData",
           csvFileName: "TableData",
           excelFileName: "TableData",
         }}
+        exportPdfStyle={{ width: 400, height: 900 }}
       />
       {isLoading && (
         <div className={loadMoreRowsClassname}>Loading more rows...</div>

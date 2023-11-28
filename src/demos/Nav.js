@@ -147,6 +147,9 @@ export default function Nav({ direction, onDirectionChange }) {
       <NavLink to="/details-row" end className={getActiveClassname}>
         26. Responsive Row Details
       </NavLink>
+      <NavLink to="/column-tool-panel" end className={getActiveClassname}>
+        26. Column Tool Panel
+      </NavLink>
       <h2>Direction</h2>
       <label className={rtlCheckboxClassname}>
         <input

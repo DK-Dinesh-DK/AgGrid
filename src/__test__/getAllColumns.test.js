@@ -5,7 +5,7 @@ import { useRef } from "react";
 import "@testing-library/jest-dom";
 beforeAll(() => {
   userEvent.setup();
-  window.HTMLElement.prototype.scrollIntoView = function () { };
+  window.HTMLElement.prototype.scrollIntoView = function () {};
 });
 describe("getColumns and getAllGridColumns work correctly", () => {
   test("getColumns returns all columns", async () => {
@@ -38,7 +38,8 @@ describe("getColumns and getAllGridColumns work correctly", () => {
             type="button"
             onClick={() =>
               (getColumnsOutput = dataGridRef.current.columnApi.getColumns())
-            }>
+            }
+          >
             getColumns
           </button>
           <DataGrid
@@ -56,31 +57,47 @@ describe("getColumns and getAllGridColumns work correctly", () => {
         colId: "id",
         columnIndex: 0,
         width: "80px",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: null,
         sort: null,
-        userProvidedColDef: { field: "id", headerName: "ID", width: 80, depth: 0 },
+        userProvidedColDef: {
+          field: "id",
+          headerName: "ID",
+          width: 80,
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "task",
         columnIndex: 1,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: null,
         sort: null,
-        userProvidedColDef: { field: "task", headerName: "Title", depth: 0 },
+        userProvidedColDef: {
+          field: "task",
+          headerName: "Title",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "priority",
         columnIndex: 2,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: null,
         sort: null,
-        userProvidedColDef: { field: "priority", headerName: "Priority", depth: 0 },
+        userProvidedColDef: {
+          field: "priority",
+          headerName: "Priority",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const getColumnsBtn = screen.getByRole("button", {
@@ -121,9 +138,10 @@ describe("getColumns and getAllGridColumns work correctly", () => {
           <button
             type="button"
             onClick={() =>
-            (getAllGridColumnsOutput =
-              dataGridRef.current.columnApi.getAllGridColumns())
-            }>
+              (getAllGridColumnsOutput =
+                dataGridRef.current.columnApi.getAllGridColumns())
+            }
+          >
             getAllGridColumns
           </button>
           <DataGrid
@@ -141,31 +159,47 @@ describe("getColumns and getAllGridColumns work correctly", () => {
         colId: "id",
         columnIndex: 0,
         width: "80px",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: null,
         sort: null,
-        userProvidedColDef: { field: "id", headerName: "ID", width: 80, depth: 0 },
+        userProvidedColDef: {
+          field: "id",
+          headerName: "ID",
+          width: 80,
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "task",
         columnIndex: 1,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: null,
         sort: null,
-        userProvidedColDef: { field: "task", headerName: "Title", depth: 0 },
+        userProvidedColDef: {
+          field: "task",
+          headerName: "Title",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "priority",
         columnIndex: 2,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: null,
         sort: null,
-        userProvidedColDef: { field: "priority", headerName: "Priority", depth: 0 },
+        userProvidedColDef: {
+          field: "priority",
+          headerName: "Priority",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const getAllGridColumns = screen.getByRole("button", {

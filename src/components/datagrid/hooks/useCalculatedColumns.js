@@ -15,6 +15,7 @@ export function useCalculatedColumns({
   enableVirtualization,
   frameworkComponents,
   treeData,
+  columnPanel,
 }) {
   const defaultWidth = defaultColumnOptions?.width ?? DEFAULT_COLUMN_WIDTH;
   const defaultMinWidth =
@@ -180,8 +181,16 @@ export function useCalculatedColumns({
       });
 
       columns?.sort(
-        ({ key: aKey, frozen: frozenA }, { key: bKey, frozen: frozenB }) => {
+        (
+          { key: aKey, frozen: frozenA, headerName: headerNameA },
+          { key: bKey, frozen: frozenB, headerName: headerNameB }
+        ) => {
           // Sort select column first:
+
+          if (headerNameA === "Panel" && columnPanel) return -1;
+          if (headerNameB === "Panel" && columnPanel) return 1;
+          if (aKey === "Sr. No.") return -1;
+          if (bKey === "Sr. No.") return 1;
           if (aKey === SELECT_COLUMN_KEY) return -1;
           if (bKey === SELECT_COLUMN_KEY) return 1;
 

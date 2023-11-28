@@ -53,16 +53,16 @@ className: Used to pass custom css className to the grid
 
 rowClass: Used to pass custom css to to rows of the grid. (Will need to install and import css from linaria for using cell classnames)
 Example:
-const highlightClassname = css`
-	
-	.rdg-cell {
+
+        rowClass={(row) =>
+        row.id.includes("7") ? "highlightClassname" : undefined}
+
+    // css file
+    .highlightClassname: {
     	background-color: #9370db;
     	color: white;
-  	}`;
-rowClass={(row) =>
-row.id.includes("7") ? highlightClassname : undefined
-}
 
+}
 selectedCellHeaderStyle: To pass custom style object to header
 Example:
 
@@ -335,6 +335,7 @@ Export to various formats pdf, csv, xlsx:
 
 We can export the table data into file formats like pdf, csv and xlsx(excel), it should be achievable for accessing export property. AgGird will show buttons automatically in table top right corner. AgGird provides a separate button for each format.
 
+For Pdf file style can able to change while accessing exportPdfStyle.Default it will take a4 size and orientation is portrait.
 Example:
 
     <AgGrid
@@ -345,7 +346,23 @@ Example:
           csvFileName: "TableData", // To export csv file
           excelFileName:"TableData", // To export excel or xlsx file
         }}
+         exportPdfStyle={{  // exporting Pdf file height,width and oritention
+         width:200,
+         height:400,
+         mode: "p",  // "p/portrait " or "l/landscape"
+         }
     />
+
+Import Excel File:
+we can import the excel file data into table directly with the help of this feature. To enabling this feature will automatically show the import button in top of the table left side.It will pick only excel files and restirct is already added.
+
+Example:
+
+        <AgGrid
+            columnData={columns}
+            rowData={rows}
+            importExcel={true} // enable import buttton
+        />
 
 Row selection using checkbox:
 
@@ -477,7 +494,6 @@ Some time table will contain sensitive data’s ,so need to stop easy cloning it
         paste: false, // it should be allow paste
       }}
 
-
 DetailedRow/Responsive Row:
 
 Some time table will contain N number columns, in that case scroll to see the out range columns will not feel better.So in that case particualr row or some row's data will show one by one is the better feel and accessiable.
@@ -523,7 +539,7 @@ Example:
 Context Menu :
 
 You can customise the context menu by providing a getContextMenuItems() callback. Each time the context menu is to be shown, the callback is called to retrieve the menu items.
-    If suppose Same Screen having two AgGrid and contextmenu , you need to pass unique id for both AgGrid.
+If suppose Same Screen having two AgGrid and contextmenu , you need to pass unique id for both AgGrid.
 Example:
 
     const getContextMenuItems = [
@@ -559,9 +575,8 @@ Example:
                             return <img src="https://www.ag-grid.com/example-assets/skills/mac.png" />},
                             // to show the icon before option text
                 },
-                ];
-    }
-   ]
+            ];
+    }]
 
     <AgGrid
         columnData={columns}
@@ -573,9 +588,10 @@ ToolTip:
 
 A tooltip is a small pop-up box that appears when you hover over an element, providing brief contextual information or explanations about that element in user interfaces.And we can able to get row vise and cell vise tooltip.But possible to use tooltip any one in at the time.If suppose you are enable both means rowlevel tool tip only will work.
 
-    RowLevel Example:
+RowLevel Example:
 
-    Default Tooltip:
+Default Tooltip:
+
     <AgGrid
         columnData={columns}
         rowData={rows}
@@ -583,7 +599,8 @@ A tooltip is a small pop-up box that appears when you hover over an element, pro
         // it will enable the row level tooltip and will show the rowIndex
     />
 
-    Dynamic Tooltip:
+Dynamic Tooltip:
+
     <AgGrid
         columnData={columns}
         rowData={rows}
@@ -594,35 +611,34 @@ A tooltip is a small pop-up box that appears when you hover over an element, pro
         // it will enable the row level tooltip and will show the dynamic Tooltip
     />
 
-
-    CellLevel Example:
+CellLevel Example:
 
     const columns = [
-                    {
-                        field: "task",
-                        headerName: "Title",
-                        toolTip: true,
-                        // it will enable the cell vise tooltip for this column only.
-                        // setting true will enable default tooltip it will show the particular cell value only
-                    },
-                    {
-                        field: "priority",
-                        headerName: "Priority",
-                    },
-                    {
-                        field: "issueType",
-                        headerName: "Issue Type",
-                        toolTip: (params) => {
-                        return`Issue Type${params.row[params.column.field]}`
-                        },
-                        // params will give the particular row data and column etc.. with help of that we can able to set dynamic tooltip for cell vise
-                    },
-                    ];
+            {
+            field: "task",
+            headerName: "Title",
+            toolTip: true,
+            // it will enable the cell vise tooltip for this column only.
+            // setting true will enable default tooltip it will show the      particular cell value only
+            },
+            {
+            field: "priority",
+            headerName: "Priority",
+            },
+            {
+            field: "issueType",
+            headerName: "Issue Type",
+            toolTip: (params) => {
+            return`Issue Type${params.row[params.column.field]}`
+            },
+            // params will give the particular row data and column etc.. with help of that we can able to set dynamic tooltip for cell vise
+            },
+        ];
 
-                 <AgGrid
-                    columnData={columns}
-                    rowData={rows}
-                />
+            <AgGrid
+                columnData={columns}
+                rowData={rows}
+            />
 
 Master/Detail -Detail Grid:
 When a row in the Master Grid is expanded, a new Detail Grid appears underneath that row.
@@ -630,24 +646,23 @@ Master row/grid readonly and detail grid will work usual aggrid.
 Example:
 
     const columns =  [
-                    // this first colunm definition need to pass because its required
+            // this first colunm definition need to pass because its required
                     {
                         field: "expanded",
                         headerName: "",
                         width: 30,
                         colSpan(args) {
-                                return args.type === "ROW" && args.row?.gridRowType === "Detail"
-                                ? 3: 1;
+                            return args.type === "ROW" &&                     args.row?.gridRowType === "Detail"? 3: 1;
                         },
-                        // with help of colspan we can able to set the how many column need to contain/will show detail grid
+                        // with help of colspan we can able to set the how    many column need to contain/will show detail grid
                         cellClass(row) {
-                            return row.gridRowType === "DETAIL"
+                        return row.gridRowType === "DETAIL"
                                 ? css`
                             padding: 30px;
                             background-color: black;`
                             : undefined;
                         },
-                        // with the help of cellClass we can able to style detail grid like background-color,padding,margin etc..
+                    // with the help of cellClass we can able to style detail grid like background-color,padding,margin etc..
                     detailsGrid: (props) => {
                     // props will provide particular rowdata and parentId (rowid or what ever we are setting in rowKeyGetter)
                         return (
@@ -748,7 +763,6 @@ Example:
             rowData={rows}
         />
 
-
 Detail row/Responsive Row:
 
 When a grid having number of columns and there is chance to user can see the grid/website in mobile/tab we can use this detailed/responsive row method.Because most of the time screen width will not fit to content,so in that case visual vise not look better.In that case we need to enable to this feature.Automatically plus icon will come in first column
@@ -790,7 +804,6 @@ Example:
         {headerName:"Department",field:"department"},
         ]
 
-
 Global Filter Row:
 
 It will give one row for all the columns to write the filter contents in above the table.To activate this feature need to pass true for globalFilter property.And aprt from filter input you can able to renderer some other things what ever you want to show in that particular column area with help of filterRenderer. In this feature required static widths for all column.
@@ -827,9 +840,8 @@ Serial Column Style:
 
 Normally Serial column styles are default but while passing the styles in serialColumnStyle you can able to change it , it will work like normal column cellStyle.
 
-    
     Example:
-    
+
     <AgGrid
         columnData={columns}
         rowData={rowData}
@@ -841,8 +853,31 @@ Normally Serial column styles are default but while passing the styles in serial
         // serialColumnStyle={{backgroundColor:"blue"}}
       />
 
-        
 
+
+Column Tool Panel:
+
+With the help of this feature End User can able change the hide/show columns,freezing columns,column widths and modify order of columns.Totally it will show seven options. To clicking this option will open the popup to change process.
+cases:
+
+1. To enabling serial column and columnToolpanel -serial column header cell have the icon of column tool panel and row cells show the serial number accordingly.
+2. To enabling without serial column -show seperate column and row cells will be empty and header cell have the icon of column tool panel.
+
+Options list and details: 1. All in One - below four feature in one popup (show/hide,freeze column,setColumn Width.Reaarange Column)
+2.Show/Hide Columns - column hide or show can able to set in this popup.
+3.Freeze Columns -freezing columns in table left side
+4.Set Columns Width-can able to set width of each column
+5.Re-arrang Columns- Can able to change order of columns(freeze to freeze and unfreeze to unfreeze only)
+6.Size Columns To Fit- it will set the all columns to take maximum width will be maximum content length of the particular column data
+7.Reset Column width- it will set default width for all columns.
+
+Example:
+
+        <AgGrid
+        columnData={columns}
+        rowData={rows}
+        columnPanel={true}
+        />
 
 # API FEATURES:
 

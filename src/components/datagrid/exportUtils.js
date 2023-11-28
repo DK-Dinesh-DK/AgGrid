@@ -31,16 +31,28 @@ export async function exportToCsv(fileData, columns, fileName) {
   const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
   const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });
-  FileSaver.saveAs(data, fileName);
+  FileSaver.saveAs(data, `${fileName}.csv`);
 }
-export async function exportToPdf(fileData, columns, fileName) {
+export async function exportToPdf(
+  fileData,
+  columns,
+  fileName,
+  exportStyle,
+  mode
+) {
   let field = [];
   columns?.map((ele) => {
     if (ele.field) {
       field.push({ dataKey: ele.field, header: ele.headerName });
     }
   });
-  let doc = new jsPDF();
+
+  let doc = new jsPDF({
+    orientation: mode,
+    unit: "mm",
+    format: exportStyle, 
+  });
+
   doc.autoTable({
     margin: { top: 10 },
     styles: {

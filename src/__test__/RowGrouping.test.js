@@ -262,6 +262,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -272,7 +273,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
 
@@ -303,6 +309,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -313,7 +320,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -321,24 +333,29 @@ describe("RowGrouping API", () => {
         colId: "sport",
         columnIndex: 3,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "sport", headerName: "Sport", depth: 0 },
+        userProvidedColDef: {
+          field: "sport",
+          headerName: "Sport",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "athlete",
         columnIndex: 4,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 0,
         sort: null,
         userProvidedColDef: {
           field: "athlete",
           headerName: "Athlete",
-          depth: 0,
+          depth: 0, frozen: false,
         },
       },
     ];
@@ -380,6 +397,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -390,7 +408,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -398,17 +421,22 @@ describe("RowGrouping API", () => {
         colId: "sport",
         columnIndex: 3,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "sport", headerName: "Sport", depth: 0 },
+        userProvidedColDef: {
+          field: "sport",
+          headerName: "Sport",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "athlete",
         columnIndex: 4,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 0,
         sort: null,
@@ -416,6 +444,7 @@ describe("RowGrouping API", () => {
           field: "athlete",
           headerName: "Athlete",
           depth: 0,
+          frozen: false,
         },
       },
     ];
@@ -457,6 +486,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -467,7 +497,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -483,6 +518,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -493,13 +529,18 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "athlete",
         columnIndex: 4,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 2,
         sort: null,
@@ -507,6 +548,7 @@ describe("RowGrouping API", () => {
           field: "athlete",
           headerName: "Athlete",
           depth: 0,
+          frozen: false,
         },
       },
     ];
@@ -548,6 +590,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -558,7 +601,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -574,6 +622,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -584,13 +633,18 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "athlete",
         columnIndex: 4,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 2,
         sort: null,
@@ -598,6 +652,7 @@ describe("RowGrouping API", () => {
           field: "athlete",
           headerName: "Athlete",
           depth: 0,
+          frozen: false,
         },
       },
     ];
@@ -639,6 +694,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -649,7 +705,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -665,6 +726,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -675,23 +737,33 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "sport",
         columnIndex: 3,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 3,
         sort: null,
-        userProvidedColDef: { field: "sport", headerName: "Sport", depth: 0 },
+        userProvidedColDef: {
+          field: "sport",
+          headerName: "Sport",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "athlete",
         columnIndex: 4,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 2,
         sort: null,
@@ -699,6 +771,7 @@ describe("RowGrouping API", () => {
           field: "athlete",
           headerName: "Athlete",
           depth: 0,
+          frozen: false,
         },
       },
     ];
@@ -740,6 +813,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -750,7 +824,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -766,6 +845,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -776,23 +856,33 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "sport",
         columnIndex: 3,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 3,
         sort: null,
-        userProvidedColDef: { field: "sport", headerName: "Sport", depth: 0 },
+        userProvidedColDef: {
+          field: "sport",
+          headerName: "Sport",
+          depth: 0,
+          frozen: false,
+        },
       },
       {
         colId: "athlete",
         columnIndex: 4,
         width: "auto",
-        frozen: undefined,
+        frozen: false,
         rowGroup: false,
         rowGroupIndex: 2,
         sort: null,
@@ -800,6 +890,7 @@ describe("RowGrouping API", () => {
           field: "athlete",
           headerName: "Athlete",
           depth: 0,
+          frozen: false,
         },
       },
     ];
@@ -841,6 +932,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -851,7 +943,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -863,7 +960,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 0,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const removeRowGroupColumn = { colId: "country" };
@@ -906,6 +1008,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -916,7 +1019,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -928,7 +1036,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 0,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const removeRowGroupColumn = "country";
@@ -971,6 +1084,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -981,7 +1095,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -993,7 +1112,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 0,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const removeRowGroupColumns = [{ colId: "country" }, { colId: "athlete" }];
@@ -1048,6 +1172,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -1058,7 +1183,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -1070,7 +1200,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 0,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const removeRowGroupColumns = ["country", "athlete"];
@@ -1125,6 +1260,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -1135,7 +1271,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 1,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
     const expectedRowGroupColumns = [
@@ -1151,6 +1292,7 @@ describe("RowGrouping API", () => {
           field: "country",
           headerName: "Country",
           depth: 0,
+          frozen: false,
         },
       },
       {
@@ -1161,7 +1303,12 @@ describe("RowGrouping API", () => {
         rowGroup: true,
         rowGroupIndex: 0,
         sort: null,
-        userProvidedColDef: { field: "year", headerName: "Year", depth: 0 },
+        userProvidedColDef: {
+          field: "year",
+          headerName: "Year",
+          depth: 0,
+          frozen: false,
+        },
       },
     ];
 
