@@ -1,10 +1,10 @@
 import { css } from "@linaria/core";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { CloseIcon, MenuFlightIcon } from "../../assets/Icon";
-const toolPanelContainer = css`
+export const toolPanelContainer = css`
   position: fixed;
   top: 50%;
   left: 50%;
@@ -15,20 +15,22 @@ const toolPanelContainer = css`
   border: 0.3px solid #0f243e;
   z-index: 1;
   align-items: center;
-  padding: 10px;
   border-radius: 8px;
   min-width: 300px;
   max-height: 400px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 `;
-const headerContainer = css`
+export const headerContainer = css`
   display: flex;
-  height: 30px;
+  height: max-content;
   align-items: center;
   width: 100%;
   justify-content: space-between;
 `;
-const titleStyle = css`
+export const titleStyle = css`
   font-weight: bold;
+  font-size: 11px;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -40,7 +42,7 @@ const numberInputStyle = css`
     outline: none;
   }
 `;
-const closeIconStyle = css`
+export const closeIconStyle = css`
   width: 15px;
   display: flex;
   justify-content: center;
@@ -107,7 +109,7 @@ const toolPanelList = css`
   align-items: center;
   padding: 2px 10px;
 `;
-const overlayStyle = css`
+export const overlayStyle = css`
   position: fixed;
   top: 0;
   left: 0;
@@ -171,6 +173,15 @@ export default function ColumnToolPanel(props) {
           setModelOpen(true);
           setShowFreezeDialogOpen(true);
           setToolPanelOption("Freeze Columns");
+        }
+      },
+    },
+    {
+      name: "Find",
+      action: () => {
+        if (!modelOpen) {
+          props.handleChangeFind();
+          props.onClose();
         }
       },
     },
@@ -266,6 +277,7 @@ export default function ColumnToolPanel(props) {
                   key={item.name}
                   className={toolPanelList}
                   onClick={item.action}
+                  data-testid={`column-toolpanel-option-${item.name}`}
                 >
                   {item.name}
                 </div>
@@ -283,6 +295,7 @@ export default function ColumnToolPanel(props) {
           }}
           header={toolPanelOption}
           testId={"hide"}
+          stylingThings={props?.stylingThings}
         >
           <div
             style={{
@@ -379,6 +392,8 @@ export default function ColumnToolPanel(props) {
             setModelOpen(false);
           }}
           header={toolPanelOption}
+          stylingThings={props?.stylingThings}
+          testId={"freeze"}
         >
           <div
             className={gridStyle}
@@ -422,7 +437,7 @@ export default function ColumnToolPanel(props) {
                 <div role={"gridcell"} className={cellStyle}>
                   <input
                     data-testid={`${col.headerName}-freeze-radio-button`}
-                    type={"checkbox"}
+                    type={"radio"}
                     checked={freezeColumnList?.includes(col.headerName)}
                     onClick={() => {
                       let sm = freezeColumnList;
@@ -479,6 +494,8 @@ export default function ColumnToolPanel(props) {
             setModelOpen(false);
           }}
           header={toolPanelOption}
+          stylingThings={props?.stylingThings}
+          testId={"setColumnsWidth"}
         >
           <div
             className={gridStyle}
@@ -578,6 +595,8 @@ export default function ColumnToolPanel(props) {
               setModelOpen(false);
             }}
             header={toolPanelOption}
+            stylingThings={props?.stylingThings}
+            testId={"reArrange"}
           >
             <DraggableGrid
               columns={columns}
@@ -622,6 +641,8 @@ export default function ColumnToolPanel(props) {
               setModelOpen(false);
             }}
             header={toolPanelOption}
+            stylingThings={props?.stylingThings}
+            testId={"allinone"}
           >
             <DraggableAllOptionGrid
               columns={columns}
@@ -671,12 +692,25 @@ export default function ColumnToolPanel(props) {
   );
 }
 
-const ShowHideDialogBox = ({ isOpen, children, onClose, header, testId }) => {
+const ShowHideDialogBox = ({
+  isOpen,
+  children,
+  onClose,
+  header,
+  testId,
+  stylingThings,
+}) => {
   return (
     <div style={{ display: isOpen ? "block" : "none" }}>
       <div className={overlayStyle} />
       <div className={toolPanelContainer}>
-        <div className={headerContainer}>
+        <div
+          className={headerContainer}
+          style={{
+            backgroundColor: stylingThings?.headerBackgroundColor,
+            color: "#FFF",
+          }}
+        >
           <div className={titleStyle}>
             <span>{header}</span>
           </div>
@@ -688,7 +722,7 @@ const ShowHideDialogBox = ({ isOpen, children, onClose, header, testId }) => {
             />
           </div>
         </div>
-        {children}
+        <div style={{ padding: "10px" }}>{children}</div>
       </div>
     </div>
   );
@@ -869,7 +903,7 @@ const DraggableAllOptionGrid = ({
           index={index}
           moveRow={onMoveRow}
           stylingThings={stylingThings}
-          setHideColumnList={handleHideColumn}
+          handleHideColumnList={handleHideColumn}
           handleColumnWidthList={handleColumnWidthList}
           handleFreezdeChange={handleFreezdeChange}
           columnsWidthList={props?.columnsWidthList}
@@ -887,7 +921,7 @@ const DraggableAllOptionRow = ({
   moveRow,
   stylingThings,
   freezeColumnList,
-  setHideColumnList,
+  handleHideColumnList,
   hideColumnList,
   column: col,
   columnsWidthList,
@@ -941,7 +975,7 @@ const DraggableAllOptionRow = ({
             } else {
               sm.push(col.headerName);
             }
-            setHideColumnList([...sm]);
+            handleHideColumnList([...sm]);
           }}
         />
       </div>
@@ -949,6 +983,7 @@ const DraggableAllOptionRow = ({
         <input
           type={"radio"}
           checked={freezeColumnList?.includes(col.headerName)}
+          data-testid={`${col.headerName}-allinone-freeze-radio-button`}
           onClick={() => {
             let sm = freezeColumnList;
 

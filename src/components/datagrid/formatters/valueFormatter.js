@@ -151,13 +151,16 @@ export function valueFormatter(props) {
             } else {
               toolTipContent = props.row[props.column.field];
             }
-            props.handleToolTipContent(toolTipContent);
-            props.handleToolTip(true);
+            if (typeof props?.handleToolTipContent === "function")
+              props?.handleToolTipContent(toolTipContent);
+            if (typeof props?.handleToolTip === "function")
+              props?.handleToolTip(true);
           }
         }}
         onMouseOutCapture={() => {
           if (props.column.haveChildren === false && props.column.toolTip) {
-            props.handleToolTip(false);
+            if (typeof props?.handleToolTip === "function")
+              props?.handleToolTip(false);
           }
         }}
       >

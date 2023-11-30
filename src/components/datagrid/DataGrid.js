@@ -69,8 +69,14 @@ import { useCalculatedRowColumns } from "./hooks/useCalculatedRowColumns";
 import { useCalculatedColumnsWithTopHeader } from "./hooks/useCalculatedColumnsWithTopHeader";
 import MasterRowRenderer from "./MasterRow";
 import DetailsRow from "./DetailsRow";
-import ColumnToolPanel from "./ColumnToolPanel";
-import { ColumnToolPanelIcon } from "../../assets/Icon";
+import ColumnToolPanel, {
+  overlayStyle,
+  toolPanelContainer,
+  titleStyle,
+  closeIconStyle,
+  headerContainer,
+} from "./ColumnToolPanel";
+import { ColumnToolPanelIcon, CloseIcon } from "../../assets/Icon";
 import * as XLSX from "xlsx";
 
 const PrevNextArrow = (type, originalElement, rowsLength, size) => {
@@ -488,6 +494,10 @@ function DataGrid(props) {
     top: 0,
     left: 0,
   });
+  const [showFind, setShowFind] = useState(false);
+  const [findValue, setFindValue] = useState("");
+  const [findMethod, setFindMethod] = useState("");
+  const [findCount, setFindCount] = useState(0);
   // const ToolPanelPositionRef = useRef(null);
 
   const [toolTip, setToolTip] = useState(false);
@@ -532,6 +542,53 @@ function DataGrid(props) {
     setSize(pageSize);
   };
 
+  useEffect(() => {
+    if (findValue.trim().length > 0) {
+      const columnField = columns?.map((col) => col.field);
+      let find = false;
+      let i = 0;
+      let lFind = 0;
+      while (!find) {
+        let rowValue = props.rowData[i];
+        columnField?.map((c, index) => {
+          if (
+            (findMethod === "" || findMethod === "matchcase") &&
+            rowValue[c] &&
+            String(rowValue[c])?.includes(String(findValue))
+          ) {
+            if (lFind === findCount) {
+              setSelectedPosition({
+                rowIdx: i,
+                idx: index,
+                mode: "SELECT",
+              });
+              find = true;
+            }
+            lFind = lFind + 1;
+          } else if (
+            findMethod === "matchword" &&
+            rowValue[c] &&
+            String(rowValue[c]) === String(findValue)
+          ) {
+            if (lFind === findCount) {
+              setSelectedPosition({
+                mode: "SELECT",
+                rowIdx: i,
+                idx: index,
+              });
+              find = true;
+            }
+            lFind++;
+          }
+        });
+        if (i + 1 < props.rowData.length) {
+          i++;
+        } else {
+          break;
+        }
+      }
+    }
+  }, [findValue, findCount,findMethod]);
   const onSortColumnsChange = (sortColumns) => {
     setSortColumns(sortColumns.slice(-1));
   };
@@ -1947,12 +2004,12 @@ function DataGrid(props) {
 
   useUpdateEffect(() => {
     let newSample = new Set();
-    if (selectedRows.length > 0) {
+    if (selectedRows && selectedRows.length > 0) {
       selectedRows.forEach((r) => {
         newSample.add(rowKeyGetter(r));
       });
     }
-    let aa = Object.values(selectedRows1);
+    let aa = selectedRows1 ? Object.values(selectedRows1) : [];
     if (!aa.every((val) => newSample.has(val))) {
       onSelectedRowsChange1(newSample);
     }
@@ -3797,7 +3854,27 @@ function DataGrid(props) {
       background-color: #446ea1;
     }
   `;
+  const buttonDisabledStyle = css`
+    border: none;
+    background-color: #dbe5f1;
+    color: #95b3dc;
+    height: 22px;
+    font-size: 12px;
+    min-width: max-content;
+  `;
+  const labelStyle = css`
+    font-size: 11px;
+    color: #366092;
+    text-wrap: nowrap;
+  `;
 
+  const inputStyle = css`
+    width: 150px;
+    border: none;
+    &:focus-visible {
+      outline: none;
+    }
+  `;
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -4282,6 +4359,10 @@ function DataGrid(props) {
             setColumnWidthsToFit(true);
           }}
           raawColumns={props.columnData}
+          rowData={rawRows}
+          handleChangeFind={() => {
+            setShowFind(true);
+          }}
         />
       )}
       {contextMenuVisible &&
@@ -4315,6 +4396,182 @@ function DataGrid(props) {
           />,
           document.body
         )}
+      {showFind && (
+        <div style={{ display: "block" }}>
+          <div className={overlayStyle} style={{ padding: 0 }} />
+          <div className={toolPanelContainer} style={{ padding: 0 }}>
+            <div
+              className={headerContainer}
+              style={{
+                backgroundColor:
+                  style?.["--rdg-header-background-colo"] ?? "#16365D",
+                color: style?.["--rdg-header-row-color"] ?? "#FFF",
+                borderTopLeftRadius: "5px",
+                borderTopRightRadius: "5px",
+              }}
+            >
+              <div className={titleStyle}>
+                <span>Find</span>
+              </div>
+              <div className={closeIconStyle}>
+                <CloseIcon
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setShowFind(false);
+                  }}
+                  data-testid={`column-tool-panel-find-close-icon`}
+                />
+              </div>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                columnGap: "10px",
+                padding: "10px",
+                // flexWrap: "wrap",
+                rowGap: "5px",
+                minWidth: "max-content",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                    columnGap: "10px",
+                  }}
+                >
+                  <label className={labelStyle}>Find What</label>
+                  <input
+                    className={inputStyle}
+                    type={"text"}
+                    data-testid="find-option-text-input"
+                    value={findValue}
+                    onChange={(e) => {
+                      setFindValue(e.target.value);
+                      setFindCount(0);
+                    }}
+                  />
+                </div>
+                <div
+                  style={{
+                    marginTop: "10px",
+                    borderLeft: "1px solid #fff",
+                    borderRight: "1px solid #fff",
+                    borderBottom: "1px solid #fff",
+                    width: "150px",
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor:
+                        style?.["--rdg-header-background-color"] ?? "#16365D",
+                      width: "100%",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "11px",
+                        margin: "5px",
+                        color: style?.["--rdg-header-row-color"] ?? "#FFF",
+                      }}
+                    >
+                      Find Options
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      padding: "10px",
+                      fontSize: "11px",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        columnGap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type={"checkbox"}
+                        data-testid="find-option-matchcase-checkbox"
+                        checked={findMethod === "matchcase"}
+                        onClick={(e) => {
+                          if (e.target.checked) {
+                            setFindMethod("matchcase");
+                          }
+                        }}
+                      />
+                      <label className={labelStyle}>Match Case</label>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        columnGap: "5px",
+                        alignItems: "center",
+                      }}
+                    >
+                      <input
+                        type={"checkbox"}
+                        data-testid="find-option-matchword-checkbox"
+                        checked={findMethod === "matchword"}
+                        onClick={(e) => {
+                          if (e.target.checked) {
+                            setFindMethod("matchword");
+                          }
+                        }}
+                      />
+                      <label className={labelStyle}>Match Whole Word</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  rowGap: "10px",
+                  flexDirection: "column",
+                  width: "100%",
+                  alignItems: "center",
+                }}
+              >
+                <button
+                  data-testid="find-option-findnext-button"
+                  className={
+                    findValue.trim() !== "" ? buttonStyle : buttonDisabledStyle
+                  }
+                  style={{ width: "100px" }}
+                  onClick={() => {
+                    if (findValue.trim() !== "") setFindCount(findCount + 1);
+                  }}
+                >
+                  Find Next
+                </button>
+                <button
+                  className={buttonStyle}
+                  style={{ width: "100px" }}
+                  onClick={() => {
+                    setShowFind(false);
+                  }}
+                  data-testid="find-option-cancel-button"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div
         ref={toolTipRef}
         id="tool-tip-span"

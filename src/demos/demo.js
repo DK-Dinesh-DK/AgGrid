@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState, useEffect } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 import TextEditor from "../components/datagrid/editors/textEditor";
@@ -49,11 +49,12 @@ export default function Demo({ direction }) {
   const [rows, setRows] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const gridRef = useRef(null);
+  
   return (
     <>
       <button
         onClick={() => {
-          console.log(gridRef.current.api.getRows());
+          setRows(createRows());
         }}
       >
         Data
@@ -63,6 +64,7 @@ export default function Demo({ direction }) {
         rowData={rows}
         importExcel={true}
         innerRef={gridRef}
+        style={{ rowHeight: 30 }}
         export={{
           pdfFileName: "NewTableData",
         }}

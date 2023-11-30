@@ -119,7 +119,7 @@ export default function MasterDetail({ direction }) {
         rowSelection={"single"}
         rowHeight={(args) => {
           return args.type === "ROW" && args.row.gridRowType === "Detail"
-            ? 250
+            ? 100
             : 24;
         }}
         // expandedMasterRowIds={expandedIds}

@@ -67,6 +67,14 @@ describe("Datagrid Unit test for Column Tool Panel", () => {
     const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
     expect(toolPanelIcon).toBeInTheDocument();
     fireEvent.click(toolPanelIcon);
+    const allinOne = screen.getByText("All in One");
+    expect(allinOne).toBeInTheDocument();
+    fireEvent.click(allinOne);
+    const closeIcon = screen.getByTestId(
+      "allinone-column-tool-panel-close-icon"
+    );
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
   });
   test("Column Tool Panel column All in one option", async () => {
     render(<LaiDataGrid />);
@@ -87,6 +95,12 @@ describe("Datagrid Unit test for Column Tool Panel", () => {
     expect(checkbox).toBeInTheDocument();
     fireEvent.click(checkbox);
     fireEvent.click(checkbox);
+    const freezeinput = screen.getByTestId(
+      "Title-allinone-freeze-radio-button"
+    );
+    expect(freezeinput).toBeInTheDocument();
+    fireEvent.click(freezeinput);
+    fireEvent.click(freezeinput);
     const numInput = screen.getByTestId("Title-set-width-number-input-all");
     expect(numInput).toBeInTheDocument();
     fireEvent.change(numInput, { target: { value: 150 } });
@@ -133,6 +147,21 @@ describe("Datagrid Unit test for Column Tool Panel", () => {
     fireEvent.click(toolPanelIcon);
     fireEvent.click(showHideOption);
   });
+  test("Column Tool Panel column show/hide option1", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
+    expect(toolPanelIcon).toBeInTheDocument();
+    fireEvent.click(toolPanelIcon);
+    const showHideOption = screen.getByText("Show/ Hide Columns");
+    expect(showHideOption).toBeInTheDocument();
+    fireEvent.click(showHideOption);
+    const closeIcon = screen.getByTestId("hide-column-tool-panel-close-icon");
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
+  });
   test("Column Tool Panel column Freeze Columns option", async () => {
     render(<LaiDataGrid />);
 
@@ -149,13 +178,85 @@ describe("Datagrid Unit test for Column Tool Panel", () => {
     fireEvent.click(cancelBtn);
     fireEvent.click(freezeColumnsOptions);
     const radio = screen.getByTestId("Title-freeze-radio-button");
-    // expect(radio.checked).toBe(false);
-    userEvent.click(radio);
-    // expect(radio.checked).toBe(true);
-    // fireEvent.click(radio);
+    fireEvent.click(radio);
+    fireEvent.click(radio);
     const okBtn = screen.getByTestId("freeze-option-ok-btn");
     expect(okBtn).toBeInTheDocument();
     fireEvent.click(okBtn);
+  });
+  test("Column Tool Panel column Freeze Columns option1", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
+    expect(toolPanelIcon).toBeInTheDocument();
+    fireEvent.click(toolPanelIcon);
+    const freezeColumnsOptions = screen.getByText("Freeze Columns");
+    expect(freezeColumnsOptions).toBeInTheDocument();
+    fireEvent.click(freezeColumnsOptions);
+    const closeIcon = screen.getByTestId("freeze-column-tool-panel-close-icon");
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
+  });
+  test("Column Tool Panel Find", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
+    expect(toolPanelIcon).toBeInTheDocument();
+    fireEvent.click(toolPanelIcon);
+    const findColumnsOptions = screen.getByTestId(
+      "column-toolpanel-option-Find"
+    );
+    expect(findColumnsOptions).toBeInTheDocument();
+    fireEvent.click(findColumnsOptions);
+    const input = screen.getByTestId("find-option-text-input");
+    expect(input).toBeInTheDocument();
+    fireEvent.change(input, { target: { value: "Task" } });
+    const nextBtn = screen.getByTestId("find-option-findnext-button");
+    expect(nextBtn).toBeInTheDocument();
+    fireEvent.click(nextBtn);
+    const matchcaseCheckbox = screen.getByTestId(
+      "find-option-matchcase-checkbox"
+    );
+    expect(matchcaseCheckbox).toBeInTheDocument();
+    fireEvent.click(matchcaseCheckbox);
+    const matchwordCheckbox = screen.getByTestId(
+      "find-option-matchword-checkbox"
+    );
+    expect(matchwordCheckbox).toBeInTheDocument();
+    fireEvent.click(matchwordCheckbox);
+    fireEvent.change(input, { target: { value: "Task #1" } });
+    const cancelBtn = screen.getByTestId("find-option-cancel-button");
+    expect(cancelBtn).toBeInTheDocument();
+    fireEvent.click(cancelBtn);
+    fireEvent.click(toolPanelIcon);
+    const findColumnsOptions1 = screen.getByTestId(
+      "column-toolpanel-option-Find"
+    );
+    fireEvent.click(findColumnsOptions1);
+    const closeIcon = screen.getByTestId("column-tool-panel-find-close-icon");
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
+  });
+  test("Column Tool Panel Find1", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
+    expect(toolPanelIcon).toBeInTheDocument();
+    fireEvent.click(toolPanelIcon);
+    const findColumnsOptions = screen.getByTestId(
+      "column-toolpanel-option-Find"
+    );
+    expect(findColumnsOptions).toBeInTheDocument();
+    fireEvent.click(findColumnsOptions);
+    const closeIcon = screen.getByTestId("column-tool-panel-find-close-icon");
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
   });
   test("Column Tool Panel column set Columns Width option", async () => {
     render(<LaiDataGrid />);
@@ -181,6 +282,24 @@ describe("Datagrid Unit test for Column Tool Panel", () => {
     expect(okBtn).toBeInTheDocument();
     fireEvent.click(okBtn);
   });
+  test("Column Tool Panel column set Columns Width option1", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
+    expect(toolPanelIcon).toBeInTheDocument();
+    fireEvent.click(toolPanelIcon);
+    const setWidthOptions = screen.getByText("Set Columns Width");
+    expect(setWidthOptions).toBeInTheDocument();
+    fireEvent.click(setWidthOptions);
+    const closeIcon = screen.getByTestId(
+      "setColumnsWidth-column-tool-panel-close-icon"
+    );
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
+  });
+
   test("Column Tool Panel column Re-Arrange Column option", async () => {
     render(<LaiDataGrid />);
 
@@ -207,6 +326,23 @@ describe("Datagrid Unit test for Column Tool Panel", () => {
     const okBtn = screen.getByTestId("reArrange-option-ok-btn");
     expect(okBtn).toBeInTheDocument();
     fireEvent.click(okBtn);
+  });
+  test("Column Tool Panel column Re-Arrange Column option1", async () => {
+    render(<LaiDataGrid />);
+
+    const screenArea = screen.getByTestId("laidatagrid");
+    expect(screenArea).toBeInTheDocument();
+    const toolPanelIcon = screen.getByTestId("column-tool-panel-icon");
+    expect(toolPanelIcon).toBeInTheDocument();
+    fireEvent.click(toolPanelIcon);
+    const re_ArrangeColumnOptions = screen.getByText("Re-Arrange Columns");
+    expect(re_ArrangeColumnOptions).toBeInTheDocument();
+    fireEvent.click(re_ArrangeColumnOptions);
+    const closeIcon = screen.getByTestId(
+      "reArrange-column-tool-panel-close-icon"
+    );
+    expect(closeIcon).toBeInTheDocument();
+    fireEvent.click(closeIcon);
   });
   test("Column Tool Panel Size Columns To Fit Column option", async () => {
     render(<LaiDataGrid />);

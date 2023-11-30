@@ -861,15 +861,16 @@ With the help of this feature End User can able change the hide/show columns,fre
 cases:
 
 1. To enabling serial column and columnToolpanel -serial column header cell have the icon of column tool panel and row cells show the serial number accordingly.
-2. To enabling without serial column -show seperate column and row cells will be empty and header cell have the icon of column tool panel.
+2. To enabling without serial column -show seperate column and row cells will be empty and header cellv have the icon of column tool panel.
 
 Options list and details: 1. All in One - below four feature in one popup (show/hide,freeze column,setColumn Width.Reaarange Column)
 2.Show/Hide Columns - column hide or show can able to set in this popup.
 3.Freeze Columns -freezing columns in table left side
 4.Set Columns Width-can able to set width of each column
 5.Re-arrang Columns- Can able to change order of columns(freeze to freeze and unfreeze to unfreeze only)
-6.Size Columns To Fit- it will set the all columns to take maximum width will be maximum content length of the particular column data
-7.Reset Column width- it will set default width for all columns.
+6.Find- can able to find value contained/exact data having cell and it will highlight the cell border color diffrently for identification.And there is a Find Next button to next cell of  contained/exact data matching .
+7.Size Columns To Fit- it will set the all columns to take maximum width will be maximum content length of the particular column data
+8.Reset Column width- it will set default width for all columns.
 
 Example:
 

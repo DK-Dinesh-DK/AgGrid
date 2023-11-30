@@ -23,15 +23,17 @@ export function useGridDimensions() {
     setWidthInitialized(true);
 
     const resizeObserver = new ResizeObserver((entries) => {
-      const size = entries[0].contentBoxSize[0];
-      setInlineSize(size.inlineSize);
-      setBlockSize(size.blockSize);
+      const size = entries[0]?.contentBoxSize[0];
+      setInlineSize(size?.inlineSize);
+      setBlockSize(size?.blockSize);
     });
 
-    resizeObserver.observe(gridRef.current);
-    console.log("resizeObserver", resizeObserver.observe);
-    return () => {
+    // resizeObserver.observe(gridRef.current);
+    function Disconnect() {
       resizeObserver.disconnect();
+    }
+    return () => {
+      Disconnect();
     };
   }, [gridRef]);
 

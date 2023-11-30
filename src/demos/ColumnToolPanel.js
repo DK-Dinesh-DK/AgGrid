@@ -6,7 +6,7 @@ import DataGrid from "../components/datagrid/DataGrid";
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 5; i++) {
     rows.push({
       id: i,
       title: `Task #${i + 1}`,
@@ -51,7 +51,7 @@ export default function ColumnToolPanel({ direction }) {
       <DataGrid
         columnData={columns}
         rowData={rows}
-        // serialNumber={true}
+        serialNumber={true}
         columnPanel={true}
         // selection={true}
       />
