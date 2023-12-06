@@ -3,17 +3,17 @@ import * as XLSX from "xlsx";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
- const filterData = (data, columns) => {
-   return data.map((item) => {
-     const filteredItem = {};
-     columns.forEach((column) => {
-       if (item.hasOwnProperty(column.field)) {
-         filteredItem[column.field] = item[column.field];
-       }
-     });
-     return filteredItem;
-   });
- };
+const filterData = (data, columns) => {
+  return data.map((item) => {
+    const filteredItem = {};
+    columns.forEach((column) => {
+      if (item.hasOwnProperty(column.field)) {
+        filteredItem[column.field] = item[column.field];
+      }
+    });
+    return filteredItem;
+  });
+};
 
 export function CSVContent(fileData, columns) {
   const field = columns?.map((ele) => ele.field);
@@ -37,12 +37,15 @@ export function CSVContent(fileData, columns) {
   return content;
 }
 export async function exportToCsv(fileData, columns, fileName) {
+  const cols = columns.map((c) => c.headerName);
   const filteredData = filterData(fileData, columns);
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
   const ws = XLSX.utils.json_to_sheet(filteredData);
-  const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-  const excelBuffer = XLSX.write(wb, { bookType: "csv", type: "array" });
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, ws, "Dates");
+  XLSX.utils.sheet_add_aoa(ws, [cols], { origin: "A1" });
+  const excelBuffer = XLSX.write(workbook, { bookType: "csv", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });
   FileSaver.saveAs(data, `${fileName}.csv`);
 }
@@ -93,13 +96,15 @@ export async function exportToPdf(
   doc.save(fileName);
 }
 export function exportToXlsx(fileData, columns, fileName) {
- 
+  const cols = columns.map((c) => c.headerName);
   const filteredData = filterData(fileData, columns);
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
   const ws = XLSX.utils.json_to_sheet(filteredData);
-  const wb = { Sheets: { data: ws }, SheetNames: ["data"] };
-  const excelBuffer = XLSX.write(wb, { bookType: "xlsx", type: "array" });
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, ws, "Dates");
+  XLSX.utils.sheet_add_aoa(ws, [cols], { origin: "A1" });
+  const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
   const data = new Blob([excelBuffer], { type: fileType });
   FileSaver.saveAs(data, fileName);
 }

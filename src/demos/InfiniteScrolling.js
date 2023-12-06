@@ -1,24 +1,6 @@
-import { useRef, useState } from "react";
-import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-import {
-  DateEditor,
-  DropDownEditor,
-  ImageViewer,
-  TextEditor,
-  CheckBoxEditor,
-  ColorPicker,
-  ButtonEditor,
-  ProgressBarEditor,
-  TimeEditor,
-  RadioButtonEditor,
-  DateTimeEditor,
-  SliderEditor,
-  LinkEditor,
-} from "../components/datagrid/editors";
 import DataGrid from "../components/datagrid/DataGrid";
 import moment from "moment";
-import ComboBox2 from "./ComboBox2";
 
 export default function InfiniteScrolling({ direction }) {
   // const [selectedRows, setSelectedRows] = useState([]);
@@ -47,7 +29,7 @@ export default function InfiniteScrolling({ direction }) {
     return rows;
   }
   const rowData = createRows();
- 
+
   const columns = [
     {
       field: "id",
@@ -66,17 +48,6 @@ export default function InfiniteScrolling({ direction }) {
       field: "firstName",
       filter: true,
       headerName: "First Name",
-      cellRenderer: (
-        <ComboBox2
-          options={[
-            { label: "Task1", value: "Task1" },
-            { label: "Task2", value: "Task2" },
-          ]}
-          labelKey={"label"}
-          valueKey="value"
-          isInsideAgGrid={true}
-        />
-      ),
     },
     {
       field: "lastName",

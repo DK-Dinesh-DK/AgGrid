@@ -25,14 +25,14 @@ export default function HeaderFilters({ direction }) {
     return [
       {
         field: "id",
-        haveChildren:false,
+        haveChildren: false,
         topHeader: "id",
         headerName: "ID",
         width: 50,
       },
       {
         field: "task",
-        haveChildren:false,
+        haveChildren: false,
         topHeader: "task",
         headerName: "Title",
         cellRenderer: (props) => {
@@ -44,21 +44,21 @@ export default function HeaderFilters({ direction }) {
       },
       {
         field: "priority",
-        haveChildren:false,
+        haveChildren: false,
         topHeader: "priority",
         headerName: "Priority",
         filter: true,
       },
       {
         field: "issueType",
-        haveChildren:false,
+        haveChildren: false,
         topHeader: "issueType",
         headerName: "Issue Type",
         sortable: true,
       },
       {
         field: "complete",
-        haveChildren:false,
+        haveChildren: false,
         topHeader: "complete",
         headerName: "% Complete",
       },
@@ -68,8 +68,7 @@ export default function HeaderFilters({ direction }) {
   function rowKeyGetter(row) {
     return row.id;
   }
-  const updateData = useCallback(() => {
-  }, []);
+  const updateData = useCallback(() => {}, []);
   const myTrans = {
     add: [
       { id: 52, task: "Add rows", issueType: "Improvement" },
@@ -167,7 +166,6 @@ export default function HeaderFilters({ direction }) {
               console.log("Node", node);
             })
           );
-      
         }}
         style={{ color: "black", backgroundColor: "lightsteelblue" }}
       >

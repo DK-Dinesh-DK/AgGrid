@@ -236,10 +236,11 @@ a:focus {
   display: table;
 }
 .filter-input {
-  width: 98% !important;
+  width: calc(100% - 2px) !important;
   border: none;
   background: none;
-  height: 22px !important;
+  height: 20px !important;
+  padding: 2px;
 }
 .filter-input:focus-visible {
   outline: none;

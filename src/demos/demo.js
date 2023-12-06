@@ -13,18 +13,22 @@ const columns = [
   {
     field: "title",
     headerName: "Title",
+    width: 100,
   },
   {
     field: "firstName",
     headerName: "First Name",
+    width: 100,
   },
   {
     field: "lastName",
     headerName: "Last Name",
+    width: 100,
   },
   {
     field: "email",
     headerName: "Email",
+    width: 200,
   },
 ];
 
@@ -46,29 +50,19 @@ function createRows(numberOfRows) {
 }
 
 export default function Demo({ direction }) {
-  const [rows, setRows] = useState([]);
+  const [rows, setRows] = useState(createRows(1000));
   const [isLoading, setIsLoading] = useState(false);
   const gridRef = useRef(null);
-  
+  console.log("rows", rows);
   return (
     <>
-      <button
-        onClick={() => {
-          setRows(createRows());
-        }}
-      >
-        Data
-      </button>
-      <DataGrid
-        columnData={columns}
-        rowData={rows}
-        importExcel={true}
-        innerRef={gridRef}
-        style={{ rowHeight: 30 }}
-        export={{
-          pdfFileName: "NewTableData",
+      findData
+      <input
+        onChange={(e) => {
+          gridRef.current.api.findData(e.target.value);
         }}
       />
+      <DataGrid columnData={columns} rowData={rows} innerRef={gridRef} />
     </>
   );
 }

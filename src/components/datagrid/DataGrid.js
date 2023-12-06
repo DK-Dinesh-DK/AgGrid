@@ -548,21 +548,33 @@ function DataGrid(props) {
       let find = false;
       let i = 0;
       let lFind = 0;
+
+      function DoAction(rowIndex, idx) {
+        setSelectedPosition({
+          rowIdx: rowIndex,
+          idx,
+          mode: "SELECT",
+        });
+        const { current } = gridRef;
+        if (!current) return;
+        current.scrollTo({
+          top: getRowTop(rowIndex),
+          behavior: "smooth",
+        });
+        find = true;
+      }
       while (!find) {
         let rowValue = props.rowData[i];
         columnField?.map((c, index) => {
           if (
             (findMethod === "" || findMethod === "matchcase") &&
             rowValue[c] &&
-            String(rowValue[c])?.includes(String(findValue))
+            String(rowValue[c])
+              .toLocaleLowerCase()
+              ?.includes(String(findValue).toLocaleLowerCase())
           ) {
             if (lFind === findCount) {
-              setSelectedPosition({
-                rowIdx: i,
-                idx: index,
-                mode: "SELECT",
-              });
-              find = true;
+              DoAction(i, index);
             }
             lFind = lFind + 1;
           } else if (
@@ -571,12 +583,7 @@ function DataGrid(props) {
             String(rowValue[c]) === String(findValue)
           ) {
             if (lFind === findCount) {
-              setSelectedPosition({
-                mode: "SELECT",
-                rowIdx: i,
-                idx: index,
-              });
-              find = true;
+              DoAction(i, index);
             }
             lFind++;
           }
@@ -588,7 +595,7 @@ function DataGrid(props) {
         }
       }
     }
-  }, [findValue, findCount,findMethod]);
+  }, [findValue, findCount, findMethod]);
   const onSortColumnsChange = (sortColumns) => {
     setSortColumns(sortColumns.slice(-1));
   };
@@ -3163,7 +3170,14 @@ function DataGrid(props) {
     }
     setRawRows(sampleRows);
   }
-
+  function findData(val, method) {
+    setFindValue(val);
+    if (method?.toLowerCase() === "exactmatch") {
+      setFindMethod("matchword");
+    } else {
+      setFindMethod("matchcase");
+    }
+  }
   var apiObject = {
     setCellValue: setCellValue,
     updateColumns: (newColumns) => {
@@ -3276,6 +3290,7 @@ function DataGrid(props) {
     addItems: addRows,
     removeItem: deleteRow,
     removeItems: deleteRows,
+    findData,
   };
 
   ///////////  start
@@ -3875,6 +3890,14 @@ function DataGrid(props) {
       outline: none;
     }
   `;
+  const filterCellStyle = css`
+    background-color: #f3f8fc;
+    border-inline-end: 1px solid white;
+    &:focus-within {
+      outline: 1px solid #66afe9;
+      outline-offset: -2px;
+    }
+  `;
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -3930,7 +3953,7 @@ function DataGrid(props) {
                 data-testid={"Export to XSLX"}
                 onClick={() => exportDataAsExcel(props.export.excelFileName)}
               >
-                Export to XSLX
+                Export to XLSX
               </button>
             )}
             {props.export?.pdfFileName && (
@@ -3953,8 +3976,9 @@ function DataGrid(props) {
           style={{
             height: rowHeight,
             display: "flex",
-            marginBlockEnd: "8px",
             width: gridWidth,
+            outline: "1px solid rgba(0,0,0,0.5)",
+            backgroundColor: "#B8CCE4",
           }}
         >
           {columns.map((col, index) => {
@@ -3968,9 +3992,8 @@ function DataGrid(props) {
                 style={{
                   height: headerRowHeight,
                   width: width,
-                  backgroundColor: "#D7E3BC",
-                  borderRight: "1px solid white",
                 }}
+                className={filterCellStyle}
                 key={`fiter-row-${col.headerName}`}
               >
                 {!col.filterRenderer &&
