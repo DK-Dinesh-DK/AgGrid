@@ -8,7 +8,7 @@ const columns = [
   {
     field: "id",
     headerName: "ID",
-    width: 80,
+    width: 100,
   },
   {
     field: "title",
@@ -50,19 +50,20 @@ function createRows(numberOfRows) {
 }
 
 export default function Demo({ direction }) {
-  const [rows, setRows] = useState(createRows(1000));
+  const [rows, setRows] = useState(createRows(100));
   const [isLoading, setIsLoading] = useState(false);
   const gridRef = useRef(null);
-  console.log("rows", rows);
+
   return (
     <>
-      findData
-      <input
-        onChange={(e) => {
-          gridRef.current.api.findData(e.target.value);
-        }}
+      <DataGrid
+        columnData={columns}
+        rowData={rows}
+        innerRef={gridRef}
+        globalFilter={true}
+        serialNumber={true}
+        selection={true}
       />
-      <DataGrid columnData={columns} rowData={rows} innerRef={gridRef} />
     </>
   );
 }

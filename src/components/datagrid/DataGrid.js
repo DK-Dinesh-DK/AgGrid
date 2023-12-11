@@ -528,6 +528,7 @@ function DataGrid(props) {
   const [expandedMasterRowIds, setExpandedMasterIds] = useState(
     props.expandedMasterRowIds ? [props.expandedMasterRowIds[0]] : []
   );
+  const filterRowRef = useRef(null);
   useUpdateEffect(() => {
     if (Array.isArray(props.expandedMasterRowIds)) {
       setExpandedMasterIds([props.expandedMasterRowIds[0]]);
@@ -555,12 +556,12 @@ function DataGrid(props) {
           idx,
           mode: "SELECT",
         });
-        const { current } = gridRef;
-        if (!current) return;
-        current.scrollTo({
-          top: getRowTop(rowIndex),
-          behavior: "smooth",
-        });
+        // const { current } = gridRef;
+        // if (!current) return;
+        // current?.scrollTo({
+        //   top: getRowTop(rowIndex),
+        //   behavior: "smooth",
+        // });
         find = true;
       }
       while (!find) {
@@ -1978,6 +1979,9 @@ function DataGrid(props) {
 
   function handleScroll(event) {
     const { scrollTop, scrollLeft } = event.currentTarget;
+    if (filterRowRef.current) {
+      filterRowRef.current.scrollLeft = scrollLeft;
+    }
     flushSync(() => {
       setScrollTop(scrollTop);
       // scrollLeft is nagative when direction is rtl
@@ -2873,12 +2877,34 @@ function DataGrid(props) {
     exportToXlsx(rawRows, rawColumns, name);
   }
   function exportDataAsPdf(fileName) {
-    let name = fileName ?? "ExportToPdf";
+    const ele = document.getElementById(rest?.id ?? "DataGrid");
+    let name = typeof fileName === "string" ? fileName : "ExportToPdf";
+    let height = 297;
+    let width = 210;
+    if (rest?.exportPdfStyle?.width) {
+      width = rest?.exportPdfStyle?.width;
+    } else if (ele?.scrollWidth) {
+      width = ele?.scrollWidth;
+    }
+    if (rest?.exportPdfStyle?.height) {
+      height = rest?.exportPdfStyle?.height;
+    } else if (ele?.scrollHeight) {
+      height = ele?.scrollHeight;
+    }
+
+    let rowData = rawRows;
+
+    if (serialNumber) {
+      rowData = rowData.map((r, i) => {
+        return { ...r, "Sr. No.": i + 1 };
+      });
+    }
+
     exportToPdf(
-      rawRows,
+      rowData,
       rawColumns,
       name,
-      [rest?.exportPdfStyle?.width ?? 210, rest?.exportPdfStyle?.height ?? 297],
+      [width, height],
       rest?.exportPdfStyle?.mode ?? "p"
     );
   }
@@ -3892,10 +3918,20 @@ function DataGrid(props) {
   `;
   const filterCellStyle = css`
     background-color: #f3f8fc;
-    border-inline-end: 1px solid white;
+    outline: 1px solid white;
     &:focus-within {
       outline: 1px solid #66afe9;
       outline-offset: -2px;
+    }
+  `;
+  const filterRow = css`
+    display: grid;
+    outline: 1px solid rgba(0, 0, 0, 0.5);
+    background-color: #b8cce4;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
     }
   `;
   const handleFileUpload = (e) => {
@@ -3971,51 +4007,72 @@ function DataGrid(props) {
 
       {rest.globalFilter && (
         <div
-          role={"row"}
-          className="filter-row"
+          role={"grid"}
+          ref={filterRowRef}
+          className={filterRow}
           style={{
             height: rowHeight,
-            display: "flex",
-            width: gridWidth,
-            outline: "1px solid rgba(0,0,0,0.5)",
-            backgroundColor: "#B8CCE4",
+
+            ...gridViewportTemplateColumns,
+            gridTemplateRows: `${rowHeight}px`,
           }}
         >
-          {columns.map((col, index) => {
-            let width =
-              gridViewportTemplateColumns?.gridTemplateColumns.split(" ")[
-                index
-              ];
-            return (
-              <div
-                role={"gridcell"}
-                style={{
-                  height: headerRowHeight,
-                  width: width,
-                }}
-                className={filterCellStyle}
-                key={`fiter-row-${col.headerName}`}
-              >
-                {!col.filterRenderer &&
-                  col.key !== SERIAL_NUMBER_COLUMN_KEY &&
-                  col.key !== SELECT_COLUMN_KEY && (
-                    <input
-                      className="filter-input"
-                      data-testid={`filter-row-${col.headerName}`}
-                      value={filters[col.field]}
-                      onChange={(e) => {
-                        if (col.filterType) {
-                          setFilterType(col.filterType);
+          <div role={"row"} style={{ display: "contents" }}>
+            {columns.map((col, index) => {
+              let width =
+                gridViewportTemplateColumns?.gridTemplateColumns.split(" ")[
+                  index
+                ];
+              return (
+                <div
+                  role={"gridcell"}
+                  style={{
+                    height: headerRowHeight,
+                    width: width,
+                    ...(col.field === "Sr. No."
+                      ? { position: "sticky", zIndex: 2, left: 0 }
+                      : {}),
+                    ...(col.key === "select-row"
+                      ? {
+                          position: "sticky",
+                          zIndex: 2,
+                          left: gridViewportTemplateColumns?.gridTemplateColumns.split(
+                            " "
+                          )[0],
                         }
-                        setFilters({ ...filters, [col.field]: e.target.value });
-                      }}
-                    />
-                  )}
+                      : {}),
+                  }}
+                  className={filterCellStyle}
+                  key={`fiter-row-${col.headerName}`}
+                >
+                  {!col.filterRenderer &&
+                    (col.field !== "Sr. No." || col.key !== "select-row") && (
+                      <div></div>
+                    )}
+                  {!col.filterRenderer &&
+                    col.field !== "Sr. No." &&
+                    col.key !== "select-row" && (
+                      <input
+                        className="filter-input"
+                        data-testid={`filter-row-${col.headerName}`}
+                        value={filters[col.field]}
+                        onChange={(e) => {
+                          if (col.filterType) {
+                            setFilterType(col.filterType);
+                          }
+                          setFilters({
+                            ...filters,
+                            [col.field]: e.target.value,
+                          });
+                        }}
+                      />
+                    )}
 
-                {col.filterRenderer && col.filterRenderer()}
-              </div>
-            );
-          })}
+                  {col.filterRenderer && col.filterRenderer()}
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
 

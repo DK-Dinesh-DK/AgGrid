@@ -68,7 +68,6 @@ export async function exportToPdf(
     unit: "mm",
     format: exportStyle,
   });
-
   doc.autoTable({
     margin: { top: 10 },
     styles: {

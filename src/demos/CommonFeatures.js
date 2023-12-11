@@ -408,6 +408,7 @@ export default function CommonFeatures({ direction }) {
         onRowClicked={(props) => {
           console.log("Data", props);
         }}
+        enableVirtualization={false}
         pagination={true}
       />
     </>

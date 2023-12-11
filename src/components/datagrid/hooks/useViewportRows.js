@@ -111,11 +111,15 @@ export function useViewportRows({
     findRowIdx,
   } = useMemo(() => {
     if (typeof rowHeight === "number" && !detailedRow) {
+      let templateR;
+      if (pagination && rows.length > paginationPageSize) {
+        templateR = ` repeat(${paginationPageSize}, ${rowHeight}px)`;
+      } else {
+        templateR = ` repeat(${rows.length}, ${rowHeight}px)`;
+      }
       return {
         totalRowHeight: rowHeight * rows.length,
-        gridTemplateRows: pagination
-          ? ` repeat(${paginationPageSize}, ${rowHeight}px)`
-          : ` repeat(${rows.length}, ${rowHeight}px)`,
+        gridTemplateRows: templateR,
         getRowTop: (rowIdx) => rowIdx * rowHeight,
         getRowHeight: () => rowHeight,
         findRowIdx: (offset) => floor(offset / rowHeight),
@@ -187,16 +191,16 @@ export function useViewportRows({
 
   let rowOverscanStartIdx = 0;
   let rowOverscanEndIdx = rows.length - 1;
-
+  let numberOfRows =
+    rows.length - (current - 1) * paginationPageSize >= paginationPageSize
+      ? paginationPageSize - 1
+      : rows.length - (current - 1) * paginationPageSize - 1;
   if (enableVirtualization) {
     const overscanThreshold = 4;
     const rowVisibleStartIdx = findRowIdx(scrollTop);
     const rowVisibleEndIdx = findRowIdx(scrollTop + clientHeight);
     rowOverscanStartIdx = max(0, rowVisibleStartIdx - overscanThreshold);
-    let numberOfRows =
-      rows.length - (current - 1) * paginationPageSize >= paginationPageSize
-        ? paginationPageSize - 1
-        : rows.length - (current - 1) * paginationPageSize - 1;
+
     rowOverscanEndIdx = min(
       pagination ? numberOfRows : rows.length - 1,
       rowVisibleEndIdx + overscanThreshold
@@ -206,9 +210,10 @@ export function useViewportRows({
   if (pagination) {
     let start = paginationPageSize * current - paginationPageSize;
     let end = paginationPageSize * current;
+
     return {
-      rowOverscanStartIdx,
-      rowOverscanEndIdx,
+      rowOverscanStartIdx: 0,
+      rowOverscanEndIdx: numberOfRows,
       rows: rows.slice(start, end),
       rowsCount: rows.slice(start, end).length - 1,
       totalRowHeight,

@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { css } from "@linaria/core";
 
 import { SelectColumn } from "../components/datagrid/Columns";
@@ -16,15 +16,10 @@ const selectCellClassname = css`
   }
 `;
 
-const sortPriorityClassname = css`
-  color: grey;
-  margin-left: 2px;
-`;
-
-function createRows() {
+function createRows(count) {
   const rows = [];
 
-  for (let i = 0; i < 1000; i++) {
+  for (let i = 0; i < count; i++) {
     rows.push({
       id: i,
       task: `Task ${i}`,
@@ -43,11 +38,6 @@ function createRows() {
 
 const columns = [
   {
-    ...SelectColumn,
-    headerCellClass: selectCellClassname,
-    cellClass: selectCellClassname,
-  },
-  {
     field: "id",
     headerName: "ID",
     width: 80,
@@ -55,58 +45,44 @@ const columns = [
   {
     field: "task",
     headerName: "Title",
-    cellEditor: (props) => {
-      return TextEditor(props);
-    },
-    sortable: true,
   },
   {
     field: "priority",
     headerName: "Priority",
-    sortable: true,
   },
   {
     field: "issueType",
     headerName: "Issue Type",
-    sortable: true,
   },
   {
     field: "complete",
     headerName: "% Complete",
-    sortable: true,
   },
 ];
 
 export default function Pagination({ direction }) {
-  const [rows, setRows] = useState(createRows);
-  const [sortColumns, setSortColumns] = useState([]);
-  const [selectedRows, setSelectedRows] = useState([]);
-
+  const [count, setCount] = useState(5);
+  const [rows, setRows] = useState(createRows(50));
+  // useEffect(() => {
+  //   setRows([...createRows(count)]);
+  // }, [count]);
   return (
     <>
-      <button onClick={() => setRows(rows.slice(0, 40))}>Clcik</button>
+      <button
+        onClick={() => {
+          setCount(count + 15);
+        }}
+      >
+        Add Row
+      </button>
       <DataGrid
-        // className="fill-grid"
         columnData={columns}
         rowData={rows}
-        rowKeyGetter={rowKeyGetter}
-        onRowsChange={setRows}
-        selectedRows={selectedRows}
-        onSelectedRowsChange={setSelectedRows}
         pagination={true}
-        allRowSelectedChange={(p) => {
-          console.log("All Selected", p);
-        }}
-        style={{ height: "30vh", maxHieght: "inherit" }}
         serialNumber={true}
-        paginationStyle={{
-          "--rc-pagination-button-active-background-color": "red",
-        }}
+        // enableVirtualization={false}
+        // rowHeight={() => 24}
       />
     </>
   );
-}
-
-function rowKeyGetter(row) {
-  return row?.id;
 }

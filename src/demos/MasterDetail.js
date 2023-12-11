@@ -71,22 +71,53 @@ export default function MasterDetail({ direction }) {
             : undefined;
         },
         detailsGrid: (props) => {
-          console.log("ParentPropss", props.row.masterRowData.department);
           return (
-            <DataGrid
-              id={`details-gird-${props.row.parentId}`}
-              rowData={getProducts(
-                props.row.parentId,
-                props.row.masterRowData.department
-              )}
-              columnData={productColumns}
-              rowKeyGetter={rowKeyGetter}
-              style={{ blockSize: 250 }}
-              // onRowsChange={(pr) => console.log("PR", pr)}
-              onRowClicked={() => {
-                console.log("Child Rowclciked");
+            // <DataGrid
+            //   id={`details-gird-${props.row.parentId}`}
+            //   rowData={getProducts(
+            //     props.row.parentId,
+            //     props.row.masterRowData.department
+            //   )}
+            //   columnData={productColumns}
+            //   rowKeyGetter={rowKeyGetter}
+            //   style={{ blockSize: 250 }}
+            //   // onRowsChange={(pr) => console.log("PR", pr)}
+            //   onRowClicked={() => {
+            //     console.log("Child Rowclciked");
+            //   }}
+            // />
+            <div
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "flex",
+                flexWrap: "wrap",
+                columnGap: "10px",
+                overflow: "auto",
               }}
-            />
+            >
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+              <input style={{ width: "100px", height: "22px" }} />
+            </div>
           );
         },
       },

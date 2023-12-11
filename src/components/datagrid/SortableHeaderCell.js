@@ -61,9 +61,7 @@ export default function SortableHeaderCell({
     >
       <div style={style}>{children}</div>
       {selectedPositionIdx === subCellIdx && (
-        <div
-          style={{ width: "10%", display: sortDirection ? "block" : "none" }}
-        >
+        <div style={{ width: "10%", display: "block" }}>
           {sortStatus({ sortDirection, priority })}
         </div>
       )}

@@ -78,6 +78,7 @@ export const SelectColumn = {
 export const SerialNumberColumn = {
   key: SERIAL_NUMBER_COLUMN_KEY,
   name: "Sr. No.",
+  headerName: "Sr. No.",
   field: "Sr. No.",
   width: 50,
   maxWidth: 50,
