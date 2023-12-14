@@ -16,6 +16,7 @@ export function useCalculatedColumns({
   frameworkComponents,
   treeData,
   columnPanel,
+  columnWidthEqually,
 }) {
   const defaultWidth = defaultColumnOptions?.width ?? DEFAULT_COLUMN_WIDTH;
   const defaultMinWidth =
@@ -26,6 +27,28 @@ export function useCalculatedColumns({
   const defaultResizable = defaultColumnOptions?.resizable ?? false;
   const defaultFilter = defaultColumnOptions?.filter ?? false;
 
+  let columnTextWidths = new Map();
+
+  for (const column of newData) {
+    function getTextWidth(text, fontSize, fontFamily) {
+      var hiddenDiv = document.createElement("div");
+      hiddenDiv.style.visibility = "hidden";
+      hiddenDiv.style.position = "absolute";
+      hiddenDiv.style.fontSize = fontSize + "px";
+      hiddenDiv.style.fontFamily = fontFamily;
+      hiddenDiv.textContent = text;
+      document.body.appendChild(hiddenDiv);
+      var width = hiddenDiv.offsetWidth;
+      document.body.removeChild(hiddenDiv);
+      return width + 24;
+    }
+
+    let w =
+      column.width && column.width !== "auto"
+        ? column.width
+        : getTextWidth(column.headerName, 11, "Arial");
+    columnTextWidths.set(column.headerName ?? column.key, w);
+  }
   const { columns, colSpanColumns, lastFrozenColumnIndex, groupBy } =
     useMemo(() => {
       // Filter rawGroupBy and ignore keys that do not match the columns prop
@@ -85,7 +108,9 @@ export function useCalculatedColumns({
           frozen,
           isLastFrozenColumn: false,
           rowGroup,
-          width: rawColumn.width ?? defaultWidth,
+          width: columnWidthEqually
+            ? columnTextWidths.get(rawColumn.headerName ?? rawColumn.key)
+            : rawColumn.width ?? defaultWidth,
           minWidth: rawColumn.minWidth ?? defaultMinWidth,
           maxWidth: rawColumn.maxWidth ?? defaultMaxWidth,
           sortable: rawColumn.sortable ?? defaultSortable,

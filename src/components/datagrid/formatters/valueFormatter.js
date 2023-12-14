@@ -1,5 +1,22 @@
 import React, { cloneElement, isValidElement } from "react";
 import alignmentUtils from "../utils/alignMentUtils";
+import Tooltip from "@material-ui/core/Tooltip";
+import { withStyles } from "@material-ui/core/styles";
+
+const StyledTooltip = withStyles({
+  tooltip: {
+    color: " #0f243e",
+    backgroundColor: "#f5fbff",
+    border: "1px solid #7c94b6",
+    wordWrap: "break-word",
+    minWidth: "75px",
+    maxWidth: "340px",
+    fontSize: "11px",
+    padding: "5px",
+    borderRadius: 0,
+    textAlign: "center",
+  },
+})(Tooltip);
 
 export function valueFormatter(props) {
   function selectCellWrapper(openEditor) {
@@ -129,45 +146,81 @@ export function valueFormatter(props) {
     if (props.row.gridRowType === "detailedRow") {
       cellStyle = { ...cellStyle, textAlign: "start" };
     }
-    let toolTipContent;
+    const toolTipContent = props.column.toolTip
+      ? typeof props.column.toolTip === "function"
+        ? props.column.toolTip({
+            row: props.row,
+            rowIndex: props.rowIndex,
+            column: props.column,
+          })
+        : props.row[props.column.field]
+      : null;
+
     return (
-      <div
-        key={props.column.field}
-        role="gridcell"
-        aria-selected={isCellSelected}
-        style={cellStyle}
-        // className={props.className}
-        onClick={handleClick}
-        onDoubleClick={handleDoubleClick}
-        onContextMenu={handleContextMenu}
-        onMouseOver={(e) => {
-          if (props.column.haveChildren === false && props.column.toolTip) {
-            if (typeof props.column.toolTip === "function") {
-              toolTipContent = props.column.toolTip({
-                row: props.row,
-                rowIndex: props.rowIndex,
-                column: props.column,
-              });
-            } else {
-              toolTipContent = props.row[props.column.field];
-            }
-            if (typeof props?.handleToolTipContent === "function")
-              props?.handleToolTipContent(toolTipContent);
-            if (typeof props?.handleToolTip === "function")
-              props?.handleToolTip(true);
-          }
-        }}
-        onMouseOutCapture={() => {
-          if (props.column.haveChildren === false && props.column.toolTip) {
-            if (typeof props?.handleToolTip === "function")
-              props?.handleToolTip(false);
-          }
-        }}
-      >
-        {isCellSelected && props.selectedCellEditor
-          ? props.selectedCellEditor
-          : props.row[props.column.field]}
-      </div>
+      <>
+        {props.column.toolTip && (
+          <StyledTooltip title={toolTipContent} placement="bottom-end">
+            <div
+              key={props.column.field}
+              role="gridcell"
+              aria-selected={isCellSelected}
+              style={cellStyle}
+              onClick={handleClick}
+              onDoubleClick={handleDoubleClick}
+              onContextMenu={handleContextMenu}
+            >
+              {!props.columnWidthEqually &&
+              isCellSelected &&
+              props.selectedCellEditor
+                ? props.selectedCellEditor
+                : !props.columnWidthEqually
+                ? props.row[props.column.field]
+                : props.columnWidthEqually && (
+                    <span
+                      style={{
+                        width: props.column.width,
+                        textOverflow: "ellipsis",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {props.row[props.column.field]}
+                    </span>
+                  )}
+            </div>
+          </StyledTooltip>
+        )}
+        {!props.column.toolTip && (
+          <div
+            key={props.column.field}
+            role="gridcell"
+            aria-selected={isCellSelected}
+            style={cellStyle}
+            onClick={handleClick}
+            onDoubleClick={handleDoubleClick}
+            onContextMenu={handleContextMenu}
+          >
+            {!props.columnWidthEqually &&
+            isCellSelected &&
+            props.selectedCellEditor
+              ? props.selectedCellEditor
+              : !props.columnWidthEqually
+              ? props.row[props.column.field]
+              : props.columnWidthEqually && (
+                  <span
+                    style={{
+                      width: props.column.width,
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {props.row[props.column.field]}
+                  </span>
+                )}
+          </div>
+        )}
+      </>
     );
   }
 }
@@ -327,7 +380,6 @@ const childData = (subData, props) => {
         ? { ...childStyle, textAlign: info1.alignment.align }
         : alignmentUtils(info1, props.row, childStyle);
     }
-    let toolTipContent;
     return (
       <div
         onClick={handleClick}
@@ -335,27 +387,6 @@ const childData = (subData, props) => {
         onDoubleClick={handleDoubleClick}
         onContextMenu={handleContextMenu}
         style={childStyle}
-        onMouseOver={(e) => {
-          if (info1.toolTip) {
-            if (typeof info1.toolTip === "function") {
-              toolTipContent = info1.toolTip({
-                row: props.row,
-                rowIndex: props.rowIndex,
-                column: info1,
-              });
-            } else {
-              toolTipContent = props.row[info1.field];
-            }
-            props.handleToolTipContent(toolTipContent);
-            props.handleToolTip(true);
-          }
-        }}
-        onMouseOutCapture={() => {
-          if (info1.toolTip) {
-            props.handleToolTip(false);
-          }
-        }}
-        // title={info1.toolTip && !info1.haveChildren ? toolTipContent : null}
       >
         {/* <div style={{ borderInlineEnd: sdsd, textAlign: "center",height:"24px",width:100 }}> */}
         {isCellSelected && props.selectedCellEditor

@@ -391,7 +391,7 @@ const RecursiveScan = (
               boxSizing: "border-box",
               borderInlineEnd:
                 subData.children.length - 1 > index
-                  ? "(--rdg-cell-border-vertical)"
+                  ? "var(--rdg-cell-border-vertical)"
                   : "none",
               width: `${subInfo.width}px`,
             };

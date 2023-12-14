@@ -835,6 +835,7 @@ function DataGrid(props) {
     frameworkComponents,
     treeData: rest.treeData,
     columnPanel: rest.columnPanel,
+    columnWidthEqually: rest.columnWidthEqually,
   });
 
   let rowData = flatten([], columns);
@@ -2876,6 +2877,9 @@ function DataGrid(props) {
     let name = fileName ?? "ExportToXlsx";
     exportToXlsx(rawRows, rawColumns, name);
   }
+  function importDataFromExcel(e) {
+    handleFileUpload(e);
+  }
   function exportDataAsPdf(fileName) {
     const ele = document.getElementById(rest?.id ?? "DataGrid");
     let name = typeof fileName === "string" ? fileName : "ExportToPdf";
@@ -3267,6 +3271,7 @@ function DataGrid(props) {
     tabToPreviousCell: tabToPreviousCell,
     exportDataAsCsv: exportDataAsCsv,
     exportDataAsExcel: exportDataAsExcel,
+    importDataFromExcel,
     exportDataAsPdf: exportDataAsPdf,
     setDefaultColDef: (value) =>
       setDefaultColumnDef({ ...defaultColumnDef, ...value }),
@@ -3714,6 +3719,7 @@ function DataGrid(props) {
           paginationPageSize: size,
           currentPage: current,
           pagination,
+          columnWidthEqually: rest.columnWidthEqually,
         })
       );
     }
@@ -4664,7 +4670,7 @@ function DataGrid(props) {
             toolTipContent.length === 0
               ? "hidden"
               : "visible",
-          top: mouseY,
+          top: mouseY + 20,
           left: mouseX,
           height: "max-content",
         }}

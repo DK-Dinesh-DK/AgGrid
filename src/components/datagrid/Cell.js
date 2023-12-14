@@ -99,6 +99,7 @@ function Cell({
   paginationPageSize,
   currentPage,
   pagination,
+  columnWidthEqually,
   ...props
 }) {
   const gridCell = useRef(null);
@@ -347,6 +348,7 @@ function Cell({
     ...cellRendererParams,
     expandedMasterIds,
     onExpandedMasterIdsChange,
+    columnWidthEqually,
   };
 
   if (column.cellStyle) {

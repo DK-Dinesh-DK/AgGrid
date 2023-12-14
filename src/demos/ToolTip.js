@@ -116,17 +116,20 @@ const columns4 = [
   {
     headerName: "Details",
     haveChildren: true,
+    width: 200,
     children: [
       {
         field: "task",
         headerName: "Title",
         sortable: true,
         toolTip: true,
+        width: 100,
       },
       {
         field: "priority",
         headerName: "Priority",
         sortable: true,
+        width: 100,
       },
     ],
   },
@@ -153,17 +156,20 @@ const columns5 = [
   {
     headerName: "Details",
     haveChildren: true,
+    width: 200,
     children: [
       {
         field: "task",
         headerName: "Title",
         sortable: true,
         toolTip: (params) => `Task Type ${params.row[params.column.field]}`,
+        width: 100,
       },
       {
         field: "priority",
         headerName: "Priority",
         sortable: true,
+        width: 100,
       },
     ],
   },

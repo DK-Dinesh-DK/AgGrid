@@ -61,6 +61,7 @@ function Row(
     paginationPageSize,
     currentPage,
     pagination,
+    columnWidthEqually,
     ...props
   },
   ref
@@ -153,6 +154,7 @@ function Row(
         paginationPageSize={paginationPageSize}
         currentPage={currentPage}
         pagination={pagination}
+        columnWidthEqually={columnWidthEqually}
       />
     );
   }
