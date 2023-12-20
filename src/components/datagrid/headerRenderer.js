@@ -186,6 +186,9 @@ export default function HeaderRenderer({
         ? { ...style_1, justifyContent: column.alignment.align }
         : alignmentUtils(column, rows[0], style_1);
     }
+    if (column.headerCellStyle) {
+      style = { ...style, ...column.headerCellStyle };
+    }
     if (!(column.sortable || column.filter)) {
       return (
         <div
@@ -242,7 +245,9 @@ export default function HeaderRenderer({
       if (selectedCellHeaderStyle && selectedPosition.idx === column.idx) {
         style11 = { ...style11, ...selectedCellHeaderStyle };
       }
-
+      if (column.headerCellStyle) {
+        style11 = { ...style11, ...column.headerCellStyle };
+      }
       return (
         <div
           style={{ ...style11 }}
@@ -293,6 +298,9 @@ export default function HeaderRenderer({
         styleSF = column.alignment.align
           ? { ...styleSF, justifyContent: column.alignment.align }
           : alignmentUtils(column, rows[0], styleSF);
+      }
+      if (column.headerCellStyle) {
+        styleSF = { ...styleSF, ...column.headerCellStyle };
       }
       return (
         <div

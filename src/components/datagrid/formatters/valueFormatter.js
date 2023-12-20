@@ -139,11 +139,11 @@ export function valueFormatter(props) {
     };
     if (props.column.alignment) {
       cellStyle = props.column.alignment.align
-        ? { ...cellStyle, textAlign: props.column.alignment.align }
+        ? { ...cellStyle, justifyContent: props.column.alignment.align }
         : alignmentUtils(props.column, props.row, cellStyle);
     }
     if (props.row.gridRowType === "detailedRow") {
-      cellStyle = { ...cellStyle, textAlign: "start" };
+      cellStyle = { ...cellStyle, justifyContent: "start" };
     }
     const toolTipContent = props.column.toolTip
       ? typeof props.column.toolTip === "function"

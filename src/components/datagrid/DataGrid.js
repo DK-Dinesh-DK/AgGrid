@@ -10,7 +10,7 @@ import useUpdateEffect from "./hooks/useUpdateEffect";
 import TreeRowRenderer from "./TreeRow";
 import ReactDOM, { flushSync } from "react-dom";
 import { clsx } from "clsx";
-import { groupBy as rowGrouper, isString, _ } from "lodash";
+import { groupBy as rowGrouper, isString, isEqual } from "lodash";
 import ContextMenu from "./ContextMenu";
 import { css } from "@linaria/core";
 import {
@@ -596,6 +596,12 @@ function DataGrid(props) {
           break;
         }
       }
+    } else {
+      setSelectedPosition({
+        rowIdx: -1,
+        idx: -1,
+        mode: "SELECT",
+      });
     }
   }, [findValue, findCount, findMethod]);
   const onSortColumnsChange = (sortColumns) => {
@@ -2025,8 +2031,10 @@ function DataGrid(props) {
         newSample.add(rowKeyGetter(r));
       });
     }
-    let aa = selectedRows1 ? Object.values(selectedRows1) : [];
-    if (!aa.every((val) => newSample.has(val))) {
+    let array1 = selectedRows1 ? Array.from(selectedRows1) : [];
+    let array2 = Array.from(newSample);
+
+    if (!isEqual(array1.sort(), array2.sort())) {
       onSelectedRowsChange1(newSample);
     }
   }, [props.selectedRows]);
@@ -2548,7 +2556,7 @@ function DataGrid(props) {
   function isRowPresent(object1) {
     let result = false;
     RowNodes.forEach((obj) => {
-      if (_.isEqual(object1, obj)) {
+      if (isEqual(object1, obj)) {
         result = true;
       }
     });
@@ -2560,13 +2568,13 @@ function DataGrid(props) {
     let startIndex;
     let endIndex;
     RowNodes.forEach((obj, idx) => {
-      if (_.isEqual(obj1, obj)) {
+      if (isEqual(obj1, obj)) {
         firstIndex = idx;
       }
       return true;
     });
     RowNodes.forEach((obj, idx) => {
-      if (_.isEqual(obj2, obj)) {
+      if (isEqual(obj2, obj)) {
         secondIndex = idx;
       }
       return true;

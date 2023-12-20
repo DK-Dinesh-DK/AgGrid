@@ -9,44 +9,37 @@ export default function Demo({ direction }) {
     {
       field: "name",
       headerName: "Name",
-      haveChildren: true,
-      children: [
-        {
-          field: "firstname",
-          headerName: "First Name",
-          filter: true,
-          cellEditor: TextEditor,
-        },
-        {
-          field: "lastname",
-          filter: true,
-          headerName: "Last Name",
-          cellEditor: TextEditor,
-        },
-      ],
+    },
+    {
+      field: "firstname",
+      width: 150,
+      headerName:
+        "Here is a simple Typescript with Lodash deep difference checker",
+      headerCellStyle: { textWrap: "wrap", lineHeight: "normal" },
+      alignment: true,
+    },
+    {
+      field: "lastname",
+      headerName: "Last Name",
+      width: 200,
+      alignment: { type: "string" },
     },
     {
       field: "number",
       headerName: "Number",
-      haveChildren: true,
-      children: [
-        {
-          field: "homenumber",
-          headerName: "Home Numer",
-          cellEditor: TextEditor,
-        },
-        {
-          field: "personalnumber",
-          headerName: "Personal Number",
-          cellEditor: TextEditor,
-        },
-      ],
+    },
+    {
+      field: "homenumber",
+      headerName: "Home Numer",
+    },
+    {
+      field: "personalnumber",
+      headerName: "Personal Number",
+      headerCellStyle: { textWrap: "wrap", lineHeight: "normal" },
     },
     {
       field: "address",
-      filter: true,
       headerName: "Address",
-      cellEditor: TextEditor,
     },
     { field: "school", headerName: "School", cellEditor: TextEditor },
     { field: "class", headerName: "Class", cellEditor: TextEditor },
@@ -93,9 +86,55 @@ export default function Demo({ direction }) {
       class: "9th",
     },
   ];
+  const [selectedRows, setSelectedRows] = useState([]);
+  // console.log("selectedRows", selectedRows);
+  const gridRef = useRef(null);
   return (
     <>
-      <DataGrid columnData={columns} rowData={initialRows} />
+      <button
+        onClick={() => {
+          setSelectedRows(
+            selectedRows.filter((a, i) => {
+              if (i === 0 || i === 3) return a;
+            })
+          );
+        }}
+      >
+        Reduce
+      </button>
+      <button
+        onClick={() => {
+          setSelectedRows([]);
+        }}
+      >
+        clear
+      </button>
+      <button
+        onClick={() => {
+          setSelectedRows(initialRows);
+        }}
+      >
+        Add
+      </button>
+      Find{" "}
+      <input
+        onChange={(e) => {
+          gridRef.current.api.findData(e.target.value, "exactmatch");
+        }}
+      />
+      <DataGrid
+        columnData={columns}
+        rowData={initialRows}
+        selection={true}
+        selectedRows={selectedRows}
+        headerRowHeight={60}
+        innerRef={gridRef}
+        onSelectedRowsChange={(rows) => {
+          // console.log("Calling", rows);
+          setSelectedRows([...rows]);
+        }}
+        style={{ "--rdg-cell-align-string": "start" }}
+      />
     </>
   );
 }
