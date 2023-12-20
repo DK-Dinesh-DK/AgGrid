@@ -41,6 +41,7 @@ export default function HeaderRenderer({
   shouldFocusGrid,
   setFilters,
   setFilterType,
+  filterType,
   cellHeight,
   selectedPosition,
   selectedCellHeaderStyle,
@@ -122,7 +123,8 @@ export default function HeaderRenderer({
                   gridWidth,
                   rows,
                   onColumnResize,
-                  thisColumnDepth
+                  thisColumnDepth,
+                  filterType
                 )}
               </div>
             );
@@ -266,7 +268,8 @@ export default function HeaderRenderer({
                 filters,
                 setFilters,
                 setFilterType,
-                gridWidth
+                gridWidth,
+                filterType
               )
             }
           </FilterRenderer>
@@ -321,7 +324,8 @@ export default function HeaderRenderer({
                 filters,
                 setFilters,
                 setFilterType,
-                gridWidth
+                gridWidth,
+                filterType
               )
             }
           </FilterRenderer>
@@ -356,7 +360,8 @@ const RecursiveScan = (
   gridWidth,
   direction,
   onColumnResize,
-  thisColumnDepth
+  thisColumnDepth,
+  filterType
 ) => {
   ChildColumnSetup(subData);
   let isCellSelected;
@@ -421,7 +426,8 @@ const RecursiveScan = (
                   gridWidth,
                   direction,
                   onColumnResize,
-                  thisColumnDepth
+                  thisColumnDepth,
+                  filterType
                 )}
               </div>
             );
@@ -568,7 +574,8 @@ const RecursiveScan = (
                 filters,
                 setFilters,
                 setFilterType,
-                gridWidth
+                gridWidth,
+                filterType
               )
             }
           </FilterRenderer>
@@ -654,7 +661,8 @@ const RecursiveScan = (
                 filters,
                 setFilters,
                 setFilterType,
-                gridWidth
+                gridWidth,
+                filterType
               )
             }
           </FilterRenderer>

@@ -50,6 +50,7 @@ export default function HeaderCell({
   ChildColumnSetup,
   gridWidth,
   handleDrag,
+  filterType,
 }) {
   const isRtl = direction === "rtl";
   const { tabIndex } = useRovingCellRef(isCellSelected);
@@ -283,6 +284,7 @@ export default function HeaderCell({
           isCellSelected,
           setFilters,
           setFilterType,
+          filterType,
           style,
           className,
           ChildColumnSetup,

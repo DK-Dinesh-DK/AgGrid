@@ -105,7 +105,8 @@ export default function ExportFile() {
         columnData={columns}
         rowData={rows}
         exportPdfStyle={{ width: 1000, height: 600 }}
-        // serialNumber={true}
+        serialNumber={true}
+        // importExcel={true}
         export={{
           pdfFileName: true,
           csvFileName: "TableData",

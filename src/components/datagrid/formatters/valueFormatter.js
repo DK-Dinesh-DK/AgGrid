@@ -1,7 +1,6 @@
 import React, { cloneElement, isValidElement } from "react";
 import alignmentUtils from "../utils/alignMentUtils";
-import Tooltip from "@material-ui/core/Tooltip";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, Tooltip } from "@material-ui/core";
 
 const StyledTooltip = withStyles({
   tooltip: {

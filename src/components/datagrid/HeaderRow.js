@@ -102,6 +102,7 @@ function HeaderRow({
         ChildColumnSetup={ChildColumnSetup}
         gridWidth={gridWidth}
         handleDrag={(val) => setDragging(val)}
+        filterType={props.filterType}
       />
     );
   }

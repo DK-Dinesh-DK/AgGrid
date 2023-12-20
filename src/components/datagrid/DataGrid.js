@@ -194,6 +194,7 @@ function DataGrid(props) {
   const [selectedRows1, onSelectedRowsChange1] = useState();
   const [resetColumnWidths, setResetColumnWidths] = useState(false);
   const [columnWidthsToFit, setColumnWidthsToFit] = useState(false);
+  const [previousData, setPreviousData] = useState([]);
 
   selectedRows = selectedRows ? selectedRows : [];
   const selection = rest.selection && SelectColumn;
@@ -614,7 +615,7 @@ function DataGrid(props) {
 
   const subColumn = [];
   const [filters, setFilters] = useState({ ...defaultFilters, enabled: true });
-  const [filterType, setFilterType] = useState("Contain");
+  const [filterType, setFilterType] = useState({});
   const [suppressRowClickSelection, setSuppressRowClickSelection] =
     useState(false);
   const ChildColumnSetup = (value) => {
@@ -622,10 +623,13 @@ function DataGrid(props) {
   };
 
   const filterFunction = useCallback(
-    (props) => {
-      if (filterType === "Contain") {
-        return raawRows?.filter(function (val) {
-          for (const element of props) {
+    (prop) => {
+      let filterRows = raawRows;
+
+      for (const element of prop) {
+        let filteringType = filterType[element[0]] ?? "Contain";
+        if (filteringType.trim() === "Contain") {
+          filterRows = filterRows?.filter(function (val) {
             let value =
               typeof val[element[0]] !== "string"
                 ? val[element[0]]?.toString()
@@ -633,14 +637,14 @@ function DataGrid(props) {
             if (
               value &&
               !value.toLowerCase().includes(element[1].toLowerCase())
-            )
+            ) {
               return false;
-          }
-          return true;
-        });
-      } else if (filterType === "Starts With...") {
-        return raawRows?.filter(function (val) {
-          for (const element of props) {
+            }
+
+            return true;
+          });
+        } else if (filteringType.trim() === "Starts With...") {
+          filterRows = filterRows?.filter(function (val) {
             let value =
               typeof val[element[0]] !== "string"
                 ? val[element[0]]?.toString()
@@ -648,14 +652,14 @@ function DataGrid(props) {
             if (
               value &&
               !value.toLowerCase().startsWith(element[1].toLowerCase())
-            )
+            ) {
               return false;
-          }
-          return true;
-        });
-      } else if (filterType === "Ends With...") {
-        return raawRows?.filter(function (val) {
-          for (const element of props) {
+            }
+
+            return true;
+          });
+        } else if (filteringType.trim() === "Ends With...") {
+          filterRows = filterRows?.filter(function (val) {
             let value =
               typeof val[element[0]] !== "string"
                 ? val[element[0]]?.toString()
@@ -663,14 +667,14 @@ function DataGrid(props) {
             if (
               value &&
               !value.toLowerCase().endsWith(element[1].toLowerCase())
-            )
+            ) {
               return false;
-          }
-          return true;
-        });
-      } else if (filterType === "Equals") {
-        return raawRows?.filter(function (val) {
-          for (const element of props) {
+            }
+
+            return true;
+          });
+        } else if (filteringType.trim() === "Equals") {
+          filterRows = filterRows?.filter(function (val) {
             let value =
               typeof val[element[0]] !== "string"
                 ? val[element[0]]?.toString()
@@ -678,12 +682,11 @@ function DataGrid(props) {
             if (value && value.toLowerCase() !== element[1].toLowerCase()) {
               return false;
             }
-          }
-          return true;
-        });
-      } else if (filterType === "Not Equals") {
-        return raawRows?.filter(function (val) {
-          for (const element of props) {
+
+            return true;
+          });
+        } else if (filteringType.trim() === "Not Equals") {
+          filterRows = filterRows?.filter(function (val) {
             let value =
               typeof val[element[0]] !== "string"
                 ? val[element[0]]?.toString()
@@ -691,12 +694,14 @@ function DataGrid(props) {
             if (value && value.toLowerCase() === element[1].toLowerCase()) {
               return false;
             }
-          }
-          return true;
-        });
+
+            return true;
+          });
+        }
       }
+      return [...filterRows];
     },
-    [filterType, raawRows]
+    [props.rowData, filterType]
   );
 
   const sortedRows = useMemo(() => {
@@ -725,14 +730,14 @@ function DataGrid(props) {
       return 0;
     });
     return direction === "DESC" ? sortedRows.reverse() : sortedRows;
-  }, [raawRows, sortColumns, filters]);
+  }, [raawRows, sortColumns, filters, filterType]);
 
   useUpdateEffect(() => {
     if (rest.tableRenderingRows) {
       rest.tableRenderingRows(sortedRows);
     }
-    return setRawRows(sortedRows);
-  }, [sortedRows]);
+    setRawRows(sortedRows);
+  }, [sortColumns, filters, filterType, raawRows]);
 
   const handleReorderColumn = (value) => {
     if (columnReordering) {
@@ -2008,7 +2013,6 @@ function DataGrid(props) {
     return [];
   }
   const [changedList, setChangedList] = useState([]);
-  const [previousData, setPreviousData] = useState([]);
 
   useUpdateEffect(() => {
     setPreviousData([...raawRows]);
@@ -2871,11 +2875,25 @@ function DataGrid(props) {
   }
   function exportDataAsCsv(fileName) {
     let name = fileName ?? "ExportToCSV";
-    exportToCsv(rawRows, rawColumns, name);
+    let rowData = rawRows;
+
+    if (serialNumber) {
+      rowData = rowData.map((r, i) => {
+        return { ...r, "Sr. No.": i + 1 };
+      });
+    }
+    exportToCsv(rowData, rawColumns, name);
   }
   function exportDataAsExcel(fileName) {
     let name = fileName ?? "ExportToXlsx";
-    exportToXlsx(rawRows, rawColumns, name);
+    let rowData = rawRows;
+
+    if (serialNumber) {
+      rowData = rowData.map((r, i) => {
+        return { ...r, "Sr. No.": i + 1 };
+      });
+    }
+    exportToXlsx(rowData, rawColumns, name);
   }
   function importDataFromExcel(e) {
     handleFileUpload(e);
@@ -3328,11 +3346,12 @@ function DataGrid(props) {
 
   useEffect(() => {
     setAfterFilter(getViewportRowsSample(sortedRows));
-  }, [filters]);
+    if (pagination) setCurrent(1);
+  }, [filters, filterType]);
 
   useEffect(() => {
     setAfterSort(getViewportRowsSample(sortedRows));
-  }, [sortColumns, sortedRows]);
+  }, [sortColumns]);
 
   useEffect(() => {
     setRowNodes(getViewportRowsSample(raawRows));
@@ -3757,6 +3776,7 @@ function DataGrid(props) {
         setSize(40);
       }
     }
+    setCurrent(1);
   }, [raawRows, paginationAutoPageSize]);
 
   const toolbarClassname = css`
@@ -3891,10 +3911,9 @@ function DataGrid(props) {
     border: 1px solid #fff;
     background-color: #4f81bd;
     color: #fff;
-    height: 22px;
+    height: 20.67px;
     font-size: 12px;
-    padding-left: 5px;
-    padding-right: 5px;
+    padding: 0 6px;
     display: flex;
     align-items: center;
     &:active {
@@ -3960,22 +3979,25 @@ function DataGrid(props) {
         <div
           style={{
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: "flex-end",
             marginBottom: "6px",
+            columnGap: "8px",
           }}
         >
           <div>
             {props.importExcel && (
               <div className={fileInput}>
                 <input
-                  style={{ display: "none" }}
+                  style={{ display: "none", height: "22px" }}
                   type={"file"}
                   id="fileInput"
                   data-testid={"Import-Excel"}
                   onChange={handleFileUpload}
                   accept=".xlsx, .xls"
                 />
-                <label htmlFor="fileInput">Import Excel</label>
+                <label htmlFor="fileInput" style={{ lineHeight: "15.96px" }}>
+                  Import Excel
+                </label>
               </div>
             )}
           </div>
@@ -4018,7 +4040,7 @@ function DataGrid(props) {
           className={filterRow}
           style={{
             height: rowHeight,
-
+            width: gridWidth,
             ...gridViewportTemplateColumns,
             gridTemplateRows: `${rowHeight}px`,
           }}
@@ -4063,9 +4085,6 @@ function DataGrid(props) {
                         data-testid={`filter-row-${col.headerName}`}
                         value={filters[col.field]}
                         onChange={(e) => {
-                          if (col.filterType) {
-                            setFilterType(col.filterType);
-                          }
                           setFilters({
                             ...filters,
                             [col.field]: e.target.value,
@@ -4193,7 +4212,10 @@ function DataGrid(props) {
               rowArray={rowArray}
               cellHeight={headerRowHeight}
               setFilters={setFilters}
-              setFilterType={setFilterType}
+              setFilterType={(a) => {
+                setFilterType(a);
+              }}
+              filterType={filterType}
               ChildColumnSetup={ChildColumnSetup}
               gridWidth={gridWidth}
             />
